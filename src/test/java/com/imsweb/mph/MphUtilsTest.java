@@ -6,16 +6,16 @@ package com.imsweb.mph;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.imsweb.mph.group.MphGroupBenignBrain;
-import com.imsweb.mph.group.MphGroupBreast;
-import com.imsweb.mph.group.MphGroupColon;
-import com.imsweb.mph.group.MphGroupHeadAndNeck;
-import com.imsweb.mph.group.MphGroupKidney;
-import com.imsweb.mph.group.MphGroupLung;
-import com.imsweb.mph.group.MphGroupMalignantBrain;
-import com.imsweb.mph.group.MphGroupMelanoma;
-import com.imsweb.mph.group.MphGroupOtherSites;
-import com.imsweb.mph.group.MphGroupUrinary;
+import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2007ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2007LungGroup;
+import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
+import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 
 public class MphUtilsTest {
 
@@ -39,37 +39,37 @@ public class MphUtilsTest {
         Assert.assertNull(MphUtils.findCancerGroup("C440", "8725", "0"));
 
         //Head and Neck
-        Assert.assertEquals(new MphGroupHeadAndNeck(), MphUtils.findCancerGroup("C005", "8100", "3"));
+        Assert.assertEquals(new Mp2007HeadAndNeckGroup(), MphUtils.findCancerGroup("C005", "8100", "3"));
 
         //Colon
-        Assert.assertEquals(new MphGroupColon(), MphUtils.findCancerGroup("C180", "8100", "3"));
+        Assert.assertEquals(new Mp2007ColonGroup(), MphUtils.findCancerGroup("C180", "8100", "3"));
 
         //Lung
-        Assert.assertEquals(new MphGroupLung(), MphUtils.findCancerGroup("C340", "8100", "3"));
+        Assert.assertEquals(new Mp2007LungGroup(), MphUtils.findCancerGroup("C340", "8100", "3"));
 
         //Melanoma
-        Assert.assertEquals(new MphGroupMelanoma(), MphUtils.findCancerGroup("C440", "8725", "3"));
+        Assert.assertEquals(new Mp2007MelanomaGroup(), MphUtils.findCancerGroup("C440", "8725", "3"));
 
         //Breast
-        Assert.assertEquals(new MphGroupBreast(), MphUtils.findCancerGroup("C500", "8100", "3"));
+        Assert.assertEquals(new Mp2007BreastGroup(), MphUtils.findCancerGroup("C500", "8100", "3"));
 
         //Kidney
-        Assert.assertEquals(new MphGroupKidney(), MphUtils.findCancerGroup("C649", "8100", "3"));
+        Assert.assertEquals(new Mp2007KidneyGroup(), MphUtils.findCancerGroup("C649", "8100", "3"));
 
         //Urinary
-        Assert.assertEquals(new MphGroupUrinary(), MphUtils.findCancerGroup("C672", "8100", "3"));
+        Assert.assertEquals(new Mp2007UrinaryGroup(), MphUtils.findCancerGroup("C672", "8100", "3"));
 
         //Benign Brain 
-        Assert.assertEquals(new MphGroupBenignBrain(), MphUtils.findCancerGroup("C751", "8100", "0"));
+        Assert.assertEquals(new Mp2007BenignBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "0"));
 
         //Malignant Brain 
-        Assert.assertEquals(new MphGroupMalignantBrain(), MphUtils.findCancerGroup("C751", "8100", "3"));
+        Assert.assertEquals(new Mp2007MalignantBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "3"));
 
         //Other Sites        
-        Assert.assertEquals(new MphGroupOtherSites(), MphUtils.findCancerGroup("C887", "8200", "3")); //primary site not in groups
-        Assert.assertEquals(new MphGroupOtherSites(), MphUtils.findCancerGroup("C445", "8800", "3")); //melanoma with excluded histology
-        Assert.assertEquals(new MphGroupOtherSites(), MphUtils.findCancerGroup("C180", "9140", "3")); //Kaposi sarcoma
-        Assert.assertEquals(new MphGroupOtherSites(), MphUtils.findCancerGroup("C751", "8100", "2")); //Brain which is neither malignant nor benign
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C887", "8200", "3")); //primary site not in groups
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C445", "8800", "3")); //melanoma with excluded histology
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C180", "9140", "3")); //Kaposi sarcoma
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C751", "8100", "2")); //Brain which is neither malignant nor benign
     }
 
     @Test

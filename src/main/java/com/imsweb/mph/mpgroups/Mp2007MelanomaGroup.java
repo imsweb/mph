@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 
@@ -11,13 +11,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupMelanoma extends MphGroup {
+public class Mp2007MelanomaGroup extends MphGroup {
 
-    public MphGroupMelanoma() {
-        super("melanoma", "Melanoma", "C440-C449", null, "8720-8780", null, Arrays.asList("2", "3", "6"));
+    public Mp2007MelanomaGroup() {
+        super("melanoma-2007", "Melanoma 2007", "C440-C449", null, "8720-8780", null, "2-3,6", "2007-9999");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
-        MphRule rule = new MphRule("melanoma", "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule("melanoma-2007", "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -31,7 +31,7 @@ public class MphGroupMelanoma extends MphGroup {
         _rules.add(rule);
 
         //M4- Melanomas with different laterality are multiple primaries. 
-        rule = new MphRule("melanoma", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("melanoma-2007", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -53,19 +53,19 @@ public class MphGroupMelanoma extends MphGroup {
         _rules.add(rule);
 
         //M5- Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode("melanoma", "M5");
+        rule = new MphRuleHistologyCode("melanoma-2007", "M5");
         rule.setQuestion("Do the melanomas haveICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number?");
         rule.setReason("Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.");
         _rules.add(rule);
 
         //M6- An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.
-        rule = new MphRuleBehavior("melanoma", "M6");
+        rule = new MphRuleBehavior("melanoma-2007", "M6");
         rule.setQuestion("Is there an invasive melanoma following an in situ tumor more than 60 days after diagnosis?");
         rule.setReason("An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.");
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
-        rule = new MphRule("melanoma", "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("melanoma-2007", "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -85,7 +85,7 @@ public class MphGroupMelanoma extends MphGroup {
         _rules.add(rule);
 
         //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("melanoma", "M8");
+        rule = new MphRuleNoCriteriaSatisfied("melanoma-2007", "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item \"Multiplicity Counter\" to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");

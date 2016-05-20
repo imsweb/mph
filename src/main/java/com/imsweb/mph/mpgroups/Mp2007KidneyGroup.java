@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,13 +12,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupKidney extends MphGroup {
+public class Mp2007KidneyGroup extends MphGroup {
 
-    public MphGroupKidney() {
-        super("kidney", "Kidney", "C649", null, null, "9590-9989, 9140", Arrays.asList("2", "3", "6"));
+    public Mp2007KidneyGroup() {
+        super("kidney-2007", "Kidney 2007", "C649", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - Wilms tumors are a single primary. (8960/3)
-        MphRule rule = new MphRule("kidney", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule("kidney-2007", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -34,11 +34,11 @@ public class MphGroupKidney extends MphGroup {
         _rules.add(rule);
 
         // M4 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode("kidney", "M4");
+        rule = new MphRulePrimarySiteCode("kidney-2007", "M4");
         _rules.add(rule);
 
         // M5 - Tumors in both the right kidney and in the left kidney are multiple primaries.
-        rule = new MphRule("kidney", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("kidney-2007", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -58,7 +58,7 @@ public class MphGroupKidney extends MphGroup {
         _rules.add(rule);
 
         // M6 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule("kidney", "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("kidney-2007", "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -78,11 +78,11 @@ public class MphGroupKidney extends MphGroup {
         _rules.add(rule);
 
         // M7 - An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior("kidney", "M7");
+        rule = new MphRuleBehavior("kidney-2007", "M7");
         _rules.add(rule);
 
         // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
-        rule = new MphRule("kidney", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("kidney-2007", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -97,7 +97,7 @@ public class MphGroupKidney extends MphGroup {
         _rules.add(rule);
 
         // M9 -
-        rule = new MphRule("kidney", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("kidney-2007", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -125,11 +125,11 @@ public class MphGroupKidney extends MphGroup {
         _rules.add(rule);
 
         // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.  
-        rule = new MphRuleHistologyCode("kidney", "M10");
+        rule = new MphRuleHistologyCode("kidney-2007", "M10");
         _rules.add(rule);
 
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("kidney", "M11");
+        rule = new MphRuleNoCriteriaSatisfied("kidney-2007", "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }

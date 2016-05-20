@@ -42,7 +42,9 @@ public abstract class MphGroup {
 
     protected String _histExclusions;
 
-    protected List<String> _behavInclusions;
+    protected String _behavInclusions;
+
+    protected String _yearInclusions;
 
     protected List<MphRule> _rules;
 
@@ -54,7 +56,11 @@ public abstract class MphGroup {
 
     private List<Range<Integer>> _histExcRanges;
 
-    public MphGroup(String id, String name, String siteInclusions, String siteExclusions, String histInclusions, String histExclusions, List<String> behavInclusions) {
+    private List<Range<Integer>> _behavIncRanges;
+
+    private List<Range<Integer>> _yearIncRanges;
+
+    public MphGroup(String id, String name, String siteInclusions, String siteExclusions, String histInclusions, String histExclusions, String behavInclusions, String yearInclusions) {
         _id = id;
         _name = name;
         _siteInclusions = siteInclusions;
@@ -62,6 +68,7 @@ public abstract class MphGroup {
         _histInclusions = histInclusions;
         _histExclusions = histExclusions;
         _behavInclusions = behavInclusions;
+        _yearInclusions = yearInclusions;
         _rules = new ArrayList<>();
 
         // compute the raw inclusions/exclusions into ranges
@@ -69,6 +76,8 @@ public abstract class MphGroup {
         _siteExcRanges = computeRange(siteExclusions, true);
         _histIncRanges = computeRange(histInclusions, false);
         _histExcRanges = computeRange(histExclusions, false);
+        _behavIncRanges = computeRange(behavInclusions, false);
+        _yearIncRanges = computeRange(yearInclusions, false);
     }
 
     public String getId() {
@@ -95,7 +104,7 @@ public abstract class MphGroup {
         return _histExclusions;
     }
 
-    public List<String> getBehavInclusions() {
+    public String getBehavInclusions() {
         return _behavInclusions;
     }
 
@@ -103,8 +112,12 @@ public abstract class MphGroup {
         return _rules;
     }
 
-    public boolean isApplicable(String primarySite, String histology, String behavior) {
-        if (!MphUtils.validateProperties(primarySite, histology, behavior) || !_behavInclusions.contains(behavior))
+    public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
+        if (!MphUtils.validateProperties(primarySite, histology, behavior, year))
+            return false;
+
+        //Check behavior and diagnosis year
+        if (!isContained(_behavIncRanges, Integer.parseInt(behavior)) || !isContained(_yearIncRanges, year))
             return false;
 
         boolean siteOk, histOk = false;

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,15 +13,15 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupColon extends MphGroup {
+public class Mp2007ColonGroup extends MphGroup {
 
     private static final List<String> _POLYP = MphGroup.expandList(Collections.singletonList("8210-8211,8213,8220-8221,8261-8263"));
 
-    public MphGroupColon() {
-        super("colon", "Colon", "C180-C189", null, null, "9590-9989, 9140", Arrays.asList("2", "3", "6"));
+    public Mp2007ColonGroup() {
+        super("colon-2007", "Colon 2007", "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more malignant polyps is a single primary.
-        MphRule rule = new MphRule("colon", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule("colon-2007", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -41,7 +41,7 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) and/or fourth (C18?) character are multiple primaries.
-        rule = new MphRule("colon", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("colon-2007", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -55,7 +55,7 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M5- Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule("colon", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("colon-2007", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -75,11 +75,11 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M6- An invasive tumor following an insitu tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MphRuleBehavior("colon", "M6");
+        rule = new MphRuleBehavior("colon-2007", "M6");
         _rules.add(rule);
 
         //M7- A frank malignant or in situ adenocarcinoma and an insitu or malignant tumor in a polyp are a single primary.
-        rule = new MphRule("colon", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("colon-2007", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -94,7 +94,7 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M8 -
-        rule = new MphRule("colon", "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("colon-2007", "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -120,7 +120,7 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M9- Multiple insitu and/or malignant polyps are a single primary.
-        rule = new MphRule("colon", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("colon-2007", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -134,11 +134,11 @@ public class MphGroupColon extends MphGroup {
         _rules.add(rule);
 
         //M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode("colon", "M10");
+        rule = new MphRuleHistologyCode("colon-2007", "M10");
         _rules.add(rule);
 
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("colon", "M11");
+        rule = new MphRuleNoCriteriaSatisfied("colon-2007", "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M11 are in the same segment of the colon.");
         _rules.add(rule);

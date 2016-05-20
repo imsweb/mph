@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupMalignantBrain extends MphGroup {
+public class Mp2007MalignantBrainGroup extends MphGroup {
 
     private static final Map<String, String> _CHART1_MAP = new HashMap<>();
 
@@ -78,14 +78,14 @@ public class MphGroupMalignantBrain extends MphGroup {
         _CHART2_MAP.put("9538", "Meningioma, malignant"); //Papillary meningioma, rhadboid meningioma
     }
 
-    public MphGroupMalignantBrain() {
-        super("malignant-brain", "Malignant Brain", "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9989,9140", Arrays.asList("3"));
+    public Mp2007MalignantBrainGroup() {
+        super("malignant-brain-2007", "Malignant Brain 2007", "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9989,9140", "3", "2007-9999");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
-        MphRule rule = new MphRule("malignant-brain", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule("malignant-brain-2007", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
-                //This will never happen, since the two conditions belong to different cancer group.
+                //This will never happen, since the two conditions belong to different cancer groups.
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 return result;
@@ -96,11 +96,11 @@ public class MphGroupMalignantBrain extends MphGroup {
         _rules.add(rule);
 
         // M5- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode("malignant-brain", "M5");
+        rule = new MphRulePrimarySiteCode("malignant-brain-2007", "M5");
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
-        rule = new MphRule("malignant-brain", "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("malignant-brain-2007", "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -124,7 +124,7 @@ public class MphGroupMalignantBrain extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
-        rule = new MphRule("malignant-brain", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule("malignant-brain-2007", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -146,7 +146,7 @@ public class MphGroupMalignantBrain extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
-        rule = new MphRule("malignant-brain", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("malignant-brain-2007", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -166,11 +166,11 @@ public class MphGroupMalignantBrain extends MphGroup {
         _rules.add(rule);
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode("malignant-brain", "M9");
+        rule = new MphRuleHistologyCode("malignant-brain-2007", "M9");
         _rules.add(rule);
 
         // M10- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("malignant-brain", "M10");
+        rule = new MphRuleNoCriteriaSatisfied("malignant-brain-2007", "M10");
         rule.getNotes().add("Multicentric brain tumors which involve different lobes of the brain that do not meet any of the above criteria are the same disease process.");
         rule.getNotes().add("Neither timing nor laterality is used to determine multiple primaries for malignant intracranial and CNS tumors.");
         rule.getExamples().add(

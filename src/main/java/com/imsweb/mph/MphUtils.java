@@ -5,12 +5,12 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.joda.time.LocalDate;
 
 import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
 import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
@@ -73,6 +73,14 @@ public class MphUtils {
         _GROUPS.add(new Mp2007OtherSitesGroup());
     }
 
+    private MphUtils() {
+
+    }
+
+    public MphUtils getInstance(HematoDbUtilsProvider provider) {
+        return new MphUtils();
+    }
+
     /**
      * Determines whether two records of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
      * <br/><br/>
@@ -93,7 +101,7 @@ public class MphUtils {
      * @param record2 a map of properties representing a NAACCR line
      * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
      */
-    public static MphOutput computePrimaries(Map<String, String> record1, Map<String, String> record2) {
+    public MphOutput computePrimaries(Map<String, String> record1, Map<String, String> record2) {
         MphInput input1 = new MphInput();
         input1.setPrimarySite(record1.get(PROP_PRIMARY_SITE));
         input1.setHistologyIcdO3(record1.get(PROP_HISTOLOGY_ICDO3));
@@ -136,7 +144,7 @@ public class MphUtils {
      * @param input2 an input dto which has a list of parameters used in the calculation.
      * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
      */
-    public static MphOutput computePrimaries(MphInput input1, MphInput input2) {
+    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
         MphOutput output = new MphOutput();
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
@@ -210,7 +218,7 @@ public class MphUtils {
     /**
      * @return the list of cancer groups.
      */
-    public static List<MphGroup> getAllGroups() {
+    public List<MphGroup> getAllGroups() {
         return Collections.unmodifiableList(_GROUPS);
     }
 
@@ -228,7 +236,7 @@ public class MphUtils {
         else if (behavior == null || !Arrays.asList("0", "1", "2", "3", "6").contains(behavior))
             return false;
             //dx year
-        else if (year < 0 || year > Calendar.getInstance().get(Calendar.YEAR))
+        else if (year < 0 || year > LocalDate.now().getYear())
             return false;
         else
             return true;

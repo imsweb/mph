@@ -23,121 +23,104 @@ public class MphGroupTest {
     }
 
     @Test
-    public void testVerify60DaysApart() {
-        int unknown = -1, yes1 = 1, yes2 = 2, no = 0;
+    public void testVerifyDaysApart() {
+        int unknown = -1, apart = 1, within = 0;
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         //if one of the diagnosis year is unknown or invalid or future year, unknown
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
         i1.setDateOfDiagnosisYear("Invalid");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
         i1.setDateOfDiagnosisYear(String.valueOf(LocalDate.now().getYear() + 1));
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
 
-        //2 years difference
+        i1 = new MphInput();
+        i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2000");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 60));
         i1.setDateOfDiagnosisYear("2004");
-        Assert.assertEquals(yes1, MphGroup.verify60DaysApart(i1, i2, true));
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 21));
 
-        //1 year difference
+        i1 = new MphInput();
+        i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        //if for the earlier year the diagnosis month is before November 1st, yes
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 21));
+
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("10");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 21));
+
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("11");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisDay("1");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisDay("2");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisDay("1");
-        i2.setDateOfDiagnosisMonth("1");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        //If for the later year if diagnosis is after march 2 or march 1 (for leap year), yes
-        i1 = new MphInput();
-        i2 = new MphInput();
-        i2.setDateOfDiagnosisYear("2001");
-        i1.setDateOfDiagnosisMonth("2");
-        i1.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisMonth("4");
-        Assert.assertEquals(yes1, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisMonth("3");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisDay("2");
-        Assert.assertEquals(yes1, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisDay("1");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisYear("2003");
-        i1.setDateOfDiagnosisYear("2004");
-        Assert.assertEquals(yes1, MphGroup.verify60DaysApart(i1, i2, true));
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 21));
 
-        //Same Year
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
-        i2.setDateOfDiagnosisYear("2001");
-        i1.setDateOfDiagnosisMonth("5");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisMonth("2");
-        Assert.assertEquals(yes1, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisMonth("8");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisMonth("7");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisDay("31");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisDay(null);
-        i1.setDateOfDiagnosisDay("1");
-        //1 month difference, No
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisMonth("6");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        //equal month
-        i2.setDateOfDiagnosisMonth("5");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        //1 month difference, July and August, unknown
+        i1.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 21));
+
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
-        i1.setDateOfDiagnosisMonth("8");
-        i2.setDateOfDiagnosisYear("2001");
-        i2.setDateOfDiagnosisMonth("7");
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, true));
-        //leap year
-        i1.setDateOfDiagnosisMonth("2");
-        i1.setDateOfDiagnosisDay("2");
-        i2.setDateOfDiagnosisMonth("4");
-        i2.setDateOfDiagnosisDay("4");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
-        i2.setDateOfDiagnosisDay("3");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        i1.setDateOfDiagnosisYear("2004");
-        i2.setDateOfDiagnosisYear("2004");
-        Assert.assertEquals(yes2, MphGroup.verify60DaysApart(i1, i2, true));
+        i1.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisYear("2002");
+        i2.setDateOfDiagnosisMonth("01");
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 21));
 
-        // If invasive is diagnosed before in situ
         i1 = new MphInput();
         i2 = new MphInput();
-        i1.setDateOfDiagnosisYear("2007");
-        i1.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2008");
-        i2.setBehaviorIcdO3("2");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, false));
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisYear("2002");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertEquals(within, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 21));
 
-        // If invasive is diagnosed before in situ
-        i1.setDateOfDiagnosisYear("2007");
-        i1.setDateOfDiagnosisMonth("3");
-        i1.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2007");
-        i2.setDateOfDiagnosisMonth("5");
-        i2.setBehaviorIcdO3("2");
-        Assert.assertEquals(no, MphGroup.verify60DaysApart(i1, i2, true));
-        Assert.assertEquals(unknown, MphGroup.verify60DaysApart(i1, i2, false));
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("08");
+        i2.setDateOfDiagnosisYear("2002");
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(apart, MphGroup.verifyDaysApart(i1, i2, 21));
+
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisMonth("12");
+        Assert.assertEquals(within, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(unknown, MphGroup.verifyDaysApart(i1, i2, 21));
+
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisDay("15");
+        Assert.assertEquals(within, MphGroup.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(within, MphGroup.verifyDaysApart(i1, i2, 21));
+
     }
 
     @Test

@@ -20,6 +20,7 @@ public abstract class MphGroup {
 
     // List of specific histologies for a given NOS, this list is used in few of the groups
     private static final Map<String, String> _NOS_VS_SPECIFIC_MAP = new HashMap<>();
+
     static {
         _NOS_VS_SPECIFIC_MAP.put("8000", "8001, 8002, 8003, 8004, 8005"); //Cancer/malignant neoplasm, NOS
         _NOS_VS_SPECIFIC_MAP.put("8010", "8011, 8012, 8013, 8014, 8015"); //Carcinoma, NOS
@@ -179,7 +180,7 @@ public abstract class MphGroup {
         if (list == null || list.isEmpty())
             return null;
         for (String item : list) {
-            String [] ranges = StringUtils.split(item.trim(), ',');
+            String[] ranges = StringUtils.split(item.trim(), ',');
             for (String range : ranges) {
                 String[] parts = StringUtils.split(range.trim(), '-');
                 if (parts.length <= 1)
@@ -275,15 +276,21 @@ public abstract class MphGroup {
                 result.setResult(MphUtils.RuleResult.FALSE);
                 return result;
             }
-            int diff = verify60DaysApart(i1, i2, true);
-            if (-1 == diff) {
-                result.setResult(MphUtils.RuleResult.UNKNOWN);
-                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
-            }
-            else if ((1 == diff && "3".equals(beh1) && "2".equals(beh2)) || (2 == diff && "3".equals(beh2) && "2".equals(beh1)))
-                result.setResult(MphUtils.RuleResult.TRUE);
-            else
+            int latestDx = compareDxDate(i1, i2);
+            //If they are diagnosed at same date or invasive is not following insitu
+            if (0 == latestDx || (1 == latestDx && (!"3".equals(beh1) || !"2".equals(beh2))) || (2 == latestDx && (!"3".equals(beh2) || !"2".equals(beh1))))
                 result.setResult(MphUtils.RuleResult.FALSE);
+            else {
+                int sixtyDaysApart = verifyDaysApart(i1, i2, 60);
+                if (-1 == sixtyDaysApart) {
+                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                }
+                else if (0 == sixtyDaysApart)
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                else
+                    result.setResult(MphUtils.RuleResult.TRUE);
+            }
 
             return result;
         }
@@ -334,8 +341,66 @@ public abstract class MphGroup {
      * *********************************************************************************************************************/
 
     //helper method, checks if one property belongs to some category and the other to different category
-    public static boolean  differentCategory(String prop1, String prop2, List<String> cat1, List<String> cat2) {
+    public static boolean differentCategory(String prop1, String prop2, List<String> cat1, List<String> cat2) {
         return !(cat1 == null || cat2 == null || cat1.isEmpty() || cat2.isEmpty()) && ((cat1.contains(prop1) && cat2.contains(prop2)) || (cat1.contains(prop2) && cat2.contains(prop1)));
+    }
+
+    //helper method, checks which tumor is diagnosed later. It returns 1 (if tumor 1 is diagnosed after tumor 2),
+    //2 (if tumor 2 is diagnosed after tumor 1), 0 (if the diagnosis takes at the same day) or -1 (if there is insufficient information e.g if both year is 2007, but month and day is unknown);
+    public static int compareDxDate(MphInput input1, MphInput input2) {
+        int tumor1 = 1, tumor2 = 2, sameDay = 0, unknown = -1;
+        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
+        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
+        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
+        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
+        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
+        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+        //If year is missing or in the future, return unknown
+        int currYear = LocalDate.now().getYear();
+        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
+            return unknown;
+        else if (year1 > year2)
+            return tumor1;
+        else if (year2 > year1)
+            return tumor2;
+
+        if (month1 == 99)
+            day1 = 99;
+        if (month2 == 99)
+            day2 = 99;
+        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
+        try {
+            new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
+        }
+        catch (Exception e) {
+            day1 = 99;
+            if (month1 < 1 || month1 > 12)
+                month1 = 99;
+        }
+
+        try {
+            new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
+        }
+        catch (Exception e) {
+            day2 = 99;
+            if (month2 < 1 || month2 > 12)
+                month2 = 99;
+        }
+
+        if (month1 == 99 || month2 == 99)
+            return unknown;
+        else if (month1 > month2)
+            return tumor1;
+        else if (month2 > month1)
+            return tumor2;
+        else if (day1 == 99 || day2 == 99)
+            return unknown;
+        else if (day1 > day2)
+            return tumor1;
+        else if (day2 > day1)
+            return tumor2;
+        else
+            return sameDay;
     }
 
     //checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
@@ -393,192 +458,65 @@ public abstract class MphGroup {
         }
     }
 
-    //helper method, checks whether there are 60 *days* between diagnosis date of the two tumors. It returns 1 (if tumor 1 is diagnosed after 60 days of tumor 2),
-    //2 (if tumor 2 is diagnosed 60 days after tumor 1), 0 (if the days between two diagnosis is less than 60 days) or -1 (if there is insufficient information);
-    // If checkBehavior is true, it also checks if invasive is after in situ tumor
+    //helper method, checks whether two diagnosis dates are with in or apart certain days
+    //It returns 1 (if 2 diagnosis dates are certain days apart),
+    //0 (if 2 diagnosis dates are with in certain days) or -1 (if there is insufficient information);
+    public static int verifyDaysApart(MphInput input1, MphInput input2, int days) {
+        int unknown = -1, apart = 1, within = 0;
+        int latestDx = compareDxDate(input1, input2);
+        if (latestDx == 0)
+            return within;
 
-    public static int verify60DaysApart(MphInput input1, MphInput input2, boolean checkBehavior) {
-        int yes1 = 1, yes2 = 2, no = 0, unknown = -1;
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
         if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
             return unknown;
-        //if month is missing, set day to 99
-        if (month1 == 99)
-            day1 = 99;
-        if (month2 == 99)
-            day2 = 99;
-        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-        try {
-            new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-        }
-        catch (Exception e) {
-            day1 = 99;
-            if (month1 < 1 || month1 > 12)
-                month1 = 99;
+        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
+        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
+        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
+        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+
+        int minDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, true);
+        int maxDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, false);
+        if (latestDx == 2) {
+            minDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, true);
+            maxDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, false);
         }
 
-        try {
-            new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-        }
-        catch (Exception e) {
-            day2 = 99;
-            if (month2 < 1 || month2 > 12)
-                month2 = 99;
-        }
-
-        if (month1 != 99 && month2 != 99 && day1 != 99 && day2 != 99) {
-            if (Days.daysBetween(new LocalDate(year2, month2, day2), new LocalDate(year1, month1, day1)).getDays() > 60)
-                return yes1;
-            else if (Days.daysBetween(new LocalDate(year1, month1, day1), new LocalDate(year2, month2, day2)).getDays() > 60)
-                return yes2;
-            else
-                return no;
-        }
-        else if (year1 - year2 >= 2)
-            return yes1;
-        else if (year2 - year1 >= 2)
-            return yes2;
-        else if (year1 > year2) {
-            // If invasive is diagnosed before in situ
-            if (checkBehavior && "2".equals(input1.getBehaviorIcdO3()) && "3".equals(input2.getBehaviorIcdO3()))
-                return no;
-            return verify60DaysApart(year2, month2, day2, year1, month1, day1);
-        }
-        else if (year2 > year1) {
-            // If invasive is diagnosed before in situ
-            if (checkBehavior && "3".equals(input1.getBehaviorIcdO3()) && "2".equals(input2.getBehaviorIcdO3()))
-                return no;
-            return 1 == verify60DaysApart(year1, month1, day1, year2, month2, day2) ? yes2 : verify60DaysApart(year1, month1, day1, year2, month2, day2);
-        }
-        else {
-            if (month1 == 99 || month2 == 99)
-                return unknown;
-            else if (month1 > month2) {
-                // If invasive is diagnosed before in situ
-                if (checkBehavior && "2".equals(input1.getBehaviorIcdO3()) && "3".equals(input2.getBehaviorIcdO3()))
-                    return no;
-                return verify60DaysApart(year2, month2, day2, year1, month1, day1);
-            }
-            else if (month2 > month1) {
-                // If invasive is diagnosed before in situ
-                if (checkBehavior && "3".equals(input1.getBehaviorIcdO3()) && "2".equals(input2.getBehaviorIcdO3()))
-                    return no;
-                return 1 == verify60DaysApart(year1, month1, day1, year2, month2, day2) ? yes2 : verify60DaysApart(year1, month1, day1, year2, month2, day2);
-            }
-            else
-                return no;
-        }
+        if (minDaysInBetween > days)
+            return apart;
+        else if (maxDaysInBetween <= days)
+            return within;
+        else
+            return unknown;
     }
 
-    //This method is called with valid years
-    private static int verify60DaysApart(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay) {
-
-        LocalDate startDateMin, startDateMax, endDateMin, endDateMax;
-        if (startMon == 99 && endMon == 99)
-            return -1;
-        else if (startMon != 99 && endMon != 99) {
+    //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum
+    private static int daysInBetween(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay, boolean minimum) {
+        LocalDate startDateMin = new LocalDate(startYr, 1, 1);
+        LocalDate startDateMax = new LocalDate(startYr, 12, 31);
+        LocalDate endDateMin = new LocalDate(endYr, 1, 1);
+        LocalDate endDateMax = new LocalDate(endYr, 12, 31);
+        if (startDay != 99) {
+            startDateMin = new LocalDate(startYr, startMon, startDay);
+            startDateMax = new LocalDate(startYr, startMon, startDay);
+        }
+        else if (startMon != 99) {
             startDateMin = new LocalDate(startYr, startMon, 1);
             startDateMax = startDateMin.dayOfMonth().withMaximumValue();
+        }
+        if (endDay != 99) {
+            endDateMin = new LocalDate(endYr, endMon, endDay);
+            endDateMax = new LocalDate(endYr, endMon, endDay);
+        }
+        else if (endMon != 99) {
             endDateMin = new LocalDate(endYr, endMon, 1);
             endDateMax = endDateMin.dayOfMonth().withMaximumValue();
-            if (startDay != 99)
-                startDateMin = startDateMax = new LocalDate(startYr, startMon, startDay);
-            if (endDay != 99)
-                endDateMin = endDateMax = new LocalDate(endYr, endMon, endDay);
         }
-        else if (endMon == 99) {
-            endDateMin = new LocalDate(endYr, 1, 1);
-            endDateMax = new LocalDate(endYr, 12, 31);
-            if (startDay != 99)
-                startDateMin = startDateMax = new LocalDate(startYr, startMon, startDay);
-            else {
-                startDateMin = new LocalDate(startYr, startMon, 1);
-                startDateMax = startDateMin.dayOfMonth().withMaximumValue();
-            }
-        }
-        else {
-            startDateMin = new LocalDate(startYr, 1, 1);
-            startDateMax = new LocalDate(startYr, 12, 31);
-            if (endDay != 99)
-                endDateMin = endDateMax = new LocalDate(endYr, endMon, endDay);
-            else {
-                endDateMin = new LocalDate(endYr, endMon, 1);
-                endDateMax = endDateMin.dayOfMonth().withMaximumValue();
-            }
-        }
-        int minDaysBetween = Days.daysBetween(startDateMax, endDateMin).getDays();
-        int maxDaysBetween = Days.daysBetween(startDateMin, endDateMax).getDays();
-        if (minDaysBetween > 60)
-            return 1;
-        else if (maxDaysBetween <= 60)
-            return 0;
-        else
-            return -1;
+
+        return minimum ? Days.daysBetween(startDateMax, endDateMin).getDays() : Days.daysBetween(startDateMin, endDateMax).getDays();
     }
 
-    //helper method, checks which tumor is diagnosed later. It returns 1 (if tumor 1 is diagnosed after tumor 2),
-    //2 (if tumor 2 is diagnosed after tumor 1), 0 (if the diagnosis takes at the same day) or -1 (if there is insufficient information e.g if both year is 2007, but month and day is unknown);
-
-    public static int compareDxDate(MphInput input1, MphInput input2) {
-        int tumor1 = 1, tumor2 = 2, sameDay = 0, unknown = -1;
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
-        //If year is missing or in the future, return unknown
-        int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
-        else if (year1 > year2)
-            return tumor1;
-        else if (year2 > year1)
-            return tumor2;
-
-        if (month1 == 99)
-            day1 = 99;
-        if (month2 == 99)
-            day2 = 99;
-        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-        try {
-            new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-        }
-        catch (Exception e) {
-            day1 = 99;
-            if (month1 < 1 || month1 > 12)
-                month1 = 99;
-        }
-
-        try {
-            new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-        }
-        catch (Exception e) {
-            day2 = 99;
-            if (month2 < 1 || month2 > 12)
-                month2 = 99;
-        }
-
-        if (month1 == 99 || month2 == 99)
-            return unknown;
-        else if (month1 > month2)
-            return tumor1;
-        else if (month2 > month1)
-            return tumor2;
-        else if (day1 == 99 || day2 == 99)
-            return unknown;
-        else if (day1 > day2)
-            return tumor1;
-        else if (day2 > day1)
-            return tumor2;
-        else
-            return sameDay;
-    }
 }

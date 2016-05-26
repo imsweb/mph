@@ -82,7 +82,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
                 }
-                int diff = verify60DaysApart(i1, i2, false);
+                int diff = verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
@@ -106,7 +106,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
                 }
-                int diff = verify60DaysApart(i1, i2, false);
+                int diff = verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     result.setResult(MphUtils.RuleResult.UNKNOWN);

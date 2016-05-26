@@ -69,7 +69,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                int diff = verify60DaysApart(i1, i2, false);
+                int diff = verifyDaysApart(i1, i2, 60);
                 if (-1 == diff){
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");

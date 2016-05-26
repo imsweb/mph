@@ -3,22 +3,8 @@
  */
 package com.imsweb.mph;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
-import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
-import com.imsweb.mph.mpgroups.Mp2007ColonGroup;
-import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
-import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
-import com.imsweb.mph.mpgroups.Mp2007LungGroup;
-import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
-import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
-import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
-import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
-
 public class MphUtilsTest {
-
+/*
     @Test
     public void testFindCancerGroup() {
         //Invalid and unknown primary site, histology or behavior ----> Undefined group
@@ -1470,5 +1456,5 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-    }
+    } */
 }

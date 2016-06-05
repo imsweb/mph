@@ -3,7 +3,7 @@
  */
 package com.imsweb.mph;
 
-public class HematoSamePrimaryDTO {
+public class HematoDbDTO {
 
     private Short _startYear;
 
@@ -11,7 +11,7 @@ public class HematoSamePrimaryDTO {
 
     private String _morphology;
 
-    public HematoSamePrimaryDTO(Short startYear, Short endYear, String morphology) {
+    public HematoDbDTO(Short startYear, Short endYear, String morphology) {
         _startYear = startYear;
         _endYear = endYear;
         _morphology = morphology;

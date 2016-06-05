@@ -11,6 +11,10 @@ public class MphInput {
 
     private String _behaviorIcdO3;
 
+    private String _histologyIcdO2;
+
+    private String _behaviorIcdO2;
+
     private String _laterality;
 
     private String _dateOfDiagnosisYear;
@@ -41,6 +45,22 @@ public class MphInput {
 
     public void setBehaviorIcdO3(String behaviorIcdO3) {
         _behaviorIcdO3 = behaviorIcdO3;
+    }
+
+    public String getHistologyIcdO2() {
+        return _histologyIcdO2;
+    }
+
+    public void setHistologyIcdO2(String histologyIcdO2) {
+        _histologyIcdO2 = histologyIcdO2;
+    }
+
+    public String getBehaviorIcdO2() {
+        return _behaviorIcdO2;
+    }
+
+    public void setBehaviorIcdO2(String behaviorIcdO2) {
+        _behaviorIcdO2 = behaviorIcdO2;
     }
 
     public String getLaterality() {

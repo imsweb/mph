@@ -19,6 +19,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
     private static final List<String> _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9590-9591,9670-9729"));
     private static final List<String> _NON_HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9591,9670-9729"));
     private static final List<String> _HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9596,9650-9667"));
+    private static final List<String> _HEMATOPOIETIC_NOS_HISTOLOGIES = expandList(
+            Collections.singletonList("9591,9670,9702,9729,9760,9800,9808,9809,9811,9820,9832,9835,9860,9861,9863,9960,9964,9987"));
 
     public Mp2010HematopoieticGroup() {
         super("hematopoietic-2010", "Hematopoietic 2010", "C000-C809", null, "9590-9989", null, "2-3,6", "2010-9999");
@@ -173,6 +175,130 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.getExamples().add("NHL in a right cervical node and HL in a left cervical node. Abstract as multiple primaries. Left and right node chains are separate regions. See "
                 + "Appendix C.");
         _rules.add(rule);
+
+        // M7
+        rule = new MphRule("hematopoietic-2010", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String morph1 = hist1 + "/" + i1.getBehaviorIcdO3(), morph2 = hist2 + "/" + i2.getBehaviorIcdO3();
+                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                if (_HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) || (!_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1) && !_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2))
+                        || !MphUtils.isSamePrimary(morph1, morph2, latestYear) || latestDx == 0) {
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                    return result;
+                }
+
+                if (latestDx == -1) {
+                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                }
+                else if ((latestDx == 1 && _HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && _HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
+                    result.setResult(MphUtils.RuleResult.TRUE);
+                else
+                    result.setResult(MphUtils.RuleResult.FALSE);
+
+                return result;
+            }
+        };
+        rule.setReason("Abstract as a single primary when a more specific histology is diagnosed after an NOS ONLY when the Heme DB Multiple Primaries Calculator "
+                + "confirms that the NOS and the more specific histology are the same primary.");
+        rule.getNotes().add("The more specific histology confirmation does not have to occur in the same anatomic location. ");
+        rule.getNotes().add("There are no time restrictions on these diagnoses; the interval between the NOS and the more specific histology does not affect this rule.");
+        rule.getNotes().add("The Heme DB Multiple Primaries Calculator will identify these histologies as a single primary");
+        rule.getNotes().add("Change the histology code on the original abstract to the more specific histology when the original diagnosis is in your registry database. Use previous "
+                + "editions of ICD-O (i.e. ICD-O-1, ICD-O-2) or the Heme DB to assign the code applicable to the year of diagnosis for the more specific histology.");
+        rule.getExamples().add("Patient diagnosed with non-Hodgkin lymphoma (9591/3) in 2003. Patient returns in 2013 with a diagnosis of CD30 positive lymphoproliferative "
+                + "disorder (9718/3). 9591/3 is an NOS histology and 9718/3 is more specific. Per the Multiple Primaries Calculator, 9591/3 and 9718/3 are the same "
+                + "primary. 9718/3 was a valid code in 2003; change the histology to 9718/3 for the 2003 diagnosis.");
+        rule.getExamples().add("CT guided core biopsy pelvic mass positive for lymphoma (9590/3) diagnosed in 2008. In November 2014, Mediastinoscopy with biopsy shows "
+                + "intravascular large B-cell lymphoma. (9712/3). 9590/3 is an NOS histology and 9712/3 is more specific. Per the Multiple Primaries Calculator, 9590/3 "
+                + "and 9712/3 are the same primary. Per the Hematopoietic Database, 9712/3 was not valid until 2010. Since the original diagnosis was in 2008, 9712/3 "
+                + "cannot be used. Keep the original code of 9590/3.");
+        _rules.add(rule);
+
+        // M8 TODO
+        rule = new MphRule("hematopoietic-2010", "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Abstract as a single primary and code the acute neoplasm when both a chronic and an acute neoplasm are diagnosed simultaneously or within 21 "
+                + "days AND there is documentation of only one positive biopsy (bone marrow biopsy, lymph node biopsy, or tissue biopsy).");
+        rule.getNotes().add("When these diagnoses happen within 21 days, it is most likely that one diagnosis was provisional and the biopsy identified the correct diagnosis. "
+                + "Abstract the acute neoplasm.");
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getExamples().add("Clinical workup shows plasmacytoma (9731/3). Lytic lesions also seen on clinical workup. Bone marrow biopsy done which shows multiple myeloma. "
+                + "Plasmacytoma transforms to multiple myeloma. Code the multiple myeloma (9732/3) since this is the acute neoplasm and there is only one bone marrow "
+                + "biopsy.");
+        _rules.add(rule);
+
+        // M9 TODO
+        rule = new MphRule("hematopoietic-2010", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Abstract a single primary* and code the later diagnosis when both a chronic and an acute neoplasm are diagnosed simultaneously or within 21 "
+                + "days AND there is no available documentation on biopsy (bone marrow biopsy, lymph node biopsy, or tissue biopsy.) The later diagnosis could be "
+                + "either the chronic or the acute neoplasm. ");
+        rule.getNotes().add("The two diagnoses are likely the result of an ongoing diagnostic work-up. The later diagnosis is usually based on all of the test results and correlated "
+                + "with any clinical information.");
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+
+        _rules.add(rule);
+
+        // M10
+        rule = new MphRule("hematopoietic-2010", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
+                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                if (!isTransformation(morph1, morph2, latestYear))
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                else {
+                    int daysApart = verifyDaysApart(i1, i2, 21);
+                    if (latestDx == -1 || daysApart == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                }
+                return result;
+            }
+        };
+        rule.setReason("Abstract as multiple primaries when a neoplasm is originally diagnosed as a chronic neoplasm AND there is a second diagnosis of an acute "
+                + "neoplasm more than 21 days after the chronic diagnosis.");
+        rule.getNotes().add("This is a change from the pre-2010 rules. Use the Heme DB Multiple Primaries Calculator to determine multiple primaries when a transformation "
+                + "from a chronic to an acute neoplasm occurs.");
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getExamples().add("Patient was diagnosed with MDS, unclassifiable in 2010. The patient presents in 2013 with a diagnosis of acute myeloid leukemia (AML) (9861/3). The "
+                + "transformation paragraph in the Heme DB says MDS (chronic neoplasm) transforms to AML (acute neoplasm). Because the chronic neoplasm (MDS) "
+                + "and the acute neoplasm (AML) are diagnosed more than 21 days apart, abstract the MDS and the AML (9861/3) as multiple primaries");
+        _rules.add(rule);
+    }
+
+    private static boolean isTransformation(String leftCode, String rightCode, int year) {
+        return MphUtils.isAcuteTransformation(leftCode, rightCode, year) || MphUtils.isAcuteTransformation(rightCode, leftCode, year) ||
+                MphUtils.isChronicTransformation(leftCode, rightCode, year) || MphUtils.isChronicTransformation(rightCode, leftCode, year);
+    }
+
+    private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int year) {
+        return MphUtils.isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.isAcuteTransformation(latestMorph, earlierMorph, year);
+    }
+
+    private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int year) {
+        return MphUtils.isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.isChronicTransformation(latestMorph, earlierMorph, year);
     }
 
 }

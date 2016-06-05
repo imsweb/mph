@@ -40,9 +40,13 @@ import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
  */
 public class MphUtils {
 
+    private static HematoDbUtilsProvider _provider = null;
+
     public static final String PROP_PRIMARY_SITE = "primarySite";
     public static final String PROP_HISTOLOGY_ICDO3 = "histologyIcdO3";
     public static final String PROP_BEHAVIOR_ICDO3 = "behaviorIcdO3";
+    public static final String PROP_HISTOLOGY_ICDO2 = "histologyIcdO2";
+    public static final String PROP_BEHAVIOR_ICDO2 = "behaviorIcdO2";
     public static final String PROP_LATERALITY = "laterality";
     public static final String PROP_DX_YEAR = "dateOfDiagnosisYear";
     public static final String PROP_DX_MONTH = "dateOfDiagnosisMonth";
@@ -73,12 +77,12 @@ public class MphUtils {
         _GROUPS.add(new Mp2007OtherSitesGroup());
     }
 
-    private MphUtils() {
-
+    private MphUtils(HematoDbUtilsProvider provider) {
+        _provider = provider;
     }
 
     public MphUtils getInstance(HematoDbUtilsProvider provider) {
-        return new MphUtils();
+        return new MphUtils(provider);
     }
 
     /**
@@ -89,6 +93,8 @@ public class MphUtils {
      * <li>primarySite (#400)</li>
      * <li>histologyIcdO3 (#522)</li>
      * <li>behaviorIcdO3 (#523)</li>
+     * <li>histologyIcdO2 (#420)</li>
+     * <li>behaviorIcdO2 (#430)</li>
      * <li>laterality (#410)</li>
      * <li>dateOfDiagnosisYear (#390)</li>
      * <li>dateOfDiagnosisMonth (#390)</li>
@@ -106,6 +112,8 @@ public class MphUtils {
         input1.setPrimarySite(record1.get(PROP_PRIMARY_SITE));
         input1.setHistologyIcdO3(record1.get(PROP_HISTOLOGY_ICDO3));
         input1.setBehaviorIcdO3(record1.get(PROP_BEHAVIOR_ICDO3));
+        input1.setHistologyIcdO2(record1.get(PROP_HISTOLOGY_ICDO2));
+        input1.setBehaviorIcdO2(record1.get(PROP_BEHAVIOR_ICDO2));
         input1.setLaterality(record1.get(PROP_LATERALITY));
         input1.setDateOfDiagnosisYear(record1.get(PROP_DX_YEAR));
         input1.setDateOfDiagnosisMonth(record1.get(PROP_DX_MONTH));
@@ -115,6 +123,8 @@ public class MphUtils {
         input2.setPrimarySite(record2.get(PROP_PRIMARY_SITE));
         input2.setHistologyIcdO3(record2.get(PROP_HISTOLOGY_ICDO3));
         input2.setBehaviorIcdO3(record2.get(PROP_BEHAVIOR_ICDO3));
+        input2.setHistologyIcdO2(record2.get(PROP_HISTOLOGY_ICDO2));
+        input2.setBehaviorIcdO2(record2.get(PROP_BEHAVIOR_ICDO2));
         input2.setLaterality(record2.get(PROP_LATERALITY));
         input2.setDateOfDiagnosisYear(record2.get(PROP_DX_YEAR));
         input2.setDateOfDiagnosisMonth(record2.get(PROP_DX_MONTH));
@@ -154,11 +164,13 @@ public class MphUtils {
             output.setResult(MPResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+            return output;
         }
         else if (!validateProperties(input2.getPrimarySite(), input2.getHistologyIcdO3(), input2.getBehaviorIcdO3(), year2)) {
             output.setResult(MPResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+            return output;
         }
 
         //calculate cancer group based on latest year
@@ -196,6 +208,39 @@ public class MphUtils {
         }
 
         return output;
+    }
+
+    /**
+     * Returns true if two morphologies are same primaries based on the hemato DB provider.
+     * @param leftCode
+     * @param rightCode
+     * @param year
+     * @return true if two morphologies are same primaries based on the hemato DB provider.
+     */
+    public static boolean isSamePrimary(String leftCode, String rightCode, int year) {
+        return _provider.isSamePrimary(leftCode, rightCode, year);
+    }
+
+    /**
+     * Returns true if second morphology is in the first disease transform to list based on the hemato DB provider.
+     * @param leftCode
+     * @param rightCode
+     * @param year
+     * @return true if second morphology is in the first disease transform to list
+     */
+    public static boolean isAcuteTransformation(String leftCode, String rightCode, int year) {
+        return _provider.isAcuteTransformation(leftCode, rightCode, year);
+    }
+
+    /**
+     * Returns true if second morphology is in the first disease transform from list based on the hemato DB provider.
+     * @param leftCode
+     * @param rightCode
+     * @param year
+     * @return true if second morphology is in the first disease transform from list
+     */
+    public static boolean isChronicTransformation(String leftCode, String rightCode, int year) {
+        return _provider.isChronicTransformation(leftCode, rightCode, year);
     }
 
     /**

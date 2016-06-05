@@ -30,7 +30,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookup();
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistologyIcdO2(), hist2 = i2.getHistologyIcdO2();
                 for (String[] row : _1998_HEMATOPOIETIC) {
                     if ((hist1.compareTo(row[0]) >= 0 && hist1.compareTo(row[1]) <= 0 && hist2.compareTo(row[2]) >= 0 && hist2.compareTo(row[3]) <= 0) ||
                             (hist2.compareTo(row[0]) >= 0 && hist2.compareTo(row[1]) <= 0 && hist1.compareTo(row[2]) >= 0 && hist1.compareTo(row[3]) <= 0)) {

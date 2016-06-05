@@ -22,12 +22,16 @@ import com.imsweb.seerapi.client.disease.YearRangeString;
 public class HematoDbLab {
 
     public static void main(String[] args) throws Exception {
-        createHematoDbCsvFile();
+        createHematoDbCsvFiles();
     }
 
-    private static void createHematoDbCsvFile() throws IOException {
-        File csvFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010MorphologyPairs.csv");
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile));
+    private static void createHematoDbCsvFiles() throws IOException {
+        File samePrimaryFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
+        File transformToFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");
+        File transformFromFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010TransformFromPairs.csv");
+        CSVWriter samePrimaryWriter = new CSVWriter(new FileWriter(samePrimaryFile));
+        CSVWriter transformToWriter = new CSVWriter(new FileWriter(transformToFile));
+        CSVWriter transformFromWriter = new CSVWriter(new FileWriter(transformFromFile));
 
         String key = "ENTER YOUR KEY HERE";
         SeerApi api = new SeerApi.Builder().apiKey(key).connect();
@@ -43,7 +47,9 @@ public class HematoDbLab {
                 previousTotal = total;
             else if (previousTotal != total) {
                 System.out.println("Disease may be added or removed from the data base while this code is running. Please try again.");
-                writer.close();
+                samePrimaryWriter.close();
+                transformToWriter.close();
+                transformFromWriter.close();
                 return;
             }
             allDiseases.addAll(results.getResults());
@@ -51,8 +57,10 @@ public class HematoDbLab {
         } while (allDiseases.size() < total);
 
         if (total == allDiseases.size()) {
-            List<String[]> samePrimaryPairs = new ArrayList<>();
+            List<String[]> samePrimaryPairs = new ArrayList<>(), transformTo = new ArrayList<>(), transformFrom = new ArrayList<>();
             samePrimaryPairs.add(new String[] {"morphology", "start year", "end year", "same primary"});
+            transformTo.add(new String[] {"morphology", "start year", "end year", "transform to"});
+            transformFrom.add(new String[] {"morphology", "start year", "end year", "transform from"});
             for (Disease d : allDiseases) {
                 Disease disease = api.disease().getById("latest", d.getId()).execute().body();
                 String morphology = disease.getIcdO3Morphology();
@@ -72,12 +80,50 @@ public class HematoDbLab {
                         if (samePrimary != null)
                             samePrimaryPairs.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), samePrimary.getIcdO3Morphology()});
                     }
+
+                if (disease.getTransformTo() != null)
+                    for (YearRangeString range : disease.getTransformTo()) {
+                        int startYear =
+                                range.getStartYear() != null ? range.getStartYear() : (disease.getValid() != null && disease.getValid().getStartYear() != null ? disease.getValid().getStartYear() : 0);
+                        int endYear =
+                                range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
+                        Disease transformToMorphology = null;
+                        try {
+                            transformToMorphology = api.disease().getById("latest", range.getValue()).execute().body();
+                        }
+                        catch (NotFoundException e) {
+                            //If a disease is listed as transform to but not existed, don't add it.
+                        }
+                        if (transformToMorphology != null)
+                            transformTo.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), transformToMorphology.getIcdO3Morphology()});
+                    }
+
+                if (disease.getTransformFrom() != null)
+                    for (YearRangeString range : disease.getTransformFrom()) {
+                        int startYear =
+                                range.getStartYear() != null ? range.getStartYear() : (disease.getValid() != null && disease.getValid().getStartYear() != null ? disease.getValid().getStartYear() : 0);
+                        int endYear =
+                                range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
+                        Disease transformFromMorphology = null;
+                        try {
+                            transformFromMorphology = api.disease().getById("latest", range.getValue()).execute().body();
+                        }
+                        catch (NotFoundException e) {
+                            //If a disease is listed as transform from but not existed, don't add it.
+                        }
+                        if (transformFromMorphology != null)
+                            transformFrom.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), transformFromMorphology.getIcdO3Morphology()});
+                    }
             }
-            writer.writeAll(samePrimaryPairs);
+            samePrimaryWriter.writeAll(samePrimaryPairs);
+            transformToWriter.writeAll(transformTo);
+            transformFromWriter.writeAll(transformFrom);
         }
         else
             System.out.println("Something wasn't right. The total number of diseases you got is different from what the API returns. Please try again.");
 
-        writer.close();
+        samePrimaryWriter.close();
+        transformToWriter.close();
+        transformFromWriter.close();
     }
 }

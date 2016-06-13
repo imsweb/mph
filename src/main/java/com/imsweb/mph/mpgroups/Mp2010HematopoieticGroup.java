@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -34,26 +35,25 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 List<String> myeloidLeukemia = Arrays.asList("9861", "9840", "9865", "9866", "9867", "9869", "9870", "9871", "9872", "9873", "9874", "9891", "9895", "9896", "9897", "9898", "9910",
                         "9911", "9931");
                 if (!differentCategory(hist1, hist2, Collections.singletonList("9740"), Collections.singletonList("9742")) || !differentCategory(hist1, hist2, Collections.singletonList("9930"),
-                        myeloidLeukemia) || !"3".equals(i1.getHistologyIcdO3()) || !"3".equals(i2.getHistologyIcdO3())) {
+                        myeloidLeukemia) || !"3".equals(i1.getHistologyIcdO3()) || !"3".equals(i2.getHistologyIcdO3()))
                     result.setResult(MphUtils.RuleResult.FALSE);
-                    return result;
+                else {
+                    int laterDx = MphGroup.compareDxDate(i1, i2);
+                    int simultaneouslyPresent = MphGroup.verifyDaysApart(i1, i2, 21);
+                    if (laterDx == -1 && simultaneouslyPresent == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                    else if (simultaneouslyPresent == 0) {
+                        result.setResult(MphUtils.RuleResult.TRUE);
+                    }
+                    else if (laterDx == 1 && ("9740".equals(hist1) || "9930".equals(hist1)))
+                        result.setResult(MphUtils.RuleResult.TRUE);
+                    else if (laterDx == 2 && ("9740".equals(hist2) || "9930".equals(hist2)))
+                        result.setResult(MphUtils.RuleResult.TRUE);
+                    else
+                        result.setResult(MphUtils.RuleResult.FALSE);
                 }
-
-                int laterDx = MphGroup.compareDxDate(i1, i2);
-                int simultaneouslyPresent = MphGroup.verifyDaysApart(i1, i2, 21);
-                if (laterDx == -1 && simultaneouslyPresent == -1) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
-                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
-                }
-                else if (simultaneouslyPresent == 0) {
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                }
-                else if (laterDx == 1 && ("9740".equals(hist1) || "99300".equals(hist1)))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else if (laterDx == 2 && ("9740".equals(hist2) || "99300".equals(hist2)))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
 
                 return result;
             }
@@ -82,16 +82,17 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 List<String> cutaneousLymphoma = Arrays.asList("9597", "9709", "9718", "9726");
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
                 if (hist1.equals(hist2) || !_LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) || cutaneousLymphoma.containsAll(Arrays.asList(hist1, hist2))
-                        || !sameLocation) {
+                        || !sameLocation)
                     result.setResult(MphUtils.RuleResult.FALSE);
-                    return result;
+                else {
+                    int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
+                    if (simultaneouslyPresent == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                    else
+                        result.setResult(0 == simultaneouslyPresent ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 }
-                int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
-                if (simultaneouslyPresent == -1) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
-                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
-                }
-                result.setResult(0 == simultaneouslyPresent ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
 
                 return result;
             }
@@ -123,16 +124,17 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
-                if (!differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) || !sameLocation) {
+                if (!differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) || !sameLocation)
                     result.setResult(MphUtils.RuleResult.FALSE);
-                    return result;
+                else {
+                    int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
+                    if (simultaneouslyPresent == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                    else
+                        result.setResult(0 == simultaneouslyPresent ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 }
-                int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
-                if (simultaneouslyPresent == -1) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
-                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
-                }
-                result.setResult(0 == simultaneouslyPresent ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
 
                 return result;
             }
@@ -186,12 +188,9 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (_HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) || (!_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1) && !_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2))
-                        || !MphUtils.isSamePrimary(morph1, morph2, latestYear) || latestDx == 0) {
+                        || !MphUtils.isSamePrimary(morph1, morph2, latestYear) || latestDx == 0)
                     result.setResult(MphUtils.RuleResult.FALSE);
-                    return result;
-                }
-
-                if (latestDx == -1) {
+                else if (latestDx == -1) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
@@ -247,7 +246,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setReason("Abstract a single primary* and code the later diagnosis when both a chronic and an acute neoplasm are diagnosed simultaneously or within 21 "
+        rule.setReason("Abstract a single primary and code the later diagnosis when both a chronic and an acute neoplasm are diagnosed simultaneously or within 21 "
                 + "days AND there is no available documentation on biopsy (bone marrow biopsy, lymph node biopsy, or tissue biopsy.) The later diagnosis could be "
                 + "either the chronic or the acute neoplasm. ");
         rule.getNotes().add("The two diagnoses are likely the result of an ongoing diagnostic work-up. The later diagnosis is usually based on all of the test results and correlated "
@@ -257,7 +256,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M10
-        rule = new MphRule("hematopoietic-2010", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule("hematopoietic-2010", "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -269,10 +268,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
                     int daysApart = verifyDaysApart(i1, i2, 21);
-                    if (latestDx == -1 || daysApart == -1) {
+                    if (daysApart == -1 || latestDx == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
+                    else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear))
+                        result.setResult(MphUtils.RuleResult.TRUE);
+                    else
+                        result.setResult(MphUtils.RuleResult.FALSE);
                 }
                 return result;
             }
@@ -285,6 +288,164 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.getExamples().add("Patient was diagnosed with MDS, unclassifiable in 2010. The patient presents in 2013 with a diagnosis of acute myeloid leukemia (AML) (9861/3). The "
                 + "transformation paragraph in the Heme DB says MDS (chronic neoplasm) transforms to AML (acute neoplasm). Because the chronic neoplasm (MDS) "
                 + "and the acute neoplasm (AML) are diagnosed more than 21 days apart, abstract the MDS and the AML (9861/3) as multiple primaries");
+        _rules.add(rule);
+
+        // M11 TODO
+        rule = new MphRule("hematopoietic-2010", "M11", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Abstract as multiple primaries when both a chronic and an acute neoplasm are diagnosed simultaneously or within 21 days AND there is "
+                + "documentation of two bone marrow examinations, lymph node biopsies, or tissue biopsies: one confirming the chronic neoplasm and another "
+                + "confirming the acute neoplasm.");
+
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getExamples().add("Vertebral biopsy on 2/13/2013 positive for plasmacytoma and 3/2/2013 bone marrow biopsy was positive for multiple myeloma. Biopsies and diagnoses "
+                + "were less than 21 days apart. Code as two primaries, solitary plasmacytoma of bone (9731/3) and plasma cell myeloma/multiple myeloma (9732/3)");
+        _rules.add(rule);
+
+        // M12
+        rule = new MphRule("hematopoietic-2010", "M12", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
+                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                if (!isTransformation(morph1, morph2, latestYear))
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                else if (latestDx == -1) {
+                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                }
+                else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
+                        !"1".equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                    result.setResult(MphUtils.RuleResult.TRUE);
+                else
+                    result.setResult(MphUtils.RuleResult.FALSE);
+
+                return result;
+            }
+        };
+        rule.setReason("Abstract a single primary when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm AND there is no confirmation "
+                + "available that the patient has been treated for the acute neoplasm");
+
+        rule.getNotes().add("When these diagnoses happen within 21 days, it is most likely that the first diagnosis of acute neoplasm was a provisional diagnosis.");
+        rule.getNotes().add("When the subsequent diagnosis occurs more than 21 days after the original diagnosis of acute neoplasm, it is important to follow-back to obtain information "
+                + "on treatment or a subsequent bone marrow biopsy that negates the diagnosis of acute neoplasm");
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getExamples().add("3/16/2013 biopsy of cervical nodes positive for diffuse large B-cell lymphoma (DLBCL) (9680/3). 4/18/2013 bone marrow shows follicular lymphoma "
+                + "(9690/3). No treatment given between the diagnoses of acute neoplasm (DLBCL) and chronic (follicular). Abstract one primary, DLBCL (9680/3).");
+        _rules.add(rule);
+
+        // M13
+        rule = new MphRule("hematopoietic-2010", "M13", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
+                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                if (!isTransformation(morph1, morph2, latestYear))
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                else if (latestDx == -1) {
+                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                }
+                else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
+                        "1".equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                    result.setResult(MphUtils.RuleResult.TRUE);
+                else
+                    result.setResult(MphUtils.RuleResult.FALSE);
+
+                return result;
+            }
+        };
+        rule.setReason("Abstract multiple primaries when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm after treatment.");
+
+        rule.getNotes().add("Only abstract as multiple primaries when the patient has been treated for the acute neoplasm.");
+        rule.getNotes().add("Apply this rule when treatment for the acute neoplasm is given, even when all planned treatment is not completed.");
+        rule.getNotes().add("The rules regarding first course of treatment are not the same for Solid Tumors and Hematopoietic. Do not apply the Note 2 to Solid Tumors.");
+        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getExamples().add("Patient was diagnosed in 2009 with AML, NOS (9861/3). The patient was treated with chemotherapy and a subsequent stem cell transplant. On "
+                + "2/25/2013 a bone marrow biopsy was positive for myelodysplastic syndrome. Abstract a second primary with the histology MDS (9989/3).");
+        rule.getExamples().add("Patient diagnosed with AML (9861/3). Plan of treatment chemotherapy. If remission achieved, followed by bone marrow transplant. After chemotherapy, "
+                + "bone marrow biopsy is done and shows a complete remission regarding the AML, but the bone marrow shows MDS (9989/3). The MDS is a second primary even "
+                + "though the planned first course of treatment was not completed prior to the diagnosis of the MDS.");
+        _rules.add(rule);
+
+        // M14
+        rule = new MphRule("hematopoietic-2010", "M14", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                List<String> ptld = Collections.singletonList("9971"); // post-transplant lymphoproliferative disorder
+                List<String> BCell = Arrays.asList("9680", "9684");
+                List<String> TCell = expandList(Collections.singletonList("9702,9705,9708,9709,9716-9719,9724,9726,9729,9827,9831,9834,9837"));
+                List<String> hodgkin = expandList(Collections.singletonList("9596,9650-9667"));
+                List<String> plasmacytoma = Arrays.asList("9731", "9732", "9734");
+                List<String> combined = new ArrayList<>(BCell);
+                combined.addAll(TCell);
+                combined.addAll(hodgkin);
+                combined.addAll(plasmacytoma);
+                if (!differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), ptld, combined))
+                    result.setResult(MphUtils.RuleResult.FALSE);
+                else {
+                    int daysApart = verifyDaysApart(i1, i2, 21);
+                    if (daysApart == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                    else
+                        result.setResult(daysApart == 0 ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                }
+                return result;
+            }
+        };
+        rule.setReason("Abstract a single primary when post-transplant lymphoproliferative disorder is diagnosed simultaneously with any B-cell lymphoma, T-cell "
+                + "lymphoma, Hodgkin lymphoma or plasmacytoma/myeloma.");
+
+        rule.getNotes().add("This is a change from previous instructions. Previously, lymphomas were listed as PTLD transformations. If there is a diagnosis of a lymphoma AFTER "
+                + "PTLD, abstract it is a second primary.");
+        rule.getNotes().add("See Rule PH1 for information regarding histology and Module 7 for assigning primary site.");
+        rule.getNotes().add("Registrars are NOT required to review cases previously abstracted.");
+
+        _rules.add(rule);
+
+        // M15
+        rule = new MphRule("hematopoietic-2010", "M15", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3(), morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                result.setResult(MphUtils.isSamePrimary(morph1, morph2, latestYear) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Use the Heme DB Multiple Primaries Calculator to determine the number of primaries for all cases that do not meet the criteria of M1-M14.");
+        rule.getExamples().add("Polycythemia vera (PV) diagnosed in 2001, receiving anagrelide. Increasing leukocytosis seen, bone marrow biopsy done in 2013 showing primary "
+                + "myelofibrosis (PMF) with myeloid metaplasia. No rule in M1-M14 applies. Abstract multiple primaries because the Multiple Primaries Calculator shows that PV "
+                + "(9950/3) and PMF (9961/3) are separate primaries.");
+        _rules.add(rule);
+
+        // M15, if heme DB returns multiple primary
+        rule = new MphRule("hematopoietic-2010", "M15", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.TRUE);
+                return result;
+            }
+        };
+        rule.setReason("Use the Heme DB Multiple Primaries Calculator to determine the number of primaries for all cases that do not meet the criteria of M1-M14.");
         _rules.add(rule);
     }
 

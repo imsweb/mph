@@ -31,7 +31,7 @@ import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
  * <br/><br/>
  * <a href="http://seer.cancer.gov/tools/heme/Hematopoietic_Instructions_and_Rules.pdf">SEER multiple primary rules for hematopoietic cancer for cases diagnosed in 2010 and later</a>
  * <br/><br/>
- * <a href="http://www.kcr.uky.edu/manuals/cpdms-help/Introduction/Pre-2007_Multiple_Primary_Rules_for_Solid_Tumors.htm">SEER 2004 multiple primary rules</a>
+ * <a href="http://seer.cancer.gov/archive/manuals/2004Revision1/SPM_2004_maindoc.r1.pdf">SEER 2004 multiple primary rules</a>
  * <br/><br/>
  * <a href="http://www.seer.cancer.gov/tools/mphrules">SEER 2007 multiple primary rules</a>
  * <br/><br/>
@@ -51,6 +51,7 @@ public class MphUtils {
     public static final String PROP_DX_YEAR = "dateOfDiagnosisYear";
     public static final String PROP_DX_MONTH = "dateOfDiagnosisMonth";
     public static final String PROP_DX_DAY = "dateOfDiagnosisDay";
+    public static final String PROP_TX_STATUS = "rxSummTreatmentStatus";
 
     //when we apply the rule, it might be true, false or unknown if we don't have enough information.
     public enum RuleResult {
@@ -59,7 +60,7 @@ public class MphUtils {
 
     //Based on the applied rule results, we would say two tumors are single or multiple primary or questionable if we don't have enough information.
     public enum MPResult {
-        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE, NOT_APPLICABLE
+        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
     }
 
     private static List<MphGroup> _GROUPS = new ArrayList<>();
@@ -99,6 +100,7 @@ public class MphUtils {
      * <li>dateOfDiagnosisYear (#390)</li>
      * <li>dateOfDiagnosisMonth (#390)</li>
      * <li>dateOfDiagnosisDay (#390)</li>
+     * <li>rxSummTreatmentStatus (#1285)</li>
      * </ul>
      * <br/><br/>
      * All those properties are defined as constants in this class.
@@ -118,6 +120,7 @@ public class MphUtils {
         input1.setDateOfDiagnosisYear(record1.get(PROP_DX_YEAR));
         input1.setDateOfDiagnosisMonth(record1.get(PROP_DX_MONTH));
         input1.setDateOfDiagnosisDay(record1.get(PROP_DX_DAY));
+        input1.setTxStatus(record1.get(PROP_TX_STATUS));
 
         MphInput input2 = new MphInput();
         input2.setPrimarySite(record2.get(PROP_PRIMARY_SITE));
@@ -129,6 +132,7 @@ public class MphUtils {
         input2.setDateOfDiagnosisYear(record2.get(PROP_DX_YEAR));
         input2.setDateOfDiagnosisMonth(record2.get(PROP_DX_MONTH));
         input2.setDateOfDiagnosisDay(record2.get(PROP_DX_DAY));
+        input2.setTxStatus(record2.get(PROP_TX_STATUS));
 
         return computePrimaries(input1, input2);
     }

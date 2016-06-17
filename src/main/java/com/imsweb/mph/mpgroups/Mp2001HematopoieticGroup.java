@@ -23,15 +23,16 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     private static List<String[]> _2001_HEMATOPOIETIC_GROUP_PAIRS = new ArrayList<>();
 
     public Mp2001HematopoieticGroup() {
-        super("hematopoietic-2001", "Hematopoietic 2001", "C000-C809", null, "9590-9989", null, "2-3,6", "2000-2009");
+        super("hematopoietic-2001", "Hematopoietic 2001", "C000-C809", null, "9590-9989", null, "2-3,6", "2001-2009");
 
         // If the two histologies are considered same primary
-        MphRule rule = new MphRule("hematopoietic-2001", null, MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule("hematopoietic-2001", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookups();
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                result.setResult(MphUtils.RuleResult.TRUE);
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 //find the group for both histologies
                 String group1 = null, group2 = null;
                 for (String[] row : _2001_HEMATOPOIETIC_GROUPS) {
@@ -45,23 +46,11 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                 //If we found both groups, let's check if they are same primaries
                 if (group1 != null && group2 != null)
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
-                        if ((group1.equals(row[0]) && group2.equals(row[1])) || (group2.equals(row[0]) && group1.equals(row[1]))) {
-                            result.setResult(MphUtils.RuleResult.TRUE);
+                        if ((group1.equals(row[0]) && group2.equals(row[1])) || (group2.equals(row[0]) && group1.equals(row[1])))
                             return result;
-                        }
 
-                result.setResult(MphUtils.RuleResult.FALSE);
-                return result;
-            }
-        };
-        _rules.add(rule);
-
-        //Other wise
-        rule = new MphRule("hematopoietic-2001", null, MphUtils.MPResult.MULTIPLE_PRIMARIES) {
-            @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.TRUE);
+                //If they don't match
+                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

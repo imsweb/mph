@@ -110,9 +110,9 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
-                else if (1 == laterDiagnosedTumor && "9440".equals(i1.getHistologyIcdO3()) && glial.contains(i2.getHistologyIcdO3()))
+                else if (1 == laterDiagnosedTumor && "9440".equals(i1.getHistology()) && glial.contains(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
-                else if (2 == laterDiagnosedTumor && "9440".equals(i2.getHistologyIcdO3()) && glial.contains(i1.getHistologyIcdO3()))
+                else if (2 == laterDiagnosedTumor && "9440".equals(i2.getHistology()) && glial.contains(i1.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -128,13 +128,13 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String branch1 = _CHART1_MAP.get(i1.getHistologyIcdO3()), branch2 = _CHART1_MAP.get(i2.getHistologyIcdO3());
+                String branch1 = _CHART1_MAP.get(i1.getHistology()), branch2 = _CHART1_MAP.get(i2.getHistology());
                 if (branch1 != null && branch2 != null && (branch1.equals(branch2) || "Neuroepithelial".equals(branch1) || "Neuroepithelial".equals(branch2))) {
                     result.setResult(MphUtils.RuleResult.TRUE);
                     return result;
                 }
-                branch1 = _CHART2_MAP.get(i1.getHistologyIcdO3());
-                branch2 = _CHART2_MAP.get(i2.getHistologyIcdO3());
+                branch1 = _CHART2_MAP.get(i1.getHistology());
+                branch2 = _CHART2_MAP.get(i2.getHistology());
                 result.setResult((branch1 != null && branch1.equals(branch2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
@@ -150,13 +150,13 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String branch1 = _CHART1_MAP.get(i1.getHistologyIcdO3()), branch2 = _CHART1_MAP.get(i2.getHistologyIcdO3());
+                String branch1 = _CHART1_MAP.get(i1.getHistology()), branch2 = _CHART1_MAP.get(i2.getHistology());
                 if (branch1 != null && branch2 != null && !branch1.equals(branch2) && !"Neuroepithelial".equals(branch1) && !"Neuroepithelial".equals(branch2)) {
                     result.setResult(MphUtils.RuleResult.TRUE);
                     return result;
                 }
-                branch1 = _CHART2_MAP.get(i1.getHistologyIcdO3());
-                branch2 = _CHART2_MAP.get(i2.getHistologyIcdO3());
+                branch1 = _CHART2_MAP.get(i1.getHistology());
+                branch2 = _CHART2_MAP.get(i2.getHistology());
                 result.setResult((branch1 != null && branch2 != null && !branch1.equals(branch2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }

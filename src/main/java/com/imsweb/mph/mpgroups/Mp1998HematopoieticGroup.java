@@ -25,31 +25,20 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         super("hematopoietic-1998", "Hematopoietic 1998", "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
 
         // If the two histologies are considered same primary
-        MphRule rule = new MphRule("hematopoietic-1998", null, MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule("hematopoietic-1998", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookup();
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO2(), hist2 = i2.getHistologyIcdO2();
-                for (String[] row : _1998_HEMATOPOIETIC) {
-                    if ((hist1.compareTo(row[0]) >= 0 && hist1.compareTo(row[1]) <= 0 && hist2.compareTo(row[2]) >= 0 && hist2.compareTo(row[3]) <= 0) ||
-                            (hist2.compareTo(row[0]) >= 0 && hist2.compareTo(row[1]) <= 0 && hist1.compareTo(row[2]) >= 0 && hist1.compareTo(row[3]) <= 0)) {
-                        result.setResult(MphUtils.RuleResult.TRUE);
-                        return result;
-                    }
-                }
-                result.setResult(MphUtils.RuleResult.FALSE);
-                return result;
-            }
-        };
-        _rules.add(rule);
-
-        //Other wise
-        rule = new MphRule("hematopoietic-1998", null, MphUtils.MPResult.MULTIPLE_PRIMARIES) {
-            @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.TRUE);
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                for (String[] row : _1998_HEMATOPOIETIC)
+                    if ((hist1.compareTo(row[0]) >= 0 && hist1.compareTo(row[1]) <= 0 && hist2.compareTo(row[2]) >= 0 && hist2.compareTo(row[3]) <= 0) ||
+                            (hist2.compareTo(row[0]) >= 0 && hist2.compareTo(row[1]) <= 0 && hist1.compareTo(row[2]) >= 0 && hist1.compareTo(row[3]) <= 0))
+                        return result;
+
+                //if they don't match
+                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

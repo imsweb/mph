@@ -27,7 +27,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if ("C619".equalsIgnoreCase(i1.getPrimarySite()) && "C619".equalsIgnoreCase(i2.getPrimarySite()) && "8140".equals(i1.getHistologyIcdO3()) && "8140".equals(i2.getHistologyIcdO3()))
+                if ("C619".equalsIgnoreCase(i1.getPrimarySite()) && "C619".equalsIgnoreCase(i2.getPrimarySite()) && "8140".equals(i1.getHistology()) && "8140".equals(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -47,7 +47,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 List<String> retinoBlastoma = Arrays.asList("9510", "9511", "9512", "9513");
                 MphRuleResult result = new MphRuleResult();
-                if (retinoBlastoma.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())))
+                if (retinoBlastoma.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -63,7 +63,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult((i1.getHistologyIcdO3().equals("9140") && i2.getHistologyIcdO3().equals("9140")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult((i1.getHistology().equals("9140") && i2.getHistology().equals("9140")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -77,7 +77,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 //If not thyroid follicular and papillary
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (!("C739".equals(site1) && "C739".equals(site2) && "8340".equals(hist1) && "8340".equals(hist2))) {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
@@ -101,7 +101,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (!("C569".equals(site1) && "C569".equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799)) {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
@@ -159,8 +159,8 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                 List<String> sites = Arrays.asList("C180", "C181", "C182", "C183", "C184", "C185", "C186", "C187", "C188", "C189", "C199", "C209");
                 List<String> adenocarcinomaInAdenomatous = Collections.singletonList("8220");
                 MphRuleResult result = new MphRuleResult();
-                if (sites.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && ("3".equals(i1.getBehaviorIcdO3()) || "3".equals(i2.getBehaviorIcdO3())) &&
-                        MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinomaInAdenomatous, _POLYP))
+                if (sites.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && ("3".equals(i1.getBehavior()) || "3".equals(i2.getBehavior())) &&
+                        MphGroup.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinomaInAdenomatous, _POLYP))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -230,9 +230,9 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                 List<String> insituOrMalignant = Arrays.asList("2", "3");
                 List<String> adenocarcinoma = MphGroup.expandList(Collections.singletonList(
                         "8140,8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,8200-8201,8210-8211,8214-8215,8220-8221,8230-8231,8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335,8337,8350,8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473,8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,8540-8543,8550-8551,8561-8562,8570-8576"));
-                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehaviorIcdO3(), i2.getBehaviorIcdO3())) &&
-                        !_POLYP.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3()))
-                        && MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinoma, _POLYP))
+                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehavior(), i2.getBehavior())) &&
+                        !_POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology()))
+                        && MphGroup.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, _POLYP))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -249,7 +249,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> insituOrMalignant = Arrays.asList("2", "3");
-                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehaviorIcdO3(), i2.getBehaviorIcdO3())) && _POLYP.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())))
+                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehavior(), i2.getBehavior())) && _POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -270,7 +270,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8070", "8140", "8720", "8800");
                 if ((nosList.contains(hist1) && getNosVsSpecificMap().containsKey(hist1) && getNosVsSpecificMap().get(hist1).contains(hist2)) || (nosList.contains(hist2) && getNosVsSpecificMap()
                         .containsKey(hist2) && getNosVsSpecificMap().get(hist2).contains(hist1)))

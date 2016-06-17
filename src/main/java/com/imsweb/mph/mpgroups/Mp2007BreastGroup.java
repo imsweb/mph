@@ -33,7 +33,7 @@ public class Mp2007BreastGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if ("3".equals(i1.getBehaviorIcdO3()) && "3".equals(i2.getBehaviorIcdO3()) && "8530".equals(i1.getHistologyIcdO3()) && "8530".equals(i2.getHistologyIcdO3()))
+                if ("3".equals(i1.getBehavior()) && "3".equals(i2.getBehavior()) && "8530".equals(i1.getHistology()) && "8530".equals(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -74,7 +74,7 @@ public class Mp2007BreastGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 List<String> paget = Arrays.asList("8540", "8541", "8542", "8543");
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), paget, _INTRADUCTAL_OR_DUCT) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(differentCategory(i1.getHistology(), i2.getHistology(), paget, _INTRADUCTAL_OR_DUCT) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -89,7 +89,7 @@ public class Mp2007BreastGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 List<String> lobular = Collections.singletonList("8520");
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), lobular, _INTRADUCTAL_OR_DUCT) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(differentCategory(i1.getHistology(), i2.getHistology(), lobular, _INTRADUCTAL_OR_DUCT) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -103,7 +103,7 @@ public class Mp2007BreastGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if ( _INTRADUCTAL_OR_DUCT.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())))
+                if (_INTRADUCTAL_OR_DUCT.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);

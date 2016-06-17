@@ -60,6 +60,10 @@ public abstract class MphRule {
         return _result;
     }
 
+    public void setResult(MPResult result) {
+        _result = result;
+    }
+
     public List<String> getNotes() {
         return _notes;
     }

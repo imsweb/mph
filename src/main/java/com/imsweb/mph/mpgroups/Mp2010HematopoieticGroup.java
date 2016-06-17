@@ -31,11 +31,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> myeloidLeukemia = Arrays.asList("9861", "9840", "9865", "9866", "9867", "9869", "9870", "9871", "9872", "9873", "9874", "9891", "9895", "9896", "9897", "9898", "9910",
                         "9911", "9931");
                 if (!differentCategory(hist1, hist2, Collections.singletonList("9740"), Collections.singletonList("9742")) || !differentCategory(hist1, hist2, Collections.singletonList("9930"),
-                        myeloidLeukemia) || !"3".equals(i1.getHistologyIcdO3()) || !"3".equals(i2.getHistologyIcdO3()))
+                        myeloidLeukemia) || !"3".equals(i1.getHistology()) || !"3".equals(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
                     int laterDx = MphGroup.compareDxDate(i1, i2);
@@ -78,7 +78,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 List<String> cutaneousLymphoma = Arrays.asList("9597", "9709", "9718", "9726");
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
                 if (hist1.equals(hist2) || !_LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) || cutaneousLymphoma.containsAll(Arrays.asList(hist1, hist2))
@@ -122,7 +122,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
                 if (!differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) || !sameLocation)
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -162,7 +162,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean differentLocation = (!site1.equals(site2) && _LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
                 result.setResult(differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _NON_HODGKIN_LYMPHOMA) && differentLocation ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
@@ -183,8 +183,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
-                String morph1 = hist1 + "/" + i1.getBehaviorIcdO3(), morph2 = hist2 + "/" + i2.getBehaviorIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String morph1 = hist1 + "/" + i1.getBehavior(), morph2 = hist2 + "/" + i2.getBehavior();
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (_HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) || (!_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1) && !_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2))
@@ -260,8 +260,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
-                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
+                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
@@ -313,8 +313,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
-                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
+                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
@@ -348,8 +348,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3();
-                String morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
+                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
@@ -394,7 +394,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 combined.addAll(TCell);
                 combined.addAll(hodgkin);
                 combined.addAll(plasmacytoma);
-                if (!differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), ptld, combined))
+                if (!differentCategory(i1.getHistology(), i2.getHistology(), ptld, combined))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
                     int daysApart = verifyDaysApart(i1, i2, 21);
@@ -423,7 +423,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String morph1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3(), morph2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
+                String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = MphGroup.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 result.setResult(MphUtils.isSamePrimary(morph1, morph2, latestYear) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);

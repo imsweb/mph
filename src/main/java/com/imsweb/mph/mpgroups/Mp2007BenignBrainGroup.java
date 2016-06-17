@@ -104,7 +104,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if (!"9390".equals(i1.getHistologyIcdO3()) || !"9390".equals(i2.getHistologyIcdO3()))
+                if (!"9390".equals(i1.getHistology()) || !"9390".equals(i2.getHistology()))
                     result.setResult(RuleResult.FALSE);
                 else {
                     int laterDiagnosedTumor = MphGroup.compareDxDate(i1, i2);
@@ -112,9 +112,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                         result.setResult(RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
-                    else if (1 == laterDiagnosedTumor && "1".equals(i1.getBehaviorIcdO3()) && "0".equals(i2.getBehaviorIcdO3()))
+                    else if (1 == laterDiagnosedTumor && "1".equals(i1.getBehavior()) && "0".equals(i2.getBehavior()))
                         result.setResult(RuleResult.TRUE);
-                    else if (2 == laterDiagnosedTumor && "1".equals(i2.getBehaviorIcdO3()) && "0".equals(i1.getBehaviorIcdO3()))
+                    else if (2 == laterDiagnosedTumor && "1".equals(i2.getBehavior()) && "0".equals(i1.getBehavior()))
                         result.setResult(RuleResult.TRUE);
                     else
                         result.setResult(RuleResult.FALSE);
@@ -132,7 +132,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if (!"9540".equals(i1.getHistologyIcdO3()) || !"9540".equals(i2.getHistologyIcdO3()))
+                if (!"9540".equals(i1.getHistology()) || !"9540".equals(i2.getHistology()))
                     result.setResult(RuleResult.FALSE);
                 else {
                     int laterDiagnosedTumor = MphGroup.compareDxDate(i1, i2);
@@ -140,9 +140,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                         result.setResult(RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
-                    else if (1 == laterDiagnosedTumor && "1".equals(i1.getBehaviorIcdO3()) && "0".equals(i2.getBehaviorIcdO3()))
+                    else if (1 == laterDiagnosedTumor && "1".equals(i1.getBehavior()) && "0".equals(i2.getBehavior()))
                         result.setResult(RuleResult.TRUE);
-                    else if (2 == laterDiagnosedTumor && "1".equals(i2.getBehaviorIcdO3()) && "0".equals(i1.getBehaviorIcdO3()))
+                    else if (2 == laterDiagnosedTumor && "1".equals(i2.getBehavior()) && "0".equals(i1.getBehavior()))
                         result.setResult(RuleResult.TRUE);
                     else
                         result.setResult(RuleResult.FALSE);
@@ -161,9 +161,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String icd1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3(), icd2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
-                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistologyIcdO3());
-                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistologyIcdO3());
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistology());
+                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistology());
                 if (branch1 == null || branch2 == null)
                     result.setResult(RuleResult.FALSE);
                 else
@@ -181,9 +181,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String icd1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3(), icd2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
-                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistologyIcdO3());
-                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistologyIcdO3());
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistology());
+                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistology());
                 if (branch1 == null || branch2 == null)
                     result.setResult(RuleResult.FALSE);
                 else
@@ -201,9 +201,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String icd1 = i1.getHistologyIcdO3() + "/" + i1.getBehaviorIcdO3(), icd2 = i2.getHistologyIcdO3() + "/" + i2.getBehaviorIcdO3();
-                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistologyIcdO3());
-                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistologyIcdO3());
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String branch1 = _CHART1_MAP.get(icd1) != null ? _CHART1_MAP.get(icd1) : _CHART1_MAP.get(i1.getHistology());
+                String branch2 = _CHART1_MAP.get(icd2) != null ? _CHART1_MAP.get(icd2) : _CHART1_MAP.get(i2.getHistology());
                 //This rule is used only when one histology code is listed in chart and the other not, see note for M11
                 if (branch1 == null && branch2 == null)
                     result.setResult(RuleResult.FALSE);

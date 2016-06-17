@@ -235,7 +235,7 @@ public abstract class MphGroup {
         @Override
         public MphRuleResult apply(MphInput i1, MphInput i2) {
             MphRuleResult result = new MphRuleResult();
-            String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+            String hist1 = i1.getHistology(), hist2 = i2.getHistology();
             result.setResult((!hist1.substring(0, 3).equals(hist2.substring(0, 3))) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
             return result;
         }
@@ -271,7 +271,7 @@ public abstract class MphGroup {
         @Override
         public MphRuleResult apply(MphInput i1, MphInput i2) {
             MphRuleResult result = new MphRuleResult();
-            String beh1 = i1.getBehaviorIcdO3(), beh2 = i2.getBehaviorIcdO3();
+            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
             if (!differentCategory(beh1, beh2, Collections.singletonList("2"), Collections.singletonList("3"))) {
                 result.setResult(MphUtils.RuleResult.FALSE);
                 return result;

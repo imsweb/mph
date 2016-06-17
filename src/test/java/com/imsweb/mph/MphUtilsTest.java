@@ -3,63 +3,136 @@
  */
 package com.imsweb.mph;
 
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2004BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2004SolidMalignantGroup;
+import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2007ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2007LungGroup;
+import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
+import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
+import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
+
 public class MphUtilsTest {
-/*
+
+    private MphUtils _utils = MphUtils.getInstance(DefaultHematoDbUtilsProvider.getInstance());
+
     @Test
-    public void testFindCancerGroup() {
-        //Invalid and unknown primary site, histology or behavior ----> Undefined group
-        Assert.assertNull(MphUtils.findCancerGroup(null, "8100", "1"));
-        Assert.assertNull(MphUtils.findCancerGroup("123", "8100", "2"));
-        Assert.assertNull(MphUtils.findCancerGroup("C4567", "8100", "0"));
-        Assert.assertNull(MphUtils.findCancerGroup("D456", "8100", "0"));
-        Assert.assertNull(MphUtils.findCancerGroup("C809", "8100", "3"));
-        Assert.assertNull(MphUtils.findCancerGroup("C329", null, "0"));
-        Assert.assertNull(MphUtils.findCancerGroup("C000", "10", "0"));
-        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "01"));
-        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "5"));
-        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "A"));
-        //lymphoma and leukemia
-        Assert.assertNull(MphUtils.findCancerGroup("C329", "9590", "3"));
-        // non reportable
-        Assert.assertNull(MphUtils.findCancerGroup("C180", "8100", "1"));
-        Assert.assertNull(MphUtils.findCancerGroup("C440", "8725", "0"));
+    public void testValidateProperties() {
+        Assert.assertFalse(MphUtils.validateProperties(null, "8100", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("123", "8100", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("D189", "8100", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C18X", "8100", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C809", "8100", "1", 2007));
 
-        //Head and Neck
-        Assert.assertEquals(new Mp2007HeadAndNeckGroup(), MphUtils.findCancerGroup("C005", "8100", "3"));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "ABCD", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "7999", "1", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "80003", "1", 2007));
 
-        //Colon
-        Assert.assertEquals(new Mp2007ColonGroup(), MphUtils.findCancerGroup("C180", "8100", "3"));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "8000", "A", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "8000", "8", 2007));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "8000", "01", 2007));
 
-        //Lung
-        Assert.assertEquals(new Mp2007LungGroup(), MphUtils.findCancerGroup("C340", "8100", "3"));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "8000", "3", -1));
+        Assert.assertFalse(MphUtils.validateProperties("C189", "8000", "3", LocalDate.now().getYear() + 1));
 
-        //Melanoma
-        Assert.assertEquals(new Mp2007MelanomaGroup(), MphUtils.findCancerGroup("C440", "8725", "3"));
-
-        //Breast
-        Assert.assertEquals(new Mp2007BreastGroup(), MphUtils.findCancerGroup("C500", "8100", "3"));
-
-        //Kidney
-        Assert.assertEquals(new Mp2007KidneyGroup(), MphUtils.findCancerGroup("C649", "8100", "3"));
-
-        //Urinary
-        Assert.assertEquals(new Mp2007UrinaryGroup(), MphUtils.findCancerGroup("C672", "8100", "3"));
-
-        //Benign Brain 
-        Assert.assertEquals(new Mp2007BenignBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "0"));
-
-        //Malignant Brain 
-        Assert.assertEquals(new Mp2007MalignantBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "3"));
-
-        //Other Sites        
-        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C887", "8200", "3")); //primary site not in groups
-        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C445", "8800", "3")); //melanoma with excluded histology
-        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C180", "9140", "3")); //Kaposi sarcoma
-        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C751", "8100", "2")); //Brain which is neither malignant nor benign
+        Assert.assertTrue(MphUtils.validateProperties("C189", "8000", "1", 2007));
+        Assert.assertTrue(MphUtils.validateProperties("C729", "9500", "3", 1998));
+        Assert.assertTrue(MphUtils.validateProperties("C000", "8723", "6", LocalDate.now().getYear()));
     }
 
     @Test
-    public void testComputePrimariesSpecialCases() {
+    public void testFindCancerGroup() {
+        //Invalid and unknown primary site, histology, behavior or year ----> Undefined group
+        Assert.assertNull(MphUtils.findCancerGroup(null, "8100", "1", 2007));
+        Assert.assertNull(MphUtils.findCancerGroup("123", "8100", "2", 2010));
+        Assert.assertNull(MphUtils.findCancerGroup("C4567", "8100", "0", 2009));
+        Assert.assertNull(MphUtils.findCancerGroup("D456", "8100", "0", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C809", "8100", "3", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C329", null, "0", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C000", "10", "0", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "01", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "5", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "A", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "3", LocalDate.now().getYear() + 1));
+        Assert.assertNull(MphUtils.findCancerGroup("C005", "8100", "3", -1));
+        // non reportable
+        Assert.assertNull(MphUtils.findCancerGroup("C180", "8100", "1", 2000));
+        Assert.assertNull(MphUtils.findCancerGroup("C440", "8725", "0", 2010));
+        Assert.assertNull(MphUtils.findCancerGroup("C009", "9000", "1", 2000));
+
+        //2007 Head and Neck
+        Assert.assertEquals(new Mp2007HeadAndNeckGroup(), MphUtils.findCancerGroup("C005", "8100", "3", 2007));
+
+        //2007 Colon
+        Assert.assertEquals(new Mp2007ColonGroup(), MphUtils.findCancerGroup("C180", "8100", "3", 2008));
+
+        //2007 Lung
+        Assert.assertEquals(new Mp2007LungGroup(), MphUtils.findCancerGroup("C340", "8100", "3", 2009));
+
+        //2007 Melanoma
+        Assert.assertEquals(new Mp2007MelanomaGroup(), MphUtils.findCancerGroup("C440", "8725", "3", 2010));
+
+        //2007 Breast
+        Assert.assertEquals(new Mp2007BreastGroup(), MphUtils.findCancerGroup("C500", "8100", "3", 2011));
+
+        //2007 Kidney
+        Assert.assertEquals(new Mp2007KidneyGroup(), MphUtils.findCancerGroup("C649", "8100", "3", 2012));
+
+        //2007 Urinary
+        Assert.assertEquals(new Mp2007UrinaryGroup(), MphUtils.findCancerGroup("C672", "8100", "3", LocalDate.now().getYear()));
+
+        //2007 Benign Brain 
+        Assert.assertEquals(new Mp2007BenignBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "0", 2007));
+
+        //2007 Malignant Brain 
+        Assert.assertEquals(new Mp2007MalignantBrainGroup(), MphUtils.findCancerGroup("C751", "8100", "3", 2009));
+
+        //2007 Other Sites        
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C887", "8200", "3", 2007)); //primary site not in groups
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C445", "8800", "3", 2007)); //melanoma with excluded histology
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C180", "9140", "3", 2007)); //Kaposi sarcoma
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), MphUtils.findCancerGroup("C751", "8100", "2", 2007)); //Brain which is neither malignant nor benign
+
+        //1998 Hematopoietic
+        Assert.assertEquals(new Mp1998HematopoieticGroup(), MphUtils.findCancerGroup("C445", "9590", "3", 2000));
+        Assert.assertEquals(new Mp1998HematopoieticGroup(), MphUtils.findCancerGroup("C009", "9989", "2", 1950));
+        Assert.assertEquals(new Mp1998HematopoieticGroup(), MphUtils.findCancerGroup("C709", "9700", "2", 1998));
+
+        //2001 Hematopoietic
+        Assert.assertEquals(new Mp2001HematopoieticGroup(), MphUtils.findCancerGroup("C445", "9590", "3", 2001));
+        Assert.assertEquals(new Mp2001HematopoieticGroup(), MphUtils.findCancerGroup("C009", "9989", "2", 2005));
+        Assert.assertEquals(new Mp2001HematopoieticGroup(), MphUtils.findCancerGroup("C709", "9700", "2", 2009));
+
+        //2010 Hematopoietic
+        Assert.assertEquals(new Mp2010HematopoieticGroup(), MphUtils.findCancerGroup("C445", "9590", "3", 2010));
+        Assert.assertEquals(new Mp2010HematopoieticGroup(), MphUtils.findCancerGroup("C009", "9989", "2", 2015));
+        Assert.assertEquals(new Mp2010HematopoieticGroup(), MphUtils.findCancerGroup("C709", "9700", "2", LocalDate.now().getYear()));
+
+        //2004 Benign Brain
+        Assert.assertEquals(new Mp2004BenignBrainGroup(), MphUtils.findCancerGroup("C700", "8000", "0", 2000));
+        Assert.assertEquals(new Mp2004BenignBrainGroup(), MphUtils.findCancerGroup("C718", "8700", "1", 2006));
+        Assert.assertEquals(new Mp2004BenignBrainGroup(), MphUtils.findCancerGroup("C752", "9000", "1", 1980));
+
+        //2004 Solid tumor
+        Assert.assertEquals(new Mp2004SolidMalignantGroup(), MphUtils.findCancerGroup("C700", "8000", "3", 2000));
+        Assert.assertEquals(new Mp2004SolidMalignantGroup(), MphUtils.findCancerGroup("C718", "8700", "3", 2006));
+        Assert.assertEquals(new Mp2004SolidMalignantGroup(), MphUtils.findCancerGroup("C752", "9000", "3", 1980));
+        Assert.assertEquals(new Mp2004SolidMalignantGroup(), MphUtils.findCancerGroup("C009", "9000", "3", 2000));
+    }
+
+    @Test
+    public void test2007SpecialCases() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -72,42 +145,11 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertTrue(output.getAppliedRules().isEmpty());
-        Assert.assertTrue(output.getReason().contains("Valid"));
 
-        // Years before 2007
-        i1.setDateOfDiagnosisYear("2010");
-        i2.setDateOfDiagnosisYear("2006");
-        i1.setPrimarySite("C701");
-        i2.setPrimarySite("C700");
-        i1.setHistologyIcdO3("8050");
-        i2.setHistologyIcdO3("8123");
-        i1.setBehaviorIcdO3("0");
-        i2.setBehaviorIcdO3("0");
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.NOT_APPLICABLE, output.getResult());
-        Assert.assertTrue(output.getAppliedRules().isEmpty());
-        Assert.assertTrue(output.getReason().contains("2007"));
-        //years after 2007
-        i2.setDateOfDiagnosisYear("2007");
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
-        //invalid years
-        i2.setDateOfDiagnosisYear("XXXX");
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.NOT_APPLICABLE, output.getResult());
-        //9999 years
-        i2.setDateOfDiagnosisYear("9999");
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.NOT_APPLICABLE, output.getResult());
-        //blank year
-        i2.setDateOfDiagnosisYear(null);
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.NOT_APPLICABLE, output.getResult());
-
-        //Unknown tumor group
+        //Different group
         i1.setPrimarySite("C080");
         i2.setPrimarySite("C080");
         i1.setHistologyIcdO3("9590");
@@ -116,11 +158,10 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertTrue(output.getAppliedRules().isEmpty());
-        Assert.assertTrue(output.getReason().contains("groups"));
-        //Different group
+
         i1.setPrimarySite("C080");
         i2.setPrimarySite("C342");
         i1.setHistologyIcdO3("8000");
@@ -129,14 +170,13 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertTrue(output.getAppliedRules().isEmpty());
-        Assert.assertTrue(output.getReason().contains("different"));
     }
 
     @Test
-    public void testComputePrimariesBenignBrain() {
+    public void test2007BenignBrain() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -152,7 +192,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("0");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -166,12 +206,12 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("0");
         i1.setLaterality("1");
         i2.setLaterality("4");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("paired"));
@@ -185,7 +225,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("0");
         i1.setLaterality("1");
         i2.setLaterality("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Unable"));
@@ -193,15 +233,15 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("2"); //9390/0 is following 9390/1 -- continue to the next rule
         i1.setDateOfDiagnosisDay("1");
         i2.setDateOfDiagnosisDay("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());
         i1.setDateOfDiagnosisMonth("1");
         i2.setDateOfDiagnosisMonth("1"); //9390/0 and 9390/1 diagnosed same day -- continue to the next rule
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());
         i1.setDateOfDiagnosisMonth("2");
         i2.setDateOfDiagnosisMonth("1"); //9390/1 is following 9390/0 Single primary
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("choroid"));
@@ -209,7 +249,7 @@ public class MphUtilsTest {
         // M7 - A neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0) is a single primary.
         i1.setHistologyIcdO3("9540");
         i2.setHistologyIcdO3("9540");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("neurofibroma"));
@@ -219,7 +259,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9444");
         i1.setBehaviorIcdO3("1");
         i2.setBehaviorIcdO3("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
@@ -231,7 +271,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9562");
         i1.setBehaviorIcdO3("1");
         i2.setBehaviorIcdO3("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
@@ -243,7 +283,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9562");
         i1.setBehaviorIcdO3("0");
         i2.setBehaviorIcdO3("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
@@ -255,7 +295,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8730");
         i1.setBehaviorIcdO3("1");
         i2.setBehaviorIcdO3("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -265,14 +305,14 @@ public class MphUtilsTest {
         i2.setPrimarySite("C720");
         i1.setHistologyIcdO3("8746");
         i2.setHistologyIcdO3("8740");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesBreast() {
+    public void test2007Breast() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -287,12 +327,12 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2009");
         i2.setDateOfDiagnosisYear("2014");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("diagnosis date"));
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("five"));
@@ -306,7 +346,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisYear("2010");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("carcinoma"));
@@ -322,12 +362,12 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2010");
         i1.setLaterality("1");
         i2.setLaterality("9");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both sides"));
@@ -343,12 +383,12 @@ public class MphUtilsTest {
         i2.setLaterality("1");
         i1.setDateOfDiagnosisYear("2009");
         i2.setDateOfDiagnosisYear("2009");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("no enough diagnosis date")); //not sure if they are 60 days apart
         i2.setDateOfDiagnosisYear("2007");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("60 days"));
@@ -360,27 +400,27 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2007");
         i2.setBehaviorIcdO3("3");
         i2.setHistologyIcdO3("8542"); //paget
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Paget"));
 
         //M10- Tumors that are lobular (8520) and intraductal or duct are a single primary.
         i2.setHistologyIcdO3("8520"); //lobular
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("lobular"));
 
         //M11- Multiple intraductal and/or duct carcinomas are a single primary.
         i2.setHistologyIcdO3("8500"); //duct
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("duct"));
         i2.setHistologyIcdO3("8230"); //another intraductal
         i2.setBehaviorIcdO3("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("duct"));
@@ -390,7 +430,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8500");
         i2.setHistologyIcdO3("8510");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -400,14 +440,14 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8506");
         i2.setHistologyIcdO3("8508");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesColon() {
+    public void test2007Colon() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
         // M3 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more malignant polyps is a single primary.
@@ -419,49 +459,49 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8262");
         i2.setBehaviorIcdO3("2");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("polyps"));
         i1.setBehaviorIcdO3("2"); //at least one should be malignant
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(1, output.getAppliedRules().size());
         i2.setBehaviorIcdO3("3");
         i2.setHistologyIcdO3("8220"); //polyp
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(1, output.getAppliedRules().size());
         i2.setPrimarySite("C185"); //not same site, no problem as long as it is colon
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(1, output.getAppliedRules().size());
         i2.setHistologyIcdO3("8265"); // not in polyp group, continue to the next rule
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(1, output.getAppliedRules().size());
 
         //M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) and/or fourth (C18?) character are multiple primaries.
         i1.setPrimarySite("C180");
         i2.setPrimarySite("C185");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
         i2.setPrimarySite("C180"); //not different, continue to the next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(2, output.getAppliedRules().size());
 
         //M5- Tumors diagnosed more than one (1) year apart are multiple primaries.
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2013"); //definitely more than a year apart
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("one"));
         i2.setDateOfDiagnosisYear("2014"); //not enough information
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M5"));
         i2.setDateOfDiagnosisYear("2015"); //definitely less than a year apart, continue to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(3, output.getAppliedRules().size());
 
         //M6- An invasive tumor following an insitu tumor more than 60 days after diagnosis is a multiple primary.
@@ -471,72 +511,72 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2015");
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("04"); // Not sure if they are 60 days apart
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M6"));
         i1.setDateOfDiagnosisMonth("02");
         i2.setDateOfDiagnosisMonth("05"); //April + May. definitely greater than 60 days
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("60"));
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("2"); //insitu is following invasive, continue to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());
 
         //M7- A frank malignant or in situ adenocarcinoma and an insitu or malignant tumor in a polyp are a single primary.
         i1.setHistologyIcdO3("8220");
         i2.setHistologyIcdO3("8003");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("adenocarcinoma"));
         i1.setHistologyIcdO3("8222"); //not polyp or adenocarcinoma, continue to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(5, output.getAppliedRules().size());
 
         //M8 NOS vs Specific
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8148");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("NOS"));
         i1.setHistologyIcdO3("8130"); //not in the NOS list
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(6, output.getAppliedRules().size());
 
         //M9- Multiple insitu and/or malignant polyps are a single primary.
         i1.setHistologyIcdO3("8213");
         i2.setHistologyIcdO3("8213");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("polyps"));
         i2.setHistologyIcdO3("8265");//not polyp, continue to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(7, output.getAppliedRules().size());
 
         //M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8213");
         i2.setHistologyIcdO3("8265");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
         i1.setHistologyIcdO3("8265");
         i2.setHistologyIcdO3("8265"); //not different in histology, continue to next step
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesHeadAndNeck() {
+    public void test2007HeadAndNeck() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -550,14 +590,14 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8100");
         i2.setBehaviorIcdO3("2");
         i2.setLaterality("9");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("paired"));
@@ -573,7 +613,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("lip"));
@@ -581,7 +621,7 @@ public class MphUtilsTest {
         //M5- Tumors on the upper gum (C030) and the lower gum (C031) are multiple primaries.
         i1.setPrimarySite("C030");
         i2.setPrimarySite("C031");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("gum"));
@@ -589,7 +629,7 @@ public class MphUtilsTest {
         //M6- Tumors in the nasal cavity (C300) and the middle ear (C301) are multiple primaries.
         i1.setPrimarySite("C300");
         i2.setPrimarySite("C301");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("nasal"));
@@ -597,13 +637,13 @@ public class MphUtilsTest {
         //M7- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         i1.setPrimarySite("C000");
         i2.setPrimarySite("C148");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
         i1.setPrimarySite("C138");
         i2.setPrimarySite("C148");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -616,12 +656,12 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisYear("2011");
         i2.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisMonth("7");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
         i2.setDateOfDiagnosisMonth("11");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M8"));
@@ -637,12 +677,12 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8100");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2009");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("five"));
         i2.setDateOfDiagnosisYear("2010");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M9"));
@@ -658,7 +698,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8004");
         i1.setDateOfDiagnosisYear("2013");
         i2.setDateOfDiagnosisYear("2010");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("NOS"));
@@ -679,21 +719,21 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8910");
         i1.setDateOfDiagnosisYear("2013");
         i2.setDateOfDiagnosisYear("2010");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
         i2.setHistologyIcdO3("8904");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesKidney() {
+    public void test2007Kidney() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -704,9 +744,9 @@ public class MphUtilsTest {
         i2.setPrimarySite("C649");
         i2.setHistologyIcdO3("8960");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Wilms"));
@@ -721,7 +761,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both the right kidney and in the left"));
@@ -737,7 +777,7 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisMonth("1");
         i2.setDateOfDiagnosisYear("2012");
         i2.setDateOfDiagnosisMonth("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("three"));
@@ -753,7 +793,7 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisMonth("1");
         i2.setDateOfDiagnosisYear("2011");
         i2.setDateOfDiagnosisMonth("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
@@ -763,7 +803,7 @@ public class MphUtilsTest {
         i1.setBehaviorIcdO3("3");
         i2.setHistologyIcdO3("8260"); //Papillary (Chromophil)
         i2.setBehaviorIcdO3("3");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("renal cell type"));
@@ -771,7 +811,7 @@ public class MphUtilsTest {
         // M9
         i1.setHistologyIcdO3("8312");
         i2.setHistologyIcdO3("8317");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("NOS"));
@@ -779,7 +819,7 @@ public class MphUtilsTest {
         // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8312");
         i2.setHistologyIcdO3("8370");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -787,14 +827,14 @@ public class MphUtilsTest {
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
         i1.setHistologyIcdO3("8300");
         i2.setHistologyIcdO3("8305");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesLung() {
+    public void test2007Lung() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -810,9 +850,9 @@ public class MphUtilsTest {
         i2.setPrimarySite("C349");
         i2.setHistologyIcdO3("8043");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("carcinoma"));
@@ -820,7 +860,7 @@ public class MphUtilsTest {
         //M5- A tumor that is adenocarcinoma with mixed subtypes (8255) and another that is bronchioloalveolar (8250-8254) are multiple primaries.
         i1.setHistologyIcdO3("8253");
         i2.setHistologyIcdO3("8255");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("adenocarcinoma"));
@@ -830,17 +870,17 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8155");
         i1.setLaterality("2");
         i2.setLaterality("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("each lung"));
         i1.setLaterality("9");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i1.setLaterality("4");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertTrue(output.getAppliedRules().size() > 4);
 
         //M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
@@ -850,14 +890,14 @@ public class MphUtilsTest {
         i2.setLaterality("4");
         i1.setPrimarySite("C342");
         i2.setPrimarySite("C349");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
         //if they are on the same lung, dont apply this rule
         i1.setLaterality("1");
         i2.setLaterality("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertTrue(output.getAppliedRules().size() > 5);
 
         //M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
@@ -867,12 +907,12 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisMonth("09");
         i2.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisMonth("08");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("years"));
         i2.setDateOfDiagnosisMonth("09");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
 
@@ -883,12 +923,12 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisMonth("7");
         i1.setDateOfDiagnosisMonth(null);
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
         i2.setDateOfDiagnosisMonth("11");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
 
@@ -896,7 +936,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8046");
         i2.setHistologyIcdO3("8310");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("8046"));
@@ -904,7 +944,7 @@ public class MphUtilsTest {
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8046");
         i2.setHistologyIcdO3("8021");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology codes"));
@@ -912,14 +952,14 @@ public class MphUtilsTest {
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
         i1.setHistologyIcdO3("8045");
         i2.setHistologyIcdO3("8041");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesMalignantBrain() {
+    public void test2007MalignantBrain() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -933,9 +973,9 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8123");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -945,17 +985,19 @@ public class MphUtilsTest {
         i2.setPrimarySite("C714");
         i1.setHistologyIcdO3("9440");
         i2.setHistologyIcdO3("9380");
-        output = MphUtils.computePrimaries(i1, i2);
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisYear("2015");
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult()); // can't tell which tumor follows which
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M6"));
         i1.setDateOfDiagnosisYear("2016"); //i1, 9440 is following glial
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("glial"));
         i1.setDateOfDiagnosisYear("2014"); //glial is following i1 (9440), continue to the next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(3, output.getAppliedRules().size());
 
 
@@ -964,19 +1006,19 @@ public class MphUtilsTest {
         i2.setPrimarySite("C714");
         i1.setHistologyIcdO3("9508");
         i2.setHistologyIcdO3("9490");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
         i1.setHistologyIcdO3("9503");
         i2.setHistologyIcdO3("9410");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
         i1.setHistologyIcdO3("9100");
         i2.setHistologyIcdO3("9071");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
@@ -984,13 +1026,13 @@ public class MphUtilsTest {
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
         i1.setHistologyIcdO3("9505");
         i2.setHistologyIcdO3("9523");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
         i1.setHistologyIcdO3("9539");
         i2.setHistologyIcdO3("9540");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
@@ -998,7 +1040,7 @@ public class MphUtilsTest {
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8230");
         i2.setHistologyIcdO3("8240");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -1006,20 +1048,20 @@ public class MphUtilsTest {
         // M10- Tumors that do not meet any of the criteria are abstracted as a single primary.
         i1.setHistologyIcdO3("8230");
         i2.setHistologyIcdO3("8235");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
         i1.setHistologyIcdO3("9397");
         i2.setHistologyIcdO3("9397");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesMelanoma() {
+    public void test2007Melanoma() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -1031,9 +1073,9 @@ public class MphUtilsTest {
         i2.setPrimarySite("C447");
         i2.setHistologyIcdO3("8780");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -1042,18 +1084,18 @@ public class MphUtilsTest {
         i2.setPrimarySite("C442");
         i1.setLaterality("1");
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         //melanoma mid-line laterality is considered as different laterality of right or left
         i2.setLaterality("5");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i2.setLaterality("4");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
@@ -1067,7 +1109,7 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i2.setLaterality("1");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -1083,12 +1125,12 @@ public class MphUtilsTest {
         i2.setLaterality("1");
         i1.setDateOfDiagnosisYear("2009");
         i2.setDateOfDiagnosisYear("2009"); // same year no month information
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M6"));
         i2.setDateOfDiagnosisYear("2011"); // invasive on 2006, insitu on 2004
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
@@ -1096,7 +1138,7 @@ public class MphUtilsTest {
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries.
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("60"));
@@ -1106,14 +1148,14 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2011");
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesOtherSites() {
+    public void test2007OtherSites() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -1124,9 +1166,9 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("prostate"));
@@ -1134,7 +1176,7 @@ public class MphUtilsTest {
         //M4- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
         i1.setHistologyIcdO3("9510");
         i2.setHistologyIcdO3("9513");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Retinoblastoma"));
@@ -1146,7 +1188,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9140");
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Kaposi sarcoma"));
@@ -1160,13 +1202,13 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2011");
         i2.setDateOfDiagnosisYear("2011"); // same year month unknown
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Unable"));
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("02"); // within 60 days definitely
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("thyroid"));
@@ -1176,7 +1218,7 @@ public class MphUtilsTest {
         i2.setPrimarySite("C569");
         i1.setHistologyIcdO3("8001");
         i2.setHistologyIcdO3("8799");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ovary"));
@@ -1186,25 +1228,25 @@ public class MphUtilsTest {
         i2.setPrimarySite("C629");
         i1.setHistologyIcdO3("8001");
         i2.setHistologyIcdO3("8799");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("laterality"));
         i1.setLaterality("1");
         i2.setLaterality("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both sides"));
         i1.setPrimarySite("C740");
         i2.setPrimarySite("C749");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both sides"));
         i1.setPrimarySite("C630");
         i2.setPrimarySite("C630");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both sides"));
@@ -1216,36 +1258,36 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8262");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("adenomatous"));
         i1.setBehaviorIcdO3("2"); // Both are insitu, continue to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(7, output.getAppliedRules().size());
 
         //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2013");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("one"));
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisYear("2014"); //not enough information
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M10"));
         i2.setDateOfDiagnosisYear("2015"); //less than a year, continue to the next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(8, output.getAppliedRules().size());
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         i1.setPrimarySite("C199");
         i2.setPrimarySite("C209");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -1259,31 +1301,31 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
         i2.setPrimarySite("C471"); // not differ at the 4th character
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(10, output.getAppliedRules().size());
         i1.setPrimarySite("C461");
         i2.setPrimarySite("C462"); // not in the above list
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(10, output.getAppliedRules().size());
 
         //M13 - A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
         i1.setHistologyIcdO3("8220"); //polyp
         i2.setHistologyIcdO3("8141"); //adenocarcinoma
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(11, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("polyp"));
         i2.setHistologyIcdO3("8211"); //both are polyp, continue to the next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(11, output.getAppliedRules().size());
 
         //M14 - Multiple in situ and/or malignant polyps are a single primary.
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(12, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("polyps"));
@@ -1299,48 +1341,48 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("2");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3"); //isitu is following invasive, go to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(13, output.getAppliedRules().size());
 
         //M16 - NOS VS Specific
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8147");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("NOS"));
         i2.setHistologyIcdO3("8313"); //not specific for 8140, go to next step
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(14, output.getAppliedRules().size());
 
         //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8170");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(15, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
         i2.setHistologyIcdO3("8149"); //different only on the last digit
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(15, output.getAppliedRules().size());
 
         //M18- Tumors that do not meet any of the criteria are abstracted as a single primary.
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8149");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(16, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
     }
 
     @Test
-    public void testComputePrimariesUrinary() {
+    public void test2007Urinary() {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -1356,7 +1398,7 @@ public class MphUtilsTest {
         i2.setLaterality("2");
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("renal"));
@@ -1364,7 +1406,7 @@ public class MphUtilsTest {
         // M4 - When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries. (C669)
         i1.setPrimarySite("C669");
         i2.setPrimarySite("C669");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ureter"));
@@ -1378,13 +1420,13 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2007");
         i2.setDateOfDiagnosisYear("2007");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Unable"));
         i1.setDateOfDiagnosisMonth("05");
         i2.setDateOfDiagnosisMonth("01");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
@@ -1397,7 +1439,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8123");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Bladder"));
@@ -1408,8 +1450,8 @@ public class MphUtilsTest {
         i1.setHistologyIcdO3("8720");
         i2.setHistologyIcdO3("8180");
         i1.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisYear("2008");
-        output = MphUtils.computePrimaries(i1, i2);
+        i2.setDateOfDiagnosisYear("2001");
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("three"));
@@ -1422,7 +1464,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("8020");
         i1.setDateOfDiagnosisYear("2008");
         i2.setDateOfDiagnosisYear("2007");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Urothelial"));
@@ -1432,7 +1474,7 @@ public class MphUtilsTest {
         i2.setPrimarySite("C680");
         i1.setHistologyIcdO3("8130");
         i2.setHistologyIcdO3("8150");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
@@ -1442,7 +1484,7 @@ public class MphUtilsTest {
         i2.setPrimarySite("C680");
         i1.setHistologyIcdO3("8630");
         i2.setHistologyIcdO3("8630");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -1452,9 +1494,34 @@ public class MphUtilsTest {
         i2.setPrimarySite("C675");
         i1.setHistologyIcdO3("8630");
         i2.setHistologyIcdO3("8630");
-        output = MphUtils.computePrimaries(i1, i2);
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-    } */
+    }
+
+    @Test
+    public void test1998Hematopoietic() {
+
+    }
+
+    @Test
+    public void test2001Hematopoietic() {
+
+    }
+
+    @Test
+    public void test2010Hematopoietic() {
+
+    }
+
+    @Test
+    public void test2004BenignBrain() {
+
+    }
+
+    @Test
+    public void test2004SolidMalignant() {
+
+    }
 }

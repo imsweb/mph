@@ -12,6 +12,10 @@ import java.util.Map;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.LocalDate;
 
+import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2004BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2004SolidMalignantGroup;
 import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
 import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
 import com.imsweb.mph.mpgroups.Mp2007ColonGroup;
@@ -22,6 +26,7 @@ import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
 import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
+import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 
 /**
  * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
@@ -76,13 +81,18 @@ public class MphUtils {
         _GROUPS.add(new Mp2007BenignBrainGroup());
         _GROUPS.add(new Mp2007MalignantBrainGroup());
         _GROUPS.add(new Mp2007OtherSitesGroup());
+        _GROUPS.add(new Mp1998HematopoieticGroup());
+        _GROUPS.add(new Mp2001HematopoieticGroup());
+        _GROUPS.add(new Mp2010HematopoieticGroup());
+        _GROUPS.add(new Mp2004BenignBrainGroup());
+        _GROUPS.add(new Mp2004SolidMalignantGroup());
     }
 
     private MphUtils(HematoDbUtilsProvider provider) {
         _provider = provider;
     }
 
-    public MphUtils getInstance(HematoDbUtilsProvider provider) {
+    public static MphUtils getInstance(HematoDbUtilsProvider provider) {
         return new MphUtils(provider);
     }
 
@@ -143,13 +153,16 @@ public class MphUtils {
      * <br/><br/>
      * The provided record dto has the following parameters:
      * <ul>
-     * <li>_primarySite</li>
-     * <li>_histologyIcdO3</li>
-     * <li>_behaviorIcdO3</li>
-     * <li>_laterality/li>
-     * <li>_dateOfDiagnosisYear</li>
-     * <li>_dateOfDiagnosisMonth</li>
-     * <li>_dateOfDiagnosisDay</li>
+     * <li>primarySite (#400)</li>
+     * <li>histologyIcdO3 (#522)</li>
+     * <li>behaviorIcdO3 (#523)</li>
+     * <li>histologyIcdO2 (#420)</li>
+     * <li>behaviorIcdO2 (#430)</li>
+     * <li>laterality (#410)</li>
+     * <li>dateOfDiagnosisYear (#390)</li>
+     * <li>dateOfDiagnosisMonth (#390)</li>
+     * <li>dateOfDiagnosisDay (#390)</li>
+     * <li>rxSummTreatmentStatus (#1285)</li>
      * </ul>
      * <br/><br/>
      * All those properties are defined as constants in this class.
@@ -163,14 +176,16 @@ public class MphUtils {
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
+        String site1 = input1.getPrimarySite(), site2 = input2.getPrimarySite(), hist1 = input1.getHistology(), hist2 = input2.getHistology();
+        String beh1 = input1.getBehavior(), beh2 = input2.getBehavior();
 
-        if (!validateProperties(input1.getPrimarySite(), input1.getHistologyIcdO3(), input1.getBehaviorIcdO3(), year1)) {
+        if (!validateProperties(site1, hist1, beh1, year1)) {
             output.setResult(MPResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
-        else if (!validateProperties(input2.getPrimarySite(), input2.getHistologyIcdO3(), input2.getBehaviorIcdO3(), year2)) {
+        else if (!validateProperties(site2, hist2, beh2, year2)) {
             output.setResult(MPResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
@@ -179,8 +194,8 @@ public class MphUtils {
 
         //calculate cancer group based on latest year
         int latestYear = year1 > year2 ? year1 : year2;
-        MphGroup group1 = findCancerGroup(input1.getPrimarySite(), input1.getHistologyIcdO3(), input1.getBehaviorIcdO3(), latestYear);
-        MphGroup group2 = findCancerGroup(input2.getPrimarySite(), input2.getHistologyIcdO3(), input2.getBehaviorIcdO3(), latestYear);
+        MphGroup group1 = findCancerGroup(site1, hist1, beh1, latestYear);
+        MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
         if (group1 == null) {
             output.setResult(MPResult.QUESTIONABLE);
@@ -274,20 +289,23 @@ public class MphUtils {
     /**
      * Validates the provided input's primary site, histology, behavior and diagnosis year. These properties are required to determine the cancer group and used at least in one of the rules in each group.
      */
-    public static boolean validateProperties(String primarySite, String histology, String behavior, int year) {
-        //primary site
-        if (primarySite == null || primarySite.length() != 4 || !primarySite.startsWith("C") || !NumberUtils.isDigits(primarySite.substring(1)) || "C809".equalsIgnoreCase(primarySite))
-            return false;
-            //histology
-        else if (histology == null || histology.length() != 4 || !NumberUtils.isDigits(histology) || Integer.parseInt(histology) < 8000)
-            return false;
-            //behavior
-        else if (behavior == null || !Arrays.asList("0", "1", "2", "3", "6").contains(behavior))
-            return false;
-            //dx year
-        else if (year < 0 || year > LocalDate.now().getYear())
-            return false;
-        else
-            return true;
+    public static boolean validateProperties(String primarySite, String histology, String behavior, int validateBehavior) {
+        return validateSite(primarySite) && validateHistology(histology) && validateBehavior(behavior) && validateYear(validateBehavior);
+    }
+
+    public static boolean validateSite(String site) {
+        return site != null && site.length() == 4 && site.startsWith("C") && NumberUtils.isDigits(site.substring(1)) && !"C809".equalsIgnoreCase(site);
+    }
+
+    public static boolean validateHistology(String hist) {
+        return hist != null && NumberUtils.isDigits(hist) && Integer.parseInt(hist) >= 8000 && Integer.parseInt(hist) <= 9999;
+    }
+
+    public static boolean validateBehavior(String behavior) {
+        return Arrays.asList("0", "1", "2", "3", "6").contains(behavior);
+    }
+
+    public static boolean validateYear(int year) {
+        return year >= 0 && year <= LocalDate.now().getYear();
     }
 }

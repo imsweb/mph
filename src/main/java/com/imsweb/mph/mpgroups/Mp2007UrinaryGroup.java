@@ -78,7 +78,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                     result.setResult(MphUtils.RuleResult.FALSE);
                 }
                 else
-                    result.setResult(carcinomaHist.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                    result.setResult(carcinomaHist.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
 
                 return result;
             }
@@ -123,7 +123,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                         .getPrimarySite().toLowerCase().equals("c680"))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else
-                    result.setResult(urothelialTumors.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                    result.setResult(urothelialTumors.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };

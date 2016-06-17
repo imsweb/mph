@@ -22,7 +22,7 @@ public class Mp2007KidneyGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if ("3".equals(i1.getBehaviorIcdO3()) && "3".equals(i2.getBehaviorIcdO3()) && "8960".equals(i1.getHistologyIcdO3()) && "8960".equals(i2.getHistologyIcdO3()))
+                if ("3".equals(i1.getBehavior()) && "3".equals(i2.getBehavior()) && "8960".equals(i1.getHistology()) && "8960".equals(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -87,7 +87,7 @@ public class Mp2007KidneyGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> specificRenalCellType = Arrays.asList("8260", "8310", "8316", "8317", "8318", "8319", "8320", "8510", "8959");
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 result.setResult((specificRenalCellType.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(hist2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
@@ -101,7 +101,7 @@ public class Mp2007KidneyGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8312");
                 if ((nosList.contains(hist1) && getNosVsSpecificMap().containsKey(hist1) && getNosVsSpecificMap().get(hist1).contains(hist2)) || (nosList.contains(hist2) && getNosVsSpecificMap().containsKey(
                         hist2) && getNosVsSpecificMap().get(hist2).contains(hist1)))

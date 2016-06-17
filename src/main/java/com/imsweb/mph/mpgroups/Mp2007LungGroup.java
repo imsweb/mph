@@ -28,7 +28,7 @@ public class Mp2007LungGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), Collections.singletonList("8046"), Arrays.asList("8041", "8042", "8043", "8044",
+                result.setResult(differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("8046"), Arrays.asList("8041", "8042", "8043", "8044",
                         "8045")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
@@ -42,7 +42,7 @@ public class Mp2007LungGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), Collections.singletonList("8255"), Arrays.asList("8250", "8251", "8252", "8253",
+                result.setResult(differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("8255"), Arrays.asList("8250", "8251", "8252", "8253",
                         "8254")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
@@ -80,7 +80,7 @@ public class Mp2007LungGroup extends MphGroup {
                 if (i1.getLaterality().equals(i2.getLaterality()) && !"4".equals(i1.getLaterality()))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                    String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                     result.setResult(((hist1.charAt(0) != hist2.charAt(0)) || (hist1.charAt(1) != hist2.charAt(1)) || (hist1.charAt(2) != hist2.charAt(
                             2))) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 }
@@ -122,7 +122,7 @@ public class Mp2007LungGroup extends MphGroup {
                 MphRuleResult result = new MphRuleResult();
                 List<String> specificNonSmall = Arrays.asList("8033", "8980", "8031", "8022", "8972", "8032", "8012", "8140", "8200", "8430", "8560", "8070", "8550", "8255", "8251", "8250", "8252",
                         "8253", "8254", "8310", "8470", "8480", "8481", "8260", "8490", "8230", "8333", "8013", "8014", "8082", "8123", "8310", "8083", "8052", "8084", "8071", "8072", "8073");
-                result.setResult(differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), Collections.singletonList("8046"), specificNonSmall) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("8046"), specificNonSmall) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };

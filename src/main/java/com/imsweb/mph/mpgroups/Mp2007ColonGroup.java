@@ -26,9 +26,9 @@ public class Mp2007ColonGroup extends MphGroup {
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> adenocarcinomaInAdenomatous = Arrays.asList("8220", "8221");
-                if (!("3".equals(i1.getBehaviorIcdO3()) || "3".equals(i2.getBehaviorIcdO3())))
+                if (!("3".equals(i1.getBehavior()) || "3".equals(i2.getBehavior())))
                     result.setResult(MphUtils.RuleResult.FALSE);
-                else if (MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinomaInAdenomatous, _POLYP))
+                else if (MphGroup.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinomaInAdenomatous, _POLYP))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -85,7 +85,7 @@ public class Mp2007ColonGroup extends MphGroup {
                 MphRuleResult result = new MphRuleResult();
                 List<String> adenocarcinoma = MphGroup.expandList(Arrays.asList(
                         "8140,8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,8200-8201,8210-8211,8214-8215,8220-8221,8230-8231,8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335,8337,8350,8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473,8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,8540-8543,8550-8551,8561-8562,8570-8576"));
-                result.setResult(MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinoma, _POLYP) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(MphGroup.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, _POLYP) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -98,7 +98,7 @@ public class Mp2007ColonGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8800");
                 if ((nosList.contains(hist1) && getNosVsSpecificMap().containsKey(hist1) && getNosVsSpecificMap().get(hist1).contains(hist2)) || (nosList.contains(hist2) && getNosVsSpecificMap()
                         .containsKey(hist2) && getNosVsSpecificMap().get(hist2).contains(hist1)))
@@ -124,7 +124,7 @@ public class Mp2007ColonGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(_POLYP.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(_POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };

@@ -29,12 +29,18 @@ public class Mp1998HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookup();
+                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.TRUE);
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                int laterDx = compareDxDate(i1, i2);
+                if (laterDx == -1) {
+                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                }
+                String firstDx = laterDx == 1 ? i2.getHistology() : i1.getHistology(), secondDx = laterDx == 1 ? i1.getHistology() : i2.getHistology();
                 for (String[] row : _1998_HEMATOPOIETIC)
-                    if ((hist1.compareTo(row[0]) >= 0 && hist1.compareTo(row[1]) <= 0 && hist2.compareTo(row[2]) >= 0 && hist2.compareTo(row[3]) <= 0) ||
-                            (hist2.compareTo(row[0]) >= 0 && hist2.compareTo(row[1]) <= 0 && hist1.compareTo(row[2]) >= 0 && hist1.compareTo(row[3]) <= 0))
+                    if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
+                            (laterDx == 0 && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(row[3]) <= 0)))
                         return result;
 
                 //if they don't match

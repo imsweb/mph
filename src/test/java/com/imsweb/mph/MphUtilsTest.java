@@ -1502,12 +1502,114 @@ public class MphUtilsTest {
 
     @Test
     public void test1998Hematopoietic() {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        MphOutput output;
+        i1.setPrimarySite("C001");
+        i2.setPrimarySite("C425");
+        i1.setHistologyIcdO3("9594");
+        i2.setHistologyIcdO3("9803");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("1990");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        //if year is before 2001, if icd02 is valid, use it
+        i1.setHistologyIcdO2("9594");
+        i2.setHistologyIcdO2("9900");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setBehaviorIcdO2("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
+        i1.setBehaviorIcdO2("3");
+        i1.setHistologyIcdO2("9740");
+        i2.setHistologyIcdO2("9801");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO2("9661");
+        i2.setHistologyIcdO2("9590");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO2("9667");
+        i2.setHistologyIcdO2("9850");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setHistologyIcdO2("9590");
+        i2.setHistologyIcdO2("9686");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO2("9590");
+        i2.setHistologyIcdO2("9687");
+        output = _utils.computePrimaries(i1, i2); //9687 following 9590 is multiple primary
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setDateOfDiagnosisYear("2000");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
+        i1.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisMonth("01");
+        output = _utils.computePrimaries(i1, i2); //9590 following 9687 is single primary
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisMonth("01");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
+        i1.setDateOfDiagnosisDay("19");
+        i2.setDateOfDiagnosisDay("20");
+        output = _utils.computePrimaries(i1, i2); //9687 following 9590 is multiple primary
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setDateOfDiagnosisDay("20");
+        i2.setDateOfDiagnosisDay("20");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO2("9687");
+        i2.setHistologyIcdO2("9590");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
 
     }
 
     @Test
     public void test2001Hematopoietic() {
-
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        MphOutput output;
+        i1.setPrimarySite("C001");
+        i2.setPrimarySite("C425");
+        i1.setHistologyIcdO3("9590");
+        i2.setHistologyIcdO3("9940"); //9940 after 9590 is single
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisYear("2009");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisYear("2000"); //9590 after 9940 is multiple
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setDateOfDiagnosisYear("2000");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.QUESTIONABLE, output.getResult());
+        i1.setDateOfDiagnosisYear("1990");
+        i2.setDateOfDiagnosisYear("2005");
+        i1.setHistologyIcdO3("9836");
+        i2.setHistologyIcdO3("9833");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setHistologyIcdO3("9963");
+        i2.setHistologyIcdO3("9844");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9909");
+        i2.setHistologyIcdO3("9940");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setHistologyIcdO3("9909");
+        i2.setHistologyIcdO3("9945");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
     }
 
     @Test
@@ -1517,7 +1619,121 @@ public class MphUtilsTest {
 
     @Test
     public void test2004BenignBrain() {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        MphOutput output;
 
+        //Rule 1: Multiple non-malignant tumors of the same histology that recur in the same site and same side (laterality) as the original tumor are recurrences (single primary) even after 20 years.
+        i1.setPrimarySite("C728");
+        i2.setPrimarySite("C721");
+        i1.setHistologyIcdO3("9384");
+        i2.setHistologyIcdO3("9506");
+        i1.setBehaviorIcdO3("0");
+        i2.setBehaviorIcdO3("1");
+        i1.setLaterality("1");
+        i2.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(1, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("same side"));
+        //9560/0 and 9560/1 are different histologies
+        i1.setHistologyIcdO3("9560");
+        i2.setHistologyIcdO3("9560");
+        i1.setBehaviorIcdO3("0");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(1, output.getAppliedRules().size());
+        //8670 and 8679 are same histologies, since i2 is diagnosed before 2001, icd02 will be used if it is valid
+        i1.setHistologyIcdO2("8234");
+        i1.setHistologyIcdO3("8670");
+        i2.setHistologyIcdO3("9000");
+        i2.setHistologyIcdO2("8679");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(1, output.getAppliedRules().size());
+
+        //Rule 2: Multiple non-malignant tumors of the same histology that recur in the same site and it is unknown if it is the same side (laterality) as the original tumor are
+        // recurrences (single primary) even after 20 years.
+        i1.setLaterality(null);
+        i2.setLaterality(null);
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("unknown"));
+        i1.setLaterality("4");
+        i2.setLaterality("9");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        i1.setLaterality("5");
+        i2.setLaterality("0");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+
+        //Rule 3: Multiple non-malignant tumors of the same histology in different sites of the CNS are separate (multiple) primaries
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setPrimarySite("C728");
+        i2.setPrimarySite("C753"); //different site
+        i1.setHistologyIcdO3("9505");
+        i2.setHistologyIcdO3("9412"); // same histology 9505/1 && 9412
+        i1.setBehaviorIcdO3("1");
+        i2.setBehaviorIcdO3("0");
+        i1.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(3, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("different sites"));
+        i1.setBehaviorIcdO3("0"); //9505/0 and 9412 are NOT same histologies
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(3, output.getAppliedRules().size());
+        i2.setHistologyIcdO3("9500");//9505 and 9500 are same histologies
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(3, output.getAppliedRules().size());
+
+        //Rule 4: Multiple non-malignant tumors of the same histology in different sides (laterality) of the CNS are separate (multiple) primaries.
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setPrimarySite("C728");
+        i2.setPrimarySite("C721");
+        i1.setHistologyIcdO3("9540");
+        i2.setHistologyIcdO3("9560");
+        i1.setBehaviorIcdO3("0");
+        i2.setBehaviorIcdO3("0"); //9540 and 9560/0 are same histologies
+        i1.setLaterality("1");
+        i2.setLaterality("2");
+        i1.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("different sides"));
+        i2.setBehaviorIcdO3("1"); //9540 and 9560/1 are NOT same histologies
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(4, output.getAppliedRules().size());
+
+        //Rule 5: Multiple non-malignant tumors of different histologies are separate (multiple) primaries)
+        i2.setBehaviorIcdO3("1"); //9540 and 9560/1 are NOT same histologies
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("different histologies"));
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setPrimarySite("C728");
+        i2.setPrimarySite("C753");
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8010");
+        i1.setBehaviorIcdO3("0");
+        i2.setBehaviorIcdO3("0");
+        i1.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisYear("2000");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MPResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
     }
 
     @Test

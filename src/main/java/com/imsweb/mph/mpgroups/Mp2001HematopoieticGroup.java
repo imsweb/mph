@@ -30,6 +30,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookups();
+                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.TRUE);
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
@@ -44,10 +45,17 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                         break;
                 }
                 //If we found both groups, let's check if they are same primaries
-                if (group1 != null && group2 != null)
+                if (group1 != null && group2 != null) {
+                    int laterDx = compareDxDate(i1, i2);
+                    if (laterDx == -1) {
+                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                    }
+                    String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
-                        if ((group1.equals(row[0]) && group2.equals(row[1])) || (group2.equals(row[0]) && group1.equals(row[1])))
+                        if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (laterDx == 0 && secondDx.equals(row[0]) && firstDx.equals(row[1])))
                             return result;
+                }
 
                 //If they don't match
                 this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);

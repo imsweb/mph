@@ -5,11 +5,13 @@ package com.imsweb.mph;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MphConstants {
 
-    //HISTOLOGOIES
+    //Histologies
     public static final List<String> _CARCINOMA_NOS = Collections.singletonList("8010");
     public static final List<String> _CARCINOMA_SPECIFIC = MphGroup.expandList(Collections.singletonList(
             "8000-8005,8011-8015,8020-8022,8030-8035,8041-8046,8050-8052,8070-8078,8080-8084,8090-8098,8102,8110,8120-8124,8130-8131,8140-8148,8150-8157,8160-8162,8170-8175,"
@@ -37,7 +39,31 @@ public class MphConstants {
     public static final List<String> _DUCT_CARCINOMA = MphGroup.expandList(Collections.singletonList("8022,8035,8500-8503,8508,8522"));
     public static final List<String> _LOBULAR_CARCINOMA = Arrays.asList("8520", "8522", "8524");
 
-    //TOPOGRAPHIES
+    //Histology Charts
+    public static final Map<String, String> _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING = new HashMap<>();
+
+    static {
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9390", "Choroid plexus neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9383", "Ependymomas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9394", "Ependymomas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9444", "Ependymomas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9384", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9412", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9413", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9442", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9505/1", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9506", "Neuronal and neuronal-glial neoplasms");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9540", "Neurofibromas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9541", "Neurofibromas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9550", "Neurofibromas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9560/0", "Neurofibromas");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9560/1", "Neurinomatosis ");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9562", "Neurothekeoma");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9570", "Neuroma");
+        _BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.put("9571/0", "Perineurioma, NOS");
+    }
+
+    //Topographies
     public static final String _COLON = "C18";
     public static final String _RECTUM = "C219";
     public static final String _THYROID = "C739";

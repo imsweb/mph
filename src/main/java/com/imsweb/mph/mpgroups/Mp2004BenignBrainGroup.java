@@ -3,9 +3,6 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -16,16 +13,16 @@ import com.imsweb.mph.MphUtils;
 public class Mp2004BenignBrainGroup extends MphGroup {
 
     public Mp2004BenignBrainGroup() {
-        super("benign-brain-2004", "Benign Brain 2004", "C700-C729,C751-C753", null, null, "9590-9989,9140", "0-1", "0000-2006");
+        super(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "C700-C729,C751-C753", null, null, "9590-9989,9140", "0-1", "0000-2006");
 
         // Rule 1
-        MphRule rule = new MphRule("benign-brain-2004", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
-                        && Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality())) && i1.getLaterality().equals(i2.getLaterality()))
+                        && GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality()) && i1.getLaterality().equals(i2.getLaterality()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 return result;
             }
@@ -35,13 +32,13 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 2
-        rule = new MphRule("benign-brain-2004", "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
-                        && !differentCategory(i1.getLaterality(), i2.getLaterality(), Collections.singletonList("1"), Collections.singletonList("2")))
+                        && !GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality()))
                     result.setResult(MphUtils.RuleResult.TRUE);
 
                 return result;
@@ -52,7 +49,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule("benign-brain-2004", "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -66,13 +63,12 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule("benign-brain-2004", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
-                if (isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior()) && differentCategory(i1.getLaterality(), i2.getLaterality(),
-                        Collections.singletonList("1"), Collections.singletonList("2")))
+                if (isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior()) && GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 return result;
             }
@@ -81,7 +77,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule("benign-brain-2004", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -98,12 +94,12 @@ public class Mp2004BenignBrainGroup extends MphGroup {
     }
 
     private boolean isSameHistology(String hist1, String beh1, String hist2, String beh2) {
-        String group1 = MphConstants._BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist1);
+        String group1 = MphConstants.BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist1);
         if (group1 == null)
-            group1 = MphConstants._BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist1 + "/" + beh1);
-        String group2 = MphConstants._BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist2);
+            group1 = MphConstants.BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist1 + "/" + beh1);
+        String group2 = MphConstants.BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist2);
         if (group2 == null)
-            group2 = MphConstants._BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist2 + "/" + beh2);
+            group2 = MphConstants.BENIGN_BRAIN_2004_HISTOLOGY_GROUPING.get(hist2 + "/" + beh2);
         if (group1 != null && group2 != null)
             return group1.equals(group2);
         else

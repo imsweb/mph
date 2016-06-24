@@ -11,6 +11,7 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -22,17 +23,16 @@ public class Mp1998HematopoieticGroup extends MphGroup {
     private static List<String[]> _1998_HEMATOPOIETIC = new ArrayList<>();
 
     public Mp1998HematopoieticGroup() {
-        super("hematopoietic-1998", "Hematopoietic 1998", "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
+        super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
 
-        // If the two histologies are considered same primary
-        MphRule rule = new MphRule("hematopoietic-1998", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookup();
                 this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.TRUE);
-                int laterDx = compareDxDate(i1, i2);
+                int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (laterDx == -1) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
@@ -51,7 +51,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    protected static synchronized void initializeLookup() {
+    private static synchronized void initializeLookup() {
         if (_1998_HEMATOPOIETIC.isEmpty()) {
             try {
                 Reader reader = new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv"), "US-ASCII");

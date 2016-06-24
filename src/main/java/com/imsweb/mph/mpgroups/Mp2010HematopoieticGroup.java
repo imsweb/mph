@@ -5,9 +5,9 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -16,30 +16,51 @@ import com.imsweb.mph.MphUtils;
 
 public class Mp2010HematopoieticGroup extends MphGroup {
 
-    private static final List<String> _LYMPH_NODE_SITES = Arrays.asList("C770", "C771", "C772", "C773", "C774", "C775", "C776", "C777", "C778", "C779");
-    private static final List<String> _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9590-9591,9670-9729"));
-    private static final List<String> _NON_HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9591,9670-9729"));
-    private static final List<String> _HODGKIN_LYMPHOMA = expandList(Collections.singletonList("9596,9650-9667"));
-    private static final List<String> _HEMATOPOIETIC_NOS_HISTOLOGIES = expandList(
-            Collections.singletonList("9591,9670,9702,9729,9760,9800,9808,9809,9811,9820,9832,9835,9860,9861,9863,9960,9964,9987"));
-
     public Mp2010HematopoieticGroup() {
-        super("hematopoietic-2010", "Hematopoietic 2010", "C000-C809", null, "9590-9989", null, "2-3,6", "2010-9999");
+        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2010-9999");
+
+        // M1 TODO
+        MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Abstract a single primary when minimal information is available (such as a death certificate only [DCO] case or a pathology-report-only case).");
+        _rules.add(rule);
+
+        // M2 TODO
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
+            @Override
+            public MphRuleResult apply(MphInput i1, MphInput i2) {
+                MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.FALSE);
+                return result;
+            }
+        };
+        rule.setReason("Abstract a single primary when there is a single histology");
+        rule.getNotes().add("Bilateral involvement of lymph nodes and/or organs with a single histology is a single primary.");
+        rule.getNotes().add("Recurrence of the same histology is always the same primary (timing is not relevant).");
+        rule.getNotes().add("A single histology is diagnosed by the definitive diagnostic method as defined in the Heme DB. For example, the patient had several provisional diagnoses "
+                + "but the definitive diagnostic method identified a single histology. Abstract as a single primary.");
+        rule.getExamples().add("The diagnosis is multiple myeloma (9732/3). Abstract as a single primary.");
+        rule.getExamples().add("Right and left breast both involved with diffuse large B-cell lymphoma (9680/3). Abstract as a single primary.");
+        _rules.add(rule);
 
         // M3
-        MphRule rule = new MphRule("hematopoietic-2010", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                List<String> myeloidLeukemia = Arrays.asList("9861", "9840", "9865", "9866", "9867", "9869", "9870", "9871", "9872", "9873", "9874", "9891", "9895", "9896", "9897", "9898", "9910",
-                        "9911", "9931");
-                if (!differentCategory(hist1, hist2, Collections.singletonList("9740"), Collections.singletonList("9742")) || !differentCategory(hist1, hist2, Collections.singletonList("9930"),
-                        myeloidLeukemia) || !"3".equals(i1.getHistology()) || !"3".equals(i2.getHistology()))
+                if (!(GroupUtility.differentCategory(hist1, hist2, MphConstants.MAST_CELL_SARCOMA, MphConstants.MAST_CELL_LEUKEMIA) || GroupUtility.differentCategory(hist1, hist2,
+                        MphConstants.MYELOID_SARCOMA, MphConstants.MYELOID_LEUKEMIA)) || !MphConstants.MALIGNANT.equals(i1.getBehavior()) || !MphConstants.MALIGNANT.equals(i2.getBehavior()))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    int laterDx = MphGroup.compareDxDate(i1, i2);
-                    int simultaneouslyPresent = MphGroup.verifyDaysApart(i1, i2, 21);
+                    int laterDx = GroupUtility.compareDxDate(i1, i2);
+                    int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (laterDx == -1 && simultaneouslyPresent == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -47,9 +68,9 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     else if (simultaneouslyPresent == 0) {
                         result.setResult(MphUtils.RuleResult.TRUE);
                     }
-                    else if (laterDx == 1 && ("9740".equals(hist1) || "9930".equals(hist1)))
+                    else if (laterDx == 1 && (MphConstants.MAST_CELL_SARCOMA.contains(hist1) || MphConstants.MYELOID_SARCOMA.contains(hist1)))
                         result.setResult(MphUtils.RuleResult.TRUE);
-                    else if (laterDx == 2 && ("9740".equals(hist2) || "9930".equals(hist2)))
+                    else if (laterDx == 2 && (MphConstants.MAST_CELL_SARCOMA.contains(hist2) || MphConstants.MYELOID_SARCOMA.contains(hist2)))
                         result.setResult(MphUtils.RuleResult.TRUE);
                     else
                         result.setResult(MphUtils.RuleResult.FALSE);
@@ -61,8 +82,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.setReason("Abstract a single primary when a sarcoma is diagnosed simultaneously or after a leukemia of the same lineage, " +
                 "Mast cell sarcoma (9740/3) diagnosed simultaneously with or after mast cell leukemia (9742/3), " +
                 "Myeloid sarcoma (9930/3) diagnosed simultaneously with or after acute myeloid leukemia (9861/3) or another leukemia of the myeloid lineage (9840/3, 9865/3-9867/3, 9869/3-9874/3, 9891/3, 9895/3-9898/3, 9910/3, 9911/3 and 9931/3)"
-                +
-                "Exception: Chronic myeloid leukemia (CML) codes: 9863/3, 9875/3, 9876/3 are not classified as leukemias of the same lineage as myeloid sarcoma");
+                + "Exception: Chronic myeloid leukemia (CML) codes: 9863/3, 9875/3, 9876/3 are not classified as leukemias of the same lineage as myeloid sarcoma");
         rule.getNotes().add("These sarcomas are solid manifestations of the associated leukemias. For example, when acute myeloid leukemia and myeloid sarcoma are diagnosed "
                 + "simultaneously, the myeloid sarcoma is the result of myeloid cells migrating from the bone marrow or blood into tissue. It is part of the disease process "
                 + "for the acute leukemia.");
@@ -74,18 +94,16 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M4
-        rule = new MphRule("hematopoietic-2010", "M4", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M4", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                List<String> cutaneousLymphoma = Arrays.asList("9597", "9709", "9718", "9726");
-                boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
-                if (hist1.equals(hist2) || !_LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) || cutaneousLymphoma.containsAll(Arrays.asList(hist1, hist2))
-                        || !sameLocation)
+                boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
+                if (hist1.equals(hist2) || !MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) || !sameLocation)
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
+                    int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -118,16 +136,16 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M5
-        rule = new MphRule("hematopoietic-2010", "M5", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M5", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !_LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2)));
-                if (!differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) || !sameLocation)
+                boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
+                if (!GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) || !sameLocation)
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    int simultaneouslyPresent = verifyDaysApart(i1, i2, 21);
+                    int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -158,13 +176,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M6
-        rule = new MphRule("hematopoietic-2010", "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                boolean differentLocation = (!site1.equals(site2) && _LYMPH_NODE_SITES.containsAll(Arrays.asList(site1, site2))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
-                result.setResult(differentCategory(hist1, hist2, _HODGKIN_LYMPHOMA, _NON_HODGKIN_LYMPHOMA) && differentLocation ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                boolean differentLocation = (!site1.equals(site2) && MphConstants.LYMPH_NODE.equals(site1.substring(0, 3))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
+                result.setResult(GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.NON_HODGKIN_LYMPHOMA)
+                        && differentLocation ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -179,22 +198,23 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M7
-        rule = new MphRule("hematopoietic-2010", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 String morph1 = hist1 + "/" + i1.getBehavior(), morph2 = hist2 + "/" + i2.getBehavior();
-                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                if (_HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) || (!_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1) && !_HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2))
-                        || !MphUtils.isSamePrimary(morph1, morph2, latestYear) || latestDx == 0)
+                if (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) || (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
+                        && !MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2))
+                        || !MphUtils.getInstance().getProvider().isSamePrimary(morph1, morph2, latestYear) || latestDx == 0)
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else if (latestDx == -1) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
-                else if ((latestDx == 1 && _HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && _HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
+                else if ((latestDx == 1 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -219,7 +239,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 TODO
-        rule = new MphRule("hematopoietic-2010", "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -238,7 +258,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M9 TODO
-        rule = new MphRule("hematopoietic-2010", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -256,18 +276,18 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M10
-        rule = new MphRule("hematopoietic-2010", "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    int daysApart = verifyDaysApart(i1, i2, 21);
+                    int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1 || latestDx == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -291,7 +311,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M11 TODO
-        rule = new MphRule("hematopoietic-2010", "M11", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M11", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -309,13 +329,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M12
-        rule = new MphRule("hematopoietic-2010", "M12", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M12", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -324,7 +344,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
                 else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
-                        !"1".equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                        !MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -344,13 +364,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M13
-        rule = new MphRule("hematopoietic-2010", "M13", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M13", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!isTransformation(morph1, morph2, latestYear))
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -359,7 +379,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
                 else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
-                        "1".equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                        MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -381,23 +401,18 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M14
-        rule = new MphRule("hematopoietic-2010", "M14", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M14", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                List<String> ptld = Collections.singletonList("9971"); // post-transplant lymphoproliferative disorder
-                List<String> BCell = Arrays.asList("9680", "9684");
-                List<String> TCell = expandList(Collections.singletonList("9702,9705,9708,9709,9716-9719,9724,9726,9729,9827,9831,9834,9837"));
-                List<String> hodgkin = expandList(Collections.singletonList("9596,9650-9667"));
-                List<String> plasmacytoma = Arrays.asList("9731", "9732", "9734");
-                List<String> combined = new ArrayList<>(BCell);
-                combined.addAll(TCell);
-                combined.addAll(hodgkin);
-                combined.addAll(plasmacytoma);
-                if (!differentCategory(i1.getHistology(), i2.getHistology(), ptld, combined))
+                List<String> combined = new ArrayList<>(MphConstants.BCELL);
+                combined.addAll(MphConstants.TCELL);
+                combined.addAll(MphConstants.HODGKIN_LYMPHOMA);
+                combined.addAll(MphConstants.PLASMACYTOMA);
+                if (!GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PTLD, combined))
                     result.setResult(MphUtils.RuleResult.FALSE);
                 else {
-                    int daysApart = verifyDaysApart(i1, i2, 21);
+                    int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -419,14 +434,17 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M15
-        rule = new MphRule("hematopoietic-2010", "M15", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M15", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
+                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                 MphRuleResult result = new MphRuleResult();
+                result.setResult(MphUtils.RuleResult.TRUE);
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = MphGroup.compareDxDate(i1, i2);
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                result.setResult(MphUtils.isSamePrimary(morph1, morph2, latestYear) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                if (!MphUtils.getInstance().getProvider().isSamePrimary(morph1, morph2, latestYear))
+                    this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -435,31 +453,21 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 + "myelofibrosis (PMF) with myeloid metaplasia. No rule in M1-M14 applies. Abstract multiple primaries because the Multiple Primaries Calculator shows that PV "
                 + "(9950/3) and PMF (9961/3) are separate primaries.");
         _rules.add(rule);
-
-        // M15, if heme DB returns multiple primary
-        rule = new MphRule("hematopoietic-2010", "M15", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
-            @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.TRUE);
-                return result;
-            }
-        };
-        rule.setReason("Use the Heme DB Multiple Primaries Calculator to determine the number of primaries for all cases that do not meet the criteria of M1-M14.");
-        _rules.add(rule);
     }
 
     private static boolean isTransformation(String leftCode, String rightCode, int year) {
-        return MphUtils.isAcuteTransformation(leftCode, rightCode, year) || MphUtils.isAcuteTransformation(rightCode, leftCode, year) ||
-                MphUtils.isChronicTransformation(leftCode, rightCode, year) || MphUtils.isChronicTransformation(rightCode, leftCode, year);
+        return MphUtils.getInstance().getProvider().isAcuteTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getProvider().isAcuteTransformation(rightCode, leftCode, year) ||
+                MphUtils.getInstance().getProvider().isChronicTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getProvider().isChronicTransformation(rightCode, leftCode, year);
     }
 
     private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.isAcuteTransformation(latestMorph, earlierMorph, year);
+        return MphUtils.getInstance().getProvider().isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getProvider().isAcuteTransformation(latestMorph, earlierMorph,
+                year);
     }
 
     private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.isChronicTransformation(latestMorph, earlierMorph, year);
+        return MphUtils.getInstance().getProvider().isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getProvider().isChronicTransformation(latestMorph, earlierMorph,
+                year);
     }
 
 }

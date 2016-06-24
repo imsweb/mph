@@ -3,8 +3,8 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.imsweb.mph.MphConstants;
@@ -17,10 +17,10 @@ import com.imsweb.mph.MphUtils;
 public class Mp2004SolidMalignantGroup extends MphGroup {
 
     public Mp2004SolidMalignantGroup() {
-        super("solid-malignant-2004", "Solid Malignant 2004", null, null, null, "9590-9989,9140", "2-3,6", "0000-2006");
+        super(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, null, null, "8000-9589", null, "2-3,6", "0000-2006");
 
         // Rule 1 TODO
-        MphRule rule = new MphRule("solid-malignant-2004", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -34,7 +34,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 2 TODO
-        rule = new MphRule("solid-malignant-2004", "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -49,18 +49,18 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule("solid-malignant-2004", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
-                int daysApart = verifyDaysApart(i1, i2, 60);
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != 1) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
                         //Each side of a paired organ is considered a separate site.
-                        if (differentCategory(i1.getLaterality(), i2.getLaterality(), Collections.singletonList("1"), Collections.singletonList("2")))
+                        if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                             return result;
-                        else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
+                        else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setResult(MphUtils.RuleResult.UNKNOWN);
                             if (daysApart == -1)
                                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
@@ -89,31 +89,34 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule("solid-malignant-2004", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
+                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 result.setResult(MphUtils.RuleResult.FALSE);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
-                int daysApart = verifyDaysApart(i1, i2, 60);
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 1) {
-                    if (!Arrays.asList("1", "2").containsAll(Arrays.asList(lat1, lat2))) {
+                    if (!GroupUtility.validLaterality(lat1, lat2)) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         if (daysApart == -1)
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
                         else
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
                     }
-                    else if (daysApart == -1 && !differentCategory(lat1, lat2, Collections.singletonList("1"), Collections.singletonList("2"))) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
-                    }
-                    else if (daysApart == 0 && differentCategory(lat1, lat2, Collections.singletonList("1"), Collections.singletonList("2"))) {
-                        result.setResult(MphUtils.RuleResult.TRUE);
-                        //Exceptions
-                        List<String> retino = Arrays.asList("9510", "9511", "9512", "9513");
-                        if (("C569".equals(site1) && "C569".equals(site2)) || (retino.containsAll(Arrays.asList(hist1, hist2))) || ("8960".equals(hist1) && hist1.equals(hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                    else if (GroupUtility.areOppositeSides(lat1, lat2)) {
+                        if (daysApart == -1) {
+                            result.setResult(MphUtils.RuleResult.UNKNOWN);
+                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        }
+                        else {
+                            result.setResult(MphUtils.RuleResult.TRUE);
+                            //Exceptions
+                            if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
+                                    (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
+                                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                        }
                     }
                 }
                 return result;
@@ -129,15 +132,16 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule("solid-malignant-2004", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
+                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
                         i2.getBehavior();
-                int daysApart = verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 0) {
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != 0) {
                     if (daysApart == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
@@ -145,20 +149,19 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                     else {
                         result.setResult(MphUtils.RuleResult.TRUE);
                         //Exceptions
-                        String adenocarcinoma = "8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,8200-8201,8210-8211,8214-8215,8220-8221,8230-8231," +
-                                "8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335," +
-                                "8337,8350,8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473," +
-                                "8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,8540-8543,8550-8551,8561-8562,8570-8576";
-                        if ("C619".equals(site1) && "C619".equals(site2) && "2".equals(beh1) && "2".equals(beh2) && isContained(computeRange(adenocarcinoma, false), Integer.valueOf(hist1))
-                                && isContained(computeRange(adenocarcinoma, false), Integer.valueOf(hist2)))
+                        List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
+                        adenoCarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
+                        if (MphConstants.PROSTATE.equals(site1) && site1.equals(site2) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && adenoCarcinoma.containsAll(
+                                Arrays.asList(hist1, hist2)))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
 
-                        String carcinoma = "8120-8131";
-                        if (site1.startsWith("C67") && site2.startsWith("C67") && "2".equals(beh1) && "2".equals(beh2) && isContained(computeRange(carcinoma, false), Integer.valueOf(hist1))
-                                && isContained(computeRange(carcinoma, false), Integer.valueOf(hist2)))
+                        List<String> carcinoma = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
+                        carcinoma.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
+                        if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && carcinoma.containsAll(
+                                Arrays.asList(hist1, hist2)))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
 
-                        if ("9140".equals(hist1) && "9140".equals(hist2))
+                        if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                     }
                 }
@@ -184,19 +187,20 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 6
-        rule = new MphRule("solid-malignant-2004", "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
+                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
-                int daysApart = verifyDaysApart(i1, i2, 60);
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
                         //only single paired
-                        if (differentCategory(lat1, lat2, Collections.singletonList("1"), Collections.singletonList("2")))
+                        if (GroupUtility.areOppositeSides(lat1, lat2))
                             return result;
-                        else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(lat1, lat2))) {
+                        else if (!GroupUtility.validLaterality(lat1, lat2)) {
                             result.setResult(MphUtils.RuleResult.UNKNOWN);
                             if (daysApart == -1)
                                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
@@ -212,31 +216,31 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                     else {
                         result.setResult(MphUtils.RuleResult.TRUE);
                         //Exceptions
-                        if (differentCategory(hist1, hist2, MphConstants._CARCINOMA_NOS, MphConstants._CARCINOMA_SPECIFIC))
+                        if (GroupUtility.differentCategory(hist1, hist2, MphConstants.CARCINOMA_NOS, MphConstants.CARCINOMA_SPECIFIC))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (differentCategory(hist1, hist2, MphConstants._ADENOCARCINOMA_NOS, MphConstants._ADENOCARCINOMA_SPECIFIC))
+                        else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.ADENOCARCINOMA_NOS, MphConstants.ADENOCARCINOMA_SPECIFIC))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (differentCategory(hist1, hist2, MphConstants._MELANOMA_NOS, MphConstants._MELANOMA_SPECIFIC))
+                        else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.MELANOMA_NOS, MphConstants.MELANOMA_SPECIFIC))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (differentCategory(hist1, hist2, MphConstants._SARCOMA_NOS, MphConstants._SARCOMA_SPECIFIC))
+                        else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.SARCOMA_NOS, MphConstants.SARCOMA_SPECIFIC))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if ((site1.startsWith(MphConstants._COLON) || MphConstants._RECTUM.equals(site1)) && (site2.startsWith(MphConstants._COLON) || MphConstants._RECTUM.equals(site2))
-                                && MphConstants._FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
+                        else if ((site1.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site1)) && (site2.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site2))
+                                && MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (MphConstants._THYROID.equals(site1) && MphConstants._THYROID.equals(site2) && (MphConstants._FOLLICULAR.contains(hist1) || MphConstants._PAPILLARY.contains(hist1))
-                                && (MphConstants._FOLLICULAR.contains(hist2) || MphConstants._PAPILLARY.contains(hist2)))
+                        else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(hist1) || MphConstants.PAPILLARY.contains(hist1))
+                                && (MphConstants.FOLLICULAR.contains(hist2) || MphConstants.PAPILLARY.contains(hist2)))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (MphConstants._BLADDER.equals(site1) && MphConstants._BLADDER.equals(site2) && (MphConstants._PAPILLARY_CARCINOMA.equals(hist1)
-                                || MphConstants._TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants._PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (
-                                MphConstants._PAPILLARY_CARCINOMA.equals(hist2) || MphConstants._TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants._PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
+                        else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && (MphConstants.PAPILLARY_CARCINOMA.equals(hist1)
+                                || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (
+                                MphConstants.PAPILLARY_CARCINOMA.equals(hist2) || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
                                         .contains(hist2)))
                             this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                        else if (MphConstants._BREAST.equals(site1) && MphConstants._BREAST.equals(site2)) {
-                            if ((MphConstants._DUCT_CARCINOMA.contains(hist1) || MphConstants._LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants._DUCT_CARCINOMA.contains(hist2)
-                                    || MphConstants._LOBULAR_CARCINOMA.contains(hist2)))
+                        else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST)) {
+                            if ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
+                                    || MphConstants.LOBULAR_CARCINOMA.contains(hist2)))
                                 this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                            else if ((MphConstants._PAGET_DISEASE.contains(hist1) || MphConstants._DUCT_CARCINOMA.contains(hist1) || MphConstants._INTRADUCTAL_CARCINOMA.contains(hist1)) && (
-                                    MphConstants._PAGET_DISEASE.contains(hist2) || MphConstants._DUCT_CARCINOMA.contains(hist2) || MphConstants._INTRADUCTAL_CARCINOMA.contains(hist2)))
+                            else if ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
+                                    MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
                                 this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
                         }
                     }
@@ -266,15 +270,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 7
-        rule = new MphRule("solid-malignant-2004", "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
-                int daysApart = verifyDaysApart(i1, i2, 60);
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1 && isPairedSite(site1) && isPairedSite(site2)) {
-                    if (!Arrays.asList("1", "2").containsAll(Arrays.asList(lat1, lat2))) {
+                    if (!GroupUtility.validLaterality(lat1, lat2)) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         if (daysApart == -1)
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
@@ -285,7 +289,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
-                    else if (!lat1.equals(lat2))
+                    else if (GroupUtility.areOppositeSides(lat1, lat2))
                         result.setResult(MphUtils.RuleResult.TRUE);
                 }
                 return result;
@@ -297,13 +301,13 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 8
-        rule = new MphRule("solid-malignant-2004", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 result.setResult(MphUtils.RuleResult.FALSE);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                int daysApart = verifyDaysApart(i1, i2, 60);
+                int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 0) {
                     if (daysApart == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
@@ -319,7 +323,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 9
-        rule = new MphRule("solid-malignant-2004", "M9", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M9", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -335,7 +339,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 10
-        rule = new MphRule("solid-malignant-2004", "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
@@ -349,55 +353,23 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
     }
 
     private boolean isSameSite(String site1, String site2) {
-        List<String> exactMatches = Arrays.asList("C18", "C21", "C38", "C40", "C41", "C44", "C47", "C49");
-        String s1 = site1.substring(0, 3), s2 = site2.substring(0, 3);
-        if (site1.equals(site2))
-            return true;
-        else if (s1.equals(s2) && !exactMatches.contains(s1) && !exactMatches.contains(s2))
-            return true;
-        else if (Arrays.asList("C01", "C02").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C05", "C06").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C07", "C08").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C09", "C10").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C12", "C13").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C23", "C24").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C30", "C31").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C33", "C34").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C37", "C38").containsAll(Arrays.asList(s1, s2)) && !"C384".equals(site1) && !"C384".equals(site2))
-            return true;
-        else if ((Arrays.asList("C51", "C52").contains(s1) || Arrays.asList("C577", "C578", "C579").contains(site1)) &&
-                (Arrays.asList("C51", "C52").contains(s2) || Arrays.asList("C577", "C578", "C579").contains(site2)))
-            return true;
-        else if (("C56".equals(s1) || Arrays.asList("C570", "C571", "C572", "C573", "C574").contains(site1)) &&
-                ("C56".equals(s2) || Arrays.asList("C570", "C571", "C572", "C573", "C574").contains(site2)))
-            return true;
-        else if (Arrays.asList("C60", "C63").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C64", "C65", "C66", "C68").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else if (Arrays.asList("C74", "C75").containsAll(Arrays.asList(s1, s2)))
-            return true;
-        else
-            return false;
 
+        String s1 = site1.substring(0, 3), s2 = site2.substring(0, 3);
+        return site1.equals(site2) || (s1.equals(s2) && !MphConstants.EXACT_MATCH_SITES.contains(s1)) || MphConstants.TONGUE.containsAll(Arrays.asList(s1, s2)) || MphConstants.MOUTH.containsAll(
+                Arrays.asList(s1, s2)) || MphConstants.SALIVARY.containsAll(Arrays.asList(s1, s2)) || MphConstants.OROPHARYNX.containsAll(Arrays.asList(s1, s2)) || MphConstants.HYPOPHARYNX
+                .containsAll(Arrays.asList(s1, s2)) || MphConstants.BILIARY.containsAll(Arrays.asList(s1, s2)) || MphConstants.SINUS.containsAll(Arrays.asList(s1, s2)) || MphConstants.LUNG
+                .containsAll(Arrays.asList(s1, s2)) || (GroupUtility.isSiteContained(MphConstants.MEDIASTINUM, site1) && GroupUtility.isSiteContained(MphConstants.MEDIASTINUM, site2)) || (
+                GroupUtility.isSiteContained(MphConstants.FEMALE_GENITAL, site1) && GroupUtility.isSiteContained(MphConstants.FEMALE_GENITAL, site2)) || (GroupUtility.isSiteContained(
+                MphConstants.OVARY_OR_FEMALE_GENITAL, site1) && GroupUtility.isSiteContained(MphConstants.OVARY_OR_FEMALE_GENITAL, site2)) || MphConstants.MALE_GENITAL.containsAll(
+                Arrays.asList(s1, s2)) || MphConstants.KIDNEY_OR_URINARY.containsAll(Arrays.asList(s1, s2)) || MphConstants.ENDOCRINE.containsAll(Arrays.asList(s1, s2));
     }
 
     private boolean isSameHistology(String hist1, String hist2) {
-        return hist1.substring(0, 3).equals(hist2.substring(0, 3)) && !differentCategory(hist1, hist2, Collections.singletonList("8046"), expandList(Collections.singletonList("8041-8045")));
+        return hist1.substring(0, 3).equals(hist2.substring(0, 3)) && !GroupUtility.differentCategory(hist1, hist2, MphConstants.SMALL_CELL_CARCINOMA, MphConstants.NON_SMALL_CELL_CARCINOMA);
     }
 
     private boolean isPairedSite(String site) {
-        String paired =
-                "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";
-        return isContained(computeRange(paired, true), Integer.valueOf(site.substring(1)));
+        return GroupUtility.isSiteContained(MphConstants.ALL_PAIRED_SITES, site);
     }
 
 }

@@ -33,7 +33,7 @@ public class HematoDbLab {
         CSVWriter transformToWriter = new CSVWriter(new FileWriter(transformToFile));
         CSVWriter transformFromWriter = new CSVWriter(new FileWriter(transformFromFile));
 
-        String key = "ENTER YOUR KEY HERE";
+        String key = "ENTER YOUR API KEY HERE";
         SeerApi api = new SeerApi.Builder().apiKey(key).connect();
         List<Disease> allDiseases = new ArrayList<>();
         int total, previousTotal = 0, offset = 0;

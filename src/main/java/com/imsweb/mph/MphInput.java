@@ -5,6 +5,8 @@ package com.imsweb.mph;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.imsweb.mph.mpgroups.GroupUtility;
+
 public class MphInput {
 
     private String _primarySite;
@@ -54,12 +56,12 @@ public class MphInput {
 
     public String getHistology() {
         int year = NumberUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
-        return year < 2001 && MphUtils.validateHistology(_histologyIcdO2) ? _histologyIcdO2 : _histologyIcdO3;
+        return year < 2001 && GroupUtility.validateHistology(_histologyIcdO2) ? _histologyIcdO2 : _histologyIcdO3;
     }
 
     public String getBehavior() {
         int year = NumberUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
-        return year < 2001 && MphUtils.validateBehavior(_behaviorIcdO2) ? _behaviorIcdO2 : _behaviorIcdO3;
+        return year < 2001 && GroupUtility.validateBehavior(_behaviorIcdO2) ? _behaviorIcdO2 : _behaviorIcdO3;
     }
 
     public String getLaterality() {

@@ -11,6 +11,7 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -23,10 +24,9 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     private static List<String[]> _2001_HEMATOPOIETIC_GROUP_PAIRS = new ArrayList<>();
 
     public Mp2001HematopoieticGroup() {
-        super("hematopoietic-2001", "Hematopoietic 2001", "C000-C809", null, "9590-9989", null, "2-3,6", "2001-2009");
+        super(MphConstants.MP_2001_HEMATO_GROUP_ID, MphConstants.MP_2001_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2001-2009");
 
-        // If the two histologies are considered same primary
-        MphRule rule = new MphRule("hematopoietic-2001", "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 initializeLookups();
@@ -46,7 +46,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                 }
                 //If we found both groups, let's check if they are same primaries
                 if (group1 != null && group2 != null) {
-                    int laterDx = compareDxDate(i1, i2);
+                    int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (laterDx == -1) {
                         result.setResult(MphUtils.RuleResult.UNKNOWN);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
@@ -65,7 +65,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    protected static synchronized void initializeLookups() {
+    private static synchronized void initializeLookups() {
         if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
             try {
                 Reader reader = new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv"), "US-ASCII");

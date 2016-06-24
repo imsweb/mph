@@ -5,31 +5,13 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.Range;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.joda.time.Days;
-import org.joda.time.LocalDate;
-import org.joda.time.Years;
+
+import com.imsweb.mph.mpgroups.GroupUtility;
 
 public abstract class MphGroup {
-
-    // List of specific histologies for a given NOS, this list is used in few of the groups
-    private static final Map<String, String> _NOS_VS_SPECIFIC_MAP = new HashMap<>();
-
-    static {
-        _NOS_VS_SPECIFIC_MAP.put("8000", "8001, 8002, 8003, 8004, 8005"); //Cancer/malignant neoplasm, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8010", "8011, 8012, 8013, 8014, 8015"); //Carcinoma, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8140", "8141, 8142, 8143, 8144, 8145, 8147, 8148"); //Adenocarcinoma, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8070", "8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8080, 8081, 8082, 8083, 8084, 8094, 8323"); //Squamous cell carcinoma, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8720", "8721, 8722, 8723, 8726, 8728, 8730, 8740, 8741, 8742, 8743, 8744, 9745, 8746, 8761, 8770, 8771, 8772, 8773, 8774, 8780"); //Melanoma, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8800", "8801. 8802, 8803, 8804, 8805, 8806"); //Sarcoma, NOS
-        _NOS_VS_SPECIFIC_MAP.put("8312", "8313, 8314, 8315, 8316, 8317, 8318, 8319, 8320"); //Renal cell carcinoma, NOS
-    }
 
     protected String _id;
 
@@ -73,12 +55,12 @@ public abstract class MphGroup {
         _rules = new ArrayList<>();
 
         // compute the raw inclusions/exclusions into ranges
-        _siteIncRanges = computeRange(siteInclusions, true);
-        _siteExcRanges = computeRange(siteExclusions, true);
-        _histIncRanges = computeRange(histInclusions, false);
-        _histExcRanges = computeRange(histExclusions, false);
-        _behavIncRanges = computeRange(behavInclusions, false);
-        _yearIncRanges = computeRange(yearInclusions, false);
+        _siteIncRanges = GroupUtility.computeRange(siteInclusions, true);
+        _siteExcRanges = GroupUtility.computeRange(siteExclusions, true);
+        _histIncRanges = GroupUtility.computeRange(histInclusions, false);
+        _histExcRanges = GroupUtility.computeRange(histExclusions, false);
+        _behavIncRanges = GroupUtility.computeRange(behavInclusions, false);
+        _yearIncRanges = GroupUtility.computeRange(yearInclusions, false);
     }
 
     public String getId() {
@@ -114,11 +96,11 @@ public abstract class MphGroup {
     }
 
     public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
-        if (!MphUtils.validateProperties(primarySite, histology, behavior, year))
+        if (!GroupUtility.validateProperties(primarySite, histology, behavior, year))
             return false;
 
         //Check behavior and diagnosis year
-        if (!isContained(_behavIncRanges, Integer.parseInt(behavior)) || !isContained(_yearIncRanges, year))
+        if (!GroupUtility.isContained(_behavIncRanges, Integer.parseInt(behavior)) || !GroupUtility.isContained(_yearIncRanges, year))
             return false;
 
         boolean siteOk, histOk = false;
@@ -127,78 +109,19 @@ public abstract class MphGroup {
 
         // check site
         if (_siteIncRanges != null)
-            siteOk = isContained(_siteIncRanges, site);
+            siteOk = GroupUtility.isContained(_siteIncRanges, site);
         else
-            siteOk = _siteExcRanges == null || !isContained(_siteExcRanges, site);
+            siteOk = _siteExcRanges == null || !GroupUtility.isContained(_siteExcRanges, site);
 
         // check histology (only if site matched)
         if (siteOk) {
             if (_histIncRanges != null)
-                histOk = isContained(_histIncRanges, hist);
+                histOk = GroupUtility.isContained(_histIncRanges, hist);
             else
-                histOk = _histExcRanges == null || !isContained(_histExcRanges, hist);
+                histOk = _histExcRanges == null || !GroupUtility.isContained(_histExcRanges, hist);
         }
 
         return siteOk && histOk;
-    }
-
-    protected boolean isContained(List<Range<Integer>> list, Integer value) {
-        for (Range<Integer> range : list)
-            if (range.contains(value))
-                return true;
-        return false;
-    }
-
-    protected List<Range<Integer>> computeRange(String rawValue, boolean isSite) {
-        if (rawValue == null)
-            return null;
-
-        List<Range<Integer>> result = new ArrayList<>();
-
-        for (String item : StringUtils.split(rawValue, ',')) {
-            String[] parts = StringUtils.split(item.trim(), '-');
-            if (parts.length == 1) {
-                if (isSite)
-                    result.add(Range.is(Integer.parseInt(parts[0].substring(1))));
-                else
-                    result.add(Range.is(Integer.parseInt(parts[0])));
-            }
-            else {
-                if (isSite)
-                    result.add(Range.between(Integer.parseInt(parts[0].substring(1)), Integer.parseInt(parts[1].substring(1))));
-                else
-                    result.add(Range.between(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
-            }
-        }
-
-        return result;
-    }
-
-    //This method is to expand lists with range. Invalid ranges will cause exception
-    public static List<String> expandList(List<String> list) {
-        List<String> result = new ArrayList<>();
-        if (list == null || list.isEmpty())
-            return null;
-        for (String item : list) {
-            String[] ranges = StringUtils.split(item.trim(), ',');
-            for (String range : ranges) {
-                String[] parts = StringUtils.split(range.trim(), '-');
-                if (parts.length <= 1)
-                    result.add(range);
-                else {
-                    Integer start = Integer.valueOf(parts[0]);
-                    Integer end = Integer.valueOf(parts[1]);
-                    while (start <= end) {
-                        result.add(String.valueOf(start++));
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    protected Map<String, String> getNosVsSpecificMap() {
-        return Collections.unmodifiableMap(_NOS_VS_SPECIFIC_MAP);
     }
 
     @Override
@@ -221,9 +144,6 @@ public abstract class MphGroup {
         return _id.hashCode();
     }
 
-    /* *********************************************************************************************************************
-     * ***************************   COMMON RULES USED IN MOST OF THE GROUPS       ****************************************
-     * *********************************************************************************************************************/
     public static class MphRuleHistologyCode extends MphRule {
 
         public MphRuleHistologyCode(String groupId, String step) {
@@ -272,16 +192,16 @@ public abstract class MphGroup {
         public MphRuleResult apply(MphInput i1, MphInput i2) {
             MphRuleResult result = new MphRuleResult();
             String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-            if (!differentCategory(beh1, beh2, Collections.singletonList("2"), Collections.singletonList("3"))) {
+            if (!GroupUtility.differentCategory(beh1, beh2, Collections.singletonList("2"), Collections.singletonList("3"))) {
                 result.setResult(MphUtils.RuleResult.FALSE);
                 return result;
             }
-            int latestDx = compareDxDate(i1, i2);
+            int latestDx = GroupUtility.compareDxDate(i1, i2);
             //If they are diagnosed at same date or invasive is not following insitu
             if (0 == latestDx || (1 == latestDx && (!"3".equals(beh1) || !"2".equals(beh2))) || (2 == latestDx && (!"3".equals(beh2) || !"2".equals(beh1))))
                 result.setResult(MphUtils.RuleResult.FALSE);
             else {
-                int sixtyDaysApart = verifyDaysApart(i1, i2, 60);
+                int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == sixtyDaysApart) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
@@ -308,7 +228,7 @@ public abstract class MphGroup {
         @Override
         public MphRuleResult apply(MphInput i1, MphInput i2) {
             MphRuleResult result = new MphRuleResult();
-            int diff = verifyYearsApart(i1, i2, 5);
+            int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
             if (-1 == diff) {
                 result.setResult(MphUtils.RuleResult.UNKNOWN);
                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
@@ -335,188 +255,4 @@ public abstract class MphGroup {
             return result;
         }
     }
-
-    /* *********************************************************************************************************************
-     * ***************************   HELPER METHODS USED IN MOST OF THE GROUPS      ****************************************
-     * *********************************************************************************************************************/
-
-    //helper method, checks if one property belongs to some category and the other to different category
-    public static boolean differentCategory(String prop1, String prop2, List<String> cat1, List<String> cat2) {
-        return !(cat1 == null || cat2 == null || cat1.isEmpty() || cat2.isEmpty()) && ((cat1.contains(prop1) && cat2.contains(prop2)) || (cat1.contains(prop2) && cat2.contains(prop1)));
-    }
-
-    //helper method, checks which tumor is diagnosed later. It returns 1 (if tumor 1 is diagnosed after tumor 2),
-    //2 (if tumor 2 is diagnosed after tumor 1), 0 (if the diagnosis takes at the same day) or -1 (if there is insufficient information e.g if both year is 2007, but month and day is unknown);
-    public static int compareDxDate(MphInput input1, MphInput input2) {
-        int tumor1 = 1, tumor2 = 2, sameDay = 0, unknown = -1;
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
-        //If year is missing or in the future, return unknown
-        int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
-        else if (year1 > year2)
-            return tumor1;
-        else if (year2 > year1)
-            return tumor2;
-
-        if (month1 == 99)
-            day1 = 99;
-        if (month2 == 99)
-            day2 = 99;
-        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-        try {
-            new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-        }
-        catch (Exception e) {
-            day1 = 99;
-            if (month1 < 1 || month1 > 12)
-                month1 = 99;
-        }
-
-        try {
-            new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-        }
-        catch (Exception e) {
-            day2 = 99;
-            if (month2 < 1 || month2 > 12)
-                month2 = 99;
-        }
-
-        if (month1 == 99 || month2 == 99)
-            return unknown;
-        else if (month1 > month2)
-            return tumor1;
-        else if (month2 > month1)
-            return tumor2;
-        else if (day1 == 99 || day2 == 99)
-            return unknown;
-        else if (day1 > day2)
-            return tumor1;
-        else if (day2 > day1)
-            return tumor2;
-        else
-            return sameDay;
-    }
-
-    //checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
-    public static int verifyYearsApart(MphInput input1, MphInput input2, int yearsApart) {
-        int yes = 1, no = 0, unknown = -1;
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
-        //If year is missing or in the future, return unknown
-        int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
-        else if (Math.abs(year1 - year2) > yearsApart)
-            return yes;
-        else if (Math.abs(year1 - year2) < yearsApart)
-            return no;
-        else {
-            //if month is missing, set day to 99
-            if (month1 == 99)
-                day1 = 99;
-            if (month2 == 99)
-                day2 = 99;
-            //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-            try {
-                new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-            }
-            catch (Exception e) {
-                day1 = 99;
-                if (month1 < 1 || month1 > 12)
-                    month1 = 99;
-            }
-
-            try {
-                new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-            }
-            catch (Exception e) {
-                day2 = 99;
-                if (month2 < 1 || month2 > 12)
-                    month2 = 99;
-            }
-
-            if (month1 == 99 || month2 == 99)
-                return unknown;
-            else if ((year1 > year2 && month1 > month2) || (year2 > year1 && month2 > month1))
-                return yes;
-            else if ((year1 > year2 && month1 < month2) || (year2 > year1 && month2 < month1))
-                return no;
-            else if (day1 == 99 || day2 == 99)
-                return unknown;
-            else
-                return Math.abs(Years.yearsBetween(new LocalDate(year1, month1, day1), new LocalDate(year2, month2, day2)).getYears()) >= yearsApart ? yes : no;
-        }
-    }
-
-    //helper method, checks whether two diagnosis dates are with in or apart certain days
-    //It returns 1 (if 2 diagnosis dates are certain days apart),
-    //0 (if 2 diagnosis dates are with in certain days) or -1 (if there is insufficient information);
-    public static int verifyDaysApart(MphInput input1, MphInput input2, int days) {
-        int unknown = -1, apart = 1, within = 0;
-        int latestDx = compareDxDate(input1, input2);
-        if (latestDx == 0)
-            return within;
-
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        //If year is missing or in the future, return unknown
-        int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
-
-        int minDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, true);
-        int maxDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, false);
-        if (latestDx == 2) {
-            minDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, true);
-            maxDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, false);
-        }
-
-        if (minDaysInBetween > days)
-            return apart;
-        else if (maxDaysInBetween <= days)
-            return within;
-        else
-            return unknown;
-    }
-
-    //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum
-    private static int daysInBetween(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay, boolean minimum) {
-        LocalDate startDateMin = new LocalDate(startYr, 1, 1);
-        LocalDate startDateMax = new LocalDate(startYr, 12, 31);
-        LocalDate endDateMin = new LocalDate(endYr, 1, 1);
-        LocalDate endDateMax = new LocalDate(endYr, 12, 31);
-        if (startDay != 99) {
-            startDateMin = new LocalDate(startYr, startMon, startDay);
-            startDateMax = new LocalDate(startYr, startMon, startDay);
-        }
-        else if (startMon != 99) {
-            startDateMin = new LocalDate(startYr, startMon, 1);
-            startDateMax = startDateMin.dayOfMonth().withMaximumValue();
-        }
-        if (endDay != 99) {
-            endDateMin = new LocalDate(endYr, endMon, endDay);
-            endDateMax = new LocalDate(endYr, endMon, endDay);
-        }
-        else if (endMon != 99) {
-            endDateMin = new LocalDate(endYr, endMon, 1);
-            endDateMax = endDateMin.dayOfMonth().withMaximumValue();
-        }
-
-        return minimum ? Days.daysBetween(startDateMax, endDateMin).getDays() : Days.daysBetween(startDateMin, endDateMax).getDays();
-    }
-
 }

@@ -21,14 +21,14 @@ import com.imsweb.mph.internal.HematoDbDTO;
  * This is a default hemato db utils provider which uses seer-api to determine whether two morphologies are same primary, transform to or transform from according to
  * hematopoietic and lymphoid neoplasm database.
  */
-public class DefaultHematoDbUtilsProviderTemp implements HematoDbUtilsProviderTemp {
+public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
 
     private Map<String, List<HematoDbDTO>> _samePrimaryDto = new HashMap<>();
     private Map<String, List<HematoDbDTO>> _transformToDto = new HashMap<>();
     private Map<String, List<HematoDbDTO>> _transformFromDto = new HashMap<>();
     private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
-    public DefaultHematoDbUtilsProviderTemp() {
+    public DefaultHematoDbUtilsProvider() {
         if (_samePrimaryDto.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
                 Reader reader = new InputStreamReader(is, "US-ASCII");

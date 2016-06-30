@@ -6,9 +6,9 @@ package com.imsweb.mph;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DefaultHematoDbUtilsProviderTempTest {
+public class DefaultHematoDbUtilsProviderTest {
 
-    private DefaultHematoDbUtilsProviderTemp _provider = new DefaultHematoDbUtilsProviderTemp();
+    private DefaultHematoDbUtilsProvider _provider = new DefaultHematoDbUtilsProvider();
 
     @Test
     public void testIsSamePrimary() {

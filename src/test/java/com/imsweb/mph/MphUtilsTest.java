@@ -30,7 +30,7 @@ public class MphUtilsTest {
 
     @BeforeClass
     public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDbUtilsProviderTemp());
+        MphUtils.initialize(new DefaultHematoDbUtilsProvider());
     }
 
     @Test

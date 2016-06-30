@@ -44,12 +44,12 @@ import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 public class MphUtils {
 
     private static MphUtils _UTILS = null;
-    private HematoDbUtilsProviderTemp _provider = null;
+    private HematoDbUtilsProvider _provider = null;
     private List<MphGroup> _groups = new ArrayList<>();
 
-    public synchronized static void initialize(HematoDbUtilsProviderTemp provider) {
+    public synchronized static void initialize(HematoDbUtilsProvider provider) {
         if (provider == null)
-            throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProviderTemp class.");
+            throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProvider class.");
         _UTILS = new MphUtils(provider);
     }
 
@@ -59,7 +59,7 @@ public class MphUtils {
         return _UTILS;
     }
 
-    private MphUtils(HematoDbUtilsProviderTemp provider) {
+    private MphUtils(HematoDbUtilsProvider provider) {
         _provider = provider;
         _groups.add(new Mp2007HeadAndNeckGroup());
         _groups.add(new Mp2007ColonGroup());
@@ -170,7 +170,7 @@ public class MphUtils {
         return output;
     }
 
-    public HematoDbUtilsProviderTemp getProvider() {
+    public HematoDbUtilsProvider getProvider() {
         return _provider;
     }
 

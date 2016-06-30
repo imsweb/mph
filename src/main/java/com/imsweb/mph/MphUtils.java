@@ -47,13 +47,13 @@ public class MphUtils {
     private HematoDbUtilsProvider _provider = null;
     private List<MphGroup> _groups = new ArrayList<>();
 
-    public synchronized static void initialize(HematoDbUtilsProvider provider) {
+    public static synchronized void initialize(HematoDbUtilsProvider provider) {
         if (provider == null)
             throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProvider class.");
         _UTILS = new MphUtils(provider);
     }
 
-    public synchronized static MphUtils getInstance() {
+    public static synchronized MphUtils getInstance() {
         if (_UTILS == null)
             throw new RuntimeException("Please initialize the class with a Hemato Db Utils Provider.");
         return _UTILS;

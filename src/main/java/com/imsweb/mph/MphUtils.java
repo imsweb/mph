@@ -4,40 +4,79 @@
 package com.imsweb.mph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
-import com.imsweb.mph.group.MphGroupBenignBrain;
-import com.imsweb.mph.group.MphGroupBreast;
-import com.imsweb.mph.group.MphGroupColon;
-import com.imsweb.mph.group.MphGroupHeadAndNeck;
-import com.imsweb.mph.group.MphGroupKidney;
-import com.imsweb.mph.group.MphGroupLung;
-import com.imsweb.mph.group.MphGroupMalignantBrain;
-import com.imsweb.mph.group.MphGroupMelanoma;
-import com.imsweb.mph.group.MphGroupOtherSites;
-import com.imsweb.mph.group.MphGroupUrinary;
+import com.imsweb.mph.mpgroups.GroupUtility;
+import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2004BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2004SolidMalignantGroup;
+import com.imsweb.mph.mpgroups.Mp2007BenignBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2007ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2007LungGroup;
+import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
+import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
+import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
+import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 
 /**
- * This class is used to determine whether two tumors are single or multiple primaries. More information can be found here:
- * <a href="http://www.seer.cancer.gov/tools/mphrules">http://www.seer.cancer.gov/tools/mphrules</a>
+ * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
+ * <a href="http://seer.cancer.gov/archive/manuals/codeman.pdf">SEER 1998 multiple primary rules for hematopoietic cancer</a>
  * <br/><br/>
- * This Java implementation is based on the the PDF documentation provided on the above website.
+ * <a href="http://training.seer.cancer.gov/hemat/">SEER 2001 multiple primary rules for hematopoietic cancer</a>
+ * <br/><br/>
+ * <a href="http://seer.cancer.gov/tools/heme/Hematopoietic_Instructions_and_Rules.pdf">SEER multiple primary rules for hematopoietic cancer for cases diagnosed in 2010 and later</a>
+ * <br/><br/>
+ * <a href="http://seer.cancer.gov/archive/manuals/2004Revision1/SPM_2004_maindoc.r1.pdf">SEER 2004 multiple primary rules</a>
+ * <br/><br/>
+ * <a href="http://www.seer.cancer.gov/tools/mphrules">SEER 2007 multiple primary rules</a>
+ * <br/><br/>
+ * This Java implementation is based on the the documentation provided on the above websites.
  * Created in December 2013 by Sewbesew Bekele
  */
 public class MphUtils {
 
-    public static final String PROP_PRIMARY_SITE = "primarySite";
-    public static final String PROP_HISTOLOGY_ICDO3 = "histologyIcdO3";
-    public static final String PROP_BEHAVIOR_ICDO3 = "behaviorIcdO3";
-    public static final String PROP_LATERALITY = "laterality";
-    public static final String PROP_DX_YEAR = "dateOfDiagnosisYear";
-    public static final String PROP_DX_MONTH = "dateOfDiagnosisMonth";
-    public static final String PROP_DX_DAY = "dateOfDiagnosisDay";
+    private static MphUtils _UTILS = null;
+    private HematoDbUtilsProvider _provider = null;
+    private List<MphGroup> _groups = new ArrayList<>();
+
+    public static synchronized void initialize(HematoDbUtilsProvider provider) {
+        if (provider == null)
+            throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProvider class.");
+        _UTILS = new MphUtils(provider);
+    }
+
+    public static synchronized MphUtils getInstance() {
+        if (_UTILS == null)
+            throw new RuntimeException("Please initialize the class with a Hemato Db Utils Provider.");
+        return _UTILS;
+    }
+
+    private MphUtils(HematoDbUtilsProvider provider) {
+        _provider = provider;
+        _groups.add(new Mp2007HeadAndNeckGroup());
+        _groups.add(new Mp2007ColonGroup());
+        _groups.add(new Mp2007LungGroup());
+        _groups.add(new Mp2007MelanomaGroup());
+        _groups.add(new Mp2007BreastGroup());
+        _groups.add(new Mp2007KidneyGroup());
+        _groups.add(new Mp2007UrinaryGroup());
+        _groups.add(new Mp2007BenignBrainGroup());
+        _groups.add(new Mp2007MalignantBrainGroup());
+        _groups.add(new Mp2007OtherSitesGroup());
+        _groups.add(new Mp1998HematopoieticGroup());
+        _groups.add(new Mp2001HematopoieticGroup());
+        _groups.add(new Mp2010HematopoieticGroup());
+        _groups.add(new Mp2004BenignBrainGroup());
+        _groups.add(new Mp2004SolidMalignantGroup());
+    }
 
     //when we apply the rule, it might be true, false or unknown if we don't have enough information.
     public enum RuleResult {
@@ -46,64 +85,7 @@ public class MphUtils {
 
     //Based on the applied rule results, we would say two tumors are single or multiple primary or questionable if we don't have enough information.
     public enum MPResult {
-        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE, NOT_APPLICABLE
-    }
-
-    private static List<MphGroup> _GROUPS = new ArrayList<>();
-
-    static {
-        _GROUPS.add(new MphGroupHeadAndNeck());
-        _GROUPS.add(new MphGroupColon());
-        _GROUPS.add(new MphGroupLung());
-        _GROUPS.add(new MphGroupMelanoma());
-        _GROUPS.add(new MphGroupBreast());
-        _GROUPS.add(new MphGroupKidney());
-        _GROUPS.add(new MphGroupUrinary());
-        _GROUPS.add(new MphGroupBenignBrain());
-        _GROUPS.add(new MphGroupMalignantBrain());
-        _GROUPS.add(new MphGroupOtherSites());
-    }
-
-    /**
-     * Determines whether two records of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
-     * <br/><br/>
-     * The provided record doesn't need to contain all the input variables, but the algorithm will use the following ones:
-     * <ul>
-     * <li>primarySite (#400)</li>
-     * <li>histologyIcdO3 (#522)</li>
-     * <li>behaviorIcdO3 (#523)</li>
-     * <li>laterality (#410)</li>
-     * <li>dateOfDiagnosisYear (#390)</li>
-     * <li>dateOfDiagnosisMonth (#390)</li>
-     * <li>dateOfDiagnosisDay (#390)</li>
-     * </ul>
-     * <br/><br/>
-     * All those properties are defined as constants in this class.
-     * <br/><br/>
-     * @param record1 a map of properties representing a NAACCR line
-     * @param record2 a map of properties representing a NAACCR line
-     * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
-     */
-    public static MphOutput computePrimaries(Map<String, String> record1, Map<String, String> record2) {
-        MphInput input1 = new MphInput();
-        input1.setPrimarySite(record1.get(PROP_PRIMARY_SITE));
-        input1.setHistologyIcdO3(record1.get(PROP_HISTOLOGY_ICDO3));
-        input1.setBehaviorIcdO3(record1.get(PROP_BEHAVIOR_ICDO3));
-        input1.setLaterality(record1.get(PROP_LATERALITY));
-        input1.setDateOfDiagnosisYear(record1.get(PROP_DX_YEAR));
-        input1.setDateOfDiagnosisMonth(record1.get(PROP_DX_MONTH));
-        input1.setDateOfDiagnosisDay(record1.get(PROP_DX_DAY));
-
-        MphInput input2 = new MphInput();
-        input2.setPrimarySite(record2.get(PROP_PRIMARY_SITE));
-        input2.setHistologyIcdO3(record2.get(PROP_HISTOLOGY_ICDO3));
-        input2.setBehaviorIcdO3(record2.get(PROP_BEHAVIOR_ICDO3));
-        input2.setLaterality(record2.get(PROP_LATERALITY));
-        input2.setDateOfDiagnosisYear(record2.get(PROP_DX_YEAR));
-        input2.setDateOfDiagnosisMonth(record2.get(PROP_DX_MONTH));
-        input2.setDateOfDiagnosisDay(record2.get(PROP_DX_DAY));
-
-        return computePrimaries(input1, input2);
+        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
     }
 
     /**
@@ -112,13 +94,16 @@ public class MphUtils {
      * <br/><br/>
      * The provided record dto has the following parameters:
      * <ul>
-     * <li>_primarySite</li>
-     * <li>_histologyIcdO3</li>
-     * <li>_behaviorIcdO3</li>
-     * <li>_laterality/li>
-     * <li>_dateOfDiagnosisYear</li>
-     * <li>_dateOfDiagnosisMonth</li>
-     * <li>_dateOfDiagnosisDay</li>
+     * <li>primarySite (#400)</li>
+     * <li>histologyIcdO3 (#522)</li>
+     * <li>behaviorIcdO3 (#523)</li>
+     * <li>histologyIcdO2 (#420)</li>
+     * <li>behaviorIcdO2 (#430)</li>
+     * <li>laterality (#410)</li>
+     * <li>dateOfDiagnosisYear (#390)</li>
+     * <li>dateOfDiagnosisMonth (#390)</li>
+     * <li>dateOfDiagnosisDay (#390)</li>
+     * <li>rxSummTreatmentStatus (#1285)</li>
      * </ul>
      * <br/><br/>
      * All those properties are defined as constants in this class.
@@ -127,29 +112,33 @@ public class MphUtils {
      * @param input2 an input dto which has a list of parameters used in the calculation.
      * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
      */
-    public static MphOutput computePrimaries(MphInput input1, MphInput input2) {
+    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
         MphOutput output = new MphOutput();
 
-        //The rules are effective for cases diagnosed January 1, 2007 and after. Do not use these rules to abstract cases diagnosed prior to January 1, 2007.
-        String y1 = input1.getDateOfDiagnosisYear(), y2 = input2.getDateOfDiagnosisYear();
-        if (!NumberUtils.isDigits(y1) || Integer.parseInt(y1) < 2007 || Integer.parseInt(y1) == 9999 || !NumberUtils.isDigits(y2) || Integer.parseInt(y2) < 2007 || Integer.parseInt(y2) == 9999) {
-            output.setResult(MPResult.NOT_APPLICABLE);
-            output.setReason("The multiple primary rules are ONLY effective for cases diagnosed January 1, 2007 and after.");
+        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
+        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
+        String site1 = input1.getPrimarySite(), site2 = input2.getPrimarySite(), hist1 = input1.getHistology(), hist2 = input2.getHistology();
+        String beh1 = input1.getBehavior(), beh2 = input2.getBehavior();
+
+        if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
+            output.setResult(MPResult.QUESTIONABLE);
+            output.setReason(
+                    "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+            return output;
+        }
+        else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
+            output.setResult(MPResult.QUESTIONABLE);
+            output.setReason(
+                    "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
 
-        MphGroup group1 = findCancerGroup(input1.getPrimarySite(), input1.getHistologyIcdO3(), input1.getBehaviorIcdO3());
-        MphGroup group2 = findCancerGroup(input2.getPrimarySite(), input2.getHistologyIcdO3(), input2.getBehaviorIcdO3());
+        //calculate cancer group based on latest year
+        int latestYear = year1 > year2 ? year1 : year2;
+        MphGroup group1 = findCancerGroup(site1, hist1, beh1, latestYear);
+        MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
-        if (!validateProperties(input1.getPrimarySite(), input1.getHistologyIcdO3(), input1.getBehaviorIcdO3())) {
-            output.setResult(MPResult.QUESTIONABLE);
-            output.setReason("Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999) and behavior (0-3, 6) are required.");
-        }
-        else if (!validateProperties(input2.getPrimarySite(), input2.getHistologyIcdO3(), input2.getBehaviorIcdO3())) {
-            output.setResult(MPResult.QUESTIONABLE);
-            output.setReason("Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999) and behavior (0-3, 6) are required.");
-        }
-        else if (group1 == null) {
+        if (group1 == null) {
             output.setResult(MPResult.QUESTIONABLE);
             output.setReason("The first tumor provided does not belong to any of the cancer groups.");
         }
@@ -181,6 +170,10 @@ public class MphUtils {
         return output;
     }
 
+    public HematoDbUtilsProvider getProvider() {
+        return _provider;
+    }
+
     /**
      * Calculates the cancer group for the provided naaccr properties.
      * @param primarySite
@@ -188,11 +181,11 @@ public class MphUtils {
      * @param behavior
      * @return the computed cancer group
      */
-    public static MphGroup findCancerGroup(String primarySite, String histology, String behavior) {
-        if (!validateProperties(primarySite, histology, behavior))
+    public MphGroup findCancerGroup(String primarySite, String histology, String behavior, int year) {
+        if (!GroupUtility.validateProperties(primarySite, histology, behavior, year))
             return null;
-        for (MphGroup group : _GROUPS) {
-            if (group.isApplicable(primarySite, histology, behavior))
+        for (MphGroup group : getAllGroups()) {
+            if (group.isApplicable(primarySite, histology, behavior, year))
                 return group;
         }
         return null;
@@ -201,17 +194,7 @@ public class MphUtils {
     /**
      * @return the list of cancer groups.
      */
-    public static List<MphGroup> getAllGroups() {
-        return Collections.unmodifiableList(_GROUPS);
-    }
-
-    /**
-     * Validates the provided input's primary site, histology and behavior. These properties are required to determine the cancer group and used at least in one of the rules in each group.
-     */
-    public static boolean validateProperties(String primarySite, String histology, String behavior) {
-        if (primarySite == null || primarySite.length() != 4 || !primarySite.startsWith("C") || !NumberUtils.isDigits(primarySite.substring(1)) || "C809".equalsIgnoreCase(primarySite)
-                || histology == null || histology.length() != 4 || !NumberUtils.isDigits(histology) || Integer.parseInt(histology) < 8000)
-            return false;
-        return !(behavior == null || !Arrays.asList("0", "1", "2", "3", "6").contains(behavior));
+    public List<MphGroup> getAllGroups() {
+        return Collections.unmodifiableList(_groups);
     }
 }

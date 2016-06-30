@@ -20,6 +20,8 @@ repositories {
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'joda-time:joda-time:2.9.3'
+    compile 'au.com.bytecode:opencsv:2.4'
+    testCompile 'com.imsweb:seerapi-client-java:3.0'
     testCompile 'junit:junit:4.12'
 }
 

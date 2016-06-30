@@ -1,40 +1,34 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.List;
 
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupHeadAndNeck extends MphGroup {
+public class Mp2007HeadAndNeckGroup extends MphGroup {
 
-    public MphGroupHeadAndNeck() {
-        super("head-and-neck", "Head And Neck", "C000-C148, C300-C329", null, null, "9590-9989, 9140", Arrays.asList("2", "3", "6"));
+    public Mp2007HeadAndNeckGroup() {
+        super(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
-        MphRule rule = new MphRule("head-and-neck", "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
-                boolean isPairedSite = false;
-                for (String pairedSite : pairedSites) {
-                    if (isContained(computeRange(pairedSite, true), Integer.parseInt(i1.getPrimarySite().substring(1))) &&  isContained(computeRange(pairedSite, true), Integer.parseInt(i2.getPrimarySite().substring(1)))) {
-                        isPairedSite = true;
-                        break;
-                    }
-                }
-                if (!isPairedSite) {
+                if (!GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
                 }
-                else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
+                else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
                 }
@@ -49,12 +43,12 @@ public class MphGroupHeadAndNeck extends MphGroup {
         _rules.add(rule);
 
         //M4- Tumors on the upper lip (C000 or C003) and the lower lip (C001 or C004) are multiple primaries.
-        rule = new MphRule("head-and-neck", "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), Arrays.asList("C000", "C003"), Arrays.asList("C001",
-                        "C004")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(GroupUtility
+                        .differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP, MphConstants.LOWER_LIP) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -63,11 +57,13 @@ public class MphGroupHeadAndNeck extends MphGroup {
         _rules.add(rule);
 
         //M5- Tumors on the upper gum (C030) and the lower gum (C031) are multiple primaries.
-        rule = new MphRule("head-and-neck", "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), Arrays.asList("C030"), Arrays.asList("C031")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(
+                        GroupUtility
+                                .differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -76,11 +72,13 @@ public class MphGroupHeadAndNeck extends MphGroup {
         _rules.add(rule);
 
         //M6- Tumors in the nasal cavity (C300) and the middle ear (C301) are multiple primaries.
-        rule = new MphRule("head-and-neck", "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult(differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), Arrays.asList("C300"), Arrays.asList("C301")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(
+                        GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY,
+                                MphConstants.MIDDLE_EAR) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -89,26 +87,26 @@ public class MphGroupHeadAndNeck extends MphGroup {
         _rules.add(rule);
 
         //M7- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode("head-and-neck", "M7");
+        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M7");
         _rules.add(rule);
 
         //M8- An invasive tumor following an insitu tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior("head-and-neck", "M8");
+        rule = new MphRuleBehavior(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M8");
         _rules.add(rule);
 
         //M9- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        rule = new MphRuleDiagnosisDate("head-and-neck", "M9");
+        rule = new MphRuleDiagnosisDate(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M9");
         _rules.add(rule);
 
         //M10 - 
-        rule = new MphRule("head-and-neck", "M10", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M10", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8070", "8720", "8800");
-                if ((nosList.contains(hist1) && getNosVsSpecificMap().containsKey(hist1) && getNosVsSpecificMap().get(hist1).contains(hist2)) || (nosList.contains(hist2) && getNosVsSpecificMap().containsKey(
-                        hist2) && getNosVsSpecificMap().get(hist2).contains(hist1)))
+                if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
+                        && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -131,11 +129,11 @@ public class MphGroupHeadAndNeck extends MphGroup {
         _rules.add(rule);
 
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode("head-and-neck", "M11");
+        rule = new MphRuleHistologyCode(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M11");
         _rules.add(rule);
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("head-and-neck", "M12");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M12");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M12 have the same first 3 numbers in ICD-O-3 histology code.");
         rule.getExamples().add("Multifocal tumors in floor of mouth.");

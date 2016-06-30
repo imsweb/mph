@@ -1,33 +1,32 @@
 /*
  * Copyright (C) 2013 Information Management Services, Inc.
  */
-package com.imsweb.mph.group;
+package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
 
-public class MphGroupOtherSites extends MphGroup {
-
-    private static final List<String> _POLYP = MphGroup.expandList(Collections.singletonList("8210-8211,8213,8220-8221,8261-8263"));
+public class Mp2007OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
-    public MphGroupOtherSites() {
-        super("other-sites", "Other Sites", null, null, null, "9590-9989", Arrays.asList("2", "3", "6"));
+    public Mp2007OtherSitesGroup() {
+        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-9999");
 
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
-        MphRule rule = new MphRule("other-sites", "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                if ("C619".equalsIgnoreCase(i1.getPrimarySite()) && "C619".equalsIgnoreCase(i2.getPrimarySite()) && "8140".equals(i1.getHistologyIcdO3()) && "8140".equals(i2.getHistologyIcdO3()))
+                if (MphConstants.PROSTATE.equals(i1.getPrimarySite()) && MphConstants.PROSTATE.equals(i2.getPrimarySite()) && MphConstants.ADENOCARCINOMA_NOS.contains(i1.getHistology())
+                        && MphConstants.ADENOCARCINOMA_NOS.contains(i2.getHistology()))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -42,12 +41,11 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M4- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-        rule = new MphRule("other-sites", "M4", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M4", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
-                List<String> retinoBlastoma = Arrays.asList("9510", "9511", "9512", "9513");
                 MphRuleResult result = new MphRuleResult();
-                if (retinoBlastoma.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())))
+                if (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -59,11 +57,12 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M5- Kaposi sarcoma (any site or sites) is always a single primary.
-        rule = new MphRule("other-sites", "M5", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M5", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                result.setResult((i1.getHistologyIcdO3().equals("9140") && i2.getHistologyIcdO3().equals("9140")) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(
+                        (MphConstants.KAPOSI_SARCOMA.equals(i1.getHistology()) && MphConstants.KAPOSI_SARCOMA.equals(i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -71,18 +70,20 @@ public class MphGroupOtherSites extends MphGroup {
         rule.setReason("Kaposi sarcoma (any site or sites) is always a single primary.");
         _rules.add(rule);
 
-        //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary. (C739, 8340)
-        rule = new MphRule("other-sites", "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
+        //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
+                List<String> follicularAndPapillary = new ArrayList<>(MphConstants.FOLLICULAR);
+                follicularAndPapillary.addAll(MphConstants.PAPILLARY);
                 //If not thyroid follicular and papillary
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
-                if (!("C739".equals(site1) && "C739".equals(site2) && "8340".equals(hist1) && "8340".equals(hist2))) {
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                if (!(MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.contains(hist1) && follicularAndPapillary.contains(hist2))) {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
                 }
-                int diff = verify60DaysApart(i1, i2, false);
+                int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
@@ -97,16 +98,16 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
-        rule = new MphRule("other-sites", "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
-                if (!("C569".equals(site1) && "C569".equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799)) {
+                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                if (!(MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799)) {
                     result.setResult(MphUtils.RuleResult.FALSE);
                     return result;
                 }
-                int diff = verify60DaysApart(i1, i2, false);
+                int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
@@ -121,23 +122,16 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRule("other-sites", "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
                         "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
-                boolean isPairedSite = false;
-                for (String pairedSite : pairedSites) {
-                    if (isContained(computeRange(pairedSite, true), Integer.parseInt(i1.getPrimarySite().substring(1))) && isContained(computeRange(pairedSite, true),
-                            Integer.parseInt(i2.getPrimarySite().substring(1)))) {
-                        isPairedSite = true;
-                        break;
-                    }
-                }
-                if (!isPairedSite)
+
+                if (!GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites))
                     result.setResult(MphUtils.RuleResult.FALSE);
-                else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
+                else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of other-sites should be provided.");
                 }
@@ -153,14 +147,15 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        rule = new MphRule("other-sites", "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
-                List<String> sites = Arrays.asList("C180", "C181", "C182", "C183", "C184", "C185", "C186", "C187", "C188", "C189", "C199", "C209");
-                List<String> adenocarcinomaInAdenomatous = Collections.singletonList("8220");
                 MphRuleResult result = new MphRuleResult();
-                if (sites.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && ("3".equals(i1.getBehaviorIcdO3()) || "3".equals(i2.getBehaviorIcdO3())) &&
-                        MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinomaInAdenomatous, _POLYP))
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), s1 = i1.getPrimarySite().substring(0, 3), s2 = i2.getPrimarySite().substring(0, 3);
+                boolean isSiteInRange = (MphConstants.COLON.equals(s1) || MphConstants.RECTOSIGMOID.equals(site1) || MphConstants.RECTUM.equals(site1)) && (MphConstants.COLON.equals(s2)
+                        || MphConstants.RECTOSIGMOID.equals(site2) || MphConstants.RECTUM.equals(site2));
+                boolean isOneMalignant = MphConstants.MALIGNANT.equals(i1.getBehavior()) || MphConstants.MALIGNANT.equals(i2.getBehavior());
+                if (isSiteInRange && isOneMalignant && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS, MphConstants.POLYP))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -172,11 +167,11 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule("other-sites", "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                int diff = verifyYearsApart(i1, i2, 1);
+                int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (-1 == diff) {
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     result.setResult(MphUtils.RuleResult.UNKNOWN);
@@ -191,19 +186,19 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode("other-sites", "M11");
+        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M11");
         rule.getExamples().add("A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         _rules.add(rule);
 
         //M12 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Peripheral nerves and autonomic nervous system (C47_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
-        rule = new MphRule("other-sites", "M12", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M12", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
                 List<String> list = Arrays.asList("C21", "C40", "C41", "C47", "C49", "C44");
                 //primary sites should be the same at their 2nd and 3rd digit to pass M11, so if site 1 is in the list site 2 also is.
-                result.setResult((list.contains(i1.getPrimarySite().substring(0, 3).toUpperCase()) && i1.getPrimarySite().charAt(3) != i2.getPrimarySite().charAt(
+                result.setResult((list.contains(i1.getPrimarySite().substring(0, 3)) && i1.getPrimarySite().charAt(3) != i2.getPrimarySite().charAt(
                         3)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
@@ -223,16 +218,15 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M13 - A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
-        rule = new MphRule("other-sites", "M13", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M13", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                List<String> insituOrMalignant = Arrays.asList("2", "3");
-                List<String> adenocarcinoma = MphGroup.expandList(Collections.singletonList(
-                        "8140,8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,8200-8201,8210-8211,8214-8215,8220-8221,8230-8231,8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335,8337,8350,8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473,8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,8540-8543,8550-8551,8561-8562,8570-8576"));
-                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehaviorIcdO3(), i2.getBehaviorIcdO3())) &&
-                        !_POLYP.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3()))
-                        && MphGroup.differentCategory(i1.getHistologyIcdO3(), i2.getHistologyIcdO3(), adenocarcinoma, _POLYP))
+                List<String> insituOrMalignant = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
+                List<String> adenocarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
+                adenocarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
+                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehavior(), i2.getBehavior())) && !MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology()))
+                        && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, MphConstants.POLYP))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -244,12 +238,12 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M14 - Multiple in situ and/or malignant polyps are a single primary.
-        rule = new MphRule("other-sites", "M14", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M14", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                List<String> insituOrMalignant = Arrays.asList("2", "3");
-                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehaviorIcdO3(), i2.getBehaviorIcdO3())) && _POLYP.containsAll(Arrays.asList(i1.getHistologyIcdO3(), i2.getHistologyIcdO3())))
+                List<String> insituOrMalignant = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
+                if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehavior(), i2.getBehavior())) && MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -262,18 +256,18 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M15 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MphRuleBehavior("other-sites", "M15");
+        rule = new MphRuleBehavior(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M15");
         _rules.add(rule);
 
         //M16 -
-        rule = new MphRule("other-sites", "M16", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M16", MphUtils.MPResult.SINGLE_PRIMARY) {
             @Override
             public MphRuleResult apply(MphInput i1, MphInput i2) {
                 MphRuleResult result = new MphRuleResult();
-                String hist1 = i1.getHistologyIcdO3(), hist2 = i2.getHistologyIcdO3();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8070", "8140", "8720", "8800");
-                if ((nosList.contains(hist1) && getNosVsSpecificMap().containsKey(hist1) && getNosVsSpecificMap().get(hist1).contains(hist2)) || (nosList.contains(hist2) && getNosVsSpecificMap()
-                        .containsKey(hist2) && getNosVsSpecificMap().get(hist2).contains(hist1)))
+                if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
+                        && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
                     result.setResult(MphUtils.RuleResult.TRUE);
                 else
                     result.setResult(MphUtils.RuleResult.FALSE);
@@ -296,32 +290,33 @@ public class MphGroupOtherSites extends MphGroup {
         _rules.add(rule);
 
         //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode("other-sites", "M17");
+        rule = new MphRuleHistologyCode(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M17");
         _rules.add(rule);
 
         //M18- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied("other-sites", "M18");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M18");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }
 
     @Override
-    public boolean isApplicable(String primarySite, String histology, String behavior) {
-        if (isContained(computeRange(_histExclusions, false), Integer.parseInt(histology)) || !_behavInclusions.contains(behavior) || !MphUtils.validateProperties(primarySite, histology, behavior))
+    public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
+        if (GroupUtility.isContained(GroupUtility.computeRange(_histExclusions, false), Integer.parseInt(histology)) || !_behavInclusions.contains(behavior) || !GroupUtility.isContained(
+                GroupUtility.computeRange(_yearInclusions, false), year) || !GroupUtility.validateProperties(primarySite, histology, behavior, year))
             return false;
 
         List<MphGroup> specificGroups = new ArrayList<>();
-        specificGroups.add(new MphGroupHeadAndNeck());
-        specificGroups.add(new MphGroupColon());
-        specificGroups.add(new MphGroupLung());
-        specificGroups.add(new MphGroupMelanoma());
-        specificGroups.add(new MphGroupBreast());
-        specificGroups.add(new MphGroupKidney());
-        specificGroups.add(new MphGroupUrinary());
-        specificGroups.add(new MphGroupBenignBrain());
-        specificGroups.add(new MphGroupMalignantBrain());
+        specificGroups.add(new Mp2007HeadAndNeckGroup());
+        specificGroups.add(new Mp2007ColonGroup());
+        specificGroups.add(new Mp2007LungGroup());
+        specificGroups.add(new Mp2007MelanomaGroup());
+        specificGroups.add(new Mp2007BreastGroup());
+        specificGroups.add(new Mp2007KidneyGroup());
+        specificGroups.add(new Mp2007UrinaryGroup());
+        specificGroups.add(new Mp2007BenignBrainGroup());
+        specificGroups.add(new Mp2007MalignantBrainGroup());
         for (MphGroup group : specificGroups) {
-            if (group.isApplicable(primarySite, histology, behavior))
+            if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;
         }
         return true;

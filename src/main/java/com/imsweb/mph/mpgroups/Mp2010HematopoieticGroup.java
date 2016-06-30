@@ -118,7 +118,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.setReason("Abstract a single primary when two or more types of non-Hodgkin lymphoma are simultaneously present in the same anatomic location(s), such "
                 + "as the same lymph node or lymph node region(s), the same organ(s), and/or the same tissue(s)");
         rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n • Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
         rule.getNotes().add("Use Rule M15 for simultaneous occurrences of two or more cutaneous lymphomas. Do not use this rule for cutaneous lymphomas. Simultaneous "
                 + "occurrences of two or more cutaneous lymphomas, other than an NOS and more specific, are extremely rare. If there are simultaneous cutaneous "
                 + "lymphomas, DO NOT use this rule; proceed to rule M15 (use Multiple Primaries Calculator)");
@@ -126,7 +126,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 + "identifying lymph node names, chains, regions and codes.");
         rule.getNotes().add("When the neoplasm is in a more advanced stage, both non-Hodgkin lymphomas may be present in multiple lymph nodes in the same regions as defined "
                 + "by ICD-O-3, or in an organ and that organ’s regional lymph nodes, or in multiple organs.\n"
-                + "• Although the combination of two or more types of non-Hodgkin lymphoma must be present in each of the involved sites in order to abstract as a "
+                + "- Although the combination of two or more types of non-Hodgkin lymphoma must be present in each of the involved sites in order to abstract as a "
                 + "single primary, it is not required that all involved organs be biopsied. If the physician biopsies one of the involved sites and diagnoses the "
                 + "combination of two or more types of non-Hodgkin lymphoma, assume that all of the nodes, tissues, and/or organs and associated lymph nodes are "
                 + "involved with the same combination of non-Hodgkin lymphomas");
@@ -160,13 +160,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.setReason("Abstract a single primary when both Hodgkin and non-Hodgkin lymphoma are simultaneously present in the same anatomic location(s), such as "
                 + "the same lymph node or same lymph node region(s), the same organ(s), and/or the same tissue(s).");
         rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n • Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
         rule.getNotes().add("Do not query the Heme DB Multiple Primaries Calculator in this situation");
         rule.getNotes().add("When the neoplasm is in an early stage, the involved lymph node(s) will be in the same region as defined by ICD-O-3 codes. See Appendix C for help "
                 + "identifying lymph node names, chains, regions and codes.");
         rule.getNotes().add("When the neoplasm is in a more advanced stage, both Hodgkin and non-Hodgkin lymphomas may be present in multiple lymph node regions as defined "
                 + "by ICD-O-3, or in an organ and that organ’s regional lymph nodes, or in multiple organs.\n"
-                + "• Although both Hodgkin and non-Hodgkin lymphomas must be present in each of the involved sites in order to abstract as a single primary, it is not "
+                + "- Although both Hodgkin and non-Hodgkin lymphomas must be present in each of the involved sites in order to abstract as a single primary, it is not "
                 + "required that all involved organs be biopsied. If the physician biopsies one of the involved sites and diagnoses the combination Hodgkin and nonHodgkin "
                 + "lymphomas, assume that all of the nodes, tissue, and/or organs are involved with the combination of Hodgkin and non-Hodgkin "
                 + "lymphomas.");
@@ -190,7 +190,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.setReason("Abstract as multiple primaries when Hodgkin lymphoma is diagnosed in one anatomic location and non-Hodgkin lymphoma is diagnosed in "
                 + "another anatomic location.");
         rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n • Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
         rule.getExamples().add("Patient diagnosed with HL in the cervical lymph nodes and with NHL in the GI tract. Abstract as multiple primaries.");
         rule.getExamples().add("Hodgkin lymphoma in a mediastinal mass and non-Hodgkin lymphoma in the tonsil. Abstract as multiple primaries.");
         rule.getExamples().add("NHL in a right cervical node and HL in a left cervical node. Abstract as multiple primaries. Left and right node chains are separate regions. See "

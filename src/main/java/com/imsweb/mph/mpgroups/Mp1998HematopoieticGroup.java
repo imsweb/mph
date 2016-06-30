@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -53,8 +54,8 @@ public class Mp1998HematopoieticGroup extends MphGroup {
 
     private static synchronized void initializeLookup() {
         if (_1998_HEMATOPOIETIC.isEmpty()) {
-            try {
-                Reader reader = new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv"), "US-ASCII");
+            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {
+                Reader reader = new InputStreamReader(is, "US-ASCII");
                 _1998_HEMATOPOIETIC.addAll(new CSVReader(reader, ',', '\"', 1).readAll());
             }
             catch (IOException e) {

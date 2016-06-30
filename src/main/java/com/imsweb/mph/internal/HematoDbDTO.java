@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Information Management Services, Inc.
  */
-package com.imsweb.mph;
+package com.imsweb.mph.internal;
 
 public class HematoDbDTO {
 

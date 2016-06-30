@@ -44,28 +44,38 @@ import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 public class MphUtils {
 
     private static MphUtils _UTILS = null;
-    private HematoDbUtilsProvider _provider = null;
+    private HematoDbUtilsProviderTemp _provider = null;
     private List<MphGroup> _groups = new ArrayList<>();
-    private static final Object _INIT_LOCK = new Object();
 
-    public static void initialize(HematoDbUtilsProvider provider) {
-        synchronized (_INIT_LOCK) {
-            if (provider == null)
-                throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProvider class.");
-            _UTILS = new MphUtils(provider);
-        }
+    public synchronized static void initialize(HematoDbUtilsProviderTemp provider) {
+        if (provider == null)
+            throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProviderTemp class.");
+        _UTILS = new MphUtils(provider);
     }
 
-    public static MphUtils getInstance() {
-        synchronized (_INIT_LOCK) {
-            if (_UTILS == null)
-                throw new RuntimeException("Please initialize the class with a Hemato Db Utils Provider.");
-            return _UTILS;
-        }
+    public synchronized static MphUtils getInstance() {
+        if (_UTILS == null)
+            throw new RuntimeException("Please initialize the class with a Hemato Db Utils Provider.");
+        return _UTILS;
     }
 
-    private MphUtils(HematoDbUtilsProvider provider) {
+    private MphUtils(HematoDbUtilsProviderTemp provider) {
         _provider = provider;
+        _groups.add(new Mp2007HeadAndNeckGroup());
+        _groups.add(new Mp2007ColonGroup());
+        _groups.add(new Mp2007LungGroup());
+        _groups.add(new Mp2007MelanomaGroup());
+        _groups.add(new Mp2007BreastGroup());
+        _groups.add(new Mp2007KidneyGroup());
+        _groups.add(new Mp2007UrinaryGroup());
+        _groups.add(new Mp2007BenignBrainGroup());
+        _groups.add(new Mp2007MalignantBrainGroup());
+        _groups.add(new Mp2007OtherSitesGroup());
+        _groups.add(new Mp1998HematopoieticGroup());
+        _groups.add(new Mp2001HematopoieticGroup());
+        _groups.add(new Mp2010HematopoieticGroup());
+        _groups.add(new Mp2004BenignBrainGroup());
+        _groups.add(new Mp2004SolidMalignantGroup());
     }
 
     //when we apply the rule, it might be true, false or unknown if we don't have enough information.
@@ -77,8 +87,6 @@ public class MphUtils {
     public enum MPResult {
         SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
     }
-
-
 
     /**
      * Determines whether two input objects of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
@@ -162,7 +170,7 @@ public class MphUtils {
         return output;
     }
 
-    public HematoDbUtilsProvider getProvider() {
+    public HematoDbUtilsProviderTemp getProvider() {
         return _provider;
     }
 
@@ -187,21 +195,6 @@ public class MphUtils {
      * @return the list of cancer groups.
      */
     public List<MphGroup> getAllGroups() {
-        _groups.add(new Mp2007HeadAndNeckGroup());
-        _groups.add(new Mp2007ColonGroup());
-        _groups.add(new Mp2007LungGroup());
-        _groups.add(new Mp2007MelanomaGroup());
-        _groups.add(new Mp2007BreastGroup());
-        _groups.add(new Mp2007KidneyGroup());
-        _groups.add(new Mp2007UrinaryGroup());
-        _groups.add(new Mp2007BenignBrainGroup());
-        _groups.add(new Mp2007MalignantBrainGroup());
-        _groups.add(new Mp2007OtherSitesGroup());
-        _groups.add(new Mp1998HematopoieticGroup());
-        _groups.add(new Mp2001HematopoieticGroup());
-        _groups.add(new Mp2010HematopoieticGroup());
-        _groups.add(new Mp2004BenignBrainGroup());
-        _groups.add(new Mp2004SolidMalignantGroup());
         return Collections.unmodifiableList(_groups);
     }
 }

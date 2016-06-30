@@ -3,7 +3,7 @@
  */
 package com.imsweb.mph;
 
-public interface HematoDbUtilsProvider {
+public interface HematoDbUtilsProviderTemp {
 
     /**
      * Compares the two ICD-O-3 morphology codes and determine whether they are same primaries or not.

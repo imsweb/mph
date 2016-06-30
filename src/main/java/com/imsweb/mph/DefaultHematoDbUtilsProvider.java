@@ -23,65 +23,61 @@ import com.imsweb.mph.internal.HematoDbDTO;
  */
 public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
 
-    private Map<String, List<HematoDbDTO>> _samePrimaryDto = new HashMap<>();
-    private Map<String, List<HematoDbDTO>> _transformToDto = new HashMap<>();
-    private Map<String, List<HematoDbDTO>> _transformFromDto = new HashMap<>();
+    private Map<String, List<HematoDbDTO>> _samePrimaryDto;
+    private Map<String, List<HematoDbDTO>> _transformToDto;
+    private Map<String, List<HematoDbDTO>> _transformFromDto;
     private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
     public DefaultHematoDbUtilsProvider() {
-        if (_samePrimaryDto.isEmpty()) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
-                    if (_samePrimaryDto.containsKey(row[0]))
-                        _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                    else {
-                        List<HematoDbDTO> list = new ArrayList<>();
-                        list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                        _samePrimaryDto.put(row[0], list);
-                    }
+        _samePrimaryDto = new HashMap<>();
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
+            Reader reader = new InputStreamReader(is, "US-ASCII");
+            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+                if (_samePrimaryDto.containsKey(row[0]))
+                    _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                else {
+                    List<HematoDbDTO> list = new ArrayList<>();
+                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _samePrimaryDto.put(row[0], list);
                 }
             }
-            catch (IOException e) {
-                throw new RuntimeException(e);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        _transformToDto = new HashMap<>();
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
+            Reader reader = new InputStreamReader(is, "US-ASCII");
+            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+                if (_transformToDto.containsKey(row[0]))
+                    _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                else {
+                    List<HematoDbDTO> list = new ArrayList<>();
+                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformToDto.put(row[0], list);
+                }
             }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        _transformFromDto = new HashMap<>();
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
+            Reader reader = new InputStreamReader(is, "US-ASCII");
+            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+                if (_transformFromDto.containsKey(row[0]))
+                    _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                else {
+                    List<HematoDbDTO> list = new ArrayList<>();
+                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformFromDto.put(row[0], list);
+                }
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        if (_transformToDto.isEmpty()) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
-                    if (_transformToDto.containsKey(row[0]))
-                        _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                    else {
-                        List<HematoDbDTO> list = new ArrayList<>();
-                        list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                        _transformToDto.put(row[0], list);
-                    }
-                }
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        if (_transformFromDto.isEmpty()) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
-                    if (_transformFromDto.containsKey(row[0]))
-                        _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                    else {
-                        List<HematoDbDTO> list = new ArrayList<>();
-                        list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
-                        _transformFromDto.put(row[0], list);
-                    }
-                }
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     @Override

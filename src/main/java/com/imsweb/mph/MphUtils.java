@@ -43,24 +43,67 @@ import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
  */
 public class MphUtils {
 
-    private static MphUtils _UTILS = null;
+    /**
+     * The possible result of determining if two tumors are single or multiple primaries.
+     */
+    public enum MPResult {
+        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
+    }
+
+    // the unique instance of this utility class
+    private static MphUtils _INSTANCE = null;
+
+    // the Hematopoietic diseases provider used by the instance
     private HematoDbUtilsProvider _provider = null;
+
+    // the cached groups of rules used by the instance
     private List<MphGroup> _groups = new ArrayList<>();
 
+    /**
+     * Initialized the instance with the given provider; this allows to use a customized provider instead of the default one.
+     * This method must be called before trying to get an instance, of the default provider will be used instead.
+     * @param provider
+     */
     public static synchronized void initialize(HematoDbUtilsProvider provider) {
         if (provider == null)
-            throw new RuntimeException("Hemato Db Utils provider should be provided. Please provide one or use the default DefaultHematoDbUtilsProvider class.");
-        _UTILS = new MphUtils(provider);
+            throw new NullPointerException("Hemato DB Utils provider cannot be null.");
+        _INSTANCE = new MphUtils(provider);
+    }
+
+    /**
+     * Returns true if the instance has been initialized, false otherwise.
+     */
+    public static synchronized boolean isInitialized() {
+        return _INSTANCE != null;
     }
 
     public static synchronized MphUtils getInstance() {
-        if (_UTILS == null)
-            throw new RuntimeException("Please initialize the class with a Hemato Db Utils Provider.");
-        return _UTILS;
+        if (!isInitialized())
+            initialize(new DefaultHematoDbUtilsProvider());
+        return _INSTANCE;
     }
 
+    /**
+     * Private constructor, use the getInstance() method.
+     * @param provider the provider to use for this instance.
+     */
     private MphUtils(HematoDbUtilsProvider provider) {
         _provider = provider;
+
+        // 1998 Hematopoietic rules
+        _groups.add(new Mp1998HematopoieticGroup());
+
+        // 2001 Hematopoietic rules
+        _groups.add(new Mp2001HematopoieticGroup());
+
+        // 2010 Hematopoietic rules
+        _groups.add(new Mp2010HematopoieticGroup());
+
+        // 2004 solid tumor rules 
+        _groups.add(new Mp2004BenignBrainGroup());
+        _groups.add(new Mp2004SolidMalignantGroup());
+
+        // 2007 solid tumor rules
         _groups.add(new Mp2007HeadAndNeckGroup());
         _groups.add(new Mp2007ColonGroup());
         _groups.add(new Mp2007LungGroup());
@@ -71,21 +114,11 @@ public class MphUtils {
         _groups.add(new Mp2007BenignBrainGroup());
         _groups.add(new Mp2007MalignantBrainGroup());
         _groups.add(new Mp2007OtherSitesGroup());
-        _groups.add(new Mp1998HematopoieticGroup());
-        _groups.add(new Mp2001HematopoieticGroup());
-        _groups.add(new Mp2010HematopoieticGroup());
-        _groups.add(new Mp2004BenignBrainGroup());
-        _groups.add(new Mp2004SolidMalignantGroup());
     }
 
     //when we apply the rule, it might be true, false or unknown if we don't have enough information.
     public enum RuleResult {
         TRUE, FALSE, UNKNOWN
-    }
-
-    //Based on the applied rule results, we would say two tumors are single or multiple primary or questionable if we don't have enough information.
-    public enum MPResult {
-        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
     }
 
     /**
@@ -170,29 +203,34 @@ public class MphUtils {
         return output;
     }
 
+    /**
+     * Returns the HematoDB provider that was registered with the instance.
+     * @return
+     */
     public HematoDbUtilsProvider getProvider() {
         return _provider;
     }
 
     /**
      * Calculates the cancer group for the provided naaccr properties.
-     * @param primarySite
-     * @param histology
-     * @param behavior
-     * @return the computed cancer group
+     * @param primarySite primary site
+     * @param histology histology ICD-O-3
+     * @param behavior behavior ICD-O-3
+     * @return the corresponding cancer group, null if not found
      */
     public MphGroup findCancerGroup(String primarySite, String histology, String behavior, int year) {
         if (!GroupUtility.validateProperties(primarySite, histology, behavior, year))
             return null;
-        for (MphGroup group : getAllGroups()) {
+
+        for (MphGroup group : getAllGroups())
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return group;
-        }
+
         return null;
     }
 
     /**
-     * @return the list of cancer groups.
+     * Rerurns the list of all group of rules used by this instance.
      */
     public List<MphGroup> getAllGroups() {
         return Collections.unmodifiableList(_groups);

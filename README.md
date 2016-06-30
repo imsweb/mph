@@ -17,27 +17,23 @@ You can check out the [release page](https://github.com/imsweb/mph/releases) for
 
 ## Usage
 
-The entry point to the library is the **MphUtils** class. Because the library uses information from Hematopoietic diseases, it needs to be initialized with a **HematoDbUtilsProvider**.
-
-The library comes with an embedded default provider, but you have the option to provide your own implementation.
-
-The main method on the **MphUtils** class is **computePrimaries**, it takes two **MphInput** representing the two tumors to evaluate, and returns an **MphOutput** that contains 
+The entry point to the library is the **MphUtils.computePrimary** method. It takes two **MphInput** representing the two tumors to evaluate, and returns an **MphOutput** that contains 
 the result (SINGLE_PRIMARY, MULTIPLE_PRIMARIES or QUESTIONABLE) and a description of the rules that were executed to obtain that result.
 
 Here is a typical call to the library:
 
 ```java
-MphUtils.initialize(new DefaultHematoDbUtilsProvider());
-
 MphInput input1 = new MphInput();
 input1.setDateOfDiagnosisYear("2016");
 input1.setPrimarySite("C509");
 input1.setHistologyIcdO3("8000");
+input1.setBehaviorIcdO3("3");
 
 MphInput input2 = new MphInput();
 input2.setDateOfDiagnosisYear("2016");
 input2.setPrimarySite("C501");
 input2.setHistologyIcdO3("8000");
+input2.setBehaviorIcdO3("3");
 
 MphOutput output = MphUtils.getInstance().computePrimaries(input1, input2);
 System.out.println("Result: " + output.getResult());

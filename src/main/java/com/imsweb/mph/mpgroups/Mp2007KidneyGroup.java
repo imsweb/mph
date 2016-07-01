@@ -10,8 +10,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007KidneyGroup extends MphGroup {
 
@@ -19,15 +19,13 @@ public class Mp2007KidneyGroup extends MphGroup {
         super(MphConstants.MP_2007_KIDNEY_GROUP_ID, MphConstants.MP_2007_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - Wilms tumors are a single primary. (8960/3)
-        MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.WILMS.equals(i1.getHistology()) && MphConstants.WILMS.equals(
                         i2.getHistology()))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -40,16 +38,16 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M5 - Tumors in both the right kidney and in the left kidney are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M5") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
                 }
-                else
-                    result.setResult(!i1.getLaterality().equals(i2.getLaterality()) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -60,17 +58,17 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M6") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
-                else
-                    result.setResult(1 == diff ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                else if (1 == diff)
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -84,13 +82,13 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                result.setResult((MphConstants.SPECIFIC_RENAL_CELL_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(
-                        hist2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                if (MphConstants.SPECIFIC_RENAL_CELL_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(hist2))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -99,17 +97,16 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M9 -
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M9") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8312");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
                 return result;
             }
         };

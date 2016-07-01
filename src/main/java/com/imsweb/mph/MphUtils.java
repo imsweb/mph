@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
@@ -46,7 +47,7 @@ public class MphUtils {
     /**
      * The possible result of determining if two tumors are single or multiple primaries.
      */
-    public enum MPResult {
+    public enum MpResult {
         SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
     }
 
@@ -116,11 +117,6 @@ public class MphUtils {
         _groups.add(new Mp2007OtherSitesGroup());
     }
 
-    //when we apply the rule, it might be true, false or unknown if we don't have enough information.
-    public enum RuleResult {
-        TRUE, FALSE, UNKNOWN
-    }
-
     /**
      * Determines whether two input objects of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
      * <br/><br/>
@@ -154,13 +150,13 @@ public class MphUtils {
         String beh1 = input1.getBehavior(), beh2 = input2.getBehavior();
 
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
-            output.setResult(MPResult.QUESTIONABLE);
+            output.setResult(MpResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
         else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
-            output.setResult(MPResult.QUESTIONABLE);
+            output.setResult(MpResult.QUESTIONABLE);
             output.setReason(
                     "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
@@ -172,29 +168,27 @@ public class MphUtils {
         MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
         if (group1 == null) {
-            output.setResult(MPResult.QUESTIONABLE);
+            output.setResult(MpResult.QUESTIONABLE);
             output.setReason("The first tumor provided does not belong to any of the cancer groups.");
         }
         else if (group2 == null) {
-            output.setResult(MPResult.QUESTIONABLE);
+            output.setResult(MpResult.QUESTIONABLE);
             output.setReason("The second tumor provided does not belong to any of the cancer groups.");
         }
         else if (!group1.getId().equals(group2.getId())) {
-            output.setResult(MPResult.MULTIPLE_PRIMARIES);
+            output.setResult(MpResult.MULTIPLE_PRIMARIES);
             output.setReason("The two sets of parameters belong to two different cancer groups.");
         }
         else {
             for (MphRule rule : group1.getRules()) {
                 output.getAppliedRules().add(rule);
-                MphRuleResult result = rule.apply(input1, input2);
-                if (RuleResult.TRUE.equals(result.getResult())) {
-                    output.setResult(rule.getResult());
-                    output.setReason(rule.getReason());
-                    break;
-                }
-                else if (RuleResult.UNKNOWN.equals(result.getResult())) {
-                    output.setResult(MPResult.QUESTIONABLE);
-                    output.setReason(result.getMessage());
+                TempRuleResult result = rule.apply(input1, input2);
+                if (result.getResult() != null) {
+                    output.setResult(result.getResult());
+                    if (MpResult.QUESTIONABLE.equals(result.getResult()))
+                        output.setReason(result.getMessage());
+                    else
+                        output.setReason(rule.getReason());
                     break;
                 }
             }

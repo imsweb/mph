@@ -1,24 +1,24 @@
 /*
  * Copyright (C) 2014 Information Management Services, Inc.
  */
-package com.imsweb.mph;
+package com.imsweb.mph.internal;
 
-import com.imsweb.mph.MphUtils.RuleResult;
+import com.imsweb.mph.MphUtils;
 
-public class MphRuleResult {
+public class TempRuleResult {
 
-    private RuleResult _result;
+    private MphUtils.MpResult _result;
 
     private String _message;
 
-    public MphRuleResult() {
+    public TempRuleResult() {
     }
 
-    public RuleResult getResult() {
+    public MphUtils.MpResult getResult() {
         return _result;
     }
 
-    public void setResult(RuleResult result) {
+    public void setResult(MphUtils.MpResult result) {
         _result = result;
     }
 

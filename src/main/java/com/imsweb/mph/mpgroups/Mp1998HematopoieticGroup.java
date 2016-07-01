@@ -16,8 +16,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp1998HematopoieticGroup extends MphGroup {
 
@@ -25,27 +25,28 @@ public class Mp1998HematopoieticGroup extends MphGroup {
 
     public Mp1998HematopoieticGroup() {
         super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
+        initializeLookup();
 
-        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "M1") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                initializeLookup();
-                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.TRUE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (laterDx == -1) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                    return result;
                 }
                 String firstDx = laterDx == 1 ? i2.getHistology() : i1.getHistology(), secondDx = laterDx == 1 ? i1.getHistology() : i2.getHistology();
                 for (String[] row : _1998_HEMATOPOIETIC)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
-                            (laterDx == 0 && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(row[3]) <= 0)))
+                            (laterDx == 0 && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(row[3]) <= 0))) {
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         return result;
+                    }
 
                 //if they don't match
-                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
+                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

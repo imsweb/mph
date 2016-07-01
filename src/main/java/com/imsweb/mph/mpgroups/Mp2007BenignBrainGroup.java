@@ -10,9 +10,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
-import com.imsweb.mph.MphUtils.MPResult;
-import com.imsweb.mph.MphUtils.RuleResult;
+import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007BenignBrainGroup extends MphGroup {
 
@@ -20,13 +19,11 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         super(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9989,9140", "0-1", "2007-9999");
 
         // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.        
-        MphRule rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M3", MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                //This will never happen, since the two conditions belong to different cancer group.
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(RuleResult.FALSE);
-                return result;
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                //This will never happen, since the two conditions belong to different cancer group.           
+                return new TempRuleResult();
             }
         };
         rule.setQuestion("Is there an invasive tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1)?");
@@ -34,12 +31,12 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M4 - Tumors with ICD-O-3 topography codes that are different at the second (C?xx) and/or third characters (Cx?x), or fourth (Cxx?) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M4", MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                result.setResult((site1.equalsIgnoreCase(site2)) ? RuleResult.FALSE : RuleResult.TRUE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -48,22 +45,21 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5 - Tumors on both sides (left and right) of a paired site (Table 1) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M5", MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M5") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 List<String> pairedSites = Arrays.asList("C700", "C710", "C711", "C712", "C713", "C714", "C722", "C723", "C724", "C725");
-                boolean isPairedSite = GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites);
-                if (!isPairedSite)
-                    result.setResult(RuleResult.FALSE);
-                else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setResult(RuleResult.UNKNOWN);
-                    result.setMessage(
-                            "Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of " + this.getGroupId() + " should be provided.");
+                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
+                    if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setMessage(
+                                "Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of " + this.getGroupId()
+                                        + " should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-                else
-                    result.setResult(!i1.getLaterality().equals(i2.getLaterality()) ? RuleResult.TRUE : RuleResult.FALSE);
-
                 return result;
             }
         };
@@ -72,24 +68,20 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - An atypical choroid plexus papilloma (9390/1) following a choroid plexus papilloma, NOS (9390/0) is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M6", MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M6") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                if (!MphConstants.PAPILLOMA.equals(i1.getHistology()) || !MphConstants.PAPILLOMA.equals(i2.getHistology()))
-                    result.setResult(RuleResult.FALSE);
-                else {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.PAPILLOMA.equals(i1.getHistology()) && MphConstants.PAPILLOMA.equals(i2.getHistology())) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
-                        result.setResult(RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setResult(RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setResult(RuleResult.TRUE);
-                    else
-                        result.setResult(RuleResult.FALSE);
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -100,26 +92,21 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - A neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0) is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M7", MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                if (!MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) || !MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology()))
-                    result.setResult(RuleResult.FALSE);
-                else {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) && MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology())) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
-                        result.setResult(RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setResult(RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setResult(RuleResult.TRUE);
-                    else
-                        result.setResult(RuleResult.FALSE);
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
-
                 return result;
             }
         };
@@ -129,19 +116,17 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with two or more histologic types on the same branch in Chart 1 are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M8", MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
-                if (branch1 == null || branch2 == null)
-                    result.setResult(RuleResult.FALSE);
-                else
-                    result.setResult(branch1.equals(branch2) ? RuleResult.TRUE : RuleResult.FALSE);
+                if (branch1 != null && branch2 != null && branch1.equals(branch2))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;
             }
@@ -151,19 +136,17 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M9 - Tumors with multiple histologic types on different branches in Chart 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M9", MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M9") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
-                if (branch1 == null || branch2 == null)
-                    result.setResult(RuleResult.FALSE);
-                else
-                    result.setResult(!branch1.equals(branch2) ? RuleResult.TRUE : RuleResult.FALSE);
+                if (branch1 != null && branch2 != null && !branch1.equals(branch2))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -173,21 +156,18 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M10 - Tumors with two or more histologic types and at least one of the histologies is not listed in Chart 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M10", MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M10") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
                 //This rule is used only when one histology code is listed in chart and the other not, see note for M11
-                if (branch1 == null && branch2 == null)
-                    result.setResult(RuleResult.FALSE);
-                else
-                    result.setResult((branch1 == null || branch2 == null) ? RuleResult.TRUE : RuleResult.FALSE);
-
+                if ((branch1 != null && branch2 == null) || (branch2 != null && branch1 == null))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

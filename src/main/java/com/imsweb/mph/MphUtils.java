@@ -48,7 +48,12 @@ public class MphUtils {
      * The possible result of determining if two tumors are single or multiple primaries.
      */
     public enum MpResult {
-        SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE
+        // indicates the two tumors are the same primary
+        SINGLE_PRIMARY, 
+        // indicates the two tumors are different primaries
+        MULTIPLE_PRIMARIES, 
+        // indicates there is not enough information to make a proper determination
+        QUESTIONABLE
     }
 
     // the unique instance of this utility class
@@ -66,8 +71,6 @@ public class MphUtils {
      * @param provider
      */
     public static synchronized void initialize(HematoDbUtilsProvider provider) {
-        if (provider == null)
-            throw new NullPointerException("Hemato DB Utils provider cannot be null.");
         _INSTANCE = new MphUtils(provider);
     }
 
@@ -78,6 +81,9 @@ public class MphUtils {
         return _INSTANCE != null;
     }
 
+    /**
+     * Returns the instance of MPH utils.
+     */
     public static synchronized MphUtils getInstance() {
         if (!isInitialized())
             initialize(new DefaultHematoDbUtilsProvider());
@@ -86,9 +92,11 @@ public class MphUtils {
 
     /**
      * Private constructor, use the getInstance() method.
-     * @param provider the provider to use for this instance.
+     * @param provider the provider to use for this instance, cannot be null
      */
     private MphUtils(HematoDbUtilsProvider provider) {
+        if (provider == null)
+            throw new NullPointerException("Hemato DB Utils provider cannot be null.");
         _provider = provider;
 
         // 1998 Hematopoietic rules
@@ -199,9 +207,8 @@ public class MphUtils {
 
     /**
      * Returns the HematoDB provider that was registered with the instance.
-     * @return
      */
-    public HematoDbUtilsProvider getProvider() {
+    public HematoDbUtilsProvider getHematoDbUtilsProvider() {
         return _provider;
     }
 
@@ -224,7 +231,7 @@ public class MphUtils {
     }
 
     /**
-     * Rerurns the list of all group of rules used by this instance.
+     * Returns the list of all group of rules used by this instance.
      */
     public List<MphGroup> getAllGroups() {
         return Collections.unmodifiableList(_groups);

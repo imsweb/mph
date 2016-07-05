@@ -196,7 +196,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
-                        || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getProvider().isSamePrimary(morph1, morph2, latestYear) && latestDx != 0) {
+                        || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) && latestDx != 0) {
                     if (latestDx == -1) {
                         result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
@@ -414,7 +414,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                result.setResult(MphUtils.getInstance().getProvider().isSamePrimary(morph1, morph2, latestYear) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setResult(MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -426,17 +426,17 @@ public class Mp2010HematopoieticGroup extends MphGroup {
     }
 
     private static boolean isTransformation(String leftCode, String rightCode, int year) {
-        return MphUtils.getInstance().getProvider().isAcuteTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getProvider().isAcuteTransformation(rightCode, leftCode, year) ||
-                MphUtils.getInstance().getProvider().isChronicTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getProvider().isChronicTransformation(rightCode, leftCode, year);
+        return MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(rightCode, leftCode, year) ||
+                MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(rightCode, leftCode, year);
     }
 
     private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.getInstance().getProvider().isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getProvider().isAcuteTransformation(latestMorph, earlierMorph,
+        return MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(latestMorph, earlierMorph,
                 year);
     }
 
     private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.getInstance().getProvider().isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getProvider().isChronicTransformation(latestMorph, earlierMorph,
+        return MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(latestMorph, earlierMorph,
                 year);
     }
 

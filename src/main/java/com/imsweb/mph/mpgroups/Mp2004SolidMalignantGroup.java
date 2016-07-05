@@ -11,20 +11,20 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2004SolidMalignantGroup extends MphGroup {
 
     public Mp2004SolidMalignantGroup() {
         super(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, null, null, "8000-9589", null, "2-3,6", "0000-2006");
 
-        // Rule 1 TODO
-        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        // Rule 1
+        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M1") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                //TODO
                 return result;
             }
         };
@@ -33,12 +33,12 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule.getExamples().add("A single, large mucinous adenocarcinoma involving the sigmoid and descending colon segments is one primary.");
         _rules.add(rule);
 
-        // Rule 2 TODO
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M2", MphUtils.MPResult.SINGLE_PRIMARY) {
+        // Rule 2
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M2") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                //TODO
                 return result;
             }
         };
@@ -49,11 +49,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();                
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != 1) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
@@ -61,7 +60,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                             return result;
                         else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                            result.setResult(MphUtils.RuleResult.UNKNOWN);
+                            result.setResult(MphUtils.MpResult.QUESTIONABLE);
                             if (daysApart == -1)
                                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
                             else
@@ -70,11 +69,11 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         }
                     }
                     if (daysApart == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
                     else
-                        result.setResult(MphUtils.RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -89,17 +88,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();                
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 1) {
                     if (!GroupUtility.validLaterality(lat1, lat2)) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         if (daysApart == -1)
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
                         else
@@ -107,15 +104,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2)) {
                         if (daysApart == -1) {
-                            result.setResult(MphUtils.RuleResult.UNKNOWN);
+                            result.setResult(MphUtils.MpResult.QUESTIONABLE);
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                         }
                         else {
-                            result.setResult(MphUtils.RuleResult.TRUE);
+                            result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                             //Exceptions
                             if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
                                     (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
-                                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                                result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
                     }
                 }
@@ -132,37 +129,35 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M5") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();                
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
                         i2.getBehavior();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != 0) {
                     if (daysApart == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
                     else {
-                        result.setResult(MphUtils.RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
                         adenoCarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
                         if (MphConstants.PROSTATE.equals(site1) && site1.equals(site2) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && adenoCarcinoma.containsAll(
                                 Arrays.asList(hist1, hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                         List<String> carcinoma = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
                         carcinoma.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
                         if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && carcinoma.containsAll(
                                 Arrays.asList(hist1, hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                         if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
                 }
                 return result;
@@ -187,12 +182,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 6
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M6", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M6") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1) {
@@ -201,7 +194,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         if (GroupUtility.areOppositeSides(lat1, lat2))
                             return result;
                         else if (!GroupUtility.validLaterality(lat1, lat2)) {
-                            result.setResult(MphUtils.RuleResult.UNKNOWN);
+                            result.setResult(MphUtils.MpResult.QUESTIONABLE);
                             if (daysApart == -1)
                                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
                             else
@@ -210,38 +203,38 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         }
                     }
                     if (daysApart == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
                     else {
-                        result.setResult(MphUtils.RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         if (GroupUtility.differentCategory(hist1, hist2, MphConstants.CARCINOMA_NOS, MphConstants.CARCINOMA_SPECIFIC))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.ADENOCARCINOMA_NOS, MphConstants.ADENOCARCINOMA_SPECIFIC))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.MELANOMA_NOS, MphConstants.MELANOMA_SPECIFIC))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (GroupUtility.differentCategory(hist1, hist2, MphConstants.SARCOMA_NOS, MphConstants.SARCOMA_SPECIFIC))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if ((site1.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site1)) && (site2.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site2))
                                 && MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(hist1) || MphConstants.PAPILLARY.contains(hist1))
                                 && (MphConstants.FOLLICULAR.contains(hist2) || MphConstants.PAPILLARY.contains(hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && (MphConstants.PAPILLARY_CARCINOMA.equals(hist1)
                                 || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (
                                 MphConstants.PAPILLARY_CARCINOMA.equals(hist2) || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
                                         .contains(hist2)))
-                            this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST)) {
                             if ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
                                     || MphConstants.LOBULAR_CARCINOMA.contains(hist2)))
-                                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                                result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             else if ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
                                     MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
-                                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
+                                result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
                     }
                 }
@@ -270,27 +263,26 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 7
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();                
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1 && isPairedSite(site1) && isPairedSite(site2)) {
                     if (!GroupUtility.validLaterality(lat1, lat2)) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         if (daysApart == -1)
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
                         else
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
                     }
                     else if (daysApart == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2))
-                        result.setResult(MphUtils.RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -301,20 +293,19 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 8
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 0) {
                     if (daysApart == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     }
                     else
-                        result.setResult(MphUtils.RuleResult.TRUE);
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -323,12 +314,13 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 9
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M9", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M9") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                result.setResult(!isSameSite(site1, site2) && !isSameHistology(hist1, hist2) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                if (!isSameSite(site1, site2) && !isSameHistology(hist1, hist2))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -339,12 +331,12 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 10
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M10", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M10") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                result.setResult(!isSameSite(site1, site2) && isSameHistology(hist1, hist2) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                result.setResult(!isSameSite(site1, site2) && isSameHistology(hist1, hist2) ? MphUtils.MpResult.MULTIPLE_PRIMARIES : MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

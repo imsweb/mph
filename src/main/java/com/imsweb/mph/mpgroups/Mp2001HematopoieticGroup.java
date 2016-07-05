@@ -16,8 +16,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2001HematopoieticGroup extends MphGroup {
 
@@ -26,14 +26,12 @@ public class Mp2001HematopoieticGroup extends MphGroup {
 
     public Mp2001HematopoieticGroup() {
         super(MphConstants.MP_2001_HEMATO_GROUP_ID, MphConstants.MP_2001_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2001-2009");
+        initializeLookups();
 
-        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "M1", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "M1") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                initializeLookups();
-                this.setResult(MphUtils.MPResult.SINGLE_PRIMARY);
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.TRUE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 //find the group for both histologies
                 String group1 = null, group2 = null;
@@ -49,17 +47,18 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                 if (group1 != null && group2 != null) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (laterDx == -1) {
-                        result.setResult(MphUtils.RuleResult.UNKNOWN);
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        return result;
                     }
                     String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
-                        if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (laterDx == 0 && secondDx.equals(row[0]) && firstDx.equals(row[1])))
+                        if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (laterDx == 0 && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
+                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             return result;
+                        }
                 }
-
-                //If they don't match
-                this.setResult(MphUtils.MPResult.MULTIPLE_PRIMARIES);
+                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

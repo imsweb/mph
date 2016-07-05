@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,8 +11,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007UrinaryGroup extends MphGroup {
 
@@ -19,20 +20,18 @@ public class Mp2007UrinaryGroup extends MphGroup {
         super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659) 
-        MphRule rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                if (!"C659".equalsIgnoreCase(i1.getPrimarySite()) || !"C659".equalsIgnoreCase(i2.getPrimarySite())) {
-                    result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
+                    if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-                else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
-                }
-                else
-                    result.setResult(!i1.getLaterality().equals(i2.getLaterality()) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
-
                 return result;
             }
         };
@@ -42,20 +41,18 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M4 - When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries. (C669) 
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                if (!"C669".equalsIgnoreCase(i1.getPrimarySite()) || !"C669".equalsIgnoreCase(i2.getPrimarySite())) {
-                    result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
+                    if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-                else if (!Arrays.asList("1", "2").containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for ureter tumors should be provided.");
-                }
-                else
-                    result.setResult(!i1.getLaterality().equals(i2.getLaterality()) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
-
                 return result;
             }
         };
@@ -70,17 +67,16 @@ public class Mp2007UrinaryGroup extends MphGroup {
 
         // M6 - Bladder tumors with any combination of the following histologies: papillary carcinoma (8050), transitional cell carcinoma (8120-8124), 
         // or papillary transitional cell carcinoma (8130-8131), are a single primary.       
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M6") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                List<String> carcinomaHist = Arrays.asList("8050", "8120", "8121", "8122", "8123", "8124", "8130", "8131");
-                if (!i1.getPrimarySite().toLowerCase().startsWith("c67") || !i2.getPrimarySite().toLowerCase().startsWith("c67")) {
-                    result.setResult(MphUtils.RuleResult.FALSE);
-                }
-                else
-                    result.setResult(carcinomaHist.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
-
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> carcinomaHist = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
+                carcinomaHist.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
+                carcinomaHist.add(MphConstants.PAPILLARY_CARCINOMA);
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && carcinomaHist.containsAll(
+                        Arrays.asList(i1.getHistology(), i2.getHistology())))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -93,17 +89,17 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
-                else
-                    result.setResult(1 == diff ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                else if (1 == diff)
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -114,17 +110,15 @@ public class Mp2007UrinaryGroup extends MphGroup {
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)
         // Renal pelvis (C659), Ureter(C669), Bladder (C670-C679), Urethra /prostatic urethra (C680)
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                List<String> urothelialTumors = Arrays.asList("8120", "8130", "8131", "8082", "8122", "8031", "8020");
-                //The only sites not included are those from C681-C689
-                if (i1.getPrimarySite().toLowerCase().startsWith("c68") && !"c680".equals(i1.getPrimarySite().toLowerCase()) || i2.getPrimarySite().toLowerCase().startsWith("c68") && !i2
-                        .getPrimarySite().toLowerCase().equals("c680"))
-                    result.setResult(MphUtils.RuleResult.FALSE);
-                else
-                    result.setResult(urothelialTumors.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                if (MphConstants.UROTHELIAL.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) && (MphConstants.RENAL_PELVIS.equals(site1) || MphConstants.URETER.equals(site1) || site1
+                        .startsWith(MphConstants.BLADDER) || MphConstants.URETHRA.equals(site1)) && (MphConstants.RENAL_PELVIS.equals(site2) || MphConstants.URETER.equals(site2) || site2.startsWith(
+                        MphConstants.BLADDER) || MphConstants.URETHRA.equals(site2)))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

@@ -6,7 +6,7 @@ package com.imsweb.mph;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.imsweb.mph.MphUtils.MPResult;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public abstract class MphRule {
 
@@ -18,16 +18,13 @@ public abstract class MphRule {
 
     private String _reason;
 
-    private MPResult _result;
-
     private List<String> _notes;
 
     private List<String> _examples;
 
-    public MphRule(String groupId, String step, MPResult result) {
+    public MphRule(String groupId, String step) {
         _groupId = groupId;
         _step = step;
-        _result = result;
         _notes = new ArrayList<>();
         _examples = new ArrayList<>();
     }
@@ -56,14 +53,6 @@ public abstract class MphRule {
         _reason = reason;
     }
 
-    public MPResult getResult() {
-        return _result;
-    }
-
-    public void setResult(MPResult result) {
-        _result = result;
-    }
-
     public List<String> getNotes() {
         return _notes;
     }
@@ -72,5 +61,5 @@ public abstract class MphRule {
         return _examples;
     }
 
-    public abstract MphRuleResult apply(MphInput i1, MphInput i2);
+    public abstract TempRuleResult apply(MphInput i1, MphInput i2);
 }

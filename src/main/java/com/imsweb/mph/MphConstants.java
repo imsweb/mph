@@ -54,7 +54,10 @@ public class MphConstants {
     public static final String BREAST = "C50";
     public static final String OVARY = "C569";
     public static final String PROSTATE = "C619";
+    public static final String RENAL_PELVIS = "C659";
+    public static final String URETER = "C669";
     public static final String BLADDER = "C67";
+    public static final String URETHRA = "C680";
     public static final String THYROID = "C739";
     public static final String LYMPH_NODE = "C77";
     public static final List<String> EXACT_MATCH_SITES = Arrays.asList("C18", "C21", "C38", "C40", "C41", "C44", "C47", "C49");
@@ -152,6 +155,7 @@ public class MphConstants {
     public static final List<String> SPECIFIC_RENAL_CELL_HISTOLOGIES = GroupUtility.expandList("8260,8310,8316-8320,8510,8959");
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9424,9430,9440-9442");
+    public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
     //Histology Charts
     public static final Map<String, String> NOS_VS_SPECIFIC = new HashMap<>();

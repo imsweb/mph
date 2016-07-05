@@ -7,8 +7,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007MalignantBrainGroup extends MphGroup {
 
@@ -17,13 +17,11 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                 "2007-9999");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer groups.
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphUtils.RuleResult.FALSE);
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setQuestion("Is there an invasive tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1)?");
@@ -35,21 +33,19 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M6", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M6") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                 if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                 }
                 else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
-                    result.setResult(MphUtils.RuleResult.TRUE);
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i2.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i1.getHistology()))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -58,18 +54,19 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
-                if (branch1 != null && branch2 != null && (branch1.equals(branch2) || "Neuroepithelial".equals(branch1) || "Neuroepithelial".equals(branch2))) {
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                    return result;
+                if (branch1 != null && branch2 != null && (branch1.equals(branch2) || "Neuroepithelial".equals(branch1) || "Neuroepithelial".equals(branch2)))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else {
+                    branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
+                    branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
+                    if (branch1 != null && branch2 != null && (branch1.equals(branch2)))
+                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
-                branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
-                branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
-                result.setResult((branch1 != null && branch1.equals(branch2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };
@@ -80,18 +77,19 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M8", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
-                if (branch1 != null && branch2 != null && !branch1.equals(branch2) && !"Neuroepithelial".equals(branch1) && !"Neuroepithelial".equals(branch2)) {
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                    return result;
+                if (branch1 != null && branch2 != null && !branch1.equals(branch2) && !"Neuroepithelial".equals(branch1) && !"Neuroepithelial".equals(branch2))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else {
+                    branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
+                    branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
+                    if (branch1 != null && branch2 != null && !branch1.equals(branch2))
+                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-                branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
-                branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
-                result.setResult((branch1 != null && branch2 != null && !branch1.equals(branch2)) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
                 return result;
             }
         };

@@ -11,8 +11,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007ColonGroup extends MphGroup {
 
@@ -20,16 +20,13 @@ public class Mp2007ColonGroup extends MphGroup {
         super(MphConstants.MP_2007_COLON_GROUP_ID, MphConstants.MP_2007_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
 
         // M3 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more malignant polyps is a single primary.
-        MphRule rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M3", MphUtils.MPResult.SINGLE_PRIMARY) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                if (!("3".equals(i1.getBehavior()) || "3".equals(i2.getBehavior())))
-                    result.setResult(MphUtils.RuleResult.FALSE);
-                else if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILLIAL_POLYPOSIS, MphConstants.POLYP))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILLIAL_POLYPOSIS, MphConstants.POLYP) && (MphConstants.MALIGNANT.equals(i1.getBehavior())
+                        || MphConstants.MALIGNANT.equals(i2.getBehavior())))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -39,12 +36,12 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) and/or fourth (C18?) character are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                result.setResult(site1.equalsIgnoreCase(site2) ? MphUtils.RuleResult.FALSE : MphUtils.RuleResult.TRUE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -53,18 +50,17 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M5", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M5") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
-                else
-                    result.setResult(1 == diff ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
-
+                else if (1 == diff)
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -77,13 +73,14 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- A frank malignant or in situ adenocarcinoma and an insitu or malignant tumor in a polyp are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M7", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 List<String> adenocarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
                 adenocarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
-                result.setResult(GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, MphConstants.POLYP) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, MphConstants.POLYP))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -92,17 +89,15 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M8 -
-        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M8", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M8") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8800");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setResult(MphUtils.RuleResult.TRUE);
-                else
-                    result.setResult(MphUtils.RuleResult.FALSE);
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -110,7 +105,7 @@ public class Mp2007ColonGroup extends MphGroup {
                 "Is there carcinoma, NOS (8010) and another is a specific carcinoma? or\n" +
                 "Is there adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma? or\n" +
                 "Is there sarcoma, NOS (8800) and another is a specific sarcoma?");
-        rule.setReason("Abstract as a single primary* when one tumor is:\n" +
+        rule.setReason("Abstract as a single primary when one tumor is:\n" +
                 "- Cancer/malignant neoplasm, NOS (8000) and another is a specific histology or\n" +
                 "- Carcinoma, NOS (8010) and another is a specific carcinoma or\n" +
                 "- Adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma or\n" +
@@ -118,11 +113,12 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M9- Multiple insitu and/or malignant polyps are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M9", MphUtils.MPResult.SINGLE_PRIMARY) {
+        rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M9") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                result.setResult(MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
+                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

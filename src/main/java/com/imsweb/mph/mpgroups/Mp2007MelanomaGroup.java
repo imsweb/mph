@@ -9,8 +9,8 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphRuleResult;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2007MelanomaGroup extends MphGroup {
 
@@ -18,12 +18,12 @@ public class Mp2007MelanomaGroup extends MphGroup {
         super(MphConstants.MP_2007_MELANOMA_GROUP_ID, MphConstants.MP_2007_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780", null, "2-3,6", "2007-9999");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                result.setResult(site1.equalsIgnoreCase(site2) ? MphUtils.RuleResult.FALSE : MphUtils.RuleResult.TRUE);
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -32,17 +32,17 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Melanomas with different laterality are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M4", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M4") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
                 }
-                else
-                    result.setResult(!i1.getLaterality().equals(i2.getLaterality()) ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
+                else if (!i1.getLaterality().equals(i2.getLaterality()))
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -66,18 +66,17 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M7", MphUtils.MPResult.MULTIPLE_PRIMARIES) {
+        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M7") {
             @Override
-            public MphRuleResult apply(MphInput i1, MphInput i2) {
-                MphRuleResult result = new MphRuleResult();
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (-1 == diff){
-                    result.setResult(MphUtils.RuleResult.UNKNOWN);
+                if (-1 == diff) {
+                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
-                else
-                    result.setResult(0 != diff ? MphUtils.RuleResult.TRUE : MphUtils.RuleResult.FALSE);
-
+                else if (1 == diff)
+                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

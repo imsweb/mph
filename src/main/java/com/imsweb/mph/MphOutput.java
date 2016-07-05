@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MphOutput {
 
-    private MphUtils.MPResult _result;
+    private MphUtils.MpResult _result;
 
     private String _reason;
     
@@ -18,11 +18,11 @@ public class MphOutput {
         _appliedRules = new ArrayList<>();
     }
 
-    public MphUtils.MPResult getResult() {
+    public MphUtils.MpResult getResult() {
         return _result;
     }
 
-    public void setResult(MphUtils.MPResult result) {
+    public void setResult(MphUtils.MpResult result) {
         _result = result;
     }
 

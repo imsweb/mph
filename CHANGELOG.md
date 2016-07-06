@@ -1,4 +1,4 @@
-## Algorithms Version History
+## Multiple Primary and Histology Coding Rules Version History
 
 **Changes in version 1.0**
 

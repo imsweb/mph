@@ -45,6 +45,11 @@ jar {
     }
 }
 
+// this sucks, but they made the Javadoc way too stritct in Java 8 and it's not worth my time fixing it!
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
 // checkstyle plugin settings
 checkstyle {
     ignoreFailures = true

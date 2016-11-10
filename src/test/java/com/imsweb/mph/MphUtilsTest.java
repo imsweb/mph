@@ -3,7 +3,8 @@
  */
 package com.imsweb.mph;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -824,7 +825,6 @@ public class MphUtilsTest {
         // M3- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         //This will never be true, lung group is C340-C349, 2nd and 3rd characters are always the same.
 
-
         //M4- At least one tumor that is non-small cell carcinoma (8046) and another tumor that is small cell carcinoma (8041-8045) are multiple primaries.
         i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8046");
@@ -981,7 +981,6 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisYear("2014"); //glial is following i1 (9440), continue to the next step
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(3, output.getAppliedRules().size());
-
 
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
         i1.setPrimarySite("C710");

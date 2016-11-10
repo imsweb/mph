@@ -3,6 +3,9 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,9 +14,6 @@ import java.util.List;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.joda.time.Days;
-import org.joda.time.LocalDate;
-import org.joda.time.Years;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
@@ -192,7 +192,7 @@ public class GroupUtility {
             day2 = 99;
         //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
         try {
-            new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
+            LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
         }
         catch (Exception e) {
             day1 = 99;
@@ -201,7 +201,7 @@ public class GroupUtility {
         }
 
         try {
-            new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
+            LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
         }
         catch (Exception e) {
             day2 = 99;
@@ -252,7 +252,7 @@ public class GroupUtility {
                 day2 = 99;
             //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
             try {
-                new LocalDate(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
+                LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
             }
             catch (Exception e) {
                 day1 = 99;
@@ -261,7 +261,7 @@ public class GroupUtility {
             }
 
             try {
-                new LocalDate(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
+                LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
             }
             catch (Exception e) {
                 day2 = 99;
@@ -278,7 +278,7 @@ public class GroupUtility {
             else if (day1 == 99 || day2 == 99)
                 return unknown;
             else
-                return Math.abs(Years.yearsBetween(new LocalDate(year1, month1, day1), new LocalDate(year2, month2, day2)).getYears()) >= yearsApart ? yes : no;
+                return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(year1, month1, day1), LocalDate.of(year2, month2, day2))) >= yearsApart ? yes : no;
         }
     }
 
@@ -322,27 +322,27 @@ public class GroupUtility {
 
     //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum
     private static int daysInBetween(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay, boolean minimum) {
-        LocalDate startDateMin = new LocalDate(startYr, 1, 1);
-        LocalDate startDateMax = new LocalDate(startYr, 12, 31);
-        LocalDate endDateMin = new LocalDate(endYr, 1, 1);
-        LocalDate endDateMax = new LocalDate(endYr, 12, 31);
+        LocalDate startDateMin = LocalDate.of(startYr, 1, 1);
+        LocalDate startDateMax = LocalDate.of(startYr, 12, 31);
+        LocalDate endDateMin = LocalDate.of(endYr, 1, 1);
+        LocalDate endDateMax = LocalDate.of(endYr, 12, 31);
         if (startDay != 99) {
-            startDateMin = new LocalDate(startYr, startMon, startDay);
-            startDateMax = new LocalDate(startYr, startMon, startDay);
+            startDateMin = LocalDate.of(startYr, startMon, startDay);
+            startDateMax = LocalDate.of(startYr, startMon, startDay);
         }
         else if (startMon != 99) {
-            startDateMin = new LocalDate(startYr, startMon, 1);
-            startDateMax = startDateMin.dayOfMonth().withMaximumValue();
+            startDateMin = LocalDate.of(startYr, startMon, 1);
+            startDateMax = LocalDate.of(startYr, startMon, YearMonth.of(startYr, startMon).lengthOfMonth());
         }
         if (endDay != 99) {
-            endDateMin = new LocalDate(endYr, endMon, endDay);
-            endDateMax = new LocalDate(endYr, endMon, endDay);
+            endDateMin = LocalDate.of(endYr, endMon, endDay);
+            endDateMax = LocalDate.of(endYr, endMon, endDay);
         }
         else if (endMon != 99) {
-            endDateMin = new LocalDate(endYr, endMon, 1);
-            endDateMax = endDateMin.dayOfMonth().withMaximumValue();
+            endDateMin = LocalDate.of(endYr, endMon, 1);
+            endDateMax = LocalDate.of(endYr, endMon, YearMonth.of(endYr, endMon).lengthOfMonth());
         }
 
-        return minimum ? Days.daysBetween(startDateMax, endDateMin).getDays() : Days.daysBetween(startDateMin, endDateMax).getDays();
+        return minimum ? (int)ChronoUnit.DAYS.between(startDateMax, endDateMin) : (int)ChronoUnit.DAYS.between(startDateMin, endDateMax);
     }
 }

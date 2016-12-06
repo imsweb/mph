@@ -23,20 +23,26 @@ the result (SINGLE_PRIMARY, MULTIPLE_PRIMARIES or QUESTIONABLE) and a descriptio
 Here is a typical call to the library:
 
 ```java
-MphInput input1 = new MphInput();
-input1.setDateOfDiagnosisYear("2016");
-input1.setPrimarySite("C509");
-input1.setHistologyIcdO3("8000");
-input1.setBehaviorIcdO3("3");
-
-MphInput input2 = new MphInput();
-input2.setDateOfDiagnosisYear("2016");
-input2.setPrimarySite("C501");
-input2.setHistologyIcdO3("8000");
-input2.setBehaviorIcdO3("3");
-
-MphOutput output = MphUtils.getInstance().computePrimaries(input1, input2);
-System.out.println("Result: " + output.getResult());
+public class MphTest {
+    
+    public static void main(String[] args) {
+        
+        MphInput input1 = new MphInput();
+        input1.setDateOfDiagnosisYear("2016");
+        input1.setPrimarySite("C509");
+        input1.setHistologyIcdO3("8000");
+        input1.setBehaviorIcdO3("3");
+        
+        MphInput input2 = new MphInput();
+        input2.setDateOfDiagnosisYear("2016");
+        input2.setPrimarySite("C501");
+        input2.setHistologyIcdO3("8000");
+        input2.setBehaviorIcdO3("3");
+        
+        MphOutput output = MphUtils.getInstance().computePrimaries(input1, input2);
+        System.out.println("Result: " + output.getResult());
+    }
+}
 ```
 
 ## Rules

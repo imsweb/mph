@@ -9,7 +9,7 @@ The implementation was partially based on the KCR Multiple Primary Rules Library
 
 ## Download
 
-The library will soon be available on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.imsweb%22%20AND%20a%3A%mph%22).
+The library is available on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.imsweb%22%20AND%20a%3A%mph%22).
 
 To include it to your Maven or Gradle project, use the group ID `com.imsweb` and the artifact ID `mph`.
 
@@ -47,7 +47,7 @@ If histology is in the range 9590-9989, one of the Hematopoietic set of rules wi
 
 1. If DX year 2010 or later, the "Hematopoietic 2010" rules will be used.
 2. If DX year 2001-2009, the "Hematopoietic 2001" rules will be used.
-3. If DX year 2000 or earlier, the "Hematopoietic 2000" rules will be used.
+3. If DX year 2000 or earlier, the "Hematopoietic 1998" rules will be used.
 
 If histology is not in the range 9590-9989, one of the following solid tumors sets will be used:
 

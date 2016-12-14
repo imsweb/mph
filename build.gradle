@@ -97,7 +97,7 @@ modifyPom {
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.2.1'
 }
 
 

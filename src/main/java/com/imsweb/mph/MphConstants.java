@@ -154,7 +154,7 @@ public class MphConstants {
     public static final String NEUROFIBROMATOSIS = "9540";
     public static final List<String> SPECIFIC_RENAL_CELL_HISTOLOGIES = GroupUtility.expandList("8260,8310,8316-8320,8510,8959");
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";
-    public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9424,9430,9440-9442");
+    public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
     //Histology Charts

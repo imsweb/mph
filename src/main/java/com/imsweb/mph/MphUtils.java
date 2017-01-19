@@ -193,6 +193,8 @@ public class MphUtils {
                 TempRuleResult result = rule.apply(input1, input2);
                 if (result.getResult() != null) {
                     output.setResult(result.getResult());
+                    output.setGroupId(rule.getGroupId());
+                    output.setStep(rule.getStep());
                     if (MpResult.QUESTIONABLE.equals(result.getResult()))
                         output.setReason(result.getMessage());
                     else

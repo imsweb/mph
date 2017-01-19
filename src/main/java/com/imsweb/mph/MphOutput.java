@@ -14,6 +14,10 @@ public class MphOutput {
     
     private List<MphRule> _appliedRules;
 
+    private String _groupId;
+
+    private String _step;
+
     public MphOutput() {
         _appliedRules = new ArrayList<>();
     }
@@ -36,5 +40,21 @@ public class MphOutput {
 
     public List<MphRule> getAppliedRules() {
         return _appliedRules;
+    }
+
+    public String getGroupId() {
+        return _groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        _groupId = groupId;
+    }
+
+    public String getStep() {
+        return _step;
+    }
+
+    public void setStep(String step) {
+        _step = step;
     }
 }

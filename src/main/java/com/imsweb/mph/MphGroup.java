@@ -92,6 +92,10 @@ public abstract class MphGroup {
         return _behavInclusions;
     }
 
+    public String getYearInclusions() {
+        return _yearInclusions;
+    }
+
     public List<MphRule> getRules() {
         return _rules;
     }

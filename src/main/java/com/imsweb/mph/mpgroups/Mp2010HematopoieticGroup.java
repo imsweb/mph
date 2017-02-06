@@ -60,15 +60,15 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (laterDx == -1 && simultaneouslyPresent == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (simultaneouslyPresent == 0)
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (laterDx == 1 && (MphConstants.MAST_CELL_SARCOMA.contains(hist1) || MphConstants.MYELOID_SARCOMA.contains(hist1)))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (laterDx == 2 && (MphConstants.MAST_CELL_SARCOMA.contains(hist2) || MphConstants.MYELOID_SARCOMA.contains(hist2)))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -97,11 +97,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (!hist1.equals(hist2) && MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (0 == simultaneouslyPresent)
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -136,11 +136,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (0 == simultaneouslyPresent)
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
 
                 return result;
@@ -172,7 +172,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean differentLocation = (!site1.equals(site2) && MphConstants.LYMPH_NODE.equals(site1.substring(0, 3))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
                 if (GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.NON_HODGKIN_LYMPHOMA) && differentLocation)
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -198,11 +198,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
                         || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) && latestDx != 0) {
                     if (latestDx == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if ((latestDx == 1 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -272,11 +272,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (isTransformation(morph1, morph2, latestYear)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1 || latestDx == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -320,12 +320,12 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (isTransformation(morph1, morph2, latestYear)) {
                     if (latestDx == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
                             !MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -352,12 +352,12 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (isTransformation(morph1, morph2, latestYear)) {
                     if (latestDx == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
                             MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -387,11 +387,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PTLD, combined)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (daysApart == 0)
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -414,7 +414,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
                 int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                result.setResult(MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(
+                        MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

@@ -34,7 +34,7 @@ public class Mp2007BreastGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology())
                         && MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology()))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -48,11 +48,11 @@ public class Mp2007BreastGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -74,7 +74,7 @@ public class Mp2007BreastGroup extends MphGroup {
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PAGET_DISEASE, intraductalOrDuct))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -92,7 +92,7 @@ public class Mp2007BreastGroup extends MphGroup {
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), lobular, intraductalOrDuct))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -109,7 +109,7 @@ public class Mp2007BreastGroup extends MphGroup {
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);
                 if (intraductalOrDuct.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

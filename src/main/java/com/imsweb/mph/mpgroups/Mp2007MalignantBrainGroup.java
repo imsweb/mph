@@ -3,6 +3,8 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.Collections;
+
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -37,15 +39,17 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
-                    result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
+                    int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
+                    if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                    }
+                    else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i2.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i1.getHistology()))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
-                else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i2.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i1.getHistology()))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -60,12 +64,12 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
                 if (branch1 != null && branch2 != null && (branch1.equals(branch2) || "Neuroepithelial".equals(branch1) || "Neuroepithelial".equals(branch2)))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 else {
                     branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
                     branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
                     if (branch1 != null && branch2 != null && (branch1.equals(branch2)))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -83,12 +87,12 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
                 if (branch1 != null && branch2 != null && !branch1.equals(branch2) && !"Neuroepithelial".equals(branch1) && !"Neuroepithelial".equals(branch2))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
                     branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
                     branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
                     if (branch1 != null && branch2 != null && !branch1.equals(branch2))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }

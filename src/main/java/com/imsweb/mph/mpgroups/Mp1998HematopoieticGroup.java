@@ -33,7 +33,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (laterDx == -1) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                     return result;
                 }
@@ -41,12 +41,12 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 for (String[] row : _1998_HEMATOPOIETIC)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
                             (laterDx == 0 && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(row[3]) <= 0))) {
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         return result;
                     }
 
                 //if they don't match
-                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

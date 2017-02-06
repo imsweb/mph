@@ -36,7 +36,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -52,13 +52,13 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 List<String> pairedSites = Arrays.asList("C700", "C710", "C711", "C712", "C713", "C714", "C722", "C723", "C724", "C725");
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage(
                                 "Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of " + this.getGroupId()
                                         + " should be provided.");
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -72,16 +72,17 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                if (MphConstants.PAPILLOMA.equals(i1.getHistology()) && MphConstants.PAPILLOMA.equals(i2.getHistology())) {
+                if (MphConstants.PAPILLOMA.equals(i1.getHistology()) && MphConstants.PAPILLOMA.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN
+                        .equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -96,16 +97,17 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                if (MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) && MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology())) {
+                if (MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) && MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior())
+                        && MphConstants.BENIGN.equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -126,7 +128,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
                 if (branch1 != null && branch2 != null && branch1.equals(branch2))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;
             }
@@ -146,7 +148,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
                 if (branch1 != null && branch2 != null && !branch1.equals(branch2))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -167,7 +169,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                         i2.getHistology());
                 //This rule is used only when one histology code is listed in chart and the other not, see note for M11
                 if ((branch1 != null && branch2 == null) || (branch2 != null && branch1 == null))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

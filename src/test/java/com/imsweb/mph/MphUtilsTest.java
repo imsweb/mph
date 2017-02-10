@@ -680,7 +680,7 @@ public class MphUtilsTest {
 
         //M8- An invasive tumor following an insitu tumor more than 60 days after diagnosis are multiple primaries.
         i1.setPrimarySite("C147");
-        i1.setHistologyIcdO3("8000");
+        i1.setHistologyIcdO3("8005");
         i2.setPrimarySite("C148");
         i2.setHistologyIcdO3("8100");
         i1.setBehaviorIcdO3("3");
@@ -730,7 +730,7 @@ public class MphUtilsTest {
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8000");
-        i2.setHistologyIcdO3("8004");
+        i2.setHistologyIcdO3("9500");
         i1.setDateOfDiagnosisYear("2013");
         i2.setDateOfDiagnosisYear("2010");
         output = _utils.computePrimaries(i1, i2);

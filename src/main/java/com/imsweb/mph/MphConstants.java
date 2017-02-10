@@ -158,16 +158,16 @@ public class MphConstants {
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
     //Histology Charts
-    public static final Map<String, String> NOS_VS_SPECIFIC = new HashMap<>();
+    public static final Map<String, List<String>> NOS_VS_SPECIFIC = new HashMap<>();
 
     static {
-        NOS_VS_SPECIFIC.put("8000", "8001, 8002, 8003, 8004, 8005"); //Cancer/malignant neoplasm, NOS
-        NOS_VS_SPECIFIC.put("8010", "8011, 8012, 8013, 8014, 8015"); //Carcinoma, NOS
-        NOS_VS_SPECIFIC.put("8140", "8141, 8142, 8143, 8144, 8145, 8147, 8148"); //Adenocarcinoma, NOS
-        NOS_VS_SPECIFIC.put("8070", "8071, 8072, 8073, 8074, 8075, 8076, 8077, 8078, 8080, 8081, 8082, 8083, 8084, 8094, 8323"); //Squamous cell carcinoma, NOS
-        NOS_VS_SPECIFIC.put("8720", "8721, 8722, 8723, 8726, 8728, 8730, 8740, 8741, 8742, 8743, 8744, 9745, 8746, 8761, 8770, 8771, 8772, 8773, 8774, 8780"); //Melanoma, NOS
-        NOS_VS_SPECIFIC.put("8800", "8801. 8802, 8803, 8804, 8805, 8806"); //Sarcoma, NOS
-        NOS_VS_SPECIFIC.put("8312", "8313, 8314, 8315, 8316, 8317, 8318, 8319, 8320"); //Renal cell carcinoma, NOS
+        NOS_VS_SPECIFIC.put("8000", GroupUtility.expandList("8001-9999")); //Cancer/malignant neoplasm, NOS
+        NOS_VS_SPECIFIC.put("8010", GroupUtility.expandList("8011-8015")); //Carcinoma, NOS
+        NOS_VS_SPECIFIC.put("8140", GroupUtility.expandList("8141-8145,8147-8148")); //Adenocarcinoma, NOS
+        NOS_VS_SPECIFIC.put("8070", GroupUtility.expandList("8071-8078,8080-8084,8094,8323")); //Squamous cell carcinoma, NOS
+        NOS_VS_SPECIFIC.put("8720", GroupUtility.expandList("8721-8723,8726,8728,8730,8740,8741-8746,8761,8770-8774,8780")); //Melanoma, NOS
+        NOS_VS_SPECIFIC.put("8800", GroupUtility.expandList("8801-8806")); //Sarcoma, NOS
+        NOS_VS_SPECIFIC.put("8312", GroupUtility.expandList("8313-8320")); //Renal cell carcinoma, NOS
     }
 
     public static final Map<String, String> BENIGN_BRAIN_2004_HISTOLOGY_GROUPING = new HashMap<>();

@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.3**
+
+ - Improved the way we handle undetermined rules because of invalid or missing data.
+ - All other histologies are considered as more specific to 8000, NOS.
+
 **Changes in version 1.2**
 
  - Removed 9422 from glial tumors because it is an obsolete.

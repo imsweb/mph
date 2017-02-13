@@ -2404,4 +2404,31 @@ public class MphUtilsTest {
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
+
+    @Test
+    public void testDummy() {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        MphOutput output;
+
+        // M3 - Wilms tumors are a single primary. (8960/3)
+        i1.setPrimarySite("C421");
+        i1.setHistologyIcdO3("9591");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2013");
+        i1.setDateOfDiagnosisMonth("10");
+        i1.setDateOfDiagnosisDay("03");
+        i1.setLaterality("0");
+
+        i2.setPrimarySite("C779");
+        i2.setHistologyIcdO3("9823");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisDay("16");
+        i2.setLaterality("9");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(1, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Wilms"));
+    }
 }

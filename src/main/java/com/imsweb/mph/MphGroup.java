@@ -162,7 +162,7 @@ public abstract class MphGroup {
             TempRuleResult result = new TempRuleResult();
             String hist1 = i1.getHistology(), hist2 = i2.getHistology();
             if (!hist1.substring(0, 3).equals(hist2.substring(0, 3)))
-                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             return result;
         }
 
@@ -180,7 +180,7 @@ public abstract class MphGroup {
         public TempRuleResult apply(MphInput i1, MphInput i2) {
             TempRuleResult result = new TempRuleResult();
             if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
-                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             return result;
         }
     }
@@ -202,16 +202,16 @@ public abstract class MphGroup {
             if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
                 //If they are diagnosed at same date or invasive is not following insitu
-                if (0 == latestDx || (1 == latestDx && (!"3".equals(beh1) || !"2".equals(beh2))) || (2 == latestDx && (!"3".equals(beh2) || !"2".equals(beh1))))
+                if (0 == latestDx || (1 == latestDx && !"3".equals(beh1)) || (2 == latestDx && !"3".equals(beh2)))
                     return result;
                 else {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     }
                     else if (1 == sixtyDaysApart)
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
             }
             return result;
@@ -232,11 +232,11 @@ public abstract class MphGroup {
             TempRuleResult result = new TempRuleResult();
             int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
             if (-1 == diff) {
-                result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
             }
             else if (1 == diff)
-                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
             return result;
         }
@@ -253,7 +253,7 @@ public abstract class MphGroup {
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2) {
             TempRuleResult result = new TempRuleResult();
-            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
             return result;
         }
     }

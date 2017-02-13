@@ -47,18 +47,18 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                 if (group1 != null && group2 != null) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (laterDx == -1) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
                         return result;
                     }
                     String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
                         if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (laterDx == 0 && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
-                            result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             return result;
                         }
                 }
-                result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

@@ -26,7 +26,7 @@ public class Mp2007ColonGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILLIAL_POLYPOSIS, MphConstants.POLYP) && (MphConstants.MALIGNANT.equals(i1.getBehavior())
                         || MphConstants.MALIGNANT.equals(i2.getBehavior())))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -41,7 +41,7 @@ public class Mp2007ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -56,11 +56,11 @@ public class Mp2007ColonGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
                 else if (1 == diff)
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -80,7 +80,7 @@ public class Mp2007ColonGroup extends MphGroup {
                 List<String> adenocarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
                 adenocarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), adenocarcinoma, MphConstants.POLYP))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -97,7 +97,7 @@ public class Mp2007ColonGroup extends MphGroup {
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8800");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -118,7 +118,7 @@ public class Mp2007ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

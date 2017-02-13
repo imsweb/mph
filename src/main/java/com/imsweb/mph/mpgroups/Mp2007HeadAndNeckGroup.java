@@ -26,11 +26,11 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
                 List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -45,7 +45,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -59,7 +59,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -73,7 +73,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -102,7 +102,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8070", "8720", "8800");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;
             }

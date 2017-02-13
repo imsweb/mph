@@ -26,11 +26,11 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -47,11 +47,11 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -76,7 +76,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 carcinomaHist.add(MphConstants.PAPILLARY_CARCINOMA);
                 if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && carcinomaHist.containsAll(
                         Arrays.asList(i1.getHistology(), i2.getHistology())))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -95,11 +95,11 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
                 else if (1 == diff)
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -118,7 +118,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 if (MphConstants.UROTHELIAL.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) && (MphConstants.RENAL_PELVIS.equals(site1) || MphConstants.URETER.equals(site1) || site1
                         .startsWith(MphConstants.BLADDER) || MphConstants.URETHRA.equals(site1)) && (MphConstants.RENAL_PELVIS.equals(site2) || MphConstants.URETER.equals(site2) || site2.startsWith(
                         MphConstants.BLADDER) || MphConstants.URETHRA.equals(site2)))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

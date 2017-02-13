@@ -28,7 +28,7 @@ public class Mp2007LungGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.NON_SMALL_CELL_CARCINOMA, MphConstants.SMALL_CELL_CARCINOMA))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -42,7 +42,7 @@ public class Mp2007LungGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.ADENOCARCINOMA_WITH_MIXED_SUBTYPES, MphConstants.BRONCHIOALVEOLAR))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -56,11 +56,11 @@ public class Mp2007LungGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for lung cancer should be provided.");
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -78,7 +78,7 @@ public class Mp2007LungGroup extends MphGroup {
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 //if they are on the same lung, don't apply this
                 if ((!i1.getLaterality().equals(i2.getLaterality()) || MphConstants.BOTH.equals(i1.getLaterality())) && (!hist1.substring(0, 3).equals(hist2.substring(0, 3))))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -93,11 +93,11 @@ public class Mp2007LungGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
                 else if (1 == diff)
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -116,7 +116,7 @@ public class Mp2007LungGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.NON_SMALL_CELL_CARCINOMA, MphConstants.SPECIFIC_NON_SMALL_CELL_CARCINOMA))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

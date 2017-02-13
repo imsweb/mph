@@ -25,7 +25,7 @@ public class Mp2007KidneyGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.WILMS.equals(i1.getHistology()) && MphConstants.WILMS.equals(
                         i2.getHistology()))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -43,11 +43,11 @@ public class Mp2007KidneyGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -64,11 +64,11 @@ public class Mp2007KidneyGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
-                    result.setResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
                 else if (1 == diff)
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -88,7 +88,7 @@ public class Mp2007KidneyGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (MphConstants.SPECIFIC_RENAL_CELL_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(hist2))
-                    result.setResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -105,7 +105,7 @@ public class Mp2007KidneyGroup extends MphGroup {
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8312");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;
             }

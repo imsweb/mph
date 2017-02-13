@@ -49,9 +49,9 @@ public class MphUtils {
      */
     public enum MpResult {
         // indicates the two tumors are the same primary
-        SINGLE_PRIMARY, 
+        SINGLE_PRIMARY,
         // indicates the two tumors are different primaries
-        MULTIPLE_PRIMARIES, 
+        MULTIPLE_PRIMARIES,
         // indicates there is not enough information to make a proper determination
         QUESTIONABLE
     }
@@ -188,17 +188,40 @@ public class MphUtils {
             output.setReason("The two sets of parameters belong to two different cancer groups.");
         }
         else {
+            TempRuleResult potentialResult = null;
+            List<MphRule> rulesAppliedAfterQuestionable = new ArrayList<>();
             for (MphRule rule : group1.getRules()) {
-                output.getAppliedRules().add(rule);
+                if (potentialResult == null)
+                    output.getAppliedRules().add(rule);
+                else
+                    rulesAppliedAfterQuestionable.add(rule);
                 TempRuleResult result = rule.apply(input1, input2);
-                if (result.getResult() != null) {
-                    output.setResult(result.getResult());
-                    output.setGroupId(rule.getGroupId());
-                    output.setStep(rule.getStep());
-                    if (MpResult.QUESTIONABLE.equals(result.getResult()))
-                        output.setReason(result.getMessage());
-                    else
-                        output.setReason(rule.getReason());
+                if (result.getPotentialResult() != null) {
+                    if (potentialResult == null)
+                        potentialResult = result;
+                    else if (!result.getPotentialResult().equals(potentialResult.getPotentialResult())) {
+                        output.setResult(MpResult.QUESTIONABLE);
+                        output.setGroupId(rule.getGroupId());
+                        output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
+                        output.setReason(potentialResult.getMessage());
+                        break;
+                    }
+                }
+                else if (result.getFinalResult() != null) {
+                    if (potentialResult == null || potentialResult.getPotentialResult().equals(result.getFinalResult())) {
+                        output.setResult(result.getFinalResult());
+                        output.setGroupId(rule.getGroupId());
+                        output.setStep(rule.getStep());
+                        output.setReason(MpResult.QUESTIONABLE.equals(result.getFinalResult()) ? result.getMessage() : rule.getReason());
+                        if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
+                            output.getAppliedRules().addAll(rulesAppliedAfterQuestionable);
+                    }
+                    else {
+                        output.setResult(MpResult.QUESTIONABLE);
+                        output.setGroupId(rule.getGroupId());
+                        output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
+                        output.setReason(potentialResult.getMessage());
+                    }
                     break;
                 }
             }

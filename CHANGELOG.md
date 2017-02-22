@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.4**
+
+ - Added support to lenient mode of histology matching (8000 is considered as match to any 8nnn histologies).
+
 **Changes in version 1.3**
 
  - Improved the way we handle undetermined rules because of invalid or missing data.

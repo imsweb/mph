@@ -2,11 +2,11 @@
 
 **Changes in version 1.5**
 
- - Improved the way we handle different modes of computing primaries.
+ - Moved lenient mode to be an option on the compute method instead of a global setting of MphUtils.
 
 **Changes in version 1.4**
 
- - Added support to lenient mode of histology matching (8000 is considered as match to any 8nnn histologies).
+ - Added support to lenient mode of histology matching (8000 is considered as match to any 8nnn histologies); that mode is off by default.
 
 **Changes in version 1.3**
 

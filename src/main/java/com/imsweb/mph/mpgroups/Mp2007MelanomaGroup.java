@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 
+import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -20,7 +21,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -34,7 +35,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         //M4- Melanomas with different laterality are multiple primaries. 
         rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
@@ -68,7 +69,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
         rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {

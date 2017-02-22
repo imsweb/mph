@@ -12,6 +12,7 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -29,7 +30,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
 
         MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "M1") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (laterDx == -1) {

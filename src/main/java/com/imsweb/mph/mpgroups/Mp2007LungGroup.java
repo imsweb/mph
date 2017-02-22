@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 
+import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -25,7 +26,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M4- At least one tumor that is non-small cell carcinoma (8046) and another tumor that is small cell carcinoma (8041-8045) are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.NON_SMALL_CELL_CARCINOMA, MphConstants.SMALL_CELL_CARCINOMA))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -39,7 +40,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M5- A tumor that is adenocarcinoma with mixed subtypes (8255) and another that is bronchioloalveolar (8250-8254) are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.ADENOCARCINOMA_WITH_MIXED_SUBTYPES, MphConstants.BRONCHIOALVEOLAR))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -53,7 +54,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M6- A single tumor in each lung is multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -73,7 +74,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 //if they are on the same lung, don't apply this
@@ -89,7 +90,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
@@ -113,7 +114,7 @@ public class Mp2007LungGroup extends MphGroup {
         // M10- Tumors with non-small cell carcinoma, NOS (8046) and a more specific non-small cell carcinoma type (chart 1) are a single primary.
         rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.NON_SMALL_CELL_CARCINOMA, MphConstants.SPECIFIC_NON_SMALL_CELL_CARCINOMA))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

@@ -2429,11 +2429,16 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M12", output.getStep());
 
-        _utils.setHistologyMatchingMode(MphUtils.MpHistologyMatching.LENIENT);
-        output = _utils.computePrimaries(i1, i2);
+        MphComputeOptions options = new MphComputeOptions();
+        options.setHistologyMatchingMode(MphComputeOptions.MpHistologyMatching.LENIENT);
+        output = _utils.computePrimaries(i1, i2, options);
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M13", output.getStep());
+
+        options.setHistologyMatchingMode(MphComputeOptions.MpHistologyMatching.STRICT);
+        output = _utils.computePrimaries(i1, i2, options);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
 
 }

@@ -42,7 +42,7 @@ import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
  * This Java implementation is based on the the documentation provided on the above websites.
  * Created in December 2013 by Sewbesew Bekele
  */
-public class MphUtils {
+public final class MphUtils {
 
     /**
      * The possible result of determining if two tumors are single or multiple primaries.

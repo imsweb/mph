@@ -158,11 +158,11 @@ public abstract class MphGroup {
         }
 
         @Override
-        public TempRuleResult apply(MphInput i1, MphInput i2) {
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             String hist1 = i1.getHistology(), hist2 = i2.getHistology();
             //If lenient mode is on 8000 is considered as same histology as 8nnn histologies
-            if (MphUtils.MpHistologyMatching.LENIENT.equals(MphUtils.getInstance().getHistologyMatchingMode()) && (("8000".equals(hist1) && hist2.startsWith("8")) || ("8000".equals(hist2) && hist1
+            if (MphComputeOptions.MpHistologyMatching.LENIENT.equals(options.getHistologyMatchingMode()) && (("8000".equals(hist1) && hist2.startsWith("8")) || ("8000".equals(hist2) && hist1
                     .startsWith("8"))))
                 return result;
             if (!hist1.substring(0, 3).equals(hist2.substring(0, 3)))
@@ -181,7 +181,7 @@ public abstract class MphGroup {
         }
 
         @Override
-        public TempRuleResult apply(MphInput i1, MphInput i2) {
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -200,7 +200,7 @@ public abstract class MphGroup {
         }
 
         @Override
-        public TempRuleResult apply(MphInput i1, MphInput i2) {
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
             if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
@@ -232,7 +232,7 @@ public abstract class MphGroup {
         }
 
         @Override
-        public TempRuleResult apply(MphInput i1, MphInput i2) {
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
             if (-1 == diff) {
@@ -255,7 +255,7 @@ public abstract class MphGroup {
         }
 
         @Override
-        public TempRuleResult apply(MphInput i1, MphInput i2) {
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
             return result;

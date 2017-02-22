@@ -56,24 +56,11 @@ public final class MphUtils {
         QUESTIONABLE
     }
 
-    /**
-     * How to consider histology match, if it is strict 8000 is considered a different histology than 8010-9999
-     * for rule : Do the tumors have ICD-O-3 histology codes that are different at the first (Xxxx), second (Xxxx), or third (xxXx) number?
-     * If lenient mode is on 8000 is considered as NOS and be considered to match any 8nnn histologies.
-     */
-    public enum MpHistologyMatching {
-        STRICT,
-        LENIENT
-    }
-
     // the unique instance of this utility class
     private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
     private HematoDbUtilsProvider _provider = null;
-
-    // Histology matching mode, default mode is strict
-    private MpHistologyMatching _histologyMatchingMode = MpHistologyMatching.STRICT;
 
     // the cached groups of rules used by the instance
     private List<MphGroup> _groups = new ArrayList<>();
@@ -160,10 +147,13 @@ public final class MphUtils {
      * <br/><br/>
      * @param input1 an input dto which has a list of parameters used in the calculation.
      * @param input2 an input dto which has a list of parameters used in the calculation.
+     * @param options set of options to compute the results, histologyMatchingMode option for example is used to consider 8000 a match to 8nnn histologies or not.
      * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
      */
-    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
+    public MphOutput computePrimaries(MphInput input1, MphInput input2, MphComputeOptions options) {
         MphOutput output = new MphOutput();
+        if (options == null)
+            options = new MphComputeOptions();
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
@@ -208,7 +198,7 @@ public final class MphUtils {
                     output.getAppliedRules().add(rule);
                 else
                     rulesAppliedAfterQuestionable.add(rule);
-                TempRuleResult result = rule.apply(input1, input2);
+                TempRuleResult result = rule.apply(input1, input2, options);
                 if (result.getPotentialResult() != null) {
                     if (potentialResult == null)
                         potentialResult = result;
@@ -244,6 +234,35 @@ public final class MphUtils {
     }
 
     /**
+     * Determines whether two input objects of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
+     * <br/><br/>
+     * <br/><br/>
+     * The provided record dto has the following parameters:
+     * <ul>
+     * <li>primarySite (#400)</li>
+     * <li>histologyIcdO3 (#522)</li>
+     * <li>behaviorIcdO3 (#523)</li>
+     * <li>histologyIcdO2 (#420)</li>
+     * <li>behaviorIcdO2 (#430)</li>
+     * <li>laterality (#410)</li>
+     * <li>dateOfDiagnosisYear (#390)</li>
+     * <li>dateOfDiagnosisMonth (#390)</li>
+     * <li>dateOfDiagnosisDay (#390)</li>
+     * <li>rxSummTreatmentStatus (#1285)</li>
+     * </ul>
+     * <br/><br/>
+     * All those properties are defined as constants in this class.
+     * <br/><br/>
+     * @param input1 an input dto which has a list of parameters used in the calculation.
+     * @param input2 an input dto which has a list of parameters used in the calculation.
+     * default option is used
+     * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
+     */
+    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
+        return computePrimaries(input1, input2, null);
+    }
+
+    /**
      * Returns the HematoDB provider that was registered with the instance.
      */
     public HematoDbUtilsProvider getHematoDbUtilsProvider() {
@@ -273,13 +292,5 @@ public final class MphUtils {
      */
     public List<MphGroup> getAllGroups() {
         return Collections.unmodifiableList(_groups);
-    }
-
-    public MpHistologyMatching getHistologyMatchingMode() {
-        return _histologyMatchingMode;
-    }
-
-    public void setHistologyMatchingMode(MpHistologyMatching histologyMatchingMode) {
-        _histologyMatchingMode = histologyMatchingMode;
     }
 }

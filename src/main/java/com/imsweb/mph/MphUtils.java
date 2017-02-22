@@ -56,11 +56,24 @@ public class MphUtils {
         QUESTIONABLE
     }
 
+    /**
+     * How to consider histology match, if it is strict 8000 is considered a different histology than 8010-9999
+     * for rule : Do the tumors have ICD-O-3 histology codes that are different at the first (Xxxx), second (Xxxx), or third (xxXx) number?
+     * If lenient mode is on 8000 is considered as NOS and be considered to match any 8nnn histologies.
+     */
+    public enum MpHistologyMatching {
+        STRICT,
+        LENIENT
+    }
+
     // the unique instance of this utility class
     private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
     private HematoDbUtilsProvider _provider = null;
+
+    // Histology matching mode, default mode is strict
+    private MpHistologyMatching _histologyMatchingMode = MpHistologyMatching.STRICT;
 
     // the cached groups of rules used by the instance
     private List<MphGroup> _groups = new ArrayList<>();
@@ -260,5 +273,13 @@ public class MphUtils {
      */
     public List<MphGroup> getAllGroups() {
         return Collections.unmodifiableList(_groups);
+    }
+
+    public MpHistologyMatching getHistologyMatchingMode() {
+        return _histologyMatchingMode;
+    }
+
+    public void setHistologyMatchingMode(MpHistologyMatching histologyMatchingMode) {
+        _histologyMatchingMode = histologyMatchingMode;
     }
 }

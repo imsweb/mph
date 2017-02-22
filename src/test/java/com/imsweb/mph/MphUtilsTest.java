@@ -2404,4 +2404,36 @@ public class MphUtilsTest {
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
+
+    @Test
+    public void testLenientMode() {
+        MphInput i1 = new MphInput();
+        MphInput i2 = new MphInput();
+        i1.setPrimarySite("C502");
+        i1.setHistologyIcdO3("8500");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisMonth("08");
+        i1.setDateOfDiagnosisDay("17");
+
+        i2.setPrimarySite("C502");
+        i2.setHistologyIcdO3("8000");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("1");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("10");
+        i2.setDateOfDiagnosisDay("28");
+        MphOutput output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(9, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M12", output.getStep());
+
+        _utils.setHistologyMatchingMode(MphUtils.MpHistologyMatching.LENIENT);
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M13", output.getStep());
+    }
+
 }

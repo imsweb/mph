@@ -950,10 +950,17 @@ public class MphUtilsTest {
         //M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8150");
         i2.setHistologyIcdO3("8165");
-        i1.setLaterality("1");
+        i1.setLaterality(null);
         i2.setLaterality("4");
         i1.setPrimarySite("C342");
         i2.setPrimarySite("C349");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("histology"));
+        //If one laterality is both, that means the tumors are on both lungs
+        i1.setLaterality("4");
+        i2.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());

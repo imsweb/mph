@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.6**
+
+ - Fixed a null pointer exception in 2007 lung rules.
+
 **Changes in version 1.5**
 
  - Moved lenient mode to be an option on the compute method instead of a global setting of MphUtils.

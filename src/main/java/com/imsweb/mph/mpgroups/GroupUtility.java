@@ -302,6 +302,30 @@ public class GroupUtility {
         int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
         int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
 
+        //if month is missing, set day to 99
+        if (month1 == 99)
+            day1 = 99;
+        if (month2 == 99)
+            day2 = 99;
+        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
+        try {
+            LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
+        }
+        catch (Exception e) {
+            day1 = 99;
+            if (month1 < 1 || month1 > 12)
+                month1 = 99;
+        }
+
+        try {
+            LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
+        }
+        catch (Exception e) {
+            day2 = 99;
+            if (month2 < 1 || month2 > 12)
+                month2 = 99;
+        }
+
         int minDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, true);
         int maxDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, false);
         if (latestDx == -1) {

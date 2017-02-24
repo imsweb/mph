@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.7**
+
+ - Fixed Date Time Exception for invalid days and months.
+
 **Changes in version 1.6**
 
  - Fixed a null pointer exception in 2007 lung rules.

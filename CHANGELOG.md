@@ -6,7 +6,7 @@
 
 **Changes in version 1.6**
 
- - Fixed an exception in 2007 lung rules when the incoming date is invalid.
+ - Fixed a null pointer exception in 2007 lung rules.
 
 **Changes in version 1.5**
 

@@ -328,6 +328,32 @@ public class GroupUtilityTest {
         Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 21));
         Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
         Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 21));
+
+        //Invalid month
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("13");
+        i1.setDateOfDiagnosisDay("08");
+        i2.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisDay("08");
+        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
+
+        //Invalid day
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setDateOfDiagnosisYear("2001");
+        i1.setDateOfDiagnosisMonth("08");
+        i1.setDateOfDiagnosisDay("77");
+        i2.setDateOfDiagnosisYear("2001");
+        i2.setDateOfDiagnosisMonth("12");
+        i2.setDateOfDiagnosisDay("08");
+        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 60));
+        i1.setDateOfDiagnosisMonth("10");
+        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+
     }
 
     @Test

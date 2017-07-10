@@ -129,8 +129,28 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2015");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.INVALID_INPUT, output.getResult());
         Assert.assertTrue(output.getAppliedRules().isEmpty());
+        i1.setPrimarySite("C080");
+        i2.setPrimarySite("C080");
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8100");
+        i2.setBehaviorIcdO3("x");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisYear("2015");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.INVALID_INPUT, output.getResult());
+        i1.setPrimarySite("C080");
+        i2.setPrimarySite("D080");
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8100");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisYear("2015");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.INVALID_INPUT, output.getResult());
 
         //Different group
         i1.setPrimarySite("C080");

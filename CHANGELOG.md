@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.8**
+
+ - Added a new return type for invalid and missing inputs (primary site, histology, behavior and diagnosis year).
+
 **Changes in version 1.7**
 
  - Fixed Date Time Exception for invalid days and months.

@@ -53,7 +53,9 @@ public final class MphUtils {
         // indicates the two tumors are different primaries
         MULTIPLE_PRIMARIES,
         // indicates there is not enough information to make a proper determination
-        QUESTIONABLE
+        QUESTIONABLE,
+        // indicates one or more of the requires inputs (site, hist, behavior, year) are missing or invalid
+        INVALID_INPUT
     }
 
     // the unique instance of this utility class
@@ -161,13 +163,13 @@ public final class MphUtils {
         String beh1 = input1.getBehavior(), beh2 = input2.getBehavior();
 
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
-            output.setResult(MpResult.QUESTIONABLE);
+            output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
                     "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
         else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
-            output.setResult(MpResult.QUESTIONABLE);
+            output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
                     "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;

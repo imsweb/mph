@@ -126,7 +126,7 @@ public class GroupUtilityTest {
     }
 
     @Test
-    public void testValidLaterality() {
+    public void testValidateLaterality() {
         Assert.assertFalse(GroupUtility.validateLaterality(null));
         Assert.assertFalse(GroupUtility.validateLaterality(""));
         Assert.assertFalse(GroupUtility.validateLaterality("x"));
@@ -136,7 +136,7 @@ public class GroupUtilityTest {
         Assert.assertTrue(GroupUtility.validateLaterality("4"));
         Assert.assertTrue(GroupUtility.validateLaterality("5"));
         Assert.assertFalse(GroupUtility.validateLaterality("6"));
-        Assert.assertFalse(GroupUtility.validateLaterality("9"));
+        Assert.assertTrue(GroupUtility.validateLaterality("9"));
     }
 
     @Test

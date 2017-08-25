@@ -97,10 +97,13 @@ public class MphConstants {
     public static final String TREATMENT_GIVEN = "1";
 
     //Laterality
+    public static final String NOT_PAIRED = "0";
     public static final String RIGHT = "1";
     public static final String LEFT = "2";
+    public static final String ONLY_ONE_SIDE_NS = "3";
     public static final String BOTH = "4";
     public static final String MID_LINE = "5";
+    public static final String PAIRED_NO_INFORMATION = "9";
 
     //Histologies
     public static final List<String> CARCINOMA_NOS = GroupUtility.expandList("8010");

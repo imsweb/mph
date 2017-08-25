@@ -40,6 +40,13 @@ public class GroupUtilityTest {
     }
 
     @Test
+    public void testSameValidDate() {
+        Assert.assertTrue(GroupUtility.sameValidDates(2010, 1, 1, 2010, 1, 1));
+        Assert.assertFalse(GroupUtility.sameValidDates(2010, 1, 1, 2010, 1, 2));
+        Assert.assertFalse(GroupUtility.sameValidDates(2010, 13, 1, 2010, 13, 1));
+    }
+
+    @Test
     public void testComputeRange() {
         Assert.assertFalse(GroupUtility.isContained(null, 700));
         Assert.assertTrue(GroupUtility.isContained(GroupUtility.computeRange("C700-C718,C724,C726-C729", true), 700));
@@ -109,13 +116,27 @@ public class GroupUtilityTest {
     }
 
     @Test
+    public void testValidPairedSiteLaterality() {
+        Assert.assertTrue(GroupUtility.validPairedSiteLaterality("1", "1"));
+        Assert.assertTrue(GroupUtility.validPairedSiteLaterality("1", "2"));
+        Assert.assertTrue(GroupUtility.validPairedSiteLaterality("2", "1"));
+        Assert.assertTrue(GroupUtility.validPairedSiteLaterality("2", "2"));
+        Assert.assertFalse(GroupUtility.validPairedSiteLaterality("1", "0"));
+        Assert.assertFalse(GroupUtility.validPairedSiteLaterality("2", "3"));
+    }
+
+    @Test
     public void testValidLaterality() {
-        Assert.assertTrue(GroupUtility.validLaterality("1", "1"));
-        Assert.assertTrue(GroupUtility.validLaterality("1", "2"));
-        Assert.assertTrue(GroupUtility.validLaterality("2", "1"));
-        Assert.assertTrue(GroupUtility.validLaterality("2", "2"));
-        Assert.assertFalse(GroupUtility.validLaterality("1", "0"));
-        Assert.assertFalse(GroupUtility.validLaterality("2", "3"));
+        Assert.assertFalse(GroupUtility.validateLaterality(null));
+        Assert.assertFalse(GroupUtility.validateLaterality(""));
+        Assert.assertFalse(GroupUtility.validateLaterality("x"));
+        Assert.assertTrue(GroupUtility.validateLaterality("1"));
+        Assert.assertTrue(GroupUtility.validateLaterality("2"));
+        Assert.assertTrue(GroupUtility.validateLaterality("3"));
+        Assert.assertTrue(GroupUtility.validateLaterality("4"));
+        Assert.assertTrue(GroupUtility.validateLaterality("5"));
+        Assert.assertFalse(GroupUtility.validateLaterality("6"));
+        Assert.assertFalse(GroupUtility.validateLaterality("9"));
     }
 
     @Test
@@ -126,6 +147,48 @@ public class GroupUtilityTest {
         Assert.assertFalse(GroupUtility.areOppositeSides("2", "2"));
         Assert.assertFalse(GroupUtility.areOppositeSides("1", "0"));
         Assert.assertFalse(GroupUtility.areOppositeSides("2", "3"));
+    }
+
+    @Test
+    public void testSameAndValidMainFields() {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
+
+        i1.setPrimarySite("C569");
+        i2.setPrimarySite("C569");
+        i1.setHistologyIcdO3("8472");
+        i2.setHistologyIcdO3("8472");
+        i1.setBehaviorIcdO3("1");
+        i2.setBehaviorIcdO3("1");
+        i1.setLaterality("9");
+        i2.setLaterality("9");
+        i1.setDateOfDiagnosisYear("2014");
+        i2.setDateOfDiagnosisYear("2014");
+        i1.setDateOfDiagnosisMonth("6");
+        i2.setDateOfDiagnosisMonth("6");
+        i1.setDateOfDiagnosisDay("11");
+        i2.setDateOfDiagnosisDay("11");
+        Assert.assertTrue(GroupUtility.sameAndValidMainFields(i1, i2));
+
+        i1.setHistologyIcdO3("7999");
+        i2.setHistologyIcdO3("7999");
+        Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
+        i1.setHistologyIcdO3("8472");
+        i2.setHistologyIcdO3("8472");
+
+        i2.setLaterality(null);
+        Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
+        i2.setLaterality("9");
+
+        i1.setDateOfDiagnosisMonth("1");
+        Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
+        i1.setDateOfDiagnosisMonth("6");
+        Assert.assertTrue(GroupUtility.sameAndValidMainFields(i1, i2));
+
+        i1.setDateOfDiagnosisDay("31");
+        i2.setDateOfDiagnosisDay("31");
+        Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
+
     }
 
     @Test

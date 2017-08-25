@@ -60,7 +60,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         //Each side of a paired organ is considered a separate site.
                         if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                             return result;
-                        else if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        else if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             if (daysApart == -1)
                                 result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
@@ -96,7 +96,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 1) {
-                    if (!GroupUtility.validLaterality(lat1, lat2)) {
+                    if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
@@ -217,7 +217,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         //only single paired
                         if (GroupUtility.areOppositeSides(lat1, lat2))
                             return result;
-                        else if (!GroupUtility.validLaterality(lat1, lat2)) {
+                        else if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                             //Exceptions
                             if (GroupUtility.differentCategory(hist1, hist2, MphConstants.CARCINOMA_NOS, MphConstants.CARCINOMA_SPECIFIC))
@@ -350,7 +350,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1 && isPairedSite(site1) && isPairedSite(site2)) {
-                    if (!GroupUtility.validLaterality(lat1, lat2)) {
+                    if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         if (daysApart == -1)
                             result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");

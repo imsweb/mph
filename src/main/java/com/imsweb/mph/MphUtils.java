@@ -180,7 +180,12 @@ public final class MphUtils {
         MphGroup group1 = findCancerGroup(site1, hist1, beh1, latestYear);
         MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
-        if (group1 == null) {
+        //Generic rule, if both groups can not be determined and they have same valid site, hist, behavior, date, laterality return single primary.
+        if (group1 == null && group2 == null && GroupUtility.sameAndValidMainFields(input1, input2)) {
+            output.setResult(MpResult.SINGLE_PRIMARY);
+            output.setReason("The two sets of parameters have same values for site, histology, behavior, diagnosis date and laterality.");
+        }
+        else if (group1 == null) {
             output.setResult(MpResult.QUESTIONABLE);
             output.setReason("The first tumor provided does not belong to any of the cancer groups.");
         }

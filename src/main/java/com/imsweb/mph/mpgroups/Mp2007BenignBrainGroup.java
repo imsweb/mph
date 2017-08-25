@@ -52,7 +52,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 List<String> pairedSites = Arrays.asList("C700", "C710", "C711", "C712", "C713", "C714", "C722", "C723", "C724", "C725");
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage(
                                 "Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of " + this.getGroupId()

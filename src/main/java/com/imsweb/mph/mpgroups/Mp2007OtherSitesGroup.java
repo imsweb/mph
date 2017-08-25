@@ -122,7 +122,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                         "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
 
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality())) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of other-sites should be provided.");
                     }

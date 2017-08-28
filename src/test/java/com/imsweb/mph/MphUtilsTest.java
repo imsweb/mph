@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2004BenignBrainGroup;
@@ -175,6 +176,31 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2015");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertTrue(output.getAppliedRules().isEmpty());
+
+        //unknown groups but same values for the main fields
+        i1.setPrimarySite("C569");
+        i2.setPrimarySite("C569");
+        i1.setHistologyIcdO3("8472");
+        i2.setHistologyIcdO3("8472");
+        i1.setBehaviorIcdO3("1");
+        i2.setBehaviorIcdO3("1");
+        i1.setLaterality("1");
+        i2.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2014");
+        i2.setDateOfDiagnosisYear("2014");
+        i1.setDateOfDiagnosisMonth("2");
+        i2.setDateOfDiagnosisMonth("2");
+        i1.setDateOfDiagnosisDay("11");
+        i2.setDateOfDiagnosisDay("11");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertTrue(output.getAppliedRules().isEmpty());
+
+        i1.setDateOfDiagnosisDay("30");
+        i2.setDateOfDiagnosisDay("30"); //February 30
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertTrue(output.getAppliedRules().isEmpty());
     }
 

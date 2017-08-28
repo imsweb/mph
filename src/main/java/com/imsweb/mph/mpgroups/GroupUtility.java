@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +24,8 @@ public class GroupUtility {
     /**
      * Validates the provided input's primary site, histology, behavior and diagnosis year. These properties are required to determine the cancer group and used at least in one of the rules in each group.
      */
-    public static boolean validateProperties(String primarySite, String histology, String behavior, int validateBehavior) {
-        return validateSite(primarySite) && validateHistology(histology) && validateBehavior(behavior) && validateYear(validateBehavior);
+    public static boolean validateProperties(String primarySite, String histology, String behavior, int year) {
+        return validateSite(primarySite) && validateHistology(histology) && validateBehavior(behavior) && validateYear(year);
     }
 
     /**
@@ -53,6 +54,18 @@ public class GroupUtility {
      */
     public static boolean validateYear(int year) {
         return year >= 0 && year <= LocalDate.now().getYear();
+    }
+
+    /**
+     * check if diagnosis dates are valid and same
+     */
+    public static boolean sameValidDates(int year1, int month1, int day1, int year2, int month2, int day2) {
+        try {
+            return LocalDate.of(year1, month1, day1).isEqual(LocalDate.of(year2, month2, day2));
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -152,10 +165,18 @@ public class GroupUtility {
     }
 
     /**
-     * checks if lateralities are valid
+     * checks if lateralities are valid for paired sites, if they are either left or right
      */
-    public static boolean validLaterality(String lat1, String lat2) {
+    public static boolean validPairedSiteLaterality(String lat1, String lat2) {
         return (MphConstants.RIGHT.equals(lat1) || MphConstants.LEFT.equals(lat1)) && (MphConstants.RIGHT.equals(lat2) || MphConstants.LEFT.equals(lat2));
+    }
+
+    /**
+     * checks if laterality is valid
+     */
+    public static boolean validateLaterality(String lat) {
+        return Arrays.asList(MphConstants.NOT_PAIRED, MphConstants.RIGHT, MphConstants.LEFT, MphConstants.ONLY_ONE_SIDE_NS, MphConstants.BOTH, MphConstants.MID_LINE,
+                MphConstants.PAIRED_NO_INFORMATION).contains(lat);
     }
 
     /**
@@ -163,6 +184,29 @@ public class GroupUtility {
      */
     public static boolean areOppositeSides(String lat1, String lat2) {
         return (MphConstants.RIGHT.equals(lat1) && MphConstants.LEFT.equals(lat2)) || (MphConstants.RIGHT.equals(lat2) && MphConstants.LEFT.equals(lat1));
+    }
+
+    /**
+     * checks if two cases have same and valid site, hist, behavior, date, laterality
+     */
+    public static boolean sameAndValidMainFields(MphInput i1, MphInput i2) {
+        int year1 = NumberUtils.isDigits(i1.getDateOfDiagnosisYear()) ? Integer.parseInt(i1.getDateOfDiagnosisYear()) : -1;
+        int year2 = NumberUtils.isDigits(i2.getDateOfDiagnosisYear()) ? Integer.parseInt(i2.getDateOfDiagnosisYear()) : -1;
+        int month1 = NumberUtils.isDigits(i1.getDateOfDiagnosisMonth()) ? Integer.parseInt(i1.getDateOfDiagnosisMonth()) : -1;
+        int month2 = NumberUtils.isDigits(i2.getDateOfDiagnosisMonth()) ? Integer.parseInt(i2.getDateOfDiagnosisMonth()) : -1;
+        int day1 = NumberUtils.isDigits(i1.getDateOfDiagnosisDay()) ? Integer.parseInt(i1.getDateOfDiagnosisDay()) : -1;
+        int day2 = NumberUtils.isDigits(i2.getDateOfDiagnosisDay()) ? Integer.parseInt(i2.getDateOfDiagnosisDay()) : -1;
+
+        String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+        return validateProperties(site1, hist1, beh1, year1) &&
+                validateProperties(site2, hist2, beh2, year2) &&
+                validateLaterality(lat1) && validateLaterality(lat2) &&
+                Objects.equals(site1, site2) &&
+                Objects.equals(hist1, hist2) &&
+                Objects.equals(beh1, beh2) &&
+                sameValidDates(year1, month1, day1, year2, month2, day2) &&
+                Objects.equals(lat1, lat2);
     }
 
     /**

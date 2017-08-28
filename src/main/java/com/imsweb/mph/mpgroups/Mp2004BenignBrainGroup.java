@@ -22,7 +22,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
-                        && GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality()) && i1.getLaterality().equals(i2.getLaterality()))
+                        && GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality()) && i1.getLaterality().equals(i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
@@ -37,7 +37,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
-                        && !GroupUtility.validLaterality(i1.getLaterality(), i2.getLaterality()))
+                        && !GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }

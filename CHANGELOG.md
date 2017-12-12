@@ -3,7 +3,6 @@
 **Changes in version 1.10**
 
  - Updated Commons Lang library from version 3.4 to version 3.6.
- - Updated SEER API client from version 3.0 to version 3.6.
 
 **Changes in version 1.9**
 

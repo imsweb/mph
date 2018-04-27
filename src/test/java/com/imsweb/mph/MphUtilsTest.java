@@ -25,6 +25,17 @@ import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2018BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2018ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2018CutaneousMelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2018HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2018LungGroup;
+import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
+import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
+import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
+import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
+
 
 public class MphUtilsTest {
 
@@ -113,6 +124,40 @@ public class MphUtilsTest {
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C718", "8700", "3", 2006));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C752", "9000", "3", 1980));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C009", "9000", "3", 2000));
+
+        //2018 Breast
+        Assert.assertEquals(new Mp2018BreastGroup(), _utils.findCancerGroup("C500", "8100", "3", 2011));
+
+        //2018 Colon
+        Assert.assertEquals(new Mp2018ColonGroup(), _utils.findCancerGroup("C180", "8100", "3", 2008));
+
+        //2018 Cutaneous Melanoma
+        Assert.assertEquals(new Mp2018CutaneousMelanomaGroup(), _utils.findCancerGroup("C440", "8725", "3", 2010));
+
+        //2018 Head and Neck
+        Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C005", "8100", "3", 2007));
+
+        //2018 Kidney
+        Assert.assertEquals(new Mp2018KidneyGroup(), _utils.findCancerGroup("C649", "8100", "3", 2012));
+
+        //2018 Lung
+        Assert.assertEquals(new Mp2018LungGroup(), _utils.findCancerGroup("C340", "8100", "3", 2009));
+
+        //2018 Malignant CNS And Peripheral Nerves
+        Assert.assertEquals(new Mp2018MalignantCNSAndPeripheralNervesGroup(), _utils.findCancerGroup("C751", "8100", "3", 2009));
+
+        //2018 Non-Malignant CNS Tumor
+        Assert.assertEquals(new Mp2018NonMalignantCNSTumorsGroup(), _utils.findCancerGroup("C751", "8100", "0", 2007));
+
+        //2018 Other Sites
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C887", "8200", "3", 2007)); //primary site not in groups
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C445", "8800", "3", 2007)); //melanoma with excluded histology
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C180", "9140", "3", 2007)); //Kaposi sarcoma
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C751", "8100", "2", 2007)); //Brain which is neither malignant nor benign
+
+        //2018 Urinary Sites
+        Assert.assertEquals(new Mp2018UrinarySitesGroup(), _utils.findCancerGroup("C672", "8100", "3", LocalDate.now().getYear()));
+
     }
 
     @Test

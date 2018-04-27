@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -15,12 +15,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007UrinaryGroup extends MphGroup {
+public class Mp2018UrinarySitesGroup extends MphGroup {
 
-    public Mp2007UrinaryGroup() {
-        super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+    public Mp2018UrinarySitesGroup() {
+        super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
 
-        // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659) 
+        /*
+        // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659)
         MphRule rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -41,7 +42,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         rule.getNotes().add("Use this rule and abstract as a multiple primary unless documented to be metastatic.");
         _rules.add(rule);
 
-        // M4 - When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries. (C669) 
+        // M4 - When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries. (C669)
         rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -66,8 +67,8 @@ public class Mp2007UrinaryGroup extends MphGroup {
         rule = new MphRuleBehavior(MphConstants.MP_2007_URINARY_GROUP_ID, "M5");
         _rules.add(rule);
 
-        // M6 - Bladder tumors with any combination of the following histologies: papillary carcinoma (8050), transitional cell carcinoma (8120-8124), 
-        // or papillary transitional cell carcinoma (8130-8131), are a single primary.       
+        // M6 - Bladder tumors with any combination of the following histologies: papillary carcinoma (8050), transitional cell carcinoma (8120-8124),
+        // or papillary transitional cell carcinoma (8130-8131), are a single primary.
         rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -135,7 +136,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 "- Urethra /prostatic urethra (C680)");
         _rules.add(rule);
 
-        // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_URINARY_GROUP_ID, "M9");
         _rules.add(rule);
 
@@ -147,5 +148,8 @@ public class Mp2007UrinaryGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_URINARY_GROUP_ID, "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
+        */
+
     }
 }
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -15,12 +15,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007OtherSitesGroup extends MphGroup {
+public class Mp2018OtherSitesGroup extends MphGroup {
 
-    //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
-    public Mp2007OtherSitesGroup() {
-        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-2017");
+    //Excludes Breast, Colon, Cutaneous Melanoma, Head and Neck, Kidney, Lung, Malignant CNS And Peripheral Nerves, Non-Malignant CNS Tumors, Urinary Sites
+    public Mp2018OtherSitesGroup() {
+        super(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2018-9999");
 
+        /*
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3") {
             @Override
@@ -274,7 +275,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                 "- Sarcoma, NOS (8800) and another is a specific sarcoma");
         _rules.add(rule);
 
-        //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M17");
         _rules.add(rule);
 
@@ -282,6 +283,8 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M18");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
+        */
+
     }
 
     @Override
@@ -291,15 +294,16 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             return false;
 
         List<MphGroup> specificGroups = new ArrayList<>();
-        specificGroups.add(new Mp2007HeadAndNeckGroup());
+        specificGroups.add(new Mp2018BreastGroup());
         specificGroups.add(new Mp2007ColonGroup());
-        specificGroups.add(new Mp2007LungGroup());
-        specificGroups.add(new Mp2007MelanomaGroup());
-        specificGroups.add(new Mp2007BreastGroup());
-        specificGroups.add(new Mp2007KidneyGroup());
-        specificGroups.add(new Mp2007UrinaryGroup());
-        specificGroups.add(new Mp2007BenignBrainGroup());
-        specificGroups.add(new Mp2007MalignantBrainGroup());
+        specificGroups.add(new Mp2018CutaneousMelanomaGroup());
+        specificGroups.add(new Mp2018HeadAndNeckGroup());
+        specificGroups.add(new Mp2018KidneyGroup());
+        specificGroups.add(new Mp2018LungGroup());
+        specificGroups.add(new Mp2018MalignantCNSAndPeripheralNervesGroup());
+        specificGroups.add(new Mp2018NonMalignantCNSTumorsGroup());
+        specificGroups.add(new Mp2018UrinarySitesGroup());
+
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;
@@ -307,3 +311,4 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         return true;
     }
 }
+

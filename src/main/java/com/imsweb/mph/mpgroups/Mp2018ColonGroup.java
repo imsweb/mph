@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -15,11 +15,12 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007ColonGroup extends MphGroup {
+public class Mp2018ColonGroup extends MphGroup {
 
-    public Mp2007ColonGroup() {
-        super(MphConstants.MP_2007_COLON_GROUP_ID, MphConstants.MP_2007_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+    public Mp2018ColonGroup() {
+        super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2019-9999");
 
+        /*
         // M3 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more malignant polyps is a single primary.
         MphRule rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M3") {
             @Override
@@ -128,7 +129,7 @@ public class Mp2007ColonGroup extends MphGroup {
         rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
         _rules.add(rule);
 
-        //M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        //M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_COLON_GROUP_ID, "M10");
         _rules.add(rule);
 
@@ -137,5 +138,7 @@ public class Mp2007ColonGroup extends MphGroup {
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M11 are in the same segment of the colon.");
         _rules.add(rule);
+        */
     }
 }
+

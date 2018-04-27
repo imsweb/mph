@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -13,12 +13,14 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007MalignantBrainGroup extends MphGroup {
+public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
-    public Mp2007MalignantBrainGroup() {
-        super(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9989,9140", "3",
-                "2007-2017");
+    public Mp2018MalignantCNSAndPeripheralNervesGroup() {
+        super(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null,
+                null, "9590-9989,9140", "3",
+                "2018-9999");
 
+        /*
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M4") {
             @Override
@@ -102,7 +104,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         rule.setReason("Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.");
         _rules.add(rule);
 
-        // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M9");
         _rules.add(rule);
 
@@ -113,5 +115,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         rule.getExamples().add(
                 "The patient is treated for an anaplastic astrocytoma (9401) in the right parietal lobe. Three months later the patient is diagnosed with a separate anaplastic astrocytoma in the left parietal lobe. This is one primary because laterality is not used to determine multiple primary status.");
         _rules.add(rule);
+        */
     }
 }
+

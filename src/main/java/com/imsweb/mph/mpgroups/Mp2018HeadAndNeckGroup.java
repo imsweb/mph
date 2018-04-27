@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -14,12 +14,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007HeadAndNeckGroup extends MphGroup {
+public class Mp2018HeadAndNeckGroup extends MphGroup {
 
-    public Mp2007HeadAndNeckGroup() {
-        super(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+    public Mp2018HeadAndNeckGroup() {
+        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
 
-        // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
+        /*
+        // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -94,7 +95,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         rule = new MphRuleDiagnosisDate(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M9");
         _rules.add(rule);
 
-        //M10 - 
+        //M10 -
         rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -123,7 +124,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
                 "- Sarcoma, NOS (8800) and another is a specific sarcoma");
         _rules.add(rule);
 
-        //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M11");
         _rules.add(rule);
 
@@ -135,5 +136,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         rule.getExamples().add("An in situ and invasive tumor diagnosed within60 days.");
         rule.getExamples().add("In situ following an invasive tumor more than 60 days apart.");
         _rules.add(rule);
+        */
     }
 }
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -14,11 +14,12 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007KidneyGroup extends MphGroup {
+public class Mp2018KidneyGroup extends MphGroup {
 
-    public Mp2007KidneyGroup() {
-        super(MphConstants.MP_2007_KIDNEY_GROUP_ID, MphConstants.MP_2007_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+    public Mp2018KidneyGroup() {
+        super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
 
+        /*
         // M3 - Wilms tumors are a single primary. (8960/3)
         MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M3") {
             @Override
@@ -124,7 +125,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         rule.getNotes().add("The specific histology for invasive tumors may be identified as type, subtype, predominantly, with features of, major, or with ____differentiation.");
         _rules.add(rule);
 
-        // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.  
+        // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M10");
         _rules.add(rule);
 
@@ -132,5 +133,9 @@ public class Mp2007KidneyGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
+        */
+
     }
 }
+
+

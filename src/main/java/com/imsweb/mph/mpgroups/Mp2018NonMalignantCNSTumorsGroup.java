@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -14,16 +14,18 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007BenignBrainGroup extends MphGroup {
+public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
-    public Mp2007BenignBrainGroup() {
-        super(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9989,9140", "0-1", "2007-2017");
+    public Mp2018NonMalignantCNSTumorsGroup() {
+        super(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null,
+                "9590-9989,9140", "0-1", "2018-9999");
 
-        // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.        
+        /*
+        // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                //This will never happen, since the two conditions belong to different cancer group.           
+                //This will never happen, since the two conditions belong to different cancer group.
                 return new TempRuleResult();
             }
         };
@@ -178,7 +180,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         rule.setReason("Tumors with two or more histologic types and at least one of the histologies is not listed in Chart 1 are multiple primaries.");
         _rules.add(rule);
 
-        //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M11");
         rule.getNotes().add("Use this rule when none of the histology codes are listed in Chart 1.");
         _rules.add(rule);
@@ -190,5 +192,9 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and it is unknown if laterality is the same as the original tumor are a single primary.");
         rule.getExamples().add("Tumors in the same site and same laterality with histology codes not listed in Chart 1 that have the same first three numbers are a single primary.");
         _rules.add(rule);
+        */
+
     }
 }
+
+

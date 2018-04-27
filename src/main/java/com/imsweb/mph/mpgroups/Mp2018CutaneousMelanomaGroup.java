@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -13,11 +13,12 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007MelanomaGroup extends MphGroup {
+public class Mp2018CutaneousMelanomaGroup extends MphGroup {
 
-    public Mp2007MelanomaGroup() {
-        super(MphConstants.MP_2007_MELANOMA_GROUP_ID, MphConstants.MP_2007_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780", null, "2-3,6", "2007-2017");
+    public Mp2018CutaneousMelanomaGroup() {
+        super(MphConstants.MP_2007_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2007_CUTANEOUS_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780", null, "2-3,6", "2018-9999");
 
+        /*
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3") {
             @Override
@@ -32,7 +33,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         rule.setReason("Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.");
         _rules.add(rule);
 
-        //M4- Melanomas with different laterality are multiple primaries. 
+        //M4- Melanomas with different laterality are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -54,7 +55,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         rule.getExamples().add("A melanoma of the right side of the chest and a melanoma of the left side of the chest are multiple primaries.");
         _rules.add(rule);
 
-        //M5- Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
+        //M5- Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         rule = new MphRuleHistologyCode(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M5");
         rule.setQuestion("Do the melanomas haveICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number?");
         rule.setReason("Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.");
@@ -66,7 +67,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         rule.setReason("An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.");
         _rules.add(rule);
 
-        //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
+        //M7- Melanomas diagnosed more than 60 days apart are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -92,5 +93,8 @@ public class Mp2007MelanomaGroup extends MphGroup {
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by this rule are the same site and histology.");
         _rules.add(rule);
+        */
     }
 }
+
+

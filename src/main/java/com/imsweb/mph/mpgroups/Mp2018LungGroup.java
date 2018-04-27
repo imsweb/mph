@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Information Management Services, Inc.
+ * Copyright (C) 2018 Information Management Services, Inc.
  */
 package com.imsweb.mph.mpgroups;
 
@@ -13,11 +13,12 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
-public class Mp2007LungGroup extends MphGroup {
+public class Mp2018LungGroup extends MphGroup {
 
-    public Mp2007LungGroup() {
-        super(MphConstants.MP_2007_LUNG_GROUP_ID, MphConstants.MP_2007_LUNG_GROUP_NAME, "C340-C349", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+    public Mp2018LungGroup() {
+        super(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME, "C340-C349", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
 
+        /*
         // M3- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         MphRule rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_LUNG_GROUP_ID, "M3");
         rule.getNotes().add("This is a change in rules; tumors in the trachea (C33) and in the lung (C34) were a single lung primary in the previous rules.");
@@ -135,5 +136,8 @@ public class Mp2007LungGroup extends MphGroup {
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by this rule are the same histology.");
         _rules.add(rule);
+        */
+
     }
 }
+

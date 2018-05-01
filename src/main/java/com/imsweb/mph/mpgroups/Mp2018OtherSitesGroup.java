@@ -17,9 +17,198 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018OtherSitesGroup extends MphGroup {
 
+    /*
+    Other Sites Multiple Primary Rules – Text
+    Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemi
+
+    Rule M3     Adenocarcinoma of the prostate is always a single primary. *
+                Note 1: Report only one adenocarcinoma of the prostate per patient per lifetime.
+                Note 2: 95% of prostate malignancies are the common (acinar) adenocarcinoma histology (8140). See Equivalent Terms, Definitions and Tables for more information.
+                Note 3: If patient has a previous acinar adenocarcinoma of the prostate in the database and is diagnosed with adenocarcinoma in 2007 it is a single primary.
+
+    Rule M4     Retinoblastoma is always a single primary (unilateral or bilateral). *
+
+    Rule M5     Kaposi sarcoma (any site or sites) is always a single primary. *
+
+    Rule M6     Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary. *
+
+    Rule M7     Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. *
+
+    Rule M8     Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries. **
+                Note: Table 1 – Paired Organs and Sites with Laterality)
+
+    Rule M9     Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.*
+                Note: Tumors may be present in a single or multiple segments of the colon, rectosigmoid, rectum.
+
+    Rule M10    Tumors diagnosed more than one (1) year apart are multiple primaries. **
+
+    Rule M11    Tumors with ICD-O-3 topography codes that are different at the second (Cxxx) and/or third characters (Cxxx) are multiple primaries. **
+                Example 1: A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.
+                Example 2: A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.
+
+    Rule M12    Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxxx) and are in any one of the following primary sites are multiple primaries. **
+                • Anus and anal canal (C21_)
+                • Bones, joints, and articular cartilage (C40_- C41_)
+                • Peripheral nerves and autonomic nervous system (C47_) (Cases diagnosed 1/1/2007 to 12/31/2017 ONLY)
+                • Connective subcutaneous and other soft tissues (C49_)
+                • Skin (C44_)
+
+    Rule M13    A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary. *
+
+    Rule M14    Multiple in situ and/or malignant polyps are a single primary. *
+                Note: Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.
+
+    Rule M15    An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary. **
+                Note 1: The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.
+                Note 2: Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.
+
+    Rule M16    Abstract as a single primary* when one tumor is:
+                • Cancer/malignant neoplasm, NOS (8000) and another is a specific histology or
+                • Carcinoma, NOS (8010) and another is a specific carcinoma or
+                • Squamous cell carcinoma, NOS (8070) and another is specific squamous cell carcinoma or
+                • Adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma or
+                • Melanoma, NOS (8720) and another is a specific melanoma
+                • Sarcoma, NOS (8800) and another is a specific sarcoma
+
+    Rule M17    Tumors with ICD-O-3 histology codes that are different at the first (xxxx), second (xxxx) or third (xxxx) number are multiple primaries. **
+
+    Rule M18    Tumors that do not meet any of the above criteria are a single primary. *
+                Note: When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.
+
+    */
+
+
     //Excludes Breast, Colon, Cutaneous Melanoma, Head and Neck, Kidney, Lung, Malignant CNS And Peripheral Nerves, Non-Malignant CNS Tumors, Urinary Sites
+    // TODO
     public Mp2018OtherSitesGroup() {
         super(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2018-9999");
+
+        // Rule M3 - Adenocarcinoma of the prostate is always a single primary. *
+        // TODO
+        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M3");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("Report only one adenocarcinoma of the prostate per patient per lifetime.");
+        rule.getNotes().add("95% of prostate malignancies are the common (acinar) adenocarcinoma histology (8140). See Equivalent Terms, Definitions and Tables for more information.");
+        rule.getNotes().add("If patient has a previous acinar adenocarcinoma of the prostate in the database and is diagnosed with adenocarcinoma in 2007 it is a single primary.");
+        _rules.add(rule);
+
+        // Rule M4 - Retinoblastoma is always a single primary (unilateral or bilateral). *
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M4");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M5 - Kaposi sarcoma (any site or sites) is always a single primary. *
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M5");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M6 - Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary. *
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M6");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M7 - Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. *
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M7");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries. **
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("Table 1 – Paired Organs and Sites with Laterality)");
+        _rules.add(rule);
+
+        // Rule M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.*
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M9");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("Tumors may be present in a single or multiple segments of the colon, rectosigmoid, rectum.");
+        _rules.add(rule);
+
+        // Rule M10 - Tumors diagnosed more than one (1) year apart are multiple primaries. **
+        // TODO
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M10");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M11 - Tumors with ICD-O-3 topography codes that are different at the second (Cxxx) and/or third characters (Cxxx) are multiple primaries. **
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M11");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getExamples().add("A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.");
+        rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
+        _rules.add(rule);
+
+        // Rule M12 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxxx) and are in any one of the following primary sites are multiple primaries. **
+        // • Anus and anal canal (C21_)
+        // • Bones, joints, and articular cartilage (C40_- C41_)
+        // • Peripheral nerves and autonomic nervous system (C47_) (Cases diagnosed 1/1/2007 to 12/31/2017 ONLY)
+        // • Connective subcutaneous and other soft tissues (C49_)
+        // • Skin (C44_)
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M12");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M13 - A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary. *
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M13");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M14 - Multiple in situ and/or malignant polyps are a single primary. *
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M14");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
+        _rules.add(rule);
+
+        // Rule M15    An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary. **
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M15");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
+        rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
+        _rules.add(rule);
+
+        // Rule M16 - Abstract as a single primary* when one tumor is:
+        // • Cancer/malignant neoplasm, NOS (8000) and another is a specific histology or
+        // • Carcinoma, NOS (8010) and another is a specific carcinoma or
+        // • Squamous cell carcinoma, NOS (8070) and another is specific squamous cell carcinoma or
+        // • Adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma or
+        // • Melanoma, NOS (8720) and another is a specific melanoma
+        // • Sarcoma, NOS (8800) and another is a specific sarcoma
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M16");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M17 - Tumors with ICD-O-3 histology codes that are different at the first (xxxx), second (xxxx) or third (xxxx) number are multiple primaries. **
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M17");
+        rule.setQuestion("");
+        rule.setReason("");
+        _rules.add(rule);
+
+        // Rule M18 - Tumors that do not meet any of the above criteria are a single primary. *
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M18");
+        rule.setQuestion("");
+        rule.setReason("");
+        rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
+        _rules.add(rule);
+
 
         /*
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)

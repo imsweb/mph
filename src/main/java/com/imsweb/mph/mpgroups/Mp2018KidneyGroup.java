@@ -138,8 +138,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("The rules are hierarchical. This rule only applies when there is a subsequent kidney tumor.");
         rule.getNotes().add("The time interval means the patient has been clinically disease-free for more than 3 years");
-        rule.getNotes().add(
-                "  Definition clinically free: There has been no clinical evidence of disease greater than 3 years from date of original diagnosis. Scans, urine cytology, and all other work-ups show no evidence of disease (NED). No subsequent kidney tumor and/or any metastases from the kidney tumor");
+        rule.getNotes().add("  Definition clinically free: There has been no clinical evidence of disease greater than 3 years from date of original diagnosis. Scans, urine cytology, and all other work-ups show no evidence of disease (NED). No subsequent kidney tumor and/or any metastases from the kidney tumor");
         rule.getNotes().add("When the patient has a recurrence less than or equal to 3 years from the date of initial diagnosis");
         rule.getNotes().add("  • The “clock” starts over");
         rule.getNotes().add("    o The disease-free interval (greater than 3 years) is now computed from the date of the last known recurrence");

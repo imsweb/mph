@@ -117,10 +117,8 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M4");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "The time interval means the patient has been clinically disease-free (for more than five years). Clinically disease-free means there are no clinical signs of recurrent or metastatic disease.");
-        rule.getNotes().add(
-                "When the patient has a recurrence within five years of diagnosis, the “clock” starts over. The five-year disease-free interval is no longer computed from the date of diagnosis, it starts from the date of the last known recurrence. In other words, the patient must have been disease-free for at more than five years following the last recurrence.");
+        rule.getNotes().add("The time interval means the patient has been clinically disease-free (for more than five years). Clinically disease-free means there are no clinical signs of recurrent or metastatic disease.");
+        rule.getNotes().add("When the patient has a recurrence within five years of diagnosis, the “clock” starts over. The five-year disease-free interval is no longer computed from the date of diagnosis, it starts from the date of the last known recurrence. In other words, the patient must have been disease-free for at more than five years following the last recurrence.");
         rule.getNotes().add("When it is unknown whether there was a recurrence, default to date of diagnosis to compute the one-year interval.");
         rule.getNotes().add("Recurrent tumors may be either malignant /3 or in situ /2.");
         rule.getNotes().add("The physician specialists used surveillance data to determine the time interval which statistically confirmed a new primary.");
@@ -147,8 +145,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Go to the site-specific table (primary site being abstracted) in Tables 2-10 in the Equivalent Terms and Definitions to find the subtypes/variants for the NOS histology.");
+        rule.getNotes().add("Go to the site-specific table (primary site being abstracted) in Tables 2-10 in the Equivalent Terms and Definitions to find the subtypes/variants for the NOS histology.");
         rule.getNotes().add("Subtypes/variants do not have the same ICD-O histology/morphology code as the NOS. Examples include:");
         rule.getNotes().add("  • Ameloblastic carcinoma 9270 and a subtype/variant of ameloblastic carcinoma OR");
         rule.getNotes().add("  • Cancer NOS 8000 and a subtype/variant of cancer NOS OR");
@@ -182,16 +179,13 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M9");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Only the invasive tumor is reported. If the case has been abstracted, change the behavior code on the original abstract from in situ /2 to invasive /3. Report changes to the central registry.");
+        rule.getNotes().add("Only the invasive tumor is reported. If the case has been abstracted, change the behavior code on the original abstract from in situ /2 to invasive /3. Report changes to the central registry.");
         rule.getNotes().add("Both the invasive and in situ must be");
         rule.getNotes().add("  • The same ICD-O histology/morphology code XXXX OR");
         rule.getNotes().add("  • NOS and subtype/variant of the NOS");
         rule.getNotes().add("The rules are hierarchical so both the invasive and in situ must be in the same primary site");
-        rule.getNotes().add(
-                "When an invasive component is diagnosed within 60 days of the in situ diagnosis, it was probably present at diagnosis. If the invasive was not present at diagnosis, the time interval is so short that it is still reported as one primary (the invasive).");
-        rule.getNotes().add(
-                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging is done to determine which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("When an invasive component is diagnosed within 60 days of the in situ diagnosis, it was probably present at diagnosis. If the invasive was not present at diagnosis, the time interval is so short that it is still reported as one primary (the invasive).");
+        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging is done to determine which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
         // Rule M10 - Abstract multiple primaries when an invasive tumor occurs more than 60 days after the diagnosis of an in-situ tumor.
@@ -200,8 +194,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The purpose of this rule is to ensure that both the invasive and in situ malignancies are abstracted and counted as an incidence case when data are analyzed.");
-        rule.getNotes().add(
-                "Follow the rules and abstract as multiple primaries when the physician states the invasive tumor is a recurrence or disease progression. It is disease progression, but the invasive must be reported for two reasons:");
+        rule.getNotes().add("Follow the rules and abstract as multiple primaries when the physician states the invasive tumor is a recurrence or disease progression. It is disease progression, but the invasive must be reported for two reasons:");
         rule.getNotes().add("  • So the disease will be counted as an incidence case AND");
         rule.getNotes().add("  • Mortality data will not show a cause of death as in situ disease");
         rule.getNotes().add("The invasive and in situ must be");

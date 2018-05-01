@@ -134,19 +134,15 @@ public class Mp2018ColonGroup extends MphGroup {
         MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M3");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has > 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
-        rule.getNotes().add(
-                "In situ (/2) and malignant (/3) adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum. Polyposis may be present in other GI sites such as stomach. (a de novo does not have to be present. All adenocarcinoma may be in polyps)");
-        rule.getNotes().add(
-                "FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. In summary, multiple polyps in the colorectum is not equivalent to FAP. FAP is a genetic disorder which gives rise to more than a hundred polyps. Patients often have total colectomies.");
+        rule.getNotes().add("A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has > 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
+        rule.getNotes().add("In situ (/2) and malignant (/3) adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum. Polyposis may be present in other GI sites such as stomach. (a de novo does not have to be present. All adenocarcinoma may be in polyps)");
+        rule.getNotes().add("FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. In summary, multiple polyps in the colorectum is not equivalent to FAP. FAP is a genetic disorder which gives rise to more than a hundred polyps. Patients often have total colectomies.");
         rule.getNotes().add("Code primary site as follows");
         rule.getNotes().add("  • Present in more than one segment of colon: code C189 colon, NOS");
         rule.getNotes().add("  • Present in colon and rectosigmoid OR colon and rectum: code C199 rectosigmoid junction");
         rule.getNotes().add("  • Present in colon and small intestine: code C260 intestinal tract, NOS (there is no code for large and small bowel)");
         rule.getNotes().add("  • Present in colon and small intestine (may also involve rectum): code C269 gastrointestinal tract, NOS");
-        rule.getExamples().add(
-                "The patient has a diagnosis of FAP. The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
+        rule.getExamples().add("The patient has a diagnosis of FAP. The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
         _rules.add(rule);
 
         // Rule M4 - Abstract multiple primaries when tumors are diagnosed more than 1 year apart.
@@ -159,8 +155,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("  • Clinically disease-free means there are no clinical evidence of disease. Colonoscopies, scans, and all other work-ups show no evidence of disease (NED)");
         rule.getNotes().add("  • When the first course of treatment was a polypectomy only, this rule means there were no recurrences in the same segment of colon for >1 year");
         rule.getNotes().add("  • When the first course of treatment was a colectomy or A&P resection, there were no anastomotic recurrences for >1 year");
-        rule.getNotes().add(
-                "When the patient has a recurrence less than or equal to 1 year after the original diagnosis, the “clock” starts over. The one-year disease-free interval is no longer computed from the date of diagnosis, it starts from the date of the last known recurrence. In other words, the patient must have been disease-free for >1 year after the last recurrence.");
+        rule.getNotes().add("When the patient has a recurrence less than or equal to 1 year after the original diagnosis, the “clock” starts over. The one-year disease-free interval is no longer computed from the date of diagnosis, it starts from the date of the last known recurrence. In other words, the patient must have been disease-free for >1 year after the last recurrence.");
         rule.getNotes().add("When it is unknown whether there was a recurrence, default to date of diagnosis to compute the >1-year interval.");
         _rules.add(rule);
 
@@ -173,12 +168,9 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("");
-        rule.getExamples().add(
-                "The original tumor was micropapillary carcinoma 8265 and the tumor at the anastomosis was medullary carcinoma 8510. Although both are subtype/variants of adenocarcinoma, they are different histologies. Code two primaries, one for the original micropapillary tumor and another for the medullary tumor at the anastomotic site.");
-        rule.getExamples().add(
-                "The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.");
-        rule.getExamples().add(
-                "First course therapy for a rectal primary is surgery and radiation therapy. The diagnosis from first surgical resection was adenocarcinoma 8140. The diagnosis from the anastomotic site tumor was leiomyosarcoma 8890. It is believed the etiology of sarcomas is radiation therapy in lower rectosigmoid and rectal primaries.");
+        rule.getExamples().add("The original tumor was micropapillary carcinoma 8265 and the tumor at the anastomosis was medullary carcinoma 8510. Although both are subtype/variants of adenocarcinoma, they are different histologies. Code two primaries, one for the original micropapillary tumor and another for the medullary tumor at the anastomotic site.");
+        rule.getExamples().add("The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.");
+        rule.getExamples().add("First course therapy for a rectal primary is surgery and radiation therapy. The diagnosis from first surgical resection was adenocarcinoma 8140. The diagnosis from the anastomotic site tumor was leiomyosarcoma 8890. It is believed the etiology of sarcomas is radiation therapy in lower rectosigmoid and rectal primaries.");
         _rules.add(rule);
 
         // Rule M6 - Abstract a single primary when a subsequent tumor arises at the anastomotic site AND
@@ -210,10 +202,8 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("Definition of separate/non-contiguous tumors: at least two malignancies which do not overlap/merge.");
         rule.getNotes().add("The rules are hierarchical. Do not use this rule if M3 applies (the patient has FAP).");
-        rule.getNotes().add(
-                "Differences at the fourth character include different segments of the colon. Abstract a primary for each separate noncontiguous tumor in a different segment of the colon.");
-        rule.getExamples().add(
-                "The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the ICD-O site/topography code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.");
+        rule.getNotes().add("Differences at the fourth character include different segments of the colon. Abstract a primary for each separate noncontiguous tumor in a different segment of the colon.");
+        rule.getExamples().add("The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the ICD-O site/topography code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.");
         rule.getNotes().add("Differences at either the second or third characters are different primary sites/multiple primaries.");
         rule.getExamples().add("Breast C50x and colon C18x");
         rule.getExamples().add("Colon C18x and rectum C209");
@@ -284,8 +274,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("    • One in colon, one in rectum");
         rule.getNotes().add("  • M9: A de novo and polyp in same segment of colon are a single primary");
         rule.getNotes().add("  • M12: Code multiple primaries when ICD-O codes differ at the first, second, or third digits");
-        rule.getNotes().add(
-                "Collision tumors were originally two separate tumors that arose in close proximity. As the tumors increase in size, they merge or overlap each other. They are most frequently different histologies.");
+        rule.getNotes().add("Collision tumors were originally two separate tumors that arose in close proximity. As the tumors increase in size, they merge or overlap each other. They are most frequently different histologies.");
         _rules.add(rule);
 
         // Rule M14 - Abstract a single primary when rules M1-M13 do not apply.

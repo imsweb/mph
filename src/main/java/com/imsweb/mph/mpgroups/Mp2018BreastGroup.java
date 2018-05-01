@@ -117,10 +117,8 @@ public class Mp2018BreastGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M5");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Tumors with topography codes that differ at the second or third character are in different primary sites, for example, a breast tumor C50_ and a colon tumor C18_ differ at the second and third character.");
-        rule.getNotes().add(
-                "This rule does not include metastases. Metastatic tumors are not used to determine multiple primaries; for example, liver metastases from the breast cancer would not be counted as a second primary.");
+        rule.getNotes().add("Tumors with topography codes that differ at the second or third character are in different primary sites, for example, a breast tumor C50_ and a colon tumor C18_ differ at the second and third character.");
+        rule.getNotes().add("This rule does not include metastases. Metastatic tumors are not used to determine multiple primaries; for example, liver metastases from the breast cancer would not be counted as a second primary.");
         _rules.add(rule);
 
         // Rule M6 - Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
@@ -128,8 +126,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M6");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently. The literal definition of bilateral is cancer in both breasts.");
+        rule.getNotes().add("Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently. The literal definition of bilateral is cancer in both breasts.");
         rule.getNotes().add("It is irrelevant how many tumors are in each breast. Abstract as multiple primaries.");
         rule.getNotes().add("The histologies within each breast may be the same or different.");
         _rules.add(rule);
@@ -149,10 +146,8 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("The rules are hierarchical. This rule only applies when there is a subsequent breast tumor.");
         rule.getNotes().add("The time interval means the patient has been clinically disease-free for >5 years.");
-        rule.getNotes().add(
-                "  Definition clinically free: There has been no clinical evidence of disease greater than 5 years from date of original diagnosis. Mammograms, scans, and all other work-ups show no evidence of disease (NED). There are no subsequent breast tumor and/or any metastases from the breast tumor within this period.");
-        rule.getNotes().add(
-                "  Definition clinically free when neoadjuvant treatment: When there is a core needle biopsy or a fine needle aspiration (FNA) followed by neoadjuvant treatment, then surgical removal of the tumor, the greater than 5-year interval starts from the date of surgery");
+        rule.getNotes().add("  Definition clinically free: There has been no clinical evidence of disease greater than 5 years from date of original diagnosis. Mammograms, scans, and all other work-ups show no evidence of disease (NED). There are no subsequent breast tumor and/or any metastases from the breast tumor within this period.");
+        rule.getNotes().add("  Definition clinically free when neoadjuvant treatment: When there is a core needle biopsy or a fine needle aspiration (FNA) followed by neoadjuvant treatment, then surgical removal of the tumor, the greater than 5-year interval starts from the date of surgery");
         rule.getNotes().add("When the patient has a recurrence less than or equal to 5 years from the date of initial diagnosis:");
         rule.getNotes().add("• The “clock” starts over");
         rule.getNotes().add("  • The greater than 5-year disease-free interval is computed from the date of the last known recurrence");
@@ -178,8 +173,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • Change histology when in situ tumor is a NOS/NST and the invasive tumor is subtype/variant of that NOS/NST");
         rule.getNotes().add("  • Do not change date of diagnosis");
         rule.getNotes().add("  • When the case has been submitted to the central registry, report all changes");
-        rule.getNotes().add(
-                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
         // Rule M10 - Abstract multiple primaries when an invasive tumor is diagnosed greater than 60 days after the diagnosis of an in situ tumor.

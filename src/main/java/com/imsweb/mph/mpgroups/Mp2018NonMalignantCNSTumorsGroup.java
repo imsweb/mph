@@ -110,8 +110,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The bilateral tumors may appear simultaneously (at the same time) OR the contralateral tumor may be diagnosed at any time following the original diagnosis.");
-        rule.getNotes().add(
-                "When the bilateral tumors are diagnosed at different times, the physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("When the bilateral tumors are diagnosed at different times, the physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
         // Rule M7 - Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6, first or second column, in the Equivalent Terms and Definitions. Tumors may be
@@ -123,8 +122,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("“Different rows” means separate rows in the first column OR second column");
         rule.getNotes().add("  • The first column is the specific or NOS histology term and code. Each row in the table is a distinctly different histology.");
-        rule.getNotes().add(
-                "  • The second column has synonyms for the specific or NOS histology term listed in the first column. A synonym is an alternate term for the histology in column 1, so when the synonyms are on different rows (different histologies) in Table 6 they are multiple primaries.");
+        rule.getNotes().add("  • The second column has synonyms for the specific or NOS histology term listed in the first column. A synonym is an alternate term for the histology in column 1, so when the synonyms are on different rows (different histologies) in Table 6 they are multiple primaries.");
         _rules.add(rule);
 
         // Rule M8 - Abstract multiple primaries when separate/non-contiguous tumors are different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Tumors may be
@@ -135,10 +133,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Atypical meningioma 9539/1 and fibrous meningioma 9532/0 are both subtypes of meningioma NOS 9530 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add(
-                "  • Different NOS: Melanotic schwannoma 9560/1 is a subtype of schwannoma NOS 9560/0; papillary craniopharyngioma 9352/1 is a subtype of craniopharyngioma 9350/1. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Atypical meningioma 9539/1 and fibrous meningioma 9532/0 are both subtypes of meningioma NOS 9530 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Different NOS: Melanotic schwannoma 9560/1 is a subtype of schwannoma NOS 9560/0; papillary craniopharyngioma 9352/1 is a subtype of craniopharyngioma 9350/1. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M9 - Abstract a single primary when there is a NOS and a subtype/variant of that NOS in the same CNS site code (same second, third and fourth digit CXXX).
@@ -188,8 +184,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("These rules are hierarchical. Use this rule ONLY when the previous rules apply.");
-        rule.getNotes().add(
-                "The physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("The physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
         // Rule M13 - Abstract multiple primaries when there are multiple tumors with histology codes that differ at the first (Xxxx), second (xXxx) AND/OR third (xxXx) digit.

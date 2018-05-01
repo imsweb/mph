@@ -90,8 +90,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("The rules are hierarchical. Use only when previous rules do not apply.");
         rule.getNotes().add("See Table 2 in the Equivalent Terms and Definitions for a listing of intracranial and intraspinal sites.");
-        rule.getNotes().add(
-                "A non-malignant CNS tumor and a malignant CNS tumor are always single primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.");
+        rule.getNotes().add("A non-malignant CNS tumor and a malignant CNS tumor are always single primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.");
         _rules.add(rule);
 
         // Rule M6 - Abstract multiple primaries when multiple tumors are present in:
@@ -115,8 +114,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.setReason("");
         rule.getNotes().add("“Different rows” means separate rows in the first column OR second column");
         rule.getNotes().add("  • The first column is the specific or NOS histology term and code. Each row in the table is a distinctly different histology.");
-        rule.getNotes().add(
-                "  • The second column has synonyms for the specific or NOS histology term listed in the first column. A synonym is an alternate term for the histology in column 1, so when the synonyms are on different rows (different histologies) in Table 3 they are multiple primaries.");
+        rule.getNotes().add("  • The second column has synonyms for the specific or NOS histology term listed in the first column. A synonym is an alternate term for the histology in column 1, so when the synonyms are on different rows (different histologies) in Table 3 they are multiple primaries.");
         _rules.add(rule);
 
         // Rule M8 - Abstract multiple primaries when separate/non-contiguous tumors are different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Tumors may be:
@@ -127,10 +125,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries");
-        rule.getNotes().add(
-                "  • Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries");
+        rule.getNotes().add("  • Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M9 - Abstract a single primary when there are separate, non-contiguous tumors in
@@ -141,8 +137,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:");
+        rule.getNotes().add("Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:");
         rule.getNotes().add("  • Glioblastoma multiforme");
         rule.getNotes().add("  • Gliomatosis cerebri");
         rule.getNotes().add("Metastases are never used to determine multiple primaries. Seeding metastasis is often noted for the following tumors:");
@@ -174,8 +169,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getExamples().add(
-                "The patient had a resection of an anaplastic astrocytoma (9401) in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.");
+        rule.getExamples().add("The patient had a resection of an anaplastic astrocytoma (9401) in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.");
         _rules.add(rule);
 
         /*

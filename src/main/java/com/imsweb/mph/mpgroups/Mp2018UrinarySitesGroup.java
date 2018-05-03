@@ -119,9 +119,9 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018UrinarySitesGroup() {
-        super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C681, C688-C689", null, null,
+                "9590-9992, 9140","2-3,6", "2018-9999");
 
         // Rule M3 - Abstract multiple primaries when there are:
         // • Tumor(s) in both the right AND left renal pelvis AND

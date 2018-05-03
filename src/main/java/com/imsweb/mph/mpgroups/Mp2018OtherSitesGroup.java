@@ -78,10 +78,10 @@ public class Mp2018OtherSitesGroup extends MphGroup {
     */
 
 
-    //Excludes Breast, Colon, Cutaneous Melanoma, Head and Neck, Kidney, Lung, Malignant CNS And Peripheral Nerves, Non-Malignant CNS Tumors, Urinary Sites
-    // TODO
+    //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemi
     public Mp2018OtherSitesGroup() {
-        super(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME, null, null, null,
+                "", "2-3,6", "2018-9999");
 
         // Rule M3 - Adenocarcinoma of the prostate is always a single primary. *
         // TODO

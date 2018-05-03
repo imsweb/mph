@@ -77,10 +77,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018MalignantCNSAndPeripheralNervesGroup() {
-        super(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null,
-                null, "9590-9989,9140", "3",
+        super(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
+                "C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null,
+                null, "9590-9989", "3",
                 "2018-9999");
 
         // Rule M5 - Abstract multiple primaries when there is at least one invasive (/3) intracranial or intraspinal tumor AND at least one non-malignant (/0 or /1) intracranial or intraspinal tumor.

@@ -70,9 +70,9 @@ public class Mp2018KidneyGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018KidneyGroup() {
-        super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null,
+                "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 - Abstract multiple primaries when multiple tumors are present in sites with ICD-O site/topography codes that differ at the second (CXxx), third (CxxX) and/or fourth characters (CxxX).
         // TODO

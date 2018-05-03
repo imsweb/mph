@@ -92,9 +92,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018HeadAndNeckGroup() {
-        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9989, 9140", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null,
+                "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 - Abstract multiple primaries when there are tumors on both the:
         // • Upper lip C000 or C005 AND lower lip C001 or C003 OR

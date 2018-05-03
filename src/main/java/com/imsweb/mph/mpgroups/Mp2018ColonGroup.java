@@ -121,9 +121,9 @@ public class Mp2018ColonGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018ColonGroup() {
-        super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2019-9999");
+        super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189, C199, C209", null, null,
+                "9590-9992, 9140", "2-3,6", "2019-9999");
 
         // Rule M3 - Abstract a single primary when
         // • The diagnosis is adenomatous polyposis coli (familial polyposis/FAP) OR

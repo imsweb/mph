@@ -99,20 +99,41 @@ public class Mp2018BreastGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018BreastGroup() {
-        super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C509", null, null, "9590-9989,9140", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506", null, null, "9590-9992,9140", "2-3,6", "2018-9999");
 
         // Rule M4 - Abstract a single primary when there is inflammatory carcinoma in:
         // • Multiple quadrants of same breast OR
         // • Bilateral breasts
         // TODO
-        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M4");
-        rule.setQuestion("");
-        rule.setReason("");
+        MphRule rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M4") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology())
+                        && MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology()))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+        rule.setQuestion("Is there inflammatory carcinoma in multiple quadrants of the same breast or in bilateral breasts?");
+        rule.setReason("Inflammatory carcinoma in multiple quadrants of the same breast or in bilateral breasts is a single primary.");
         _rules.add(rule);
 
-        // Rule M5 - Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site/topography codes (C50_) that are different at the second (CXxx) and/or third characters (CxXx).
+
+        //M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
+        //M5- Tumors diagnosed more than five (5) years apart are multiple primaries.
+        //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
+        //M7- Tumors on both sides (right and left breast) are multiple primaries.
+        //M8- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
+        //M9- Tumors that are intraductal or duct and Paget Disease are a single primary.
+        //M10- Tumors that are lobular (8520) and intraductal or duct are a single primary.
+        //M11- Multiple intraductal and/or duct carcinomas are a single primary.
+
+
+
+        // Rule M5 - Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site/topography codes (C50_)
+        //           that are different at the second (CXxx) and/or third characters (CxXx).
         // TODO
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M5");
         rule.setQuestion("");
@@ -197,7 +218,8 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.setReason("");
         _rules.add(rule);
 
-        // Rule M12 - Abstract a single primary when there are multiple tumors (DCIS/duct/carcinoma NST and lobular carcinoma) in the same breast (same or multiple quadrants)/subsites which are:
+        // Rule M12 - Abstract a single primary when there are multiple tumors (DCIS/duct/carcinoma NST and lobular carcinoma) in the same
+        //            breast (same or multiple quadrants)/subsites which are:
         // • In situ and invasive
         //      One tumor is invasive and the other is in situ OR
         //      Both/all tumors are mixed in situ and invasive
@@ -224,21 +246,13 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14 - Abstract multiple primaries when there are multiple tumors with ICD-O histology codes that are different at the first (Xxxx), second (xXxx) or third (xxXx) number.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M14");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleHistologyCode(MphConstants.MP_2018_BREAST_GROUP_ID, "M14");
         rule.getNotes().add("The rules are hierarchical. Do not use this rule if any of the rules M4-M13 apply");
         _rules.add(rule);
 
         // Rule M15 - Abstract a single primary when tumors that do not meet any of the above criteria in rules M1-M14.
-        // TODO
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M15");
-        rule.setQuestion("");
-        rule.setReason("");
         _rules.add(rule);
-
-
 
 
 

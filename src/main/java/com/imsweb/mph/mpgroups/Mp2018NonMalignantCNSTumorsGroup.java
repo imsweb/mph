@@ -86,10 +86,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
     */
 
-    // TODO
     public Mp2018NonMalignantCNSTumorsGroup() {
-        super(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null,
-                "9590-9989,9140", "0-1", "2018-9999");
+        super(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
+                "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
+                "", "0-1", "2018-9999");
 
         // Rule M5 - Abstract multiple primaries when a non-malignant tumor /0 or /1 transforms into a malignant /3 tumor AND
         // • The patient had a resection of the non-malignant tumor as part of the first course of treatment OR

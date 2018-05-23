@@ -60,7 +60,7 @@ public class MphConstants {
     public static final String URETHRA = "C680";
     public static final String THYROID = "C739";
     public static final String LYMPH_NODE = "C77";
-   
+
     public static final List<String> EXACT_MATCH_SITES = Collections.unmodifiableList(Arrays.asList("C18", "C21", "C38", "C40", "C41", "C44", "C47", "C49"));
     public static final List<String> TONGUE = Collections.unmodifiableList(Arrays.asList("C01", "C02"));
     public static final List<String> MOUTH = Collections.unmodifiableList(Arrays.asList("C05", "C06"));
@@ -70,15 +70,15 @@ public class MphConstants {
     public static final List<String> BILIARY = Collections.unmodifiableList(Arrays.asList("C23", "C24"));
     public static final List<String> SINUS = Collections.unmodifiableList(Arrays.asList("C30", "C31"));
     public static final List<String> LUNG = Collections.unmodifiableList(Arrays.asList("C33", "C34"));
-    
+
     public static final String MEDIASTINUM = "C370-C383,C388";
     public static final String FEMALE_GENITAL = "C510-C529,C577-C579";
     public static final String OVARY_OR_FEMALE_GENITAL = "C569-C574";
-    
+
     public static final List<String> MALE_GENITAL = Collections.unmodifiableList(Arrays.asList("C60", "C63"));
     public static final List<String> KIDNEY_OR_URINARY = Collections.unmodifiableList(Arrays.asList("C64", "C65", "C66", "C68"));
     public static final List<String> ENDOCRINE = Collections.unmodifiableList(Arrays.asList("C74", "C75"));
-    public static final List<String> UPPER_LIP =Collections.unmodifiableList( Arrays.asList("C000", "C003"));
+    public static final List<String> UPPER_LIP = Collections.unmodifiableList(Arrays.asList("C000", "C003"));
     public static final List<String> LOWER_LIP = Collections.unmodifiableList(Arrays.asList("C001", "C004"));
     public static final List<String> UPPER_GUM = Collections.unmodifiableList(Collections.singletonList("C030"));
     public static final List<String> LOWER_GUM = Collections.unmodifiableList(Collections.singletonList("C031"));
@@ -293,4 +293,5 @@ public class MphConstants {
         content.put("9538", "Meningioma, malignant"); //Papillary meningioma, rhadboid meningioma
         MALIGNANT_BRAIN_2007_CHART2 = Collections.unmodifiableMap(content);
     }
+
 }

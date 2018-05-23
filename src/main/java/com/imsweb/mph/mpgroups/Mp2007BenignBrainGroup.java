@@ -54,9 +54,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage(
-                                "Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of " + this.getGroupId()
-                                        + " should be provided.");
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -78,7 +76,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -103,7 +101,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

@@ -442,7 +442,7 @@ public class MphUtilsTest {
         //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("no enough diagnosis date")); //not sure if they are 60 days apart
+        Assert.assertTrue(output.getReason().contains("Valid and known diagnosis date")); //not sure if they are 60 days apart
         i2.setDateOfDiagnosisYear("2007");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());

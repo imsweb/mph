@@ -4,6 +4,7 @@
 
  - Updated Commons Lang library from version 3.4 to version 3.6.
  - Added missing space to message "Unable to apply Rule".
+ - Standardized and combined "Unable to apply Rule" warning messages.
 
 **Changes in version 1.9**
 

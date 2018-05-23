@@ -62,7 +62,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (laterDx == -1 && simultaneouslyPresent == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (simultaneouslyPresent == 0)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -99,7 +99,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (0 == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -138,7 +138,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (simultaneouslyPresent == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (0 == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -200,7 +200,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                         || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) && latestDx != 0) {
                     if (latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if ((latestDx == 1 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -274,7 +274,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1 || latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -322,7 +322,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (isTransformation(morph1, morph2, latestYear)) {
                     if (latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
                             !MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
@@ -354,7 +354,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (isTransformation(morph1, morph2, latestYear)) {
                     if (latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
                             MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
@@ -389,7 +389,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
                     }
                     else if (daysApart == 0)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

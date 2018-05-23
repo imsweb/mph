@@ -5,7 +5,9 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -65,7 +67,7 @@ public final class MphUtils {
     private HematoDbUtilsProvider _provider = null;
 
     // the cached groups of rules used by the instance
-    private List<MphGroup> _groups = new ArrayList<>();
+    private Map<String, MphGroup> _groups = new HashMap<>();
 
     /**
      * Initialized the instance with the given provider; this allows to use a customized provider instead of the default one.
@@ -93,6 +95,13 @@ public final class MphUtils {
     }
 
     /**
+     * Adds an ID and a MphGroup to the _groups Map.
+     */
+    private void addGroup(MphGroup newGroup) {
+        _groups.put(newGroup.getId(), newGroup);
+    }
+
+    /**
      * Private constructor, use the getInstance() method.
      * @param provider the provider to use for this instance, cannot be null
      */
@@ -102,29 +111,29 @@ public final class MphUtils {
         _provider = provider;
 
         // 1998 Hematopoietic rules
-        _groups.add(new Mp1998HematopoieticGroup());
+        addGroup(new Mp1998HematopoieticGroup());
 
         // 2001 Hematopoietic rules
-        _groups.add(new Mp2001HematopoieticGroup());
+        addGroup(new Mp2001HematopoieticGroup());
 
         // 2010 Hematopoietic rules
-        _groups.add(new Mp2010HematopoieticGroup());
+        addGroup(new Mp2010HematopoieticGroup());
 
         // 2004 solid tumor rules 
-        _groups.add(new Mp2004BenignBrainGroup());
-        _groups.add(new Mp2004SolidMalignantGroup());
+        addGroup(new Mp2004BenignBrainGroup());
+        addGroup(new Mp2004SolidMalignantGroup());
 
         // 2007 solid tumor rules
-        _groups.add(new Mp2007HeadAndNeckGroup());
-        _groups.add(new Mp2007ColonGroup());
-        _groups.add(new Mp2007LungGroup());
-        _groups.add(new Mp2007MelanomaGroup());
-        _groups.add(new Mp2007BreastGroup());
-        _groups.add(new Mp2007KidneyGroup());
-        _groups.add(new Mp2007UrinaryGroup());
-        _groups.add(new Mp2007BenignBrainGroup());
-        _groups.add(new Mp2007MalignantBrainGroup());
-        _groups.add(new Mp2007OtherSitesGroup());
+        addGroup(new Mp2007HeadAndNeckGroup());
+        addGroup(new Mp2007ColonGroup());
+        addGroup(new Mp2007LungGroup());
+        addGroup(new Mp2007MelanomaGroup());
+        addGroup(new Mp2007BreastGroup());
+        addGroup(new Mp2007KidneyGroup());
+        addGroup(new Mp2007UrinaryGroup());
+        addGroup(new Mp2007BenignBrainGroup());
+        addGroup(new Mp2007MalignantBrainGroup());
+        addGroup(new Mp2007OtherSitesGroup());
     }
 
     /**
@@ -287,17 +296,18 @@ public final class MphUtils {
         if (!GroupUtility.validateProperties(primarySite, histology, behavior, year))
             return null;
 
-        for (MphGroup group : getAllGroups())
-            if (group.isApplicable(primarySite, histology, behavior, year))
-                return group;
+        //for (MphGroup group : getAllGroups())
+        for (Map.Entry<String, MphGroup> entry : getAllGroups().entrySet())
+            if (entry.getValue().isApplicable(primarySite, histology, behavior, year))
+                return entry.getValue();
 
         return null;
     }
 
     /**
-     * Returns the list of all group of rules used by this instance.
+     * Returns a map of all groups of rules used by this instance.
      */
-    public List<MphGroup> getAllGroups() {
-        return Collections.unmodifiableList(_groups);
+    public Map<String, MphGroup> getAllGroups() {
+        return Collections.unmodifiableMap(_groups);
     }
 }

@@ -31,21 +31,21 @@ public class MphConstants {
     public static final String MP_2007_URINARY_GROUP_ID = "mp_2007_urinary";
 
     //Group Names for the set of rules
-    public static final String MP_1998_HEMATO_GROUP_NAME = "1998 Hematopoietic";
-    public static final String MP_2001_HEMATO_GROUP_NAME = "2001 Hematopoietic";
-    public static final String MP_2010_HEMATO_GROUP_NAME = "2010 Hematopoietic";
-    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "2004 Solid Malignant";
-    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "2004 Benign Brain";
-    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "2007 Benign Brain";
-    public static final String MP_2007_BREAST_GROUP_NAME = "2007 Breast";
-    public static final String MP_2007_COLON_GROUP_NAME = "2007 Colon";
-    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "2007 Head and Neck";
-    public static final String MP_2007_KIDNEY_GROUP_NAME = "2007 Kidney";
-    public static final String MP_2007_LUNG_GROUP_NAME = "2007 Lung";
-    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "2007 Malignant Brain";
-    public static final String MP_2007_MELANOMA_GROUP_NAME = "2007 Melanoma";
-    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "2007 Other Sites";
-    public static final String MP_2007_URINARY_GROUP_NAME = "2007 Urinary";
+    public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic (1998)";
+    public static final String MP_2001_HEMATO_GROUP_NAME = "Hematopoietic (2001)";
+    public static final String MP_2010_HEMATO_GROUP_NAME = "Hematopoietic (2010)";
+    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "Solid Malignant (2004)";
+    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2004)";
+    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2007)";
+    public static final String MP_2007_BREAST_GROUP_NAME = "Breast (2007)";
+    public static final String MP_2007_COLON_GROUP_NAME = "Colon (2007)";
+    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "Head and Neck (2007)";
+    public static final String MP_2007_KIDNEY_GROUP_NAME = "Kidney (2007)";
+    public static final String MP_2007_LUNG_GROUP_NAME = "Lung (2007)";
+    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "Malignant Brain (2007)";
+    public static final String MP_2007_MELANOMA_GROUP_NAME = "Melanoma (2007)";
+    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "Other Sites (2007)";
+    public static final String MP_2007_URINARY_GROUP_NAME = "Urinary (2007)";
 
     //Topographies
     public static final String COLON = "C18";
@@ -60,7 +60,7 @@ public class MphConstants {
     public static final String URETHRA = "C680";
     public static final String THYROID = "C739";
     public static final String LYMPH_NODE = "C77";
-   
+
     public static final List<String> EXACT_MATCH_SITES = Collections.unmodifiableList(Arrays.asList("C18", "C21", "C38", "C40", "C41", "C44", "C47", "C49"));
     public static final List<String> TONGUE = Collections.unmodifiableList(Arrays.asList("C01", "C02"));
     public static final List<String> MOUTH = Collections.unmodifiableList(Arrays.asList("C05", "C06"));
@@ -70,15 +70,15 @@ public class MphConstants {
     public static final List<String> BILIARY = Collections.unmodifiableList(Arrays.asList("C23", "C24"));
     public static final List<String> SINUS = Collections.unmodifiableList(Arrays.asList("C30", "C31"));
     public static final List<String> LUNG = Collections.unmodifiableList(Arrays.asList("C33", "C34"));
-    
+
     public static final String MEDIASTINUM = "C370-C383,C388";
     public static final String FEMALE_GENITAL = "C510-C529,C577-C579";
     public static final String OVARY_OR_FEMALE_GENITAL = "C569-C574";
-    
+
     public static final List<String> MALE_GENITAL = Collections.unmodifiableList(Arrays.asList("C60", "C63"));
     public static final List<String> KIDNEY_OR_URINARY = Collections.unmodifiableList(Arrays.asList("C64", "C65", "C66", "C68"));
     public static final List<String> ENDOCRINE = Collections.unmodifiableList(Arrays.asList("C74", "C75"));
-    public static final List<String> UPPER_LIP =Collections.unmodifiableList( Arrays.asList("C000", "C003"));
+    public static final List<String> UPPER_LIP = Collections.unmodifiableList(Arrays.asList("C000", "C003"));
     public static final List<String> LOWER_LIP = Collections.unmodifiableList(Arrays.asList("C001", "C004"));
     public static final List<String> UPPER_GUM = Collections.unmodifiableList(Collections.singletonList("C030"));
     public static final List<String> LOWER_GUM = Collections.unmodifiableList(Collections.singletonList("C031"));

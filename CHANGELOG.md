@@ -3,6 +3,7 @@
 **Changes in version 1.10**
 
  - Updated Commons Lang library from version 3.4 to version 3.6.
+ - Fixed 2007 Malignant Brain Group Charts to contain multiple branches.
 
 **Changes in version 1.9**
 

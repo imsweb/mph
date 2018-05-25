@@ -1141,6 +1141,15 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
+        // Check Histology pairs 9392, 9501 and 9392, 9393. Both pairs are supposed to return a single primary.
+        //i1.setHistologyIcdO3("9392");
+        //i2.setHistologyIcdO3("9501");
+        //output = _utils.computePrimaries(i1, i2);
+        //Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9392");
+        i2.setHistologyIcdO3("9393");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
         i1.setHistologyIcdO3("9505");

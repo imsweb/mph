@@ -437,14 +437,12 @@ public class Mp2010HematopoieticGroup extends MphGroup {
 
     private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int year) {
         return MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(
-                latestMorph, earlierMorph,
-                year);
+                latestMorph, earlierMorph, year);
     }
 
     private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int year) {
         return MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(
-                latestMorph, earlierMorph,
-                year);
+                latestMorph, earlierMorph, year);
     }
 
 }

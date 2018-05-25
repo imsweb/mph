@@ -1171,7 +1171,7 @@ public class MphUtilsTest {
         i1.setHistologyIcdO3("9392");
         i2.setHistologyIcdO3("9505");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8230");

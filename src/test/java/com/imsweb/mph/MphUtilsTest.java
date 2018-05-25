@@ -2498,7 +2498,7 @@ public class MphUtilsTest {
     @Test
     public void testUnableToApplyRule() {
 
-        //Mp2007HeadAndNeckGroup
+        // Unknown Laterality
         MphInput i1 = new MphInput();
         MphInput i2 = new MphInput();
         i1.setPrimarySite("C090");
@@ -2516,11 +2516,9 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("10");
         i2.setDateOfDiagnosisDay("28");
         MphOutput output = _utils.computePrimaries(i1, i2);
-        // Unknown Laterality
         Assert.assertTrue(output.getReason().contains("Valid and known laterality should"));
 
-        // MphRuleBehavior
-        //super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
+        // Unknown days apart
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setPrimarySite("C659");
@@ -2529,14 +2527,12 @@ public class MphUtilsTest {
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2015");
         i1.setDateOfDiagnosisMonth("08");
-        //i1.setDateOfDiagnosisDay("17");
         i2.setPrimarySite("C669");
         i2.setHistologyIcdO3("9590");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisMonth("10");
-        //i2.setDateOfDiagnosisDay("28");
 
         Mp2007UrinaryGroup group = new Mp2007UrinaryGroup();
         MphComputeOptions options = new MphComputeOptions();
@@ -2544,12 +2540,11 @@ public class MphUtilsTest {
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
                 TempRuleResult result = rule.apply(i1, i2, options);
-                // Unknown days apart
                 Assert.assertTrue(result.getMessage().contains("Valid and known diagnosis date"));
             }
         }
 
-        // MphRuleDiagnosisDate
+        // Unknown laterality and days apart
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setPrimarySite("C090");
@@ -2557,15 +2552,11 @@ public class MphUtilsTest {
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("0");
         i1.setDateOfDiagnosisYear("2004");
-        //i1.setDateOfDiagnosisMonth("08");
-        //i1.setDateOfDiagnosisDay("17");
         i2.setPrimarySite("C090");
         i2.setHistologyIcdO3("8100");
         i2.setBehaviorIcdO3("2");
         i2.setLaterality("0");
         i2.setDateOfDiagnosisYear("2004");
-        //i2.setDateOfDiagnosisMonth("08");
-        //i2.setDateOfDiagnosisDay("28");
 
         Mp2004SolidMalignantGroup malgroup = new Mp2004SolidMalignantGroup();
         options = new MphComputeOptions();
@@ -2573,7 +2564,6 @@ public class MphUtilsTest {
         for (MphRule rule : malgroup.getRules()) {
             if (rule.getStep().equals("M3")) {
                 TempRuleResult result = rule.apply(i1, i2, options);
-                // Unknown laterality and days apart
                 Assert.assertTrue(result.getMessage().contains("Valid and known laterality and diagnosis date"));
             }
         }

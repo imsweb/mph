@@ -31,21 +31,21 @@ public class MphConstants {
     public static final String MP_2007_URINARY_GROUP_ID = "mp_2007_urinary";
 
     //Group Names for the set of rules
-    public static final String MP_1998_HEMATO_GROUP_NAME = "1998 Hematopoietic";
-    public static final String MP_2001_HEMATO_GROUP_NAME = "2001 Hematopoietic";
-    public static final String MP_2010_HEMATO_GROUP_NAME = "2010 Hematopoietic";
-    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "2004 Solid Malignant";
-    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "2004 Benign Brain";
-    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "2007 Benign Brain";
-    public static final String MP_2007_BREAST_GROUP_NAME = "2007 Breast";
-    public static final String MP_2007_COLON_GROUP_NAME = "2007 Colon";
-    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "2007 Head and Neck";
-    public static final String MP_2007_KIDNEY_GROUP_NAME = "2007 Kidney";
-    public static final String MP_2007_LUNG_GROUP_NAME = "2007 Lung";
-    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "2007 Malignant Brain";
-    public static final String MP_2007_MELANOMA_GROUP_NAME = "2007 Melanoma";
-    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "2007 Other Sites";
-    public static final String MP_2007_URINARY_GROUP_NAME = "2007 Urinary";
+    public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic (1998)";
+    public static final String MP_2001_HEMATO_GROUP_NAME = "Hematopoietic (2001)";
+    public static final String MP_2010_HEMATO_GROUP_NAME = "Hematopoietic (2010)";
+    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "Solid Malignant (2004)";
+    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2004)";
+    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2007)";
+    public static final String MP_2007_BREAST_GROUP_NAME = "Breast (2007)";
+    public static final String MP_2007_COLON_GROUP_NAME = "Colon (2007)";
+    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "Head and Neck (2007)";
+    public static final String MP_2007_KIDNEY_GROUP_NAME = "Kidney (2007)";
+    public static final String MP_2007_LUNG_GROUP_NAME = "Lung (2007)";
+    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "Malignant Brain (2007)";
+    public static final String MP_2007_MELANOMA_GROUP_NAME = "Melanoma (2007)";
+    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "Other Sites (2007)";
+    public static final String MP_2007_URINARY_GROUP_NAME = "Urinary (2007)";
 
     //Topographies
     public static final String COLON = "C18";

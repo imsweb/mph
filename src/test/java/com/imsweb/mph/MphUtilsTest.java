@@ -1923,7 +1923,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M7 with potential single and ended up as single at M15 -- SINGLE
         Assert.assertEquals(15, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M15", output.getStep());
         i1.setDateOfDiagnosisYear("2011");
         i2.setDateOfDiagnosisYear("2010"); //More specific was before Nos, not M7
@@ -1932,8 +1932,8 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisYear("2009");
         i2.setDateOfDiagnosisYear("2010"); //More specific is after Nos, single at M7
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(15, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
 
         //M8 TODO
 
@@ -2048,14 +2048,14 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2001");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         i1.setHistologyIcdO3("9801");
         i2.setHistologyIcdO3("9837");
         i1.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisYear("2015");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
 
     @Test

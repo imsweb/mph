@@ -21,7 +21,7 @@ repositories {
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.6'
     compile 'au.com.bytecode:opencsv:2.4'
-    testCompile 'com.imsweb:seerapi-client-java:3.6'
+    testCompile 'com.imsweb:seerapi-client-java:3.10'
     testCompile 'junit:junit:4.12'
 }
 

@@ -3,6 +3,9 @@
 **Changes in version 1.10**
 
  - Updated Commons Lang library from version 3.4 to version 3.6.
+ - Updated seerapi-client-java to version 3.10.
+ - Updated Hematopoietic2010 files with latest data from Seer Client Api.
+ - Updated HematoDbLab to make less Seer Client Api calls.
 
 **Changes in version 1.9**
 

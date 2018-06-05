@@ -18,13 +18,13 @@ public class DefaultHematoDbUtilsProviderTest {
         Assert.assertFalse(_provider.isSamePrimary("TEST", "TEST", 2000));
         Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2000));
 
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9590/3", 2016));
-        Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 2016));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9590/3", 2016));
+        Assert.assertTrue(_provider.isSamePrimary("9590/3", "9870/3", 2016));
         Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 1990));
 
         Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2016));
         Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2010));
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2001));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9805/3", 2001));
     }
 
     @Test

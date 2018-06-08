@@ -38,9 +38,9 @@ public class DefaultHematoDbUtilsProviderTest {
         Assert.assertFalse(_provider.isAcuteTransformation("9861/3", "9963/3", 2010));
 
         Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9651/3", 2015));
-        Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9832/3", 2016));
+        Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9832/3", 2016));
         Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9651/3", 2002));
-        Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9832/3", 2002));
+        Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9832/3", 2002));
         Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9651/3", 2000));
         Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9832/3", 2000));
         Assert.assertFalse(_provider.isAcuteTransformation("9651/3", "9671/3", 2010));

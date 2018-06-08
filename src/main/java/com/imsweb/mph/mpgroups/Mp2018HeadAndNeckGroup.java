@@ -91,12 +91,11 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     */
 
-    // TODO
     // Head and Neck Multiple Primary Rules
     // C000-C148, C300-C339, C410, C411, C442
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
-        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null,
+        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C339, C410, C411, C442", null, null,
                 "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Tables 2-10 in the Equivalent Terms and Definitions. Tumors may be
@@ -117,10 +116,8 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of Rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add(
-                "  • Different NOS: Colloid-type adenocarcinoma 8144 is a subtype of adenocarcinoma NOS 8140; Sarcomatoid carcinoma 8074 is a subtype of squamous cell carcinoma 8070. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of Rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Different NOS: Colloid-type adenocarcinoma 8144 is a subtype of adenocarcinoma NOS 8140; Sarcomatoid carcinoma 8074 is a subtype of squamous cell carcinoma 8070. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M5	Abstract multiple primaries when there are tumors on both the:
@@ -192,8 +189,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
-        rule.getNotes().add(
-                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         rule.getNotes().add("See the COC and SEER manuals for instructions on coding other data items such as Date of Diagnosis, Accession Year and Sequence Number.");
         _rules.add(rule);
 
@@ -205,8 +201,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add(
-                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
@@ -216,11 +211,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("•	Scopes are NED");
         rule.getNotes().add("•	Scans are NED");
-        rule.getNotes().add(
-                "When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
+        rule.getNotes().add("When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
-        rule.getNotes().add(
-                "The physician may state this is a recurrence, meaning the patient had a previous head and neck tumor and now has another head and neck tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
+        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous head and neck tumor and now has another head and neck tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
 

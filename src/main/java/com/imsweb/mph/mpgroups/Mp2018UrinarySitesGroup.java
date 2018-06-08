@@ -129,7 +129,6 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
     */
 
-    // TODO
     // Urinary Sites Multiple Primary Rules
     // C659, C669, C670-C679, C680-C681, C688-C689
     // (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
@@ -170,8 +169,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("Each row in the table is a distinctly different histology. EXCEPTION is adenocarcinoma 8140 and carcinoma NOS 8010 are not multiple primaries.");
         rule.getNotes().add("  • Carcinoma NOS is a very broad category which includes adenocarcinoma");
         rule.getNotes().add("  • Adenocarcinoma NOS and all adenocarcinoma subtypes/variants are included in the carcinoma NOS category (they are all subtypes/variants of carcinoma NOS)");
-        rule.getExamples().add(
-                "Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows in the first column of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
+        rule.getExamples().add("Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows in the first column of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions. Tumors may be:
@@ -182,10 +180,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Leiomyosarcoma 8890/3 and liposarcoma 8850/3 are both subtypes of sarcoma NOS 8800/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add(
-                "  • Different NOS: Verrucous carcinoma 8051 is a subtype of squamous cell carcinoma NOS 8070; giant cell urothelial carcinoma 8031 is a subtype of urothelial carcinoma 8120. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Leiomyosarcoma 8890/3 and liposarcoma 8850/3 are both subtypes of sarcoma NOS 8800/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Different NOS: Verrucous carcinoma 8051 is a subtype of squamous cell carcinoma NOS 8070; giant cell urothelial carcinoma 8031 is a subtype of urothelial carcinoma 8120. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M7	Abstract a single primary when tumors are diagnosed in the bladder C67_ and one or both ureter(s) C669 AND tumors are:
@@ -238,8 +234,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add(
-                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in
@@ -249,8 +244,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getExamples().add(
-                "The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was in situ AND/OR invasive tumor in at least one of the previously involved urinary organs.");
+        rule.getExamples().add("The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was in situ AND/OR invasive tumor in at least one of the previously involved urinary organs.");
         rule.getExamples().add("Pathology from TURB shows areas of micropapillary urothelial carcinoma 8131 and areas of urothelial carcinoma NOS 8120. Abstract a single primary, micropapillary urothelial carcinoma 8131.");
         rule.getNotes().add("See Table 2 in the Equivalent Terms and Definitions for NOS and subtypes/variants.");
         rule.getNotes().add("NOS and subtypes/variants include:");

@@ -100,12 +100,12 @@ public class Mp2018BreastGroup extends MphGroup {
 
     */
 
-    // TODO
     // Breast Multiple Primary Rules - Text
     // C500-C506, C508-C509
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018BreastGroup() {
-        super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506", null, null, "9590-9992,9140", "2-3,6", "2018-9999");
+        super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
+              "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M4	Abstract a single primary when there is inflammatory carcinoma in:
         // •	Multiple quadrants of same breast OR
@@ -130,8 +130,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M5");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Tumors with site codes that differ at the second or third character are in different primary sites; for example, a breast tumor C50_ and a colon tumor C18_ differ at the second and third character.");
+        rule.getNotes().add("Tumors with site codes that differ at the second or third character are in different primary sites; for example, a breast tumor C50_ and a colon tumor C18_ differ at the second and third character.");
         rule.getNotes().add("This rule does not include metastases. Metastatic tumors are not used to determine multiple primaries; for example, liver metastases from the breast cancer would not be counted as a second primary.");
         _rules.add(rule);
 
@@ -140,8 +139,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M6");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently.  The literal definition of bilateral is cancer in both breasts.");
+        rule.getNotes().add("Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently.  The literal definition of bilateral is cancer in both breasts.");
         rule.getNotes().add("It is irrelevant how many tumors are in each breast. Abstract as separate primaries.");
         rule.getNotes().add("The histologies within each breast may be the same or different.");
         _rules.add(rule);
@@ -166,11 +164,9 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • Mammograms are NED");
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  • Tumor biomarkers are NED");
-        rule.getNotes().add(
-                "When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
+        rule.getNotes().add("When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
-        rule.getNotes().add(
-                "The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
+        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
         // Rule M9	Abstract a single primary when simultaneous carcinoma NST and lobular carcinoma the same breast.
@@ -201,10 +197,8 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Pleomorphic carcinoma 8022 and carcinoma with osteoclastic-like stromal giant cells 8035 are both subtypes of carcinoma NST 8500 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add(
-                "  • Different NOS: Encapsulated papillary carcinoma 8504/2 is a subtype/variant of in situ papillary carcinoma 8503/2.  Pleomorphic lobular carcinoma in situ 8519/2 is a subtype/variant of lobular carcinoma in situ 8520/2. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Pleomorphic carcinoma 8022 and carcinoma with osteoclastic-like stromal giant cells 8035 are both subtypes of carcinoma NST 8500 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Different NOS: Encapsulated papillary carcinoma 8504/2 is a subtype/variant of in situ papillary carcinoma 8503/2.  Pleomorphic lobular carcinoma in situ 8519/2 is a subtype/variant of lobular carcinoma in situ 8520/2. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary when there are multiple tumors (DCIS/duct/carcinoma NST and lobular carcinoma) in the same breast (same or multiple quadrants/subsite) which are:
@@ -242,8 +236,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
-        rule.getNotes().add(
-                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         rule.getNotes().add("See the COC and SEER manuals for instructions on coding other data items such as Date of Diagnosis, Accession Year and Sequence Number");
         _rules.add(rule);
 
@@ -255,8 +248,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add(
-                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M16	Abstract a single primary when tumors that do not meet any of the above criteria.

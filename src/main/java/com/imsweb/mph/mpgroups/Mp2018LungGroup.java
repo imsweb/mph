@@ -107,13 +107,12 @@ public class Mp2018LungGroup extends MphGroup {
 
     */
 
-    // TODO
     // Lung Multiple Primary Rules
     // C340-C343, C348, C349
     // (Excludes lymphoma and leukemia M9590–M9992 and Kaposi sarcoma M9140)
     public Mp2018LungGroup() {
-        super(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME, "C340-C343, C348-C349", null, null,
-                "9590-9992, 9140", "2-3", "2018-9999");
+        super(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME, "C340-C343, C348, C349", null, null,
+                "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3	Abstract multiple primaries when multiple tumors are present in sites with site codes that differ at the second CXxx and/or third character CxXx.
         // TODO
@@ -164,10 +163,8 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  •	 Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries");
-        rule.getNotes().add(
-                "  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  •	 Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries");
+        rule.getNotes().add("  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M7	Abstract a single primary when there are simultaneous multiple tumors in the same lung that are
@@ -232,12 +229,10 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("The only exception is when there is proof that one tumor is metastatic. Proof is any one of the following:");
         rule.getNotes().add("  • Tissue from both tumors is compared and the pathologic diagnoses definitively says one tumor is metastatic");
         rule.getNotes().add("  • Attending physician, oncologist, or pulmonologist state unequivocally that the tumor in the contralateral lung is metastatic");
-        rule.getNotes().add(
-                "    ο Unequivocal means that no words such as “probably possibly, most likely, etc.” are used in the statement. Terms which are on the “ambiguous terms” list make the statement equivocal (cannot be used to prove metastases)");
+        rule.getNotes().add("    ο Unequivocal means that no words such as “probably possibly, most likely, etc.” are used in the statement. Terms which are on the “ambiguous terms” list make the statement equivocal (cannot be used to prove metastases)");
         rule.getNotes().add("Lung metastases usually present as multiple tumors/masses. A single tumor in each lung is unlikely to be a single primary (e.g. metastatic to the contralateral lung).");
         rule.getNotes().add("The term “bilateral” is not a synonym for a single primary. It is simply a statement that there are tumors in both lungs.");
-        rule.getNotes().add(
-                "This rule is based on long-term epidemiologic studies of multiple primaries. The specialty medical experts (SME) and the CoC site physician teams reviewed and approved these rules.  Many of the CoC site team physicians were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add("This rule is based on long-term epidemiologic studies of multiple primaries. The specialty medical experts (SME) and the CoC site physician teams reviewed and approved these rules.  Many of the CoC site team physicians were also authors, co-authors, or editors of the AJCC Staging Manual.");
         rule.getNotes().add("Lymph node involvement is recorded in staging criteria.");
         _rules.add(rule);
 
@@ -249,13 +244,11 @@ public class Mp2018LungGroup extends MphGroup {
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getNotes().add(
-                "When there are multiple tumors in one or both lungs, the physician usually biopsies only one mass/tumor. They treat the patient based on that single biopsy, assuming all of the masses/tumors are the same histology.");
+        rule.getNotes().add("When there are multiple tumors in one or both lungs, the physician usually biopsies only one mass/tumor. They treat the patient based on that single biopsy, assuming all of the masses/tumors are the same histology.");
         rule.getNotes().add("Code multiple primaries only when there is proof that one of the tumors is a different histology. Proof is any one of the following.");
         rule.getNotes().add("  • Pathology from a biopsy or resection proves tumors are different histologies");
         rule.getNotes().add("  • Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries");
-        rule.getNotes().add(
-                "     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove metastasis.");
+        rule.getNotes().add("     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove metastasis.");
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
@@ -279,8 +272,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add(
-                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M14	Abstract a single primary when none of the previous rules apply.

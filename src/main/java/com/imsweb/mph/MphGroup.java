@@ -189,6 +189,26 @@ public abstract class MphGroup {
         }
     }
 
+
+    public static class MphRuleTopography234Code extends MphRule {
+
+        public MphRuleTopography234Code(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Are there tumors in sites with ICD-O-3 topography codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX)?");
+            setReason("Tumors in sites with ICD-O-3 topography codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX) are multiple primaries.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if (!i1.getPrimarySite().substring(2, 3).equals(i2.getPrimarySite().substring(2, 3)))
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+            return result;
+        }
+    }
+
+
+
     public static class MphRuleBehavior extends MphRule {
 
         public MphRuleBehavior(String groupId, String step) {

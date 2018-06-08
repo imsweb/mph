@@ -78,21 +78,19 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
     */
 
-    // TODO
     // Malignant CNS and Peripheral Nerves
     // Multiple Primary Rules
     // C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
     // (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
 
     public Mp2018MalignantCNSAndPeripheralNervesGroup() {
-        super(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
+        super(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
                 "C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null,
-                null, "9590-9989", "3",
-                "2018-9999");
+                null, "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M6	Abstract multiple primaries when there is at least one invasive /3 intracranial or intraspinal tumor AND at least one non-malignant /0 or /1 intracranial or intraspinal tumor.
         // TODO
-        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6");
+        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The rules are hierarchical. Only use when previous rules do not apply.");
@@ -107,7 +105,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // •	Peripheral nerves C47_ AND any other part of the CNS
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7");
         rule.setQuestion("");
         rule.setReason("");
         _rules.add(rule);
@@ -116,7 +114,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // •	Simultaneous OR
         // •	Original and subsequent
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
@@ -126,12 +124,11 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // •	Simultaneous OR
         // •	Original and subsequent
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add(
-                "  • Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add("  • Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
@@ -140,7 +137,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // •	Different lateralities, for example: left and right frontal lobes (same site code)
         // •	Different lobes, for example: parietal lobe and occipital lobe (different site codes)
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:");
@@ -165,11 +162,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
         // Rule M11	Abstract a single primary when multiple tumors do not meet any of the above criteria.
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
-        rule.getExamples().add(
-                "The patient had a resection of an anaplastic astrocytoma 9401 in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.");
+        rule.getExamples().add("The patient had a resection of an anaplastic astrocytoma 9401 in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.");
         _rules.add(rule);
 
 

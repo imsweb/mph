@@ -31,12 +31,12 @@ public class MphConstants {
     public static final String MP_2007_URINARY_GROUP_ID = "mp_2007_urinary";
     public static final String MP_2018_BREAST_GROUP_ID = "mp_2018_breast";
     public static final String MP_2018_COLON_GROUP_ID = "mp_2018_colon";
-    public static final String MP_2007_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2018_cutaneous_melanoma";
+    public static final String MP_2018_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2018_cutaneous_melanoma";
     public static final String MP_2018_HEAD_AND_NECK_GROUP_ID = "mp_2018_head_and_neck";
     public static final String MP_2018_KIDNEY_GROUP_ID = "mp_2018_kidney";
     public static final String MP_2018_LUNG_GROUP_ID = "mp_2018_lung";
-    public static final String MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID = "mp_2018_malignant_cns_and_peripheral_nerves";
-    public static final String MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID = "mp_2018_non_malignant_cns_tumors";
+    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID = "mp_2018_malignant_cns_and_peripheral_nerves";
+    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID = "mp_2018_non_malignant_cns_tumors";
     public static final String MP_2018_OTHER_SITES_GROUP_ID = "mp_2018_other_sites";
     public static final String MP_2018_URINARY_GROUP_ID = "mp_2018_urinary";
 
@@ -58,12 +58,12 @@ public class MphConstants {
     public static final String MP_2007_URINARY_GROUP_NAME = "2007 Urinary";
     public static final String MP_2018_BREAST_GROUP_NAME = "2018 Breast";
     public static final String MP_2018_COLON_GROUP_NAME = "2018 Colon";
-    public static final String MP_2007_CUTANEOUS_MELANOMA_GROUP_NAME = "2018 Cutaneous Melanoma";
+    public static final String MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME = "2018 Cutaneous Melanoma";
     public static final String MP_2018_HEAD_AND_NECK_GROUP_NAME = "2018 Head And Neck";
     public static final String MP_2018_KIDNEY_GROUP_NAME = "2018 Kidney";
     public static final String MP_2018_LUNG_GROUP_NAME = "2018 Lung";
-    public static final String MP_2007_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME = "2018 Malignant CNS And Peripheral Nerves";
-    public static final String MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME = "2018 Non Malignant CNS Tumors";
+    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME = "2018 Malignant CNS And Peripheral Nerves";
+    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME = "2018 Non Malignant CNS Tumors";
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 

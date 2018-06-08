@@ -87,21 +87,20 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
     */
 
-    // TODO
     // Non-Malignant CNS Neoplasms
     // Multiple Primary Rules
     // C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
 
     public Mp2018NonMalignantCNSTumorsGroup() {
-        super(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
+        super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
-                "", "0-1", "2018-9999");
+                "", "2-3,6", "2018-9999");
 
         // Rule M5	Abstract multiple primaries  when a non-malignant tumor /0 or /1 transforms into a malignant /3 tumor AND
         // •	The patient had a resection of the non-malignant tumor as part of the first course of treatment OR
         // •	It is unknown if the non-malignant tumor was resected during the first course of treatment.
         // TODO
-        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M5");
+        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M5");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("See Table 8 for a list of histologic types of non-malignant tumors which have the greatest potential to transform to malignant behavior.");
@@ -112,7 +111,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Acoustic neuromas/vestibular schwannoma 9560/0
         // •	Optic nerve gliomas 9380/0
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M6");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M6");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The bilateral tumors may appear simultaneously (at the same time) OR the contralateral tumor may be diagnosed at any time following the original diagnosis.");
@@ -123,7 +122,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Simultaneous OR
         // •	Original and subsequent
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M7");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M7");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
@@ -133,7 +132,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Simultaneous OR
         // •	Original and subsequent
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M8");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M8");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -143,7 +142,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
         // Rule M9	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in the same CNS site code (same second, third and fourth digit CXXX).
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M9");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M9");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("See Table 6 in the Equivalent Terms and Definitions for NOS and subtypes/variants.");
@@ -164,7 +163,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	On both sides (left and right) of the cranial meninges OR
         // •	In the midline AND in either the right or left cranial meninges
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("This rule applies ONLY to meningiomas.");
@@ -177,14 +176,14 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Cranial nerves C721-C725 AND any other part of the CNS
         // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M11");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary when there are multiple tumors in the brain.
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M12");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M12");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");
@@ -193,7 +192,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
         // Rule M13	Abstract a single primary when the tumors do not meet any of the above criteria.
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M13");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M13");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");

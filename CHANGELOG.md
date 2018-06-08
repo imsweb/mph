@@ -3,6 +3,7 @@
 **Changes in version 1.10**
 
  - Updated Commons Lang library from version 3.4 to version 3.6.
+ - Added 2018 rules.
 
 **Changes in version 1.9**
 

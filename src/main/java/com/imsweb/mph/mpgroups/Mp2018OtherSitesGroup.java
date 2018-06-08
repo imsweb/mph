@@ -83,7 +83,6 @@ public class Mp2018OtherSitesGroup extends MphGroup {
 
     */
 
-    // TODO
     // Other Sites Multiple Primary Rules – Text
     // Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
 

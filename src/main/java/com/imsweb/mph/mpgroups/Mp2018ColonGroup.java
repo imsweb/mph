@@ -120,9 +120,17 @@ public class Mp2018ColonGroup extends MphGroup {
         Note 4:	This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.
 
     Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
-
-
     */
+
+    // TODO - Question M11 - Should this rule actually work like this?:
+    //                      A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp; OR
+    //                  	A NOS AND a subtype/variant of that NOS; OR
+    //                      Adenocarcinoma in multiple polyps 8221; OR
+    //                      An in situ AND an invasive tumor
+    // TODO - Question M11 - How do I determine a de novo (formerly called “frank”) carcinoma?
+
+
+
 
     // Colon, Rectosigmoid, and Rectum Multiple Primary Rules
     // C180-C189, C199, C209
@@ -238,36 +246,63 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when there are simultaneous combinations of:
-        // •	A de novo (formerly called “frank”) carcinoma AND
-        // 	A carcinoma in a polyp
-        // •	A NOS AND
-        // 	A subtype/variant of that NOS
+        // •	A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp
+        // •	A NOS AND a subtype/variant of that NOS
+        // •	Adenocarcinoma in multiple polyps 8221
+        // •	An in situ AND An invasive tumor
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M11");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M11") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                List<String> subTypes1 = MphConstants.COLON_2018_TABLE1.get(icd1);
+                if (subTypes1 == null) subTypes1 = MphConstants.COLON_2018_TABLE1.get(i1.getHistology());
+                List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
+                if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
+
+
+
+                // •	A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp
+                if ((MphConstants.POLYP.contains(hist1) && (false)) ||
+                    (MphConstants.POLYP.contains(hist2) && (false))) {
+
+                }
+                // •	A NOS AND a subtype/variant of that NOS
+                else if (false) {
+
+
+                }
+                // •	Adenocarcinoma in multiple polyps 8221
+                else if (hist1.equals("8221") && hist2.equals("8221")) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
+                // •	An in situ AND An invasive tumor
+                else if ((beh1.equals(MphConstants.INSITU) && beh2.equals(MphConstants.MALIGNANT)) ||
+                         (beh2.equals(MphConstants.INSITU) && beh1.equals(MphConstants.MALIGNANT))) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Is this a simultaneous combination of de novo carcinoma and carcinoma in a polyp, NOS and subtype of that NOS, Adenocarcinoma in multiple polyps, or in situ and invasive tumor?");
+        rule.setReason("A simultaneous combination of de novo carcinoma and carcinoma in a polyp, NOS and subtype of that NOS, Adenocarcinoma in multiple polyps, or in situ and invasive tumor is single primary.");
         rule.getNotes().add("The NOS may be in situ and the subtype/variant malignant/invasive OR the NOS may be malignant/invasive and the subtype/variant in situ.");
-        rule.getNotes().add("  • Adenocarcinoma in multiple polyps 8221");
-        rule.getNotes().add("  • An in situ AND");
-        rule.getNotes().add("     An invasive tumor");
         rule.getNotes().add("The in situ may be in a polyp and the invasive may be de novo OR the in situ may be de novo and the invasive in a polyp.");
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M12");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M12");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M13");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
@@ -276,10 +311,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M14");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
@@ -287,10 +319,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
-        // TODO
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M15");
-        rule.setQuestion("");
-        rule.setReason("");
         _rules.add(rule);
 
 

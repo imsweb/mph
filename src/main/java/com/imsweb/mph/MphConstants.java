@@ -11,6 +11,12 @@ import java.util.Map;
 
 import com.imsweb.mph.mpgroups.GroupUtility;
 
+
+// TODO Question BREAST_2018_TABLE3 - Is a blank value (List with no elements) matchable to other blank values?
+// TODO Question BREAST_2018_TABLE3 - Is 8900 considered to be the same row as 8800? And do they have the same subtypes?
+
+
+
 public class MphConstants {
 
     //Group Ids for the set of rules
@@ -313,4 +319,59 @@ public class MphConstants {
         content.put("9538", "Meningioma, malignant"); //Papillary meningioma, rhadboid meningioma
         MALIGNANT_BRAIN_2007_CHART2 = Collections.unmodifiableMap(content);
     }
+
+    public static final Map<String, List<String>> BREAST_2018_TABLE3;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8550", Collections.unmodifiableList(Arrays.asList())); // Acinic cell carcinoma 8550
+        content.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma (ACC) 8200
+        content.put("8983", Collections.unmodifiableList(Arrays.asList())); // Adenomyoepithelioma with carcinoma 8983
+        content.put("8401", Collections.unmodifiableList(Arrays.asList())); // Apocrine carcinoma 8401
+        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035", "8022"))); // Carcinoma NST 8500
+        content.put("8501", Collections.unmodifiableList(Arrays.asList())); // Comedocarcinoma 8501
+        content.put("8201", Collections.unmodifiableList(Arrays.asList())); // Cribriform carcinoma 8201
+        content.put("8315", Collections.unmodifiableList(Arrays.asList("8310"))); // Glycogen-rich clear cell carcinoma 8315
+        content.put("8530", Collections.unmodifiableList(Arrays.asList())); // Inflammatory carcinoma 8530
+        content.put("8314", Collections.unmodifiableList(Arrays.asList())); // Lipid-rich carcinoma 8314
+        content.put("8520", Collections.unmodifiableList(Arrays.asList("8519/2"))); // Lobular carcinoma 8520
+        content.put("8510", Collections.unmodifiableList(Arrays.asList("8513"))); // Medullary carcinoma 8510
+        content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
+        content.put("8480", Collections.unmodifiableList(Arrays.asList())); // Mucinous carcinoma 8480
+        content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
+        content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        content.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
+        content.put("8540/3", Collections.unmodifiableList(Arrays.asList())); // Paget disease of the nipple with no underlying tumor 8540/3
+        content.put("8503/3", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
+        content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
+        content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
+        content.put("8800", Collections.unmodifiableList(Arrays.asList("9180", "8900", "8920", "8910", "8901", "8850", "8890", "9120"))); // Sarcoma NOS 8800
+        content.put("8900", Collections.unmodifiableList(Arrays.asList("8920", "8910", "8901"))); // Note: Rhabdomyosarcoma 8900 is also a NOS with the following subtypes/variants: Alveolar type rhabdomyosarcoma 8920, Embryonal type rhabdomyosarcoma 8910, Pleomorphic rhabdomyosarcoma 8901
+        content.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous carcinoma 8410
+        content.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
+        content.put("8490", Collections.unmodifiableList(Arrays.asList())); // Signet ring carcinoma 8490
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8574/3", "8246"))); // Small cell carcinoma 8041
+        content.put("8211", Collections.unmodifiableList(Arrays.asList())); // Tubular carcinoma 8211
+        BREAST_2018_TABLE3 = Collections.unmodifiableMap(content);
+    }
+
+    public static final Map<String, List<String>> COLON_2018_TABLE1;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8140", Collections.unmodifiableList(Arrays.asList("8020", "8200", "8201", "8145", "8142/3", "8510", "8265", "8480", "8430", "8213", "8490", "8143", "8263"))); // Adenocarcinoma 8140
+        content.put("8560", Collections.unmodifiableList(Arrays.asList())); // Adenosquamous carcinoma 8560
+        content.put("8045", Collections.unmodifiableList(Arrays.asList())); // Combined small cell carcinoma 8045
+        content.put("8153", Collections.unmodifiableList(Arrays.asList())); // Gastrinoma 8153
+        content.put("8936", Collections.unmodifiableList(Arrays.asList())); // Gastrointestinal stromal tumor classified as malignant 8936
+        content.put("8244", Collections.unmodifiableList(Arrays.asList("8243"))); // Mixed adenoneuroendocrine carcinoma 8244
+        content.put("8246", Collections.unmodifiableList(Arrays.asList("8013", "8041"))); // Neuroendocrine carcinoma 8246
+        content.put("8240", Collections.unmodifiableList(Arrays.asList("8241", "8249", "8156"))); // Neuroendocrine tumor Grade 1 (G1) 8240
+        content.put("8032", Collections.unmodifiableList(Arrays.asList())); // Spindle cell carcinoma 8032
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8890/3"))); // Sarcoma NOS 8800/3
+        content.put("8070", Collections.unmodifiableList(Arrays.asList())); // Squamous cell carcinoma 8070
+        COLON_2018_TABLE1 = Collections.unmodifiableMap(content);
+    }
+
+
 }

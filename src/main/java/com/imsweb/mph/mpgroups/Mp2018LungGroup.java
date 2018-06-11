@@ -77,7 +77,6 @@ public class Mp2018LungGroup extends MphGroup {
         Note 4:	This rule is based on long-term epidemiologic studies of multiple primaries. The specialty medical experts (SME) and the CoC site physician teams reviewed and approved these rules.  Many of the CoC site team physicians were also authors, co-authors, or editors of the AJCC Staging Manual.
         Note 5:	Lymph node involvement is recorded in staging criteria.
 
-
     Rule M11	Abstract a single primary when:
         •	There is simultaneously a single tumor in one lung and multiple tumors in the contralateral lung OR
         •	Simultaneous multiple tumors in both lungs OR
@@ -106,6 +105,8 @@ public class Mp2018LungGroup extends MphGroup {
         Note:	This rule is simply a “safety net” or default rule. If none of the previous rules applied to the case you were abstracting, default to this rule.
 
     */
+
+
 
     // Lung Multiple Primary Rules
     // C340-C343, C348, C349

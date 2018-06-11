@@ -242,6 +242,92 @@ public abstract class MphGroup {
         }
     }
 
+
+    public static class MphRuleInvasiveAfterInSituGreaterThan60Days extends MphRule {
+
+        public MphRuleInvasiveAfterInSituGreaterThan60Days(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Is there an invasive tumor following an in situ tumor more than 60 days after diagnosis?");
+            setReason("An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
+                //If they are diagnosed at same date or invasive is not following insitu
+                if (0 == latestDx || (1 == latestDx && !"3".equals(beh1)) || (2 == latestDx && !"3".equals(beh2)))
+                    return result;
+                else {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    }
+                    else if (1 == sixtyDaysApart)
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+            }
+            return result;
+        }
+    }
+
+    public static class MphRuleInvasiveAfterInSituLess60Days extends MphRule {
+
+        public MphRuleInvasiveAfterInSituLess60Days(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Is there an invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis?");
+            setReason("An invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis is a single primary.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
+                // If they are diagnosed at same date or invasive is not following insitu
+                if (0 == latestDx || (1 == latestDx && !MphConstants.MALIGNANT.equals(beh1)) || (2 == latestDx && !MphConstants.MALIGNANT.equals(beh2)))
+                    return result;
+                else {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    }
+                    else if (0 == sixtyDaysApart)
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
+            }
+            return result;
+        }
+    }
+
+
+    public static class MphRuleInSituAfterInvasive extends MphRule {
+
+        public MphRuleInSituAfterInvasive(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Is there an in situ tumor following an invasive tumor?");
+            setReason("An in situ tumor diagnosed following an invasive tumor is a single primary.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
+                if ((1 == latestDx && MphConstants.INSITU.equals(beh1)) || (2 == latestDx && MphConstants.INSITU.equals(beh2)))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            }
+            return result;
+        }
+    }
+
+
     public static class MphRuleDiagnosisDate extends MphRule {
 
         public MphRuleDiagnosisDate(String groupId, String step) {

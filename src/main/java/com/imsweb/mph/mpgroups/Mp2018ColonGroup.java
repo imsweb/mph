@@ -28,7 +28,7 @@ public class Mp2018ColonGroup extends MphGroup {
     Rule M3	Abstract a single primary when
         •	The diagnosis is adenomatous polyposis coli (familial polyposis/FAP) OR
         •	There is no diagnosis of FAP BUT
-            	 Greater than 100 polyps are documented AND
+            	Greater than 100 polyps are documented AND
             	Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
         Note 1:	A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.
         Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
@@ -122,13 +122,20 @@ public class Mp2018ColonGroup extends MphGroup {
     Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
     */
 
+    // TODO - Question M5, M6 -	Waiting on Breast answers. This should work the same.
+    // TODO - Question M7 - Doesn't rule M7 go to multiple primaries, while M11 uses the same logic to go to single primary?
+    // TODO - Question M7, M8, M9 - How do you determine an "anastomotic site"?
+    // TODO - Question M8 -	How do you determine "The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa"?
+    // TODO - Question M8 -	How do you determine "The pathologist or clinician documents an anastomotic recurrence"?
+    // TODO - Question M9 - How do you determine "Arises in the mucosa"?
+    // TODO - Question M9 - How do you determine "No documentation of an anastomotic recurrence"?
     // TODO - Question M11 - Should this rule actually work like this?:
     //                      A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp; OR
     //                  	A NOS AND a subtype/variant of that NOS; OR
     //                      Adenocarcinoma in multiple polyps 8221; OR
     //                      An in situ AND an invasive tumor
     // TODO - Question M11 - How do I determine a de novo (formerly called “frank”) carcinoma?
-
+    // TODO - Question M11 - Does "simultaneous combinations" mean that the tumors exist at the same time?
 
 
 
@@ -142,8 +149,8 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M3	Abstract a single primary when
         // •	The diagnosis is adenomatous polyposis coli (familial polyposis/FAP) OR
         // •	There is no diagnosis of FAP BUT
-        // 	 Greater than 100 polyps are documented AND
-        // 	Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
+            // 	 Greater than 100 polyps are documented AND
+            // 	 Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
         // TODO
         MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M3");
         rule.setQuestion("");
@@ -157,15 +164,26 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("  • Present in colon and rectosigmoid OR colon and rectum: code C199 rectosigmoid junction");
         rule.getNotes().add("  • Present in colon and small intestine: code C260 intestinal tract, NOS (there is no code for large and small bowel)");
         rule.getNotes().add("  • Present in colon and small intestine (may also involve rectum): code C269 gastrointestinal tract, NOS");
-        rule.getExamples().add(
-                "The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
+        rule.getExamples().add("The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
         _rules.add(rule);
 
         // Rule M4	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M4");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M4") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
+                if (-1 == diff) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                }
+                else if (1 == diff)
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
+        rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
+        rule.setReason("Tumors diagnosed more than one (1) year apart are multiple primaries.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Colonoscopies are NED");
         rule.getNotes().add("  • Scans are NED");
@@ -199,10 +217,28 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when a subsequent tumor arises at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M7");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M7") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                List<String> subTypes1 = MphConstants.COLON_2018_TABLE1.get(icd1);
+                if (subTypes1 == null) subTypes1 = MphConstants.COLON_2018_TABLE1.get(i1.getHistology());
+                List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
+                if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
+
+                // •	A NOS AND a subtype/variant of that NOS
+                if (((subTypes1 != null) && (subTypes1.contains(icd2) || subTypes1.contains(hist2))) ||
+                    ((subTypes2 != null) && (subTypes2.contains(icd1) || subTypes2.contains(hist1)))) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS?");
+        rule.setReason("A subsequent tumor arises at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS is multiple primaries");
         rule.getExamples().add("The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.");
         _rules.add(rule);
 
@@ -231,10 +267,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10	Abstract multiple primaries when separate, non-contiguous tumors are present in sites where the site codes differ at the second CXxx, third CxXx or the fourth character C18X.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M10");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleTopography234Code(MphConstants.MP_2018_COLON_GROUP_ID, "M10");
         rule.getNotes().add("Definition of separate/non-contiguous tumors: at least two malignancies which do not overlap/merge.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if the patient does not have FAP.");
         rule.getNotes().add("Differences at the fourth character include different segments of the colon. Abstract a primary for each separate non-contiguous tumor in a different segment of the colon.");
@@ -264,17 +297,15 @@ public class Mp2018ColonGroup extends MphGroup {
                 List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
                 if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
 
-
-
                 // •	A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp
                 if ((MphConstants.POLYP.contains(hist1) && (false)) ||
                     (MphConstants.POLYP.contains(hist2) && (false))) {
 
                 }
                 // •	A NOS AND a subtype/variant of that NOS
-                else if (false) {
-
-
+                else if (((subTypes1 != null) && (subTypes1.contains(icd2) || subTypes1.contains(hist2))) ||
+                         ((subTypes2 != null) && (subTypes2.contains(icd1) || subTypes2.contains(hist1)))) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 // •	Adenocarcinoma in multiple polyps 8221
                 else if (hist1.equals("8221") && hist2.equals("8221")) {

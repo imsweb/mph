@@ -16,7 +16,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2007MelanomaGroup extends MphGroup {
 
     public Mp2007MelanomaGroup() {
-        super(MphConstants.MP_2007_MELANOMA_GROUP_ID, MphConstants.MP_2007_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780", null, "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_MELANOMA_GROUP_ID, MphConstants.MP_2007_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780", null, "2-3,6", "");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3") {

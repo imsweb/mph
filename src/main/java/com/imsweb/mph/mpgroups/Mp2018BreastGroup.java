@@ -82,8 +82,9 @@ public class Mp2018BreastGroup extends MphGroup {
         Note 2:	Tumors may be in the same quadrant or multiple quadrants/subsites.
 
     Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
-        Note 2:	Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.
+        Note 1:	Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.
+        Note 2:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
+        Note 3:	The tumors may be a NOS and a subtype/variant of that NOS.
 
     Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
         Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
@@ -100,14 +101,17 @@ public class Mp2018BreastGroup extends MphGroup {
         Note 3:	Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.
         Note 4:	This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.
 
-    Rule M16	Abstract a single primary when tumors that do not meet any of the above criteria.
+    Rule M16	Abstract a single primary when none of the previous rules apply.
+        Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
 
     */
 
     // TODO - Question M4 - How do you determine Multiple Quadrants or Bilateral?
     // TODO - Question M5 - Does "separate, non-contiguous" mean different Lateraltiy?
     // TODO - Question M9 - What does "simultaneous" mean?
+    // TODO - Question M10 - If a histology is not in the table, does that count as being a different row?
     // TODO - Question M10, M11 - Does "separate/non-contiguous tumor" have any specific meaning?
+    // TODO - Question M10, M11 - How do you determine "Simultaneous OR Original and subsequent"?
     // TODO - Question M11 - The phrase "tumors are two or more different subtypes/variants in Column 3" - Does that mean the subtype for each tumor does not match,
     //                       or that each tumor has at least 2 subtypes?
     // TODO - Question M12 - Should we be using DUCT_CARCINOMA and LOBULAR_CARCINOMA, or the specific histologies from Table 3?
@@ -370,8 +374,9 @@ public class Mp2018BreastGroup extends MphGroup {
         };
         rule.setQuestion("Is there an in situ tumor diagnosed after an in invasive tumor in the same breast?");
         rule.setReason("An in situ tumor diagnosed after an invasive tumor in the same breast is a single primary.");
-        rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
+        rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
+        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         _rules.add(rule);
 
         // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
@@ -447,11 +452,10 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
-        // Rule M16	Abstract a single primary when tumors that do not meet any of the above criteria.
+        // Rule M16	Abstract a single primary when none of the previous rules apply.
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M16");
+        rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
-
-
 
 
 

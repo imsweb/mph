@@ -201,7 +201,7 @@ public abstract class MphGroup {
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            if (!i1.getPrimarySite().substring(2, 3).equals(i2.getPrimarySite().substring(2, 3)))
+            if (!i1.getPrimarySite().substring(1, 4).equals(i2.getPrimarySite().substring(1, 4)))
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             return result;
         }

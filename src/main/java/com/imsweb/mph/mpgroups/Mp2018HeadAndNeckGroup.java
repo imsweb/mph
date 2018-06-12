@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.imsweb.mph.MphComputeOptions;
@@ -91,6 +92,15 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     */
 
+
+    // TODO - Question M3, M4 - Does "Tables 2-10" means a union of tables 2, 3, 4, 5, 6, 7, 8, 9, and 10?
+    // TODO - Question M3, M4 - Table 2 contains 4 columns, are the last two considered sub-types (union)? How does this work with M4 (with tables of different numbers of columns)?
+    // TODO - Question M3, M4 - Table 10 does not have a sub-type column. How do we use this?
+    // TODO - Question M7 - Table 11 - This table doesn't say anything about paired sites. Is this the correct table? Is each site separate, or they are all considered paired with each other?
+    // TODO - Question M9 - In the wording "of that NOS such as the following:", does this mean only the histologies listed here, or use all of the histologies from Tables 2 through 10?
+    // TODO - Question M9 - "Chondrosarcoma grade 2/3 9220/3 and subtypes/variants of chondrosarcoma grade 2/3", looking in Table 4, this histology does not have any subtypes?
+
+
     // Head and Neck Multiple Primary Rules
     // C000-C148, C300-C339, C410, C411, C442
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
@@ -124,10 +134,21 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         // •	Upper lip C000 or C005 AND lower lip C001 or C003 OR
         // •	Upper gum C030 AND lower gum C031 OR
         // •	Nasal cavity C300 AND middle ear C301
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M5");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M5") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP_2018, MphConstants.LOWER_LIP_2018))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
+        rule.setQuestion("Are there tumors on the upper lip (C000, C005) and the lower lip (C001, C003), the upper gum (C030) and the lower gum (C031), or the nasal cavity (C300) and the middle ear (C301)?");
+        rule.setReason("Tumors on the upper lip (C000, C005) and the lower lip (C001, C003), the upper gum (C030) and the lower gum (C031), or the nasal cavity (C300) and the middle ear (C301) are multiple primaries.");
         rule.getNotes().add("Use this rule only for multiple tumors.");
         rule.getNotes().add("The tumors are multiple primaries whether they are synchronous or occur at different times.");
         rule.getNotes().add("The tumors are multiple primaries regardless of histology (may be the same histology or different histologies).");
@@ -135,26 +156,87 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
         // Rule M6	Abstract multiple primaries when separate, non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M6");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M6") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
+        rule.setQuestion("Are there separate, non-contiguous tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third character (Cx?x)?");
+        rule.setReason("Separate, non-contiguous tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.");
         rule.getNotes().add("See Equivalent Terms and Definitions Table 11 for list of paired sites.");
         rule.getNotes().add("Use this rule only for separate, non-contiguous tumors.");
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7");
-        rule.setQuestion("");
-        rule.setReason("");
+        // TODO - Is Paired site list correct?
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> pairedSites = Arrays.asList("C312,C310,C301,C300,C098,C079,C081,C080,C090,C091,C099");
+                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are there separate, non-contiguous tumors on both the right side and the left side of a paired site?");
+        rule.setReason("Separate, non-contiguous tumors on the right side and the left side of a paired site are multiple primaries.");
         rule.getNotes().add("See Equivalent Terms and Definitions Table 11 for list of paired sites.");
         _rules.add(rule);
 
+        // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.
+        /*
+        MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
+                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are there tumors in both the left and right sides of a paired site?");
+        rule.setReason("Tumors on the right side and the left side of a paired site are multiple primaries.");
+        _rules.add(rule);
+        */
+
+
         // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M8");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M8") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+                if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
+                    int latestDx = GroupUtility.compareDxDate(i1, i2);
+                    //If they are diagnosed at same date or in situ is following invasive
+                    if ((1 == latestDx && MphConstants.MALIGNANT.equals(beh1) && MphConstants.INSITU.equals(beh2)) ||
+                        (2 == latestDx && MphConstants.MALIGNANT.equals(beh2) && MphConstants.INSITU.equals(beh1))) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Is there an in situ tumor diagnosed after an in invasive tumor?");
+        rule.setReason("An in situ tumor diagnosed after an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Tables 2-10 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
@@ -173,7 +255,6 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         // •	Small cell neuroendocrine carcinoma 8041 and subtypes/variants of small cell neuroendocrine carcinoma
         // •	Squamous cell carcinoma 8070 and subtypes/variants of squamous cell carcinoma
         // •	Well-differentiated neuroendocrine carcinoma 8240 and subtypes/variants of well-differentiated neuroendocrine carcinoma
-
         // TODO
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M9");
         rule.setQuestion("");
@@ -181,10 +262,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M10");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M10");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
@@ -194,10 +272,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M11");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleBehavior(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M11");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
@@ -205,9 +280,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M12");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleDiagnosisDate(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M12");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("•	Scopes are NED");
         rule.getNotes().add("•	Scans are NED");

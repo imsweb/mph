@@ -6,6 +6,7 @@ package com.imsweb.mph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Range;
 
@@ -334,7 +335,6 @@ public abstract class MphGroup {
             super(groupId, step);
             setQuestion("Are there tumors diagnosed more than five (5) years apart?");
             setReason("Tumors diagnosed more than five (5) years apart are multiple primaries.");
-
         }
 
         @Override
@@ -347,6 +347,30 @@ public abstract class MphGroup {
             }
             else if (1 == diff)
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+
+            return result;
+        }
+    }
+
+    public static class MphRuleDiagnosisDateLess3Years extends MphRule {
+
+        public MphRuleDiagnosisDateLess3Years(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Are there tumors diagnosed less than or equal to three (3) years apart?");
+            setReason("Tumors diagnosed less than or equal to three (3) years apart is a single primary.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+
+            int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
+            if (-1 == diff) {
+                result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+            }
+            else if (0 == diff)
+                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
             return result;
         }
@@ -367,4 +391,60 @@ public abstract class MphGroup {
             return result;
         }
     }
+
+    public static class MphRuleDifferentRowsInTable extends MphRule {
+
+        private Map<String, List<String>> _tableToTest;
+
+        public MphRuleDifferentRowsInTable(String groupId, String step, Map<String, List<String>> tableToTest) {
+            super(groupId, step);
+            _tableToTest = tableToTest;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+
+            String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+            List<String> subTypes1 = _tableToTest.get(icd1);
+            if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+            List<String> subTypes2 = _tableToTest.get(icd2);
+            if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
+
+            if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2))
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+
+            return result;
+        }
+    }
+
+    public static class MphRuleTwoOrMoreDifferentSubTypesInTable extends MphRule {
+
+        private Map<String, List<String>> _tableToTest;
+
+        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, Map<String, List<String>> tableToTest) {
+            super(groupId, step);
+            _tableToTest = tableToTest;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+
+            String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+            List<String> subTypes1 = _tableToTest.get(icd1);
+            if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+            List<String> subTypes2 = _tableToTest.get(icd2);
+            if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
+
+            if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2)) {
+                if ((subTypes1.size() >= 2) && (subTypes2.size() >= 2)) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+            }
+            return result;
+        }
+    }
+
+
 }

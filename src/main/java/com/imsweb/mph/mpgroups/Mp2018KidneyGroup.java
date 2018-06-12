@@ -70,11 +70,12 @@ public class Mp2018KidneyGroup extends MphGroup {
 
     Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
 
-    // TODO - M4 Question: Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
-    // TODO - M10 Question: Are these equivalent:
+    // TODO - Question M4 - Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
+    // TODO - Question M6 - Table 1: What to do with "Rhabdomyosarcoma"?
+    // TODO - Question M6, M7, M8 - How to test same kidney? Same Laterality?
+    // TODO - Question M10 - Are these equivalent:
     // TODO       "Tumors diagnosed more than three (3) years apart are multiple primaries." =
     // TODO       "Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence."
-
 
     */
     // Kidney Multiple Primary Rules - Text
@@ -127,38 +128,35 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6");
-        rule.setQuestion("");
-        rule.setReason("");
+        // TODO - How to test same kidney?
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1);
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7");
-        rule.setQuestion("");
-        rule.setReason("");
+        // TODO - How to test same kidney?
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1);
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add("  • Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add("  • Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8");
-        rule.setQuestion("");
-        rule.setReason("");
+        // TODO - How to test same kidney?
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8");
+        rule.setQuestion("Is there an in situ tumor following an invasive tumor and tumors are in the same kidney?");
+        rule.setReason("An in situ tumor diagnosed following an invasive tumor and tumors are in the same kidney is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M9	Abstract a single primary (recurrence) when tumors recur less than or equal to 3 years apart.
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleDiagnosisDateLess3Years(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9");
         rule.getNotes().add("These rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Using the previous rules, the recurrence must be");
         rule.getNotes().add("  • In the same kidney AND");

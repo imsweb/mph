@@ -104,12 +104,16 @@ public class MphConstants {
     public static final List<String> MALE_GENITAL = Collections.unmodifiableList(Arrays.asList("C60", "C63"));
     public static final List<String> KIDNEY_OR_URINARY = Collections.unmodifiableList(Arrays.asList("C64", "C65", "C66", "C68"));
     public static final List<String> ENDOCRINE = Collections.unmodifiableList(Arrays.asList("C74", "C75"));
-    public static final List<String> UPPER_LIP =Collections.unmodifiableList( Arrays.asList("C000", "C003"));
+    public static final List<String> UPPER_LIP = Collections.unmodifiableList( Arrays.asList("C000", "C003"));
     public static final List<String> LOWER_LIP = Collections.unmodifiableList(Arrays.asList("C001", "C004"));
     public static final List<String> UPPER_GUM = Collections.unmodifiableList(Collections.singletonList("C030"));
     public static final List<String> LOWER_GUM = Collections.unmodifiableList(Collections.singletonList("C031"));
     public static final List<String> NASAL_CAVITY = Collections.unmodifiableList(Collections.singletonList("C300"));
     public static final List<String> MIDDLE_EAR = Collections.unmodifiableList(Collections.singletonList("C301"));
+
+    public static final List<String> UPPER_LIP_2018 = Collections.unmodifiableList( Arrays.asList("C000", "C005"));
+    public static final List<String> LOWER_LIP_2018 = Collections.unmodifiableList(Arrays.asList("C001", "C003"));
+
     public static final String ALL_PAIRED_SITES =
             "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";
 
@@ -373,5 +377,26 @@ public class MphConstants {
         COLON_2018_TABLE1 = Collections.unmodifiableMap(content);
     }
 
+
+    public static final Map<String, List<String>> HEAD_AND_NECK_2018_TABLE2_10;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        HEAD_AND_NECK_2018_TABLE2_10 = Collections.unmodifiableMap(content);
+    }
+
+
+
+    public static final Map<String, List<String>> KIDNEY_2018_TABLE1;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8960", Collections.unmodifiableList(Arrays.asList())); // Nephroblastoma 8960
+        content.put("8312", Collections.unmodifiableList(Arrays.asList("8316", "8317", "8310", "8319", "8311", "8480", "8260", "8510", "8290"))); // Renal cell carcinoma NOS 8312
+        content.put("8963", Collections.unmodifiableList(Arrays.asList())); // Rhabdoid tumor 8963
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("8920/3", "9120/3", "8964/3", "8910/3", "8890/3", "9180/3", "8901/3", "9364/3", "8890/3", "8900/3", "8912/3", "9040/3"))); // Sarcoma 8800/3
+        content.put("8042", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
+        KIDNEY_2018_TABLE1 = Collections.unmodifiableMap(content);
+    }
 
 }

@@ -187,6 +187,13 @@ public class GroupUtility {
     }
 
     /**
+     * checks if cancers are both on the left or right side
+     */
+    public static boolean areSameSide(String lat1, String lat2) {
+        return (MphConstants.RIGHT.equals(lat1) && MphConstants.RIGHT.equals(lat2)) || (MphConstants.LEFT.equals(lat2) && MphConstants.LEFT.equals(lat1));
+    }
+
+    /**
      * checks if two cases have same and valid site, hist, behavior, date, laterality
      */
     public static boolean sameAndValidMainFields(MphInput i1, MphInput i2) {
@@ -413,4 +420,19 @@ public class GroupUtility {
 
         return minimum ? (int)ChronoUnit.DAYS.between(startDateMax, endDateMin) : (int)ChronoUnit.DAYS.between(startDateMin, endDateMax);
     }
+
+    /**
+     * checks if firstBehavior occurs before secondBehavior.
+     */
+    public static boolean isOneBehaviorBeforeTheOther(MphInput i1, MphInput i2, String firstBehavior, String secondBehavior) {
+        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+        if (differentCategory(beh1, beh2, Collections.singletonList(secondBehavior), Collections.singletonList(firstBehavior))) {
+            int latestDx = compareDxDate(i1, i2);
+            if ((1 == latestDx && secondBehavior.equals(beh1)) || (2 == latestDx && secondBehavior.equals(beh2)))
+                return true;
+        }
+        return false;
+    }
+
+
 }

@@ -122,7 +122,6 @@ public class Mp2018ColonGroup extends MphGroup {
     Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
     */
 
-    // TODO - Question M5, M6 -	Waiting on Breast answers. This should work the same.
     // TODO - Question M7 - Doesn't rule M7 go to multiple primaries, while M11 uses the same logic to go to single primary?
     // TODO - Question M7, M8, M9 - How do you determine an "anastomotic site"?
     // TODO - Question M8 -	How do you determine "The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa"?
@@ -135,7 +134,6 @@ public class Mp2018ColonGroup extends MphGroup {
     //                      Adenocarcinoma in multiple polyps 8221; OR
     //                      An in situ AND an invasive tumor
     // TODO - Question M11 - How do I determine a de novo (formerly called “frank”) carcinoma?
-    // TODO - Question M11 - Does "simultaneous combinations" mean that the tumors exist at the same time?
 
 
 
@@ -175,7 +173,7 @@ public class Mp2018ColonGroup extends MphGroup {
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (-1 == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
                 else if (1 == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -197,20 +195,18 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors may be:
         // •	Simultaneous OR
         // •	Original and subsequent
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M5");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M5", MphConstants.COLON_2018_TABLE1, false);
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors may be
         // •	Simultaneous OR
         // •	Original and subsequent
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M6");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M6", MphConstants.COLON_2018_TABLE1,false);
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add("  • Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add("  • Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
@@ -288,33 +284,39 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> subTypes1 = MphConstants.COLON_2018_TABLE1.get(icd1);
-                if (subTypes1 == null) subTypes1 = MphConstants.COLON_2018_TABLE1.get(i1.getHistology());
-                List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
-                if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
-
-                // •	A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp
-                if ((MphConstants.POLYP.contains(hist1) && (false)) ||
-                    (MphConstants.POLYP.contains(hist2) && (false))) {
-
+                int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                if (-1 == sixtyDaysApart) {
+                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
-                // •	A NOS AND a subtype/variant of that NOS
-                else if (((subTypes1 != null) && (subTypes1.contains(icd2) || subTypes1.contains(hist2))) ||
-                         ((subTypes2 != null) && (subTypes2.contains(icd1) || subTypes2.contains(hist1)))) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                // •	Adenocarcinoma in multiple polyps 8221
-                else if (hist1.equals("8221") && hist2.equals("8221")) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                // •	An in situ AND An invasive tumor
-                else if ((beh1.equals(MphConstants.INSITU) && beh2.equals(MphConstants.MALIGNANT)) ||
-                         (beh2.equals(MphConstants.INSITU) && beh1.equals(MphConstants.MALIGNANT))) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else if (0 == sixtyDaysApart) {
+                    String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+                    String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                    List<String> subTypes1 = MphConstants.COLON_2018_TABLE1.get(icd1);
+                    if (subTypes1 == null) subTypes1 = MphConstants.COLON_2018_TABLE1.get(i1.getHistology());
+                    List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
+                    if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
+
+                    // •	A de novo (formerly called “frank”) carcinoma AND a carcinoma in a polyp
+                    if ((MphConstants.POLYP.contains(hist1) && (false)) ||
+                            (MphConstants.POLYP.contains(hist2) && (false))) {
+
+                    }
+                    // •	A NOS AND a subtype/variant of that NOS
+                    else if (((subTypes1 != null) && (subTypes1.contains(icd2) || subTypes1.contains(hist2))) ||
+                            ((subTypes2 != null) && (subTypes2.contains(icd1) || subTypes2.contains(hist1)))) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                    // •	Adenocarcinoma in multiple polyps 8221
+                    else if (hist1.equals("8221") && hist2.equals("8221")) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                    // •	An in situ AND An invasive tumor
+                    else if ((beh1.equals(MphConstants.INSITU) && beh2.equals(MphConstants.MALIGNANT)) ||
+                            (beh2.equals(MphConstants.INSITU) && beh1.equals(MphConstants.MALIGNANT))) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 }
                 return result;
             }
@@ -333,7 +335,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13");
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
@@ -342,7 +344,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14");
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");

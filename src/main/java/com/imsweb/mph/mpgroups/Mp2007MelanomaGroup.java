@@ -74,7 +74,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
                 int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
                 else if (1 == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

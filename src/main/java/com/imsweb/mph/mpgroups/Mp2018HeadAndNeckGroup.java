@@ -194,44 +194,13 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("See Equivalent Terms and Definitions Table 11 for list of paired sites.");
         _rules.add(rule);
 
-        // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.
-        /*
-        MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
-                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors in both the left and right sides of a paired site?");
-        rule.setReason("Tumors on the right side and the left side of a paired site are multiple primaries.");
-        _rules.add(rule);
-        */
-
-
         // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor.
         rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-                if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
-                    int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    //If they are diagnosed at same date or in situ is following invasive
-                    if ((1 == latestDx && MphConstants.MALIGNANT.equals(beh1) && MphConstants.INSITU.equals(beh2)) ||
-                        (2 == latestDx && MphConstants.MALIGNANT.equals(beh2) && MphConstants.INSITU.equals(beh1))) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
-                }
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

@@ -193,6 +193,10 @@ public class MphConstants {
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
+    public static final List<String> NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2, 8500/3, 8035/3");
+    public static final List<String> LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2, 8519/2, 8520/3");
+
+
     //Histology Charts
     public static final Map<String, List<String>> NOS_VS_SPECIFIC;
 
@@ -377,15 +381,12 @@ public class MphConstants {
         COLON_2018_TABLE1 = Collections.unmodifiableMap(content);
     }
 
-
     public static final Map<String, List<String>> HEAD_AND_NECK_2018_TABLE2_10;
 
     static {
         Map<String, List<String>> content = new HashMap<>();
         HEAD_AND_NECK_2018_TABLE2_10 = Collections.unmodifiableMap(content);
     }
-
-
 
     public static final Map<String, List<String>> KIDNEY_2018_TABLE1;
 
@@ -397,6 +398,31 @@ public class MphConstants {
         content.put("8800/3", Collections.unmodifiableList(Arrays.asList("8920/3", "9120/3", "8964/3", "8910/3", "8890/3", "9180/3", "8901/3", "9364/3", "8890/3", "8900/3", "8912/3", "9040/3"))); // Sarcoma 8800/3
         content.put("8042", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
         KIDNEY_2018_TABLE1 = Collections.unmodifiableMap(content);
+    }
+
+    public static final Map<String, List<String>> LUNG_2018_TABLE3;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8140", Collections.unmodifiableList(Arrays.asList("8551", "8253/2", "8257/3", "8257/3", "8253/3", "8253/2", "8200", "8480", "8333", "8250/2", "8256/3", "8256/3", "8250/3",
+                                                                       "8250/3", "8250/2", "8265", "8254", "8260", "8144", "8230"))); // Adenocarcinoma 8140
+        content.put("8560", Collections.unmodifiableList(Arrays.asList())); // Adenosquamous carcinoma 8560
+        content.put("8562", Collections.unmodifiableList(Arrays.asList())); // Epithelial-myoepithelial carcinoma 8562
+        content.put("9133", Collections.unmodifiableList(Arrays.asList())); // Epithelioid hemangioepithelioma 9133
+        content.put("8580/3", Collections.unmodifiableList(Arrays.asList())); // Intrapulmonary thymoma (arising within lung) 8580/3
+        content.put("8012", Collections.unmodifiableList(Arrays.asList())); // Large cell carcinoma 8012
+        content.put("8082", Collections.unmodifiableList(Arrays.asList())); // Lymphoepithelioma-like carcinoma 8082
+        content.put("8720", Collections.unmodifiableList(Arrays.asList())); // Melanoma 8720
+        content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
+        content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        content.put("8046", GroupUtility.expandList("8000-8012, 8014-8040, 8042-8044, 8046-8239, 8241-8248, 8250-9999")); // Non-small cell carcinoma 8046
+        content.put("8023/3", Collections.unmodifiableList(Arrays.asList())); // NUT carcinoma 8023/3*
+        content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // PEComa malignant 8714/3
+        content.put("8022", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic carcinoma 8022
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3"))); // Sarcoma NOS 8800/3
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8249", "8045", "8013", "8240"))); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"))); // Squamous carcinoma 8070
+        LUNG_2018_TABLE3 = Collections.unmodifiableMap(content);
     }
 
 }

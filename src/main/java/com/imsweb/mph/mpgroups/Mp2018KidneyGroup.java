@@ -128,26 +128,33 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        // TODO - How to test same kidney?
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney.
-        // TODO - How to test same kidney?
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1);
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add("  • Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add("  • Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        // TODO - How to test same kidney?
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8");
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
+                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
+                return result;
+            }
+        };
         rule.setQuestion("Is there an in situ tumor following an invasive tumor and tumors are in the same kidney?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor and tumors are in the same kidney is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -179,7 +186,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
                 else if (1 == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -202,63 +209,6 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M11");
         _rules.add(rule);
-
-
-
-
-        /*
-        // M7 - An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M7");
-        _rules.add(rule);
-
-        // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.SPECIFIC_RENAL_CELL_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(hist2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
-        rule.setQuestion("Is there one tumor with a specific renal cell type and another tumor with a different specific renal cell type?");
-        rule.setReason("One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries.");
-        _rules.add(rule);
-
-        // M9 -
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                List<String> nosList = Arrays.asList("8000", "8010", "8140", "8312");
-                if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
-                        && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Is there cancer/malignant neoplasm, NOS (8000) and another is a specific histology? or\n" +
-                "Is there carcinoma, NOS (8010) and another is a specific carcinoma? or\n" +
-                "Is there adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma? or\n" +
-                "Is there renal cell carcinoma, NOS (8312) and the other is a single renal cell type?");
-        rule.setReason("Abstract as a single primary* when one tumor is:\n" +
-                "- Cancer/malignant neoplasm, NOS (8000) and another is a specific histology or\n" +
-                "- Carcinoma, NOS (8010) and another is a specific carcinoma or\n" +
-                "- Adenocarcinoma, NOS (8140) and another is a specific adenocarcinoma or\n" +
-                "- Renal cell carcinoma, NOS (8312) and the other is a single renal cell type");
-        rule.getNotes().add("The specific histology for in situ tumors may be identified as pattern, architecture, type, subtype, predominantly, with features of, major, or with ____differentiation");
-        rule.getNotes().add("The specific histology for invasive tumors may be identified as type, subtype, predominantly, with features of, major, or with ____differentiation.");
-        _rules.add(rule);
-
-        // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M10");
-        _rules.add(rule);
-
-        */
-
     }
 }
 

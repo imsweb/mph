@@ -233,7 +233,7 @@ public abstract class MphGroup {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                     }
                     else if (1 == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -246,62 +246,56 @@ public abstract class MphGroup {
 
     public static class MphRuleInvasiveAfterInSituGreaterThan60Days extends MphRule {
 
-        public MphRuleInvasiveAfterInSituGreaterThan60Days(String groupId, String step) {
+        boolean _mustBeSameSide;
+
+        public MphRuleInvasiveAfterInSituGreaterThan60Days(String groupId, String step, boolean mustBeSameSide) {
             super(groupId, step);
             setQuestion("Is there an invasive tumor following an in situ tumor more than 60 days after diagnosis?");
             setReason("An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.");
+            _mustBeSameSide =  mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                //If they are diagnosed at same date or invasive is not following insitu
-                if (0 == latestDx || (1 == latestDx && !"3".equals(beh1)) || (2 == latestDx && !"3".equals(beh2)))
-                    return result;
-                else {
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                     }
                     else if (1 == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-            }
             return result;
         }
     }
 
     public static class MphRuleInvasiveAfterInSituLess60Days extends MphRule {
 
-        public MphRuleInvasiveAfterInSituLess60Days(String groupId, String step) {
+        boolean _mustBeSameSide;
+
+        public MphRuleInvasiveAfterInSituLess60Days(String groupId, String step, boolean mustBeSameSide) {
             super(groupId, step);
             setQuestion("Is there an invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis?");
             setReason("An invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis is a single primary.");
+            _mustBeSameSide =  mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                // If they are diagnosed at same date or invasive is not following insitu
-                if (0 == latestDx || (1 == latestDx && !MphConstants.MALIGNANT.equals(beh1)) || (2 == latestDx && !MphConstants.MALIGNANT.equals(beh2)))
-                    return result;
-                else {
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                     }
                     else if (0 == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
-            }
             return result;
         }
     }
@@ -318,12 +312,9 @@ public abstract class MphGroup {
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-            if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                if ((1 == latestDx && MphConstants.INSITU.equals(beh1)) || (2 == latestDx && MphConstants.INSITU.equals(beh2)))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-            }
+            if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
             return result;
         }
     }
@@ -343,7 +334,7 @@ public abstract class MphGroup {
             int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
             if (-1 == diff) {
                 result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
             }
             else if (1 == diff)
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -367,7 +358,7 @@ public abstract class MphGroup {
             int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
             if (-1 == diff) {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
             }
             else if (0 == diff)
                 result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -375,6 +366,30 @@ public abstract class MphGroup {
             return result;
         }
     }
+
+    public static class MphRuleSimultaneousTumors extends MphRule {
+
+        public MphRuleSimultaneousTumors(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Are there two or more tumors diagnosed less than or equal to 60 days of each other?");
+            setReason("Two or more tumors diagnosed less than or equal to 60 days of each other is a single primary.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+            if (-1 == sixtyDaysApart) {
+                result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+            }
+            else if (0 == sixtyDaysApart) {
+                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            }
+            return result;
+        }
+    }
+
 
     public static class MphRuleNoCriteriaSatisfied extends MphRule {
 
@@ -395,25 +410,27 @@ public abstract class MphGroup {
     public static class MphRuleDifferentRowsInTable extends MphRule {
 
         private Map<String, List<String>> _tableToTest;
+        boolean _mustBeSameSide;
 
-        public MphRuleDifferentRowsInTable(String groupId, String step, Map<String, List<String>> tableToTest) {
+        public MphRuleDifferentRowsInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameSide) {
             super(groupId, step);
             _tableToTest = tableToTest;
+            _mustBeSameSide = mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                List<String> subTypes1 = _tableToTest.get(icd1);
+                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+                List<String> subTypes2 = _tableToTest.get(icd2);
+                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
-            String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-            List<String> subTypes1 = _tableToTest.get(icd1);
-            if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
-            List<String> subTypes2 = _tableToTest.get(icd2);
-            if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
-
-            if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2))
-                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
+                if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+            }
             return result;
         }
     }
@@ -421,25 +438,28 @@ public abstract class MphGroup {
     public static class MphRuleTwoOrMoreDifferentSubTypesInTable extends MphRule {
 
         private Map<String, List<String>> _tableToTest;
+        boolean _mustBeSameSide;
 
-        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, Map<String, List<String>> tableToTest) {
+        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameSide) {
             super(groupId, step);
             _tableToTest = tableToTest;
+            _mustBeSameSide = mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                List<String> subTypes1 = _tableToTest.get(icd1);
+                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+                List<String> subTypes2 = _tableToTest.get(icd2);
+                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
-            String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-            List<String> subTypes1 = _tableToTest.get(icd1);
-            if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
-            List<String> subTypes2 = _tableToTest.get(icd2);
-            if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
-
-            if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2)) {
-                if ((subTypes1.size() >= 2) && (subTypes2.size() >= 2)) {
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2)) {
+                    if ((subTypes1.size() >= 2) && (subTypes2.size() >= 2)) {
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
                 }
             }
             return result;

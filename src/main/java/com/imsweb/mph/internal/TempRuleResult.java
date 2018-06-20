@@ -39,4 +39,17 @@ public class TempRuleResult {
     public void setMessage(String message) {
         _message = message;
     }
+
+    public void setMessageUnknownLatAndDate(String step, String groupId) {
+        _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known laterality and diagnosis date should be provided.";
+    }
+
+    public void setMessageUnknownDiagnosisDate(String step, String groupId) {
+        _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known diagnosis date should be provided.";
+    }
+
+    public void setMessageUnknownLaterality(String step, String groupId) {
+        _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known laterality should be provided.";
+    }
+
 }

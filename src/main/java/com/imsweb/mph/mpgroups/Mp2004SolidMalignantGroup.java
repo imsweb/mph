@@ -53,7 +53,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();                
+                TempRuleResult result = new TempRuleResult();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != 1) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
@@ -63,15 +63,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         else if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             if (daysApart == -1)
-                                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
+                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                             else
-                                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
+                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                             return result;
                         }
                     }
                     if (daysApart == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -92,7 +92,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();                
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 1) {
@@ -103,9 +103,9 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                 (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         if (daysApart == -1)
-                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                         else
-                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2)) {
                         if (daysApart == -1) {
@@ -114,7 +114,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                             if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
                                     (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         }
                         else {
                             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -141,7 +141,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();                
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
                         i2.getBehavior();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -163,7 +163,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
 
                         if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -248,9 +248,9 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                     result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             }
                             if (daysApart == -1)
-                                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
+                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                             else
-                                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
+                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                             return result;
                         }
                     }
@@ -284,7 +284,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                     MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -346,20 +346,20 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();                
+                TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1 && isPairedSite(site1) && isPairedSite(site2)) {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         if (daysApart == -1)
-                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality and diagnosis date should be provided.");
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                         else
-                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites should be provided.");
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                     }
                     else if (daysApart == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -382,7 +382,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 0) {
                     if (daysApart == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

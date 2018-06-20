@@ -8,6 +8,8 @@
  - Updated seerapi-client-java to version 3.10.
  - Updated Hematopoietic2010 files with latest data from Seer Client Api.
  - Updated HematoDbLab to make less Seer Client Api calls.
+ - Added missing space to message "Unable to apply Rule".
+ - Standardized and combined "Unable to apply Rule" warning messages.
  - Fixed 2007 Malignant Brain Group Charts to contain multiple branches.
 
 **Changes in version 1.9**

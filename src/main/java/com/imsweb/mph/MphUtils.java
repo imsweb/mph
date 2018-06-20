@@ -138,7 +138,7 @@ public final class MphUtils {
 
         // 2018 solid tumor rules
         _groups.add(new Mp2018BreastGroup());
-        _groups.add(new Mp2007ColonGroup());
+        _groups.add(new Mp2018ColonGroup());
         _groups.add(new Mp2018CutaneousMelanomaGroup());
         _groups.add(new Mp2018HeadAndNeckGroup());
         _groups.add(new Mp2018KidneyGroup());

@@ -69,6 +69,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         Note 5:	The location and histology of the subsequent tumor is irrelevant. Kidney tumors that occur more than 3 years apart are always multiple primaries.
 
     Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
+    */
 
     // TODO - Question M4 - Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
     // TODO - Question M6 - Table 1: What to do with "Rhabdomyosarcoma"?
@@ -77,7 +78,6 @@ public class Mp2018KidneyGroup extends MphGroup {
     // TODO       "Tumors diagnosed more than three (3) years apart are multiple primaries." =
     // TODO       "Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence."
 
-    */
     // Kidney Multiple Primary Rules - Text
     // C649
     // (Excludes lymphoma and leukemia – M9590-M9992 and Kaposi sarcoma M9140)

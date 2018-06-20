@@ -89,7 +89,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
                 "", "2-3,6", "2018-9999");
 
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
-        MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -107,7 +107,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -121,7 +121,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Kaposi sarcoma (any site or sites) is always a single primary.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -135,7 +135,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -159,7 +159,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -181,7 +181,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -206,7 +206,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -225,7 +225,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -244,13 +244,13 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M11");
+        rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M11");
         rule.getExamples().add("A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         _rules.add(rule);
 
         //M12 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Peripheral nerves and autonomic nervous system (C47_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M12") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -276,7 +276,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M13 - A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M13") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -294,7 +294,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M14 - Multiple in situ and/or malignant polyps are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M14") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -310,11 +310,11 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M15 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MphRuleBehavior(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M15");
+        rule = new MphRuleBehavior(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M15");
         _rules.add(rule);
 
         //M16 -
-        rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M16") {
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M16") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -342,11 +342,11 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M17");
+        rule = new MphRuleHistologyCode(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M17");
         _rules.add(rule);
 
         //M18- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M18");
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M18");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }

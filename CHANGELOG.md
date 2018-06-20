@@ -10,6 +10,7 @@
  - Updated HematoDbLab to make less Seer Client Api calls.
  - Added missing space to message "Unable to apply Rule".
  - Standardized and combined "Unable to apply Rule" warning messages.
+ - Fixed 2007 Malignant Brain Group Charts to contain multiple branches.
 
 **Changes in version 1.9**
 

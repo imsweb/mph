@@ -228,69 +228,68 @@ public class MphConstants {
         BENIGN_BRAIN_2007_CHART1 = Collections.unmodifiableMap(content);
     }
 
-    public static final Map<String, String> MALIGNANT_BRAIN_2007_CHART1;
+    public static final Map<String, List<String>> MALIGNANT_BRAIN_2007_CHART1;
 
     static {
-        Map<String, String> content = new HashMap<>();
-        content.put("9503", "Neuroepithelial"); //This is included in all branches
-        content.put("9508", "Embryonal tumors"); //Atypical tetratoid/rhabdoid tumor
-        content.put("9392", "Embryonal tumors"); //Ependymoblastoma
-        content.put("9501", "Embryonal tumors"); //Medulloepithelioma
-        content.put("9502", "Embryonal tumors"); //Teratoid medulloepthelioma
-        content.put("9470", "Embryonal tumors"); //Medulloblastoma
-        content.put("9471", "Embryonal tumors"); //Demoplastic
-        content.put("9474", "Embryonal tumors"); //Large cell
-        content.put("9472", "Embryonal tumors"); //Medullomyoblastoma
-        content.put("9473", "Embryonal tumors"); //Supratentorial primitive neuroectodermal tumor (PNET)
-        content.put("9500", "Embryonal tumors"); //Neuroblastoma
-        content.put("9490", "Embryonal tumors"); //Ganglioneuroblastoma
-        content.put("9391", "Ependymal tumors"); //Ependymoma, NOS
-        content.put("9392", "Ependymal tumors"); //Anasplastic ependymoma
-        content.put("9393", "Ependymal tumors"); //Papillary ependymoma
-        content.put("9362", "Pineal tumors"); //Pineoblastoma
-        content.put("9390", "Choroid plexus tumors"); //Choroid plexus carcinoma
-        content.put("9505", "Neuronal and mixed neuronal-glial tumors"); //Ganglioglioma, anaplastic  // Ganglioglioma, malignant
-        content.put("9522", "Neuroblastic tumors"); //Olfactory neuroblastoma
-        content.put("9521", "Neuroblastic tumors"); //Olfactory neurocytoma
-        content.put("9523", "Neuroblastic tumors"); //Olfactory neuroepithlioma
-        content.put("9380", "Glial tumors"); //Glioma, NOS
-        content.put("9430", "Glial tumors"); //Astroblastoma
-        content.put("9381", "Glial tumors"); //Gliomatosis cerebri
-        content.put("9423", "Glial tumors"); //Polar spongioblastoma
-        content.put("9382", "Glial tumors"); //Mixed glioma
-        content.put("9400", "Glial tumors"); //Astrocytoma, NOS
-        content.put("9401", "Glial tumors"); //Anaplastic astrocytoma
-        content.put("9420", "Glial tumors"); //Fibrillary astrocytoma
-        content.put("9411", "Glial tumors"); //Gemistocytic astrocytoma
-        content.put("9410", "Glial tumors"); //Protoplasmic astromytoma
-        content.put("9421", "Glial tumors"); //Pilocytic astrocytoma
-        content.put("9424", "Glial tumors"); //Pleomorphic xanthoastrocytoma
-        content.put("9440", "Glial tumors"); //Glioblastoma, NOS and Glioblastoma multiforme
-        content.put("9441", "Glial tumors"); //Giant cell glioblastoma
-        content.put("9442", "Glial tumors"); //Gliosarcoma
-        content.put("9450", "Oligodendroglial tumors"); //Oligodendroglioma NOS
-        content.put("9451", "Oligodendroglial tumors"); //Oligodendroglioma anaplastic
-        content.put("9460", "Oligodendroglial tumors"); //Oligodendroblastoma
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("9503", Collections.singletonList("Neuroepithelial")); //This is included in all branches
+        content.put("9508", Collections.singletonList("Embryonal tumors")); //Atypical tetratoid/rhabdoid tumor
+        content.put("9392", Collections.unmodifiableList(Arrays.asList("Embryonal tumors", "Ependymal tumors"))); //Ependymoblastoma //Anasplastic ependymoma
+        content.put("9501", Collections.singletonList("Embryonal tumors")); //Medulloepithelioma
+        content.put("9502", Collections.singletonList("Embryonal tumors")); //Teratoid medulloepthelioma
+        content.put("9470", Collections.singletonList("Embryonal tumors")); //Medulloblastoma
+        content.put("9471", Collections.singletonList("Embryonal tumors")); //Demoplastic
+        content.put("9474", Collections.singletonList("Embryonal tumors")); //Large cell
+        content.put("9472", Collections.singletonList("Embryonal tumors")); //Medullomyoblastoma
+        content.put("9473", Collections.singletonList("Embryonal tumors")); //Supratentorial primitive neuroectodermal tumor (PNET)
+        content.put("9500", Collections.singletonList("Embryonal tumors")); //Neuroblastoma
+        content.put("9490", Collections.singletonList("Embryonal tumors")); //Ganglioneuroblastoma
+        content.put("9391", Collections.singletonList("Ependymal tumors")); //Ependymoma, NOS
+        content.put("9393", Collections.singletonList("Ependymal tumors")); //Papillary ependymoma
+        content.put("9362", Collections.singletonList("Pineal tumors")); //Pineoblastoma
+        content.put("9390", Collections.singletonList("Choroid plexus tumors")); //Choroid plexus carcinoma
+        content.put("9505", Collections.singletonList("Neuronal and mixed neuronal-glial tumors")); //Ganglioglioma, anaplastic  // Ganglioglioma, malignant
+        content.put("9522", Collections.singletonList("Neuroblastic tumors")); //Olfactory neuroblastoma
+        content.put("9521", Collections.singletonList("Neuroblastic tumors")); //Olfactory neurocytoma
+        content.put("9523", Collections.singletonList("Neuroblastic tumors")); //Olfactory neuroepithlioma
+        content.put("9380", Collections.singletonList("Glial tumors")); //Glioma, NOS
+        content.put("9430", Collections.singletonList("Glial tumors")); //Astroblastoma
+        content.put("9381", Collections.singletonList("Glial tumors")); //Gliomatosis cerebri
+        content.put("9423", Collections.singletonList("Glial tumors")); //Polar spongioblastoma
+        content.put("9382", Collections.singletonList("Glial tumors")); //Mixed glioma
+        content.put("9400", Collections.singletonList("Glial tumors")); //Astrocytoma, NOS
+        content.put("9401", Collections.singletonList("Glial tumors")); //Anaplastic astrocytoma
+        content.put("9420", Collections.singletonList("Glial tumors")); //Fibrillary astrocytoma
+        content.put("9411", Collections.singletonList("Glial tumors")); //Gemistocytic astrocytoma
+        content.put("9410", Collections.singletonList("Glial tumors")); //Protoplasmic astromytoma
+        content.put("9421", Collections.singletonList("Glial tumors")); //Pilocytic astrocytoma
+        content.put("9424", Collections.singletonList("Glial tumors")); //Pleomorphic xanthoastrocytoma
+        content.put("9440", Collections.singletonList("Glial tumors")); //Glioblastoma, NOS and Glioblastoma multiforme
+        content.put("9441", Collections.singletonList("Glial tumors")); //Giant cell glioblastoma
+        content.put("9442", Collections.singletonList("Glial tumors")); //Gliosarcoma
+        content.put("9450", Collections.singletonList("Oligodendroglial tumors")); //Oligodendroglioma NOS
+        content.put("9451", Collections.singletonList("Oligodendroglial tumors")); //Oligodendroglioma anaplastic
+        content.put("9460", Collections.singletonList("Oligodendroglial tumors")); //Oligodendroblastoma
         MALIGNANT_BRAIN_2007_CHART1 = Collections.unmodifiableMap(content);
     }
 
-    public static final Map<String, String> MALIGNANT_BRAIN_2007_CHART2;
+    public static final Map<String, List<String>> MALIGNANT_BRAIN_2007_CHART2;
 
     static {
-        Map<String, String> content = new HashMap<>();
-        content.put("9540", "Periphera Nerve"); //Malignant peripheral nerve sheath tumor
-        content.put("9561", "Periphera Nerve"); //Malignant peripheral nerve sheath tumor with rhabdomyoblastic differentiation (MPNST)
-        content.put("9560", "Periphera Nerve"); //Neurilemoma, malignant
-        content.put("9571", "Periphera Nerve"); //Perineurioma, malignant
-        content.put("9100", "Germ Cell Tumors"); //Choriocarcinoma
-        content.put("9070", "Germ Cell Tumors"); //Embryonal carcionoma
-        content.put("9064", "Germ Cell Tumors"); //Germinoma
-        content.put("9080", "Germ Cell Tumors"); //Immature teratoma
-        content.put("9085", "Germ Cell Tumors"); //Mixed germ cell tumor
-        content.put("9084", "Germ Cell Tumors"); //Teratoma with malignant transformation
-        content.put("9071", "Germ Cell Tumors"); //Yolk sac tumor
-        content.put("9539", "Meningioma, malignant"); //Meningeal sarcomatosis
-        content.put("9538", "Meningioma, malignant"); //Papillary meningioma, rhadboid meningioma
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("9540", Collections.singletonList("Periphera Nerve")); //Malignant peripheral nerve sheath tumor
+        content.put("9561", Collections.singletonList("Periphera Nerve")); //Malignant peripheral nerve sheath tumor with rhabdomyoblastic differentiation (MPNST)
+        content.put("9560", Collections.singletonList("Periphera Nerve")); //Neurilemoma, malignant
+        content.put("9571", Collections.singletonList("Periphera Nerve")); //Perineurioma, malignant
+        content.put("9100", Collections.singletonList("Germ Cell Tumors")); //Choriocarcinoma
+        content.put("9070", Collections.singletonList("Germ Cell Tumors")); //Embryonal carcionoma
+        content.put("9064", Collections.singletonList("Germ Cell Tumors")); //Germinoma
+        content.put("9080", Collections.singletonList("Germ Cell Tumors")); //Immature teratoma
+        content.put("9085", Collections.singletonList("Germ Cell Tumors")); //Mixed germ cell tumor
+        content.put("9084", Collections.singletonList("Germ Cell Tumors")); //Teratoma with malignant transformation
+        content.put("9071", Collections.singletonList("Germ Cell Tumors")); //Yolk sac tumor
+        content.put("9539", Collections.singletonList("Meningioma, malignant")); //Meningeal sarcomatosis
+        content.put("9538", Collections.singletonList("Meningioma, malignant")); //Papillary meningioma, rhadboid meningioma
         MALIGNANT_BRAIN_2007_CHART2 = Collections.unmodifiableMap(content);
     }
 

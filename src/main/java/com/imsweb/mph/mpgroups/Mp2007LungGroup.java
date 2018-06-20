@@ -58,7 +58,7 @@ public class Mp2007LungGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for lung cancer should be provided.");
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -95,7 +95,7 @@ public class Mp2007LungGroup extends MphGroup {
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
                 if (-1 == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
                 else if (1 == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

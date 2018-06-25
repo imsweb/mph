@@ -183,7 +183,7 @@ public class Mp2018BreastGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
                 List<String> inSituOrMal = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
-                if (MphConstants.PAGET_DISEASE.contains(i1) && MphConstants.PAGET_DISEASE.contains(i2)) {
+                if (MphConstants.PAGET_DISEASE.contains(i1.getHistology()) && MphConstants.PAGET_DISEASE.contains(i2.getHistology())) {
                     if (inSituOrMal.contains(beh1) && inSituOrMal.contains(beh2)) {
                         if ((i1.getHistology().equals("8500") || i1.getHistology().equals("8520")) &&
                             (i2.getHistology().equals("8500") || i2.getHistology().equals("8520"))) {

@@ -2550,72 +2550,12 @@ public class MphUtilsTest {
         // C500-C506, C508-C509
         // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
-        // Rule M4	Abstract a single primary when there is inflammatory carcinoma in:
-        // • Multiple quadrants of same breast OR
-        // • Bilateral breasts
-
-        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C50_) that are different at the
-        // second (CXxx) and/or third characters (CxXx).
-
-        // Rule M6	Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
-
-        // Rule M7	Abstract a single primary when the diagnosis is Paget disease with underlying:
-        // •	In situ or invasive carcinoma NST (duct/ductal) OR
-        // •	In situ or invasive lobular carcinoma
-
-        // Rule M8	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
-        // original diagnosis or last recurrence.
-
-        // Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular:
-            // • Both/all tumors may be a mixture of carcinoma NST/duct and lobular OR
-            // • One tumor may be duct and another tumor lobular
-
-        // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.
-        // Tumors may be
-            //   • Simultaneous OR
-            //   • Original and subsequent
-
-        // Rule M11	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Tumors may be
-            // •	Simultaneous OR
-            // •	Original and subsequent
-
-        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-
-        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-
-        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
-
-        // Rule M15	Abstract a single primary when none of the previous rules apply.
-
-
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        /*
-        // M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        //This never happens. Breast is C500-C509,
-
-        //M5- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        i1.setPrimarySite("C500");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C509");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2009");
-        i2.setDateOfDiagnosisYear("2014");
-        output = _utils.computePrimaries(i1, i2);
-        //Questionable at M5 with potential multiple, questionable at M7 with potential multiple, ended up as MULTIPLE at M12
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertEquals("M12", output.getStep());
-        i2.setDateOfDiagnosisYear("2015");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(2, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("five"));
-
-        //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
+        // Rule M4	Abstract a single primary when there is inflammatory carcinoma in:
+        // • Multiple quadrants of same breast OR
+        // • Bilateral breasts
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
         i1.setBehaviorIcdO3("3");
@@ -2629,36 +2569,198 @@ public class MphUtilsTest {
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("carcinoma"));
 
-        //M7- Tumors on both sides (right and left breast) are multiple primaries.
+        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C50_) that are different at the
+        // second (CXxx) and/or third characters (CxXx).
+        // This can never occur.
+
+        // Rule M6	Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
         i1.setBehaviorIcdO3("3");
         i2.setPrimarySite("C509");
         i2.setHistologyIcdO3("8730");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2010");
-        i2.setDateOfDiagnosisYear("2010");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         i1.setLaterality("1");
         i2.setLaterality("9");
-        output = _utils.computePrimaries(i1, i2);
-        //Questionable at M7 with potential multiple primary and ended up as Multiple at M12
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertEquals("M12", output.getStep());
-        //Questionable at M7 with potential multiple primary and ended up as Single at M13 - QUESTIONABLE
+        // Bad lateralities
         i1.setHistologyIcdO3("8730");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertEquals("M7", output.getStep());
-        //Multiple at M7
+        Assert.assertEquals(3, output.getAppliedRules().size());
+        Assert.assertEquals("M6", output.getStep());
+        // Multiple at M6
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("both sides"));
+        Assert.assertEquals(3, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Tumors on both sides"));
 
-        //M8- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
+        // Rule M7	Abstract a single primary when the diagnosis is Paget disease with underlying:
+        // •	In situ or invasive carcinoma NST (duct/ductal) OR
+        // •	In situ or invasive lobular carcinoma
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setBehaviorIcdO3("2");
+        i1.setHistologyIcdO3("8500");
+        i2.setDateOfDiagnosisYear("2017");
+        i2.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8520");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Paget"));
+
+        // Rule M8	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
+        // original diagnosis or last recurrence.
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8720");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8780");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2009");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        //Questionable at M5 with potential multiple, questionable at M7 with potential multiple, ended up as MULTIPLE at M12
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(9, output.getAppliedRules().size());
+        Assert.assertEquals("M12", output.getStep());
+        i1.setDateOfDiagnosisYear("2014");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("five"));
+
+        // Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular:
+            // • Both/all tumors may be a mixture of carcinoma NST/duct and lobular OR
+            // • One tumor may be duct and another tumor lobular
+        /*
+        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M9") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+
+                if ((MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.LOBULAR_CARCINOMA_2018.contains(icd2)) ||
+                        (MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.LOBULAR_CARCINOMA_2018.contains(icd1))) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                    }
+                    else if (0 == sixtyDaysApart) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
+                return result;
+            }
+        };
+        NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2, 8500/3, 8035/3");
+        LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2, 8519/2, 8520/3");
+         */
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8500");
+        i1.setBehaviorIcdO3("2");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8520");
+        i2.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2009");
+        i1.setDateOfDiagnosisMonth("1");
+        i2.setDateOfDiagnosisYear("2018");
+        // Questionable at M9 with potential unknown specific date.
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertTrue(output.getReason().contains("diagnosis date"));
+        Assert.assertEquals("M9", output.getStep());
+        // More than 60 days apart.
+        i2.setDateOfDiagnosisMonth("2");
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(9, output.getAppliedRules().size());
+        Assert.assertEquals("M9", output.getStep());
+        // Within 60 days.
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertEquals("M9", output.getStep());
+
+
+        // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.
+        // Tumors may be
+            //   • Simultaneous OR
+            //   • Original and subsequent
+        //rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M10", MphConstants.BREAST_2018_TABLE3, false);
+        /*
+        content.put("8550", Collections.unmodifiableList(Arrays.asList())); // Acinic cell carcinoma 8550
+        content.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma (ACC) 8200
+        content.put("8983", Collections.unmodifiableList(Arrays.asList())); // Adenomyoepithelioma with carcinoma 8983
+        content.put("8401", Collections.unmodifiableList(Arrays.asList())); // Apocrine carcinoma 8401
+        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035", "8022"))); // Carcinoma NST 8500
+        content.put("8501", Collections.unmodifiableList(Arrays.asList())); // Comedocarcinoma 8501
+        content.put("8201", Collections.unmodifiableList(Arrays.asList())); // Cribriform carcinoma 8201
+        content.put("8315", Collections.unmodifiableList(Arrays.asList("8310"))); // Glycogen-rich clear cell carcinoma 8315
+        content.put("8530", Collections.unmodifiableList(Arrays.asList())); // Inflammatory carcinoma 8530
+        content.put("8314", Collections.unmodifiableList(Arrays.asList())); // Lipid-rich carcinoma 8314
+        content.put("8520", Collections.unmodifiableList(Arrays.asList("8519/2"))); // Lobular carcinoma 8520
+        content.put("8510", Collections.unmodifiableList(Arrays.asList("8513"))); // Medullary carcinoma 8510
+        content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
+        content.put("8480", Collections.unmodifiableList(Arrays.asList())); // Mucinous carcinoma 8480
+        content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
+        content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        content.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
+        content.put("8540/3", Collections.unmodifiableList(Arrays.asList())); // Paget disease of the nipple with no underlying tumor 8540/3
+        content.put("8503/3", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
+        content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
+        content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
+        content.put("8800", Collections.unmodifiableList(Arrays.asList("9180", "8900", "8920", "8910", "8901", "8850", "8890", "9120"))); // Sarcoma NOS 8800
+        content.put("8900", Collections.unmodifiableList(Arrays.asList("8920", "8910", "8901"))); // Note: Rhabdomyosarcoma 8900 is also a NOS with the following subtypes/variants: Alveolar type rhabdomyosarcoma 8920, Embryonal type rhabdomyosarcoma 8910, Pleomorphic rhabdomyosarcoma 8901
+        content.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous carcinoma 8410
+        content.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
+        content.put("8490", Collections.unmodifiableList(Arrays.asList())); // Signet ring carcinoma 8490
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8574/3", "8246"))); // Small cell carcinoma 8041
+        content.put("8211", Collections.unmodifiableList(Arrays.asList())); // Tubular carcinoma 8211
+         */
+
+        // Rule M11	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Tumors may be
+            // •	Simultaneous OR
+            // •	Original and subsequent
+        //rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, false);
+
+        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+        /*
+        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M12") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
+                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+         */
+
+        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
+        /*
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                    }
+                    else if (0 == sixtyDaysApart)
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
+            return result;
+
+         */
+
+        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
         i1.setBehaviorIcdO3("3");
@@ -2667,62 +2769,26 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("2");
         i1.setLaterality("1");
         i2.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2009");
-        i2.setDateOfDiagnosisYear("2009");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("not enough diagnosis date")); //not sure if they are 60 days apart
-        i2.setDateOfDiagnosisYear("2007");
+        i2.setDateOfDiagnosisYear("20016");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("60 days"));
+        i1.setLaterality("1");
+        i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("60 days"));
 
-        //M9- Tumors that are intraductal or duct and Paget Disease are a single primary.
-        i1.setDateOfDiagnosisYear("2008");
-        i1.setBehaviorIcdO3("2");
-        i1.setHistologyIcdO3("8401"); //intraductal
-        i2.setDateOfDiagnosisYear("2007");
-        i2.setBehaviorIcdO3("3");
-        i2.setHistologyIcdO3("8542"); //paget
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Paget"));
-
-        //M10- Tumors that are lobular (8520) and intraductal or duct are a single primary.
-        i2.setHistologyIcdO3("8520"); //lobular
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("lobular"));
-
-        //M11- Multiple intraductal and/or duct carcinomas are a single primary.
-        i2.setHistologyIcdO3("8500"); //duct
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(8, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("duct"));
-        i2.setHistologyIcdO3("8230"); //another intraductal
-        i2.setBehaviorIcdO3("2");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(8, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("duct"));
-
-        //M12- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("3");
-        i1.setHistologyIcdO3("8500");
-        i2.setHistologyIcdO3("8510");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("histology"));
-
-        //M13- Tumors that do not meet any of the criteria are abstracted as a single primary.
+        // Rule M15	Abstract a single primary when none of the previous rules apply.
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8506");
@@ -2731,7 +2797,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        */
     }
 
     @Test
@@ -2937,45 +3002,32 @@ public class MphUtilsTest {
         // C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
         // Rules Apply to Cases Diagnosed 1/1/2007 to 12/31/2018
 
-        // Rule M3	Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
-
-        // Rule M4	Melanomas with different laterality are multiple primaries. **
-
-        // Rule M5	Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
-
-        // Rule M6	An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
-
-        // Rule M7	Melanomas diagnosed more than 60 days apart are multiple primaries. **
-
-        // Rule M8	Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
-
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        /*
-        //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
+        // Rule M3	Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
         i1.setPrimarySite("C442");
         i1.setHistologyIcdO3("8720");
         i1.setBehaviorIcdO3("3");
         i2.setPrimarySite("C447");
         i2.setHistologyIcdO3("8780");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
-        i2.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
 
-        //M4- Melanomas with different laterality are multiple primaries.
+        // Rule M4	Melanomas with different laterality are multiple primaries. **
         i1.setPrimarySite("C442");
         i1.setHistologyIcdO3("8720");
         i1.setBehaviorIcdO3("3");
         i2.setPrimarySite("C442");
         i2.setHistologyIcdO3("8780");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
-        i2.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
@@ -2995,7 +3047,7 @@ public class MphUtilsTest {
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertEquals("M5", output.getStep());
 
-        //M5- Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
+        // Rule M5	Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
         i1.setPrimarySite("C442");
         i1.setHistologyIcdO3("8720");
         i1.setBehaviorIcdO3("3");
@@ -3009,7 +3061,7 @@ public class MphUtilsTest {
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("histology"));
 
-        //M6- An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.
+        // Rule M6	An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
         i1.setPrimarySite("C442");
         i2.setPrimarySite("C442");
         i1.setHistologyIcdO3("8725");
@@ -3018,36 +3070,45 @@ public class MphUtilsTest {
         i2.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i2.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2009");
-        i2.setDateOfDiagnosisYear("2009"); // same year no month information
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018"); // same year no month information
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("M6"));
-        i2.setDateOfDiagnosisYear("2011"); // invasive on 2006, insitu on 2004
+        i1.setDateOfDiagnosisMonth("1"); // invasive on 1/2018, insitu on 5/2018
+        i2.setDateOfDiagnosisMonth("5");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("invasive"));
+        //Assert.assertTrue(output.getReason().contains("invasive"));
+        Assert.assertTrue(output.getReason().contains("60 days after an in situ melanoma"));
+        i1.setDateOfDiagnosisMonth("1"); // invasive on 1/2018, insitu on 5/2018
+        i2.setDateOfDiagnosisMonth("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("criteria"));
 
-        //M7- Melanomas diagnosed more than 60 days apart are multiple primaries.
+        // Rule M7	Melanomas diagnosed more than 60 days apart are multiple primaries. **
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisMonth("1");
+        i2.setDateOfDiagnosisMonth("5");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("60"));
+        Assert.assertTrue(output.getReason().contains("Melanomas diagnosed more than 60 days apart are multiple primaries."));
 
-        //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        i1.setDateOfDiagnosisYear("2011");
-        i2.setDateOfDiagnosisYear("2011");
+        // Rule M8	Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        */
     }
 
     @Test
@@ -3913,42 +3974,9 @@ public class MphUtilsTest {
         // Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast,
         // Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
 
-        //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
-
-        //M4- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-
-        //M5- Kaposi sarcoma (any site or sites) is always a single primary.
-
-        //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-
-        //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
-
-        // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-
-        //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-
-        //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-
-        //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-
-        //M12 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Peripheral nerves and autonomic nervous system (C47_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
-
-        //M13 - A frank in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
-
-        //M14 - Multiple in situ and/or malignant polyps are a single primary.
-
-        //M15 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-
-        //M16 -
-
-        //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-
-        //M18- Tumors that do not meet any of the criteria are abstracted as a single primary.
-
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        /*
         //M3- Adenocarcinoma of the prostate is always a single primary. (8140)
         i1.setPrimarySite("C619");
         i2.setPrimarySite("C619");
@@ -4189,7 +4217,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(16, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        */
     }
 
     @Test

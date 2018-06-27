@@ -407,6 +407,35 @@ public abstract class MphGroup {
         }
     }
 
+    public static class MphRuleSameRowInTable extends MphRule {
+
+        private Map<String, List<String>> _tableToTest;
+        boolean _mustBeSameBehavior;
+
+        public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameBehavior) {
+            super(groupId, step);
+            _tableToTest = tableToTest;
+            _mustBeSameBehavior = mustBeSameBehavior;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior()))) {
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                List<String> subTypes1 = _tableToTest.get(icd1);
+                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+                List<String> subTypes2 = _tableToTest.get(icd2);
+                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
+
+                if (subTypes1 != null && subTypes2 != null && subTypes1.equals(subTypes2))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            }
+            return result;
+        }
+    }
+
+
     public static class MphRuleDifferentRowsInTable extends MphRule {
 
         private Map<String, List<String>> _tableToTest;

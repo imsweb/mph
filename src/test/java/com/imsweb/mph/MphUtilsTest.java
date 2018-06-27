@@ -3468,35 +3468,98 @@ public class MphUtilsTest {
         // C340-C343, C348, C349
         // (Excludes lymphoma and leukemia M9590–M9992 and Kaposi sarcoma M9140)
 
+        /*
         // Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C34_) that differ at the second CXxx and/or third character CxXx.
+        MphRule rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_LUNG_GROUP_ID, "M3");
 
         // Rule M4	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M4") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
+                if (-1 == diff) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                }
+                else if (1 == diff)
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
-        // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Tumors may be:
-        // •	Simultaneous OR
-        // •	Original and subsequent
+                return result;
+            }
+        };
 
-        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Tumors may be:
-        // •	Simultaneous OR
-        // •	Original and subsequent
+        // Rule M5	Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M5") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> subTypes8041 = MphConstants.LUNG_2018_TABLE3.get("8041");
+                List<String> subTypes8046 = MphConstants.LUNG_2018_TABLE3.get("8046");
+                if ((subTypes8041 != null) && (subTypes8046 != null)) {
+                    String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                    if (((hist1.equals("8041") || subTypes8041.contains(hist1)) && (hist2.equals("8046") || subTypes8046.contains(hist1))) ||
+                            ((hist1.equals("8046") || subTypes8046.contains(hist1)) && (hist2.equals("8041") || subTypes8041.contains(hist1)))) {
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
+                }
+                return result;
+            }
+        };
 
-        // Rule M7	Abstract a single primary when there are simultaneous multiple tumors:
-        // •	In both lungs OR
-        // •	In the same lung OR
-        // •	Single tumor in one lung; multiple tumors in contralateral lung
+        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M6", MphConstants.LUNG_2018_TABLE3, false);
 
-        // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
+        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3, true);
 
-        // Rule M9	Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
+        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M8", MphConstants.LUNG_2018_TABLE3, false);
 
-        // Rule M10	Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
+        // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
+        // •	 In both lungs OR
+        // •	 In the same lung OR
+        // • Single tumor in one lung; multiple tumors in contralateral lung
+        rule = new MphRuleSimultaneousTumors(MphConstants.MP_2018_LUNG_GROUP_ID, "M9");
 
-        // Rule M11	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
+        // Rule M10	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M10") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
+                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
-        // Rule M12	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
+                return result;
+            }
+        };
 
-        // Rule M13	Abstract a single primary when none of the previous rules apply.
+        // Rule M11	Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M11") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for lung cancer should be provided.");
+                }
+                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
+                return result;
+            }
+        };
+
+        // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12", true);
+
+        // Rule M13	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M13", true);
+
+        // Rule M14	Abstract a single primary when none of the previous rules apply.
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
+        */
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;

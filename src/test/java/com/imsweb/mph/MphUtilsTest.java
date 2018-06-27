@@ -2546,9 +2546,11 @@ public class MphUtilsTest {
     @Test
     public void test2018Breast() {
 
-        // Breast Multiple Primary Rules - Text
-        // C500-C506, C508-C509
-        // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
+        /*
+        Breast Histology Coding Rules
+        C500-C506, C508-C509
+        (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
+        */
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -2597,18 +2599,35 @@ public class MphUtilsTest {
         Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Tumors on both sides"));
 
-        // Rule M7	Abstract a single primary when the diagnosis is Paget disease with underlying:
-        // •	In situ or invasive carcinoma NST (duct/ductal) OR
-        // •	In situ or invasive lobular carcinoma
-        i1.setDateOfDiagnosisYear("2018");
+        // Rule M7	Abstract a single primary when the diagnosis is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal).
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8543");
         i1.setBehaviorIcdO3("2");
-        i1.setHistologyIcdO3("8500");
-        i2.setDateOfDiagnosisYear("2017");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setLaterality("1");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8541");
         i2.setBehaviorIcdO3("3");
-        i2.setHistologyIcdO3("8520");
+        i2.setDateOfDiagnosisYear("2017");
+        i2.setLaterality("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(3, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Tumors on both sides"));
+
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8543");
+        i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setLaterality("1");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8541");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2017");
+        i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Paget"));
 
         // Rule M8	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
@@ -2622,51 +2641,26 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisYear("2009");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
-        //Questionable at M5 with potential multiple, questionable at M7 with potential multiple, ended up as MULTIPLE at M12
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertEquals("M12", output.getStep());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertEquals("M8", output.getStep());
         i1.setDateOfDiagnosisYear("2014");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(2, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("five"));
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(13, output.getAppliedRules().size());
+        Assert.assertEquals("M16", output.getStep());
 
         // Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular:
-            // • Both/all tumors may be a mixture of carcinoma NST/duct and lobular OR
-            // • One tumor may be duct and another tumor lobular
-        /*
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-
-                if ((MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.LOBULAR_CARCINOMA_2018.contains(icd2)) ||
-                        (MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.LOBULAR_CARCINOMA_2018.contains(icd1))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                    }
-                    else if (0 == sixtyDaysApart) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
-                }
-                return result;
-            }
-        };
-        NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2, 8500/3, 8035/3");
-        LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2, 8519/2, 8520/3");
-         */
+        // • Both/all tumors may be a mixture of carcinoma NST/duct and lobular OR
+        // • One tumor may be duct and another tumor lobular
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8500");
         i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
         i2.setPrimarySite("C509");
         i2.setHistologyIcdO3("8520");
-        i2.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2009");
-        i1.setDateOfDiagnosisMonth("1");
+        i2.setBehaviorIcdO3("3");
         i2.setDateOfDiagnosisYear("2018");
         // Questionable at M9 with potential unknown specific date.
         output = _utils.computePrimaries(i1, i2);
@@ -2674,129 +2668,72 @@ public class MphUtilsTest {
         Assert.assertTrue(output.getReason().contains("diagnosis date"));
         Assert.assertEquals("M9", output.getStep());
         // More than 60 days apart.
-        i2.setDateOfDiagnosisMonth("2");
+        i2.setDateOfDiagnosisMonth("5");
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertEquals("M9", output.getStep());
+        Assert.assertEquals("M11", output.getStep());
         // Within 60 days.
-        i1.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertEquals("M9", output.getStep());
 
+        // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M10", MphConstants.BREAST_2018_TABLE3, false);
 
-        // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.
-        // Tumors may be
-            //   • Simultaneous OR
-            //   • Original and subsequent
-        //rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M10", MphConstants.BREAST_2018_TABLE3, false);
-        /*
-        content.put("8550", Collections.unmodifiableList(Arrays.asList())); // Acinic cell carcinoma 8550
-        content.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma (ACC) 8200
-        content.put("8983", Collections.unmodifiableList(Arrays.asList())); // Adenomyoepithelioma with carcinoma 8983
-        content.put("8401", Collections.unmodifiableList(Arrays.asList())); // Apocrine carcinoma 8401
-        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035", "8022"))); // Carcinoma NST 8500
-        content.put("8501", Collections.unmodifiableList(Arrays.asList())); // Comedocarcinoma 8501
-        content.put("8201", Collections.unmodifiableList(Arrays.asList())); // Cribriform carcinoma 8201
-        content.put("8315", Collections.unmodifiableList(Arrays.asList("8310"))); // Glycogen-rich clear cell carcinoma 8315
-        content.put("8530", Collections.unmodifiableList(Arrays.asList())); // Inflammatory carcinoma 8530
-        content.put("8314", Collections.unmodifiableList(Arrays.asList())); // Lipid-rich carcinoma 8314
-        content.put("8520", Collections.unmodifiableList(Arrays.asList("8519/2"))); // Lobular carcinoma 8520
-        content.put("8510", Collections.unmodifiableList(Arrays.asList("8513"))); // Medullary carcinoma 8510
-        content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
-        content.put("8480", Collections.unmodifiableList(Arrays.asList())); // Mucinous carcinoma 8480
-        content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
-        content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
-        content.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
-        content.put("8540/3", Collections.unmodifiableList(Arrays.asList())); // Paget disease of the nipple with no underlying tumor 8540/3
-        content.put("8503/3", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
-        content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
-        content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
-        content.put("8800", Collections.unmodifiableList(Arrays.asList("9180", "8900", "8920", "8910", "8901", "8850", "8890", "9120"))); // Sarcoma NOS 8800
-        content.put("8900", Collections.unmodifiableList(Arrays.asList("8920", "8910", "8901"))); // Note: Rhabdomyosarcoma 8900 is also a NOS with the following subtypes/variants: Alveolar type rhabdomyosarcoma 8920, Embryonal type rhabdomyosarcoma 8910, Pleomorphic rhabdomyosarcoma 8901
-        content.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous carcinoma 8410
-        content.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
-        content.put("8490", Collections.unmodifiableList(Arrays.asList())); // Signet ring carcinoma 8490
-        content.put("8041", Collections.unmodifiableList(Arrays.asList("8574/3", "8246"))); // Small cell carcinoma 8041
-        content.put("8211", Collections.unmodifiableList(Arrays.asList())); // Tubular carcinoma 8211
-         */
+        // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, true);
 
-        // Rule M11	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Tumors may be
-            // •	Simultaneous OR
-            // •	Original and subsequent
-        //rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, false);
+        // Rule M12	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, true);
 
-        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        /*
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M12") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-         */
+        // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+        // rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M13");
 
-        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-        /*
-        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-            TempRuleResult result = new TempRuleResult();
-            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
-                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                    }
-                    else if (0 == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-            return result;
+        // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
+        // rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M14", false);
 
-         */
 
-        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
+
+        // Rule M15	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C509");
-        i2.setHistologyIcdO3("8530");
-        i2.setBehaviorIcdO3("2");
+        i1.setBehaviorIcdO3("2");
         i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2016");
+        i1.setDateOfDiagnosisMonth("");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8532");
+        i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("not enough diagnosis date")); //not sure if they are 60 days apart
-        i2.setDateOfDiagnosisYear("20016");
+        i2.setDateOfDiagnosisMonth("");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertEquals(12, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("60 days"));
+        Assert.assertEquals("M15", output.getStep());
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("60 days"));
+        Assert.assertEquals(3, output.getAppliedRules().size());
+        Assert.assertEquals("M6", output.getStep());
 
-        // Rule M15	Abstract a single primary when none of the previous rules apply.
+        // Rule M16	Abstract a single primary when none of the previous rules apply.
+        i1.setLaterality("1");
+        i2.setLaterality("1");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setHistologyIcdO3("8506");
         i2.setHistologyIcdO3("8508");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
+        Assert.assertEquals("M16", output.getStep());
     }
 
     @Test

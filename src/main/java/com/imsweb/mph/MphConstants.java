@@ -193,8 +193,8 @@ public class MphConstants {
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
-    public static final List<String> NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2, 8500/3, 8035/3");
-    public static final List<String> LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2, 8519/2, 8520/3");
+    public static final List<String> NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3");
+    public static final List<String> LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2,8519/2,8520/3");
 
 
     //Histology Charts

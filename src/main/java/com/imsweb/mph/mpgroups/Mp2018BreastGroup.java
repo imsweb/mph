@@ -175,26 +175,20 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract a single primary when the diagnosis is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal).
-        // TODO
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-                List<String> inSituOrMal = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
-                if (MphConstants.PAGET_DISEASE.contains(i1.getHistology()) && MphConstants.PAGET_DISEASE.contains(i2.getHistology())) {
-                    if (inSituOrMal.contains(beh1) && inSituOrMal.contains(beh2)) {
-                        if ((i1.getHistology().equals("8500") || i1.getHistology().equals("8520")) &&
-                            (i2.getHistology().equals("8500") || i2.getHistology().equals("8520"))) {
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        }
-                    }
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if ((icd1.equals("8541/3") || icd1.equals("8543/2") || icd1.equals("8543/3")) &&
+                   (icd2.equals("8541/3") || icd2.equals("8543/2") || icd2.equals("8543/3"))) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
         };
-        rule.setQuestion("Is Paget disease with Carcinoma NST (In situ or invasive) or Lobular Carcinoma (In situ ot invasive)?");
-        rule.setReason("Paget disease with Carcinoma NST (In situ or invasive) or Lobular Carcinoma (In situ or invasive) is single primary.");
+        rule.setQuestion("Is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal)?");
+        rule.setReason("Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal) is single primary.");
         rule.getNotes().add("The underlying tumor may be either in situ or invasive.");
         _rules.add(rule);
 
@@ -235,7 +229,6 @@ public class Mp2018BreastGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-
                 if ((MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd1) || MphConstants.LOBULAR_CARCINOMA_2018.contains(icd1)) &&
                     (MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd2) || MphConstants.LOBULAR_CARCINOMA_2018.contains(icd2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -299,7 +292,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M14", false);
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M14", true);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3.");
@@ -310,7 +303,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M15", false);
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M15", true);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");

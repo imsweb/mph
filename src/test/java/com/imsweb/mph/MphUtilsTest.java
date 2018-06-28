@@ -2680,6 +2680,7 @@ public class MphUtilsTest {
         Assert.assertEquals("M9", output.getStep());
 
         // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
         // rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M10", MphConstants.BREAST_2018_TABLE3, false);
         /*
         content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
@@ -2705,6 +2706,7 @@ public class MphUtilsTest {
         Assert.assertEquals("M10", output.getStep());
 
         // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
         // rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, true);
         /*
         content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
@@ -2730,6 +2732,7 @@ public class MphUtilsTest {
         Assert.assertEquals("M11", output.getStep());
 
         // Rule M12	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
         // rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3, true);
         /*
         content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
@@ -2755,6 +2758,7 @@ public class MphUtilsTest {
         Assert.assertEquals("M12", output.getStep());
 
         // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+        // TODO
         // rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M13");
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
@@ -2775,6 +2779,7 @@ public class MphUtilsTest {
         Assert.assertEquals("M13", output.getStep());
 
         // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
+        // TODO
         // rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M14", false);
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");
@@ -3503,144 +3508,137 @@ public class MphUtilsTest {
         // C340-C343, C348, C349
         // (Excludes lymphoma and leukemia M9590–M9992 and Kaposi sarcoma M9140)
 
-        /*
-        // Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C34_) that differ at the second CXxx and/or third character CxXx.
-        MphRule rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_LUNG_GROUP_ID, "M3");
-
-        // Rule M4	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M4") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-
-        // Rule M5	Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> subTypes8041 = MphConstants.LUNG_2018_TABLE3.get("8041");
-                List<String> subTypes8046 = MphConstants.LUNG_2018_TABLE3.get("8046");
-                if ((subTypes8041 != null) && (subTypes8046 != null)) {
-                    String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                    if (((hist1.equals("8041") || subTypes8041.contains(hist1)) && (hist2.equals("8046") || subTypes8046.contains(hist1))) ||
-                            ((hist1.equals("8046") || subTypes8046.contains(hist1)) && (hist2.equals("8041") || subTypes8041.contains(hist1)))) {
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    }
-                }
-                return result;
-            }
-        };
-
-        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M6", MphConstants.LUNG_2018_TABLE3, false);
-
-        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3, true);
-
-        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M8", MphConstants.LUNG_2018_TABLE3, false);
-
-        // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
-        // •	 In both lungs OR
-        // •	 In the same lung OR
-        // • Single tumor in one lung; multiple tumors in contralateral lung
-        rule = new MphRuleSimultaneousTumors(MphConstants.MP_2018_LUNG_GROUP_ID, "M9");
-
-        // Rule M10	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M10") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                return result;
-            }
-        };
-
-        // Rule M11	Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M11") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for lung cancer should be provided.");
-                }
-                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-
-        // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12", true);
-
-        // Rule M13	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M13", true);
-
-        // Rule M14	Abstract a single primary when none of the previous rules apply.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
-        */
-
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        /*
-        // M3- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        //This will never be true, lung group is C340-C349, 2nd and 3rd characters are always the same.
+        // Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C34_) that differ at the second CXxx and/or third character CxXx.
+        // This will never be true, lung group is C340-C349, 2nd and 3rd characters are always the same.
 
-        //M4- At least one tumor that is non-small cell carcinoma (8046) and another tumor that is small cell carcinoma (8041-8045) are multiple primaries.
+        // Rule M4	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         i1.setPrimarySite("C342");
-        i1.setHistologyIcdO3("8046");
+        i1.setHistologyIcdO3("8160");
         i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
         i2.setPrimarySite("C349");
-        i2.setHistologyIcdO3("8043");
+        i2.setHistologyIcdO3("8165");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("09");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+
+        i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("carcinoma"));
+        Assert.assertTrue(output.getReason().contains("three (3) years apart"));
+        Assert.assertEquals("M4", output.getStep());
 
-        //M5- A tumor that is adenocarcinoma with mixed subtypes (8255) and another that is bronchioloalveolar (8250-8254) are multiple primaries.
+        // Rule M5	Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
         i1.setPrimarySite("C342");
-        i1.setHistologyIcdO3("8253");
-        i1.setBehaviorIcdO3("3");
+        i1.setHistologyIcdO3("8041");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
         i2.setPrimarySite("C349");
-        i2.setHistologyIcdO3("8255");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
-        i2.setDateOfDiagnosisYear("2015");
+        i2.setHistologyIcdO3("8000");
+        i2.setDateOfDiagnosisYear("2016");
+        i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(3, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("adenocarcinoma"));
+        Assert.assertTrue(output.getReason().contains("small cell carcinoma 8041"));
+        Assert.assertEquals("M5", output.getStep());
 
-        //M6- A single tumor in each lung is multiple primaries.
+        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        // TODO
+        // rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M6", MphConstants.LUNG_2018_TABLE3, false);
+        i1.setHistologyIcdO3("8160");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setHistologyIcdO3("8165");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("years"));
+        Assert.assertEquals("M6", output.getStep());
+
+        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+        // rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3, true);
+        i1.setHistologyIcdO3("8160");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setHistologyIcdO3("8165");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("years"));
+        Assert.assertEquals("M7", output.getStep());
+
+        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+        // rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M8", MphConstants.LUNG_2018_TABLE3, false);
+        i1.setHistologyIcdO3("8160");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setHistologyIcdO3("8165");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("years"));
+        Assert.assertEquals("M8", output.getStep());
+
+        // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
+        // TODO
+        // •	 In both lungs OR
+        // •	 In the same lung OR
+        // • Single tumor in one lung; multiple tumors in contralateral lung
+        // rule = new MphRuleSimultaneousTumors(MphConstants.MP_2018_LUNG_GROUP_ID, "M9");
+        i1.setHistologyIcdO3("8160");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setHistologyIcdO3("8165");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("years"));
+        Assert.assertEquals("M9", output.getStep());
+
+        // Rule M10	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
+        // TODO
+        i1.setHistologyIcdO3("8160");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setHistologyIcdO3("8165");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("years"));
+        Assert.assertEquals("M10", output.getStep());
+
+        // Rule M11	Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
+        // TODO
         i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8155");
         i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2003");
+        i1.setLaterality("2");
         i2.setPrimarySite("C349");
         i2.setHistologyIcdO3("8153");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
-        i2.setDateOfDiagnosisYear("2015");
-        i1.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -3651,92 +3649,76 @@ public class MphUtilsTest {
         //Questionable at M6 with potential multiple and ended up as multiple at M8 -- MULTIPLE
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertEquals("M8", output.getStep());
+        Assert.assertEquals("M11", output.getStep());
         i1.setLaterality("4");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertTrue(output.getAppliedRules().size() > 4);
 
-        //M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        i1.setHistologyIcdO3("8150");
-        i2.setHistologyIcdO3("8165");
-        i1.setLaterality(null);
-        i2.setLaterality("4");
+        // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
+        // TODO
+        // rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12", true);
         i1.setPrimarySite("C342");
+        i1.setHistologyIcdO3("8155");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth(null);
         i2.setPrimarySite("C349");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("histology"));
-        //If one laterality is both, that means the tumors are on both lungs
-        i1.setLaterality("4");
-        i2.setLaterality("9");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("histology"));
-        //if they are on the same lung, dont apply this rule
-        i1.setLaterality("1");
-        i2.setLaterality("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertTrue(output.getAppliedRules().size() > 5);
+        i2.setHistologyIcdO3("8153");
+        i2.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2017");
+        i2.setDateOfDiagnosisMonth("11");
 
-        //M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
-        i1.setHistologyIcdO3("8160");
-        i2.setHistologyIcdO3("8165");
-        i1.setDateOfDiagnosisYear("2013");
-        i1.setDateOfDiagnosisMonth("09");
-        i2.setDateOfDiagnosisYear("2010");
-        i2.setDateOfDiagnosisMonth("08");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("years"));
-        i2.setDateOfDiagnosisMonth("09");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertEquals(7, output.getAppliedRules().size());
 
-        //M9- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2011");
-        i2.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisMonth("7");
-        i1.setDateOfDiagnosisMonth(null);
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive"));
+        Assert.assertEquals("M12", output.getStep());
+
+        // Rule M13	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
+        // TODO
+        i1.setPrimarySite("C342");
+        i1.setHistologyIcdO3("8155");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth(null);
+        i2.setPrimarySite("C349");
+        i2.setHistologyIcdO3("8153");
+        i2.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2017");
         i2.setDateOfDiagnosisMonth("11");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
 
-        //M10- Tumors with non-small cell carcinoma, NOS (8046) and a more specific non-small cell carcinoma type (chart 1) are a single primary.
-        i2.setBehaviorIcdO3("3");
-        i1.setHistologyIcdO3("8046");
-        i2.setHistologyIcdO3("8310");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(8, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("8046"));
-
-        //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        i1.setHistologyIcdO3("8046");
-        i2.setHistologyIcdO3("8021");
+        i2.setDateOfDiagnosisMonth("7");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("histology codes"));
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("invasive"));
+        Assert.assertEquals("M13", output.getStep());
 
-        //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
+        // Rule M14	Abstract a single primary when none of the previous rules apply.
+        // TODO
+        i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8045");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth(null);
+        i2.setPrimarySite("C349");
         i2.setHistologyIcdO3("8041");
+        i2.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2017");
+        i2.setDateOfDiagnosisMonth("11");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        */
+        Assert.assertEquals("M14", output.getStep());
     }
 
     @Test

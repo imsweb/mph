@@ -159,8 +159,8 @@ public class Mp2018LungGroup extends MphGroup {
                 List<String> subTypes8046 = MphConstants.LUNG_2018_TABLE3.get("8046");
                 if ((subTypes8041 != null) && (subTypes8046 != null)) {
                     String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                    if (((hist1.equals("8041") || subTypes8041.contains(hist1)) && (hist2.equals("8046") || subTypes8046.contains(hist1))) ||
-                            ((hist1.equals("8046") || subTypes8046.contains(hist1)) && (hist2.equals("8041") || subTypes8041.contains(hist1)))) {
+                    if (((hist1.equals("8041") || subTypes8041.contains(hist1)) && (hist2.equals("8046") || subTypes8046.contains(hist2))) ||
+                            ((hist1.equals("8046") || subTypes8046.contains(hist1)) && (hist2.equals("8041") || subTypes8041.contains(hist2)))) {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     }
                 }

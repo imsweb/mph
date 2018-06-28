@@ -328,7 +328,7 @@ public class MphConstants {
         MALIGNANT_BRAIN_2007_CHART2 = Collections.unmodifiableMap(content);
     }
 
-    public static final Map<String, List<String>> BREAST_2018_TABLE3;
+    public static final Map<String, List<String>> BREAST_2018_TABLE3_SUBTYPES;
 
     static {
         Map<String, List<String>> content = new HashMap<>();
@@ -336,7 +336,7 @@ public class MphConstants {
         content.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma (ACC) 8200
         content.put("8983", Collections.unmodifiableList(Arrays.asList())); // Adenomyoepithelioma with carcinoma 8983
         content.put("8401", Collections.unmodifiableList(Arrays.asList())); // Apocrine carcinoma 8401
-        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035", "8022"))); // Carcinoma NST 8500
+        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035"))); // Carcinoma NST 8500
         content.put("8501", Collections.unmodifiableList(Arrays.asList())); // Comedocarcinoma 8501
         content.put("8201", Collections.unmodifiableList(Arrays.asList())); // Cribriform carcinoma 8201
         content.put("8315", Collections.unmodifiableList(Arrays.asList("8310"))); // Glycogen-rich clear cell carcinoma 8315
@@ -350,17 +350,27 @@ public class MphConstants {
         content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
         content.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
         content.put("8540/3", Collections.unmodifiableList(Arrays.asList())); // Paget disease of the nipple with no underlying tumor 8540/3
-        content.put("8503/3", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
+        content.put("8503", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
         content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
         content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
-        content.put("8800", Collections.unmodifiableList(Arrays.asList("9180", "8900", "8920", "8910", "8901", "8850", "8890", "9120"))); // Sarcoma NOS 8800
+        content.put("8800", Collections.unmodifiableList(Arrays.asList("9120", "8850", "8890", "9180", "8900", "8920", "8910", "8901"))); // Sarcoma NOS 8800
         content.put("8900", Collections.unmodifiableList(Arrays.asList("8920", "8910", "8901"))); // Note: Rhabdomyosarcoma 8900 is also a NOS with the following subtypes/variants: Alveolar type rhabdomyosarcoma 8920, Embryonal type rhabdomyosarcoma 8910, Pleomorphic rhabdomyosarcoma 8901
         content.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous carcinoma 8410
         content.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
         content.put("8490", Collections.unmodifiableList(Arrays.asList())); // Signet ring carcinoma 8490
         content.put("8041", Collections.unmodifiableList(Arrays.asList("8574/3", "8246"))); // Small cell carcinoma 8041
         content.put("8211", Collections.unmodifiableList(Arrays.asList())); // Tubular carcinoma 8211
-        BREAST_2018_TABLE3 = Collections.unmodifiableMap(content);
+        BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableMap(content);
+    }
+
+    public static final Map<String, List<String>> BREAST_2018_TABLE3_SYNONYMS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8500", Collections.unmodifiableList(Arrays.asList("8500/2", "8500/3"))); // Carcinoma NST 8500
+        content.put("8520", Collections.unmodifiableList(Arrays.asList("8520/3"))); // Lobular carcinoma 8520
+        content.put("8503", Collections.unmodifiableList(Arrays.asList("8503/2", "8503/3"))); // Papillary carcinoma 8503/3
+        BREAST_2018_TABLE3_SYNONYMS = Collections.unmodifiableMap(content);
     }
 
     public static final Map<String, List<String>> COLON_2018_TABLE1;

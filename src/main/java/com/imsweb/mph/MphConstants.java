@@ -410,6 +410,26 @@ public class MphConstants {
         KIDNEY_2018_TABLE1 = Collections.unmodifiableMap(content);
     }
 
+
+    public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
+
+    public static final Map<String, List<String>> URINARY_2018_TABLE2;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+
+        content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480"))); // Adenocarcinoma NOS 8140
+        content.put("8010", Collections.unmodifiableList(Arrays.asList("8140", "8310", "8380", "8144", "8480"))); // Carcinoma NOS 8010
+        content.put("8720/3", Collections.unmodifiableList(Arrays.asList())); // Malignant melanoma 8720/3
+        content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // Malignant perivascular epithelioid cell tumor 8714/3
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "9220/3", "8910/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3"))); // Sarcoma NOS 8800/3
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine carcinoma 8041
+        content.put("8070", Collections.unmodifiableList(Arrays.asList("8051"))); // Squamous cell carcinoma 8070
+        content.put("8120", Collections.unmodifiableList(Arrays.asList("8031/3", "8082/3", "8131/3", "8130/2", "8130/3", "8020/3", "8122/3"))); // Urothelial carcinoma 8120
+        URINARY_2018_TABLE2 = Collections.unmodifiableMap(content);
+    }
+
+
     public static final Map<String, List<String>> LUNG_2018_TABLE3;
 
     static {

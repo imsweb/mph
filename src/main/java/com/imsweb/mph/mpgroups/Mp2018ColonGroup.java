@@ -141,10 +141,18 @@ public class Mp2018ColonGroup extends MphGroup {
         // •	There is no diagnosis of FAP BUT
             // 	 Greater than 100 polyps are documented AND
             // 	 Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
-        // TODO
-        MphRule rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M3");
-        rule.setQuestion("");
-        rule.setReason("");
+        MphRule rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M3") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (i1.getHistology().equals("8220") || i2.getHistology().equals("8220")) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Is one tumor a FAP (8220)?");
+        rule.setReason("If one tumor is a FAP (8220) then this is a single primary.");
         rule.getNotes().add("A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
         rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
         rule.getNotes().add("FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
@@ -205,26 +213,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Note:	Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.
         // Example: 	(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.
         // TODO
-        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> subTypes1 = MphConstants.COLON_2018_TABLE1.get(icd1);
-                if (subTypes1 == null) subTypes1 = MphConstants.COLON_2018_TABLE1.get(i1.getHistology());
-                List<String> subTypes2 = MphConstants.COLON_2018_TABLE1.get(icd2);
-                if (subTypes2 == null) subTypes2 = MphConstants.COLON_2018_TABLE1.get(i2.getHistology());
-
-                // •	A NOS AND a subtype/variant of that NOS
-                if (((subTypes1 != null) && (subTypes1.contains(icd2) || subTypes1.contains(hist2))) ||
-                        ((subTypes2 != null) && (subTypes2.contains(icd1) || subTypes2.contains(hist1)))) {
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M8");
         rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS?");
         rule.setReason("A subsequent tumor arises at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS is multiple primaries");
         rule.getNotes().add("There may or may not be physician documentation of anastomotic recurrence.  Follow the rules.");

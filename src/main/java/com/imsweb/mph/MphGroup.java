@@ -367,6 +367,30 @@ public abstract class MphGroup {
         }
     }
 
+    public static class MphRuleDiagnosisDateGreaterThan3Years extends MphRule {
+
+        public MphRuleDiagnosisDateGreaterThan3Years(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Are there tumors diagnosed greater than three (3) years apart?");
+            setReason("Tumors diagnosed greater than three (3) years apart are multiple primaries.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+
+            int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
+            if (-1 == diff) {
+                result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+            }
+            else if (1 == diff)
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+
+            return result;
+        }
+    }
+
     public static class MphRuleSimultaneousTumors extends MphRule {
 
         public MphRuleSimultaneousTumors(String groupId, String step) {
@@ -494,6 +518,34 @@ public abstract class MphGroup {
             return result;
         }
     }
+
+    public static class MphRuleMainTypeAndSubTypeInTable extends MphRule {
+
+        private Map<String, List<String>> _tableToTest;
+
+        public MphRuleMainTypeAndSubTypeInTable(String groupId, String step, Map<String, List<String>> tableToTest) {
+            super(groupId, step);
+            _tableToTest = tableToTest;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+
+            String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+            List<String> subTypes1 = _tableToTest.get(icd1);
+            if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
+            List<String> subTypes2 = _tableToTest.get(icd2);
+            if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
+
+            if ((subTypes1 != null && subTypes2 == null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) ||
+                (subTypes1 == null && subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology())))) {
+                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            }
+            return result;
+        }
+    }
+
 
 
 }

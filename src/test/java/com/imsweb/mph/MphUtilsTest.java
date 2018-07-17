@@ -2799,7 +2799,6 @@ public class MphUtilsTest {
         Assert.assertTrue(output.getReason().contains("invasive tumor following an in situ tumor less than or equal to 60 days"));
         Assert.assertEquals("M14", output.getStep());
 
-
         // Rule M15	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8530");

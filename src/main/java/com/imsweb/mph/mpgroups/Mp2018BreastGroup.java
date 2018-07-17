@@ -103,9 +103,6 @@ public class Mp2018BreastGroup extends MphGroup {
     */
 
 
-    // TODO - Question M7 - How do you determine "Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal)"? Is this just: 8543/3, 8541/3?
-
-
     // Breast Multiple Primary Rules - Text
     // C500-C506, C508-C509
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)

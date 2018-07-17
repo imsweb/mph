@@ -27,24 +27,34 @@ public class Mp2018KidneyGroup extends MphGroup {
     Rule M4	Abstract a single primary when there are bilateral nephroblastomas (previously called Wilms tumors).
         Note:	Timing is irrelevant; the tumors may occur simultaneously OR the contralateral tumor may be diagnosed later (no time limit)
 
-    Rule M5	Abstract multiple primaries when there are tumors in both the right kidney and in the left kidney.
+    Rule M5	Abstract multiple primaries when there are tumors in both the right kidney and in the left kidney.  There may be:
+        •	A single tumor in each kidney
+        •	A single tumor in one kidney and multiple tumors in the contralateral kidney
+        •	Multiple tumors in both kidneys
         Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 2:	ONLY abstract a single primary when pathology proves the tumor(s) in one kidney is/are metastatic from the other kidney.
 
-    Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        Note:	 Each row in the table is a distinctly different histology.
-
-    Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney.
+    Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
         Note: The tumors may be subtypes/variants of the same or different NOS histologies.
         •	Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.
         •	Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.
 
-    Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
+    Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
+        Note 1:	The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.
+        Note 2:	The same row means the tumors are:
+        •	The same histology (same four-digit ICD-O code) OR
+        •	One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR
+        •	A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)
+
+    Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
+        Note:	 Each row in the table is a distinctly different histology.
+
+    Rule M9	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
         Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 2:	The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.
         Note 3:	Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.
 
-    Rule M9	Abstract a single primary (recurrence) when tumors recur less than or equal to 3 years apart.
+    Rule M10	Abstract a single primary (recurrence) when tumors recur less than or equal to three years apart.
         Note 1:	These rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 2:	Using the previous rules, the recurrence must be
         •	In the same kidney AND
@@ -58,7 +68,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         •	Sarcoma 8800 and a subtype/variant of sarcoma
         •	Small cell neuroendocrine tumor 8041 and a subtype/variant of small cell neuroendocrine tumor
 
-    Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+    Rule M11	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         Note 1:	Clinically disease-free means that there was no evidence of recurrence on follow-up.
         •	Scans are NED
         •	Urine cytology is negative
@@ -69,14 +79,11 @@ public class Mp2018KidneyGroup extends MphGroup {
         Note 5:	The location and histology of the subsequent tumor is irrelevant. Kidney tumors that occur more than 3 years apart are always multiple primaries.
 
     Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
+        Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
     */
 
     // TODO - Question M4 - Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
     // TODO - Question M6 - Table 1: What to do with "Rhabdomyosarcoma"?
-    // TODO - Question M6, M7, M8 - How to test same kidney? Same Laterality?
-    // TODO - Question M10 - Are these equivalent:
-    // TODO       "Tumors diagnosed more than three (3) years apart are multiple primaries." =
-    // TODO       "Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence."
 
     // Kidney Multiple Primary Rules - Text
     // C649
@@ -127,24 +134,34 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("ONLY abstract a single primary when pathology proves the tumor(s) in one kidney is/are metastatic from the other kidney.");
         _rules.add(rule);
 
-        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1, true);
+        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+        rule.getNotes().add("Note: The tumors may be subtypes/variants of the same or different NOS histologies.");
+        rule.getNotes().add("•	Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("•	Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
+
+        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+        rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
+        rule.getNotes().add("The same row means the tumors are:");
+        rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
+        rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
+        rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
+        _rules.add(rule);
+
+        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8", MphConstants.KIDNEY_2018_TABLE1, true);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
-        // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1, true);
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
-        rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add("  • Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add("  • Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
-        _rules.add(rule);
-
-        // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8") {
+        // Rule M9	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -162,8 +179,8 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
-        // Rule M9	Abstract a single primary (recurrence) when tumors recur less than or equal to 3 years apart.
-        rule = new MphRuleDiagnosisDateLess3Years(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9");
+        // Rule M10	Abstract a single primary (recurrence) when tumors recur less than or equal to 3 years apart.
+        rule = new MphRuleDiagnosisDateLess3Years(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M10");
         rule.getNotes().add("These rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Using the previous rules, the recurrence must be");
         rule.getNotes().add("  • In the same kidney AND");
@@ -178,24 +195,8 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("  • Small cell neuroendocrine tumor 8041 and a subtype/variant of small cell neuroendocrine tumor");
         _rules.add(rule);
 
-        // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M10") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Has patient been clinically disease-free for greater than three years?");
-        rule.setReason("Patient has a subsequent tumor after being clinically disease-free for greater than three years are multiple primaries.");
+        // Rule M11	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+        rule = new MphRuleDiagnosisDateGreaterThan3Years(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M11");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  • Urine cytology is negative");
@@ -206,8 +207,9 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("The location and histology of the subsequent tumor is irrelevant. Kidney tumors that occur more than 3 years apart are always multiple primaries.");
         _rules.add(rule);
 
-        // Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
+        // Rule M12	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M11");
+        rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }
 }

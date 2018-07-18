@@ -116,11 +116,6 @@ public class Mp2018ColonGroup extends MphGroup {
 
     */
 
-    // TODO - Question M3 - How to determine adenomatous polyposis coli?
-    // TODO - Question M3 - How to determine FAP?
-    // TODO - Question M3 - How to determine greater than 100 adenomatous polyps?
-    // TODO - Question M3 - How to determine Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp?
-
     // TODO - Question M8, M9 - How do you determine an "anastomotic site"?
     // TODO - Question M8 - How do you determine "One tumor is a NOS and the other is a subtype/variant of that NOS OR"?
     // TODO - Question M8 - How do you determine "The subsequent tumor arises in the mucosa"?
@@ -146,7 +141,7 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getHistology().equals("8220") || i2.getHistology().equals("8220")) {
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -188,8 +183,8 @@ public class Mp2018ColonGroup extends MphGroup {
 
         // Rule M6	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M6", MphConstants.COLON_2018_TABLE1_ROWS, true);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
@@ -213,9 +208,23 @@ public class Mp2018ColonGroup extends MphGroup {
         // Note:	Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.
         // Example: 	(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M8");
-        rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS?");
-        rule.setReason("A subsequent tumor arises at the anastomotic site and one tumor is a NOS and the other is a subtype/variant of the NOS is multiple primaries");
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                //result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
+        rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and \n" +
+                         "- One tumor is a NOS and the other is a subtype/variant of that NOS, or \n" +
+                         "- The subsequent tumor occurs greater than 24 months after original tumor resection, or \n" +
+                         "- The subsequent tumor arises in the mucosa?");
+        rule.setReason("A subsequent tumor arising at the anastomotic site and \n" +
+                       "- One tumor is a NOS and the other is a subtype/variant of that NOS, or \n" +
+                       "- The subsequent tumor occurs greater than 24 months after original tumor resection, or \n" +
+                       "- The subsequent tumor arises in the mucosa, \n" +
+                       "is multiple primaries.");
         rule.getNotes().add("There may or may not be physician documentation of anastomotic recurrence.  Follow the rules.");
         rule.getNotes().add("When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.");
         rule.getNotes().add("The tumor may or may not invade into the colon wall or adjacent tissue.");
@@ -227,9 +236,23 @@ public class Mp2018ColonGroup extends MphGroup {
         // •	 The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
         // •	 The pathologist or clinician documents an anastomotic recurrence
         // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M9");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M9") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                //result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+        rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and \n" +
+                "- The subsequent tumor occurs less than or equal to 24 months after original tumor resection, or \n" +
+                "- The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa, or \n" +
+                "- The pathologist or clinician documents an anastomotic recurrence?");
+        rule.setReason("A subsequent tumor arising at the anastomotic site and \n" +
+                "- The subsequent tumor occurs less than or equal to 24 months after original tumor resection, or \n" +
+                "- The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa, or \n" +
+                "- The pathologist or clinician documents an anastomotic recurrence, \n" +
+                "is a single primary.");
         rule.getNotes().add("The physician may stage the subsequent tumor because the depth of invasion determines the second course of treatment.");
         rule.getNotes().add("These tumors are a single primary/recurrence.  Registrars that collect recurrence information should record the information in the recurrence fields.");
         _rules.add(rule);

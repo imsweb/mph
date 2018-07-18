@@ -135,7 +135,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6", MphConstants.KIDNEY_2018_TABLE1_SUBTYPES, true);
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Note: The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -143,7 +143,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("•	Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
 
         // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1_ROWS, true);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
@@ -154,7 +154,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8", MphConstants.KIDNEY_2018_TABLE1, true);
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8", MphConstants.KIDNEY_2018_TABLE1_ROWS, true);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

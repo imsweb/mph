@@ -446,14 +446,26 @@ public abstract class MphGroup {
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior()))) {
+
+                // Same histology for both tumors,OR
+                // In the same row, one tumor is in Column 1, and one tumor is in Column 3.
+
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 List<String> subTypes1 = _tableToTest.get(icd1);
                 if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
                 List<String> subTypes2 = _tableToTest.get(icd2);
                 if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
-                if (subTypes1 != null && subTypes2 != null && subTypes1.equals(subTypes2))
+                // Same histology and both in the table.
+                if (subTypes1 != null && subTypes2 != null && i1.getHistology().equals(i2.getHistology())) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                // One in Column 1, and one in Column 3.
+                } else if (subTypes1 != null && subTypes2 == null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                // One in Column 1, and one in Column 3.
+                } else if (subTypes1 == null && subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
             }
             return result;
         }
@@ -475,14 +487,40 @@ public abstract class MphGroup {
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
+
+                // Different rows in any column. So a histology in column 1 and a histology on a different row in column 3 would be a situation where this rule would apply.
+                // A histology not on the table counts as a different row.
+
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 List<String> subTypes1 = _tableToTest.get(icd1);
                 if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
                 List<String> subTypes2 = _tableToTest.get(icd2);
                 if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
-                if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2))
+                int foundRow1 = -1; int foundRow2 = -1; int rowIndex = 0;
+                for (Map.Entry<String, List<String>> entry : _tableToTest.entrySet()) {
+                    if (entry.getKey().equals(icd1) || entry.getValue().contains(icd1) || entry.getKey().equals(i1.getHistology()) || entry.getValue().contains(i1.getHistology())) {
+                        foundRow1 = rowIndex;
+                    }
+                    if (entry.getKey().equals(icd2) || entry.getValue().contains(icd2) || entry.getKey().equals(i2.getHistology()) || entry.getValue().contains(i2.getHistology())) {
+                        foundRow2 = rowIndex;
+                    }
+                    if (foundRow1 >= 0 && foundRow2 >= 0) break;
+                    rowIndex++;
+                }
+
+                // Both histologies not in the table counts as a different row.
+                //if (foundRow1 == -1 && foundRow2 == -1) {
+                //    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                //}
+                // One histology not in the table counts as a different row.
+                if ((foundRow1 >= 0 && foundRow2 == -1) || (foundRow1 == -1 && foundRow2 >= 0)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                // Different rows.
+                else if (foundRow1 != foundRow2) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
             }
             return result;
         }
@@ -490,12 +528,12 @@ public abstract class MphGroup {
 
     public static class MphRuleTwoOrMoreDifferentSubTypesInTable extends MphRule {
 
-        private Map<String, List<String>> _tableToTest;
+        private List<String> _listToTest;
         boolean _mustBeSameSide;
 
-        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameSide) {
+        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, List<String> listToTest, boolean mustBeSameSide) {
             super(groupId, step);
-            _tableToTest = tableToTest;
+            _listToTest = listToTest;
             _mustBeSameSide = mustBeSameSide;
         }
 
@@ -504,13 +542,14 @@ public abstract class MphGroup {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> subTypes1 = _tableToTest.get(icd1);
-                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
-                List<String> subTypes2 = _tableToTest.get(icd2);
-                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
-                if (subTypes1 != null && subTypes2 != null && !subTypes1.equals(subTypes2)) {
-                    if ((subTypes1.size() >= 2) && (subTypes2.size() >= 2)) {
+                if (!icd1.equals(icd2)) {
+                    boolean isPresent1 = _listToTest.contains(icd1);
+                    if (!isPresent1) isPresent1 = _listToTest.contains(i1.getHistology());
+                    boolean isPresent2 = _listToTest.contains(icd2);
+                    if (!isPresent2) isPresent2 = _listToTest.contains(i2.getHistology());
+
+                    if (isPresent1 && isPresent2) {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     }
                 }

@@ -199,7 +199,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M5", MphConstants.URINARY_2018_TABLE2, false);
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M5", MphConstants.URINARY_2018_TABLE2_SUBTYPES, false);
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -208,7 +208,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M6", MphConstants.URINARY_2018_TABLE2, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M6", MphConstants.URINARY_2018_TABLE2_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The same row means the tumors are:");
@@ -221,7 +221,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M7", MphConstants.URINARY_2018_TABLE2, false);
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M7", MphConstants.URINARY_2018_TABLE2_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology. EXCEPTION is adenocarcinoma 8140 and carcinoma NOS 8010 are not multiple primaries.");
@@ -323,7 +323,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M13	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in:
         // •	A single urinary organ OR
         // •	Multifocal/multicentric tumors in multiple urinary sites
-        rule = new MphRuleMainTypeAndSubTypeInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", MphConstants.URINARY_2018_TABLE2);
+        rule = new MphRuleMainTypeAndSubTypeInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", MphConstants.URINARY_2018_TABLE2_ROWS);
         rule.setQuestion("Are tumors a NOS and a subtype/variant of that NOS?");
         rule.setReason("Tumors that are a NOS and a subtype/variant of that NOS are a single primary.");
         rule.getExamples().add("Pathology from TURB shows areas of micropapillary urothelial carcinoma 8131 and areas of urothelial carcinoma NOS 8120. Abstract a single primary, micropapillary urothelial carcinoma 8131.");
@@ -344,7 +344,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.BLADDER.equals(i1.getPrimarySite()) && MphConstants.BLADDER.equals(i2.getPrimarySite())) {
                     String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    List<String> types = MphConstants.URINARY_2018_TABLE2.get("8120");
+                    List<String> types = MphConstants.URINARY_2018_TABLE2_ROWS.get("8120");
                     types.add("8120/2");
                     types.add("8120/3");
                     if (types.contains(icd1) && types.contains(icd2))
@@ -384,7 +384,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 // Urothelial or subtype?
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> types = MphConstants.URINARY_2018_TABLE2.get("8120");
+                List<String> types = MphConstants.URINARY_2018_TABLE2_ROWS.get("8120");
                 types.add("8120/2");
                 types.add("8120/3");
                 if (types.contains(icd1) && types.contains(icd2)) {

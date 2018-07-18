@@ -178,7 +178,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M5", MphConstants.COLON_2018_TABLE1,false);
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M5", MphConstants.COLON_2018_TABLE1_SUBTYPES,false);
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -187,7 +187,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M6", MphConstants.COLON_2018_TABLE1, true);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M6", MphConstants.COLON_2018_TABLE1_ROWS, true);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.");
@@ -200,7 +200,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M7", MphConstants.COLON_2018_TABLE1, false);
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M7", MphConstants.COLON_2018_TABLE1_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

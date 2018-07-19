@@ -116,13 +116,6 @@ public class Mp2018ColonGroup extends MphGroup {
 
     */
 
-    // TODO - Question M8, M9 - How do you determine an "anastomotic site"?
-    // TODO - Question M8 - How do you determine "One tumor is a NOS and the other is a subtype/variant of that NOS OR"?
-    // TODO - Question M8 - How do you determine "The subsequent tumor arises in the mucosa"?
-
-    // TODO - Question M9 - How do you determine "The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR"?
-    // TODO - Question M9 - How do you determine "The pathologist or clinician documents an anastomotic recurrence"?
-
 
     // Colon, Rectosigmoid, and Rectum Multiple Primary Rules
     // C180-C189, C199, C209
@@ -207,12 +200,23 @@ public class Mp2018ColonGroup extends MphGroup {
         // • The subsequent tumor arises in the mucosa
         // Note:	Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.
         // Example: 	(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.
-        // TODO
+        // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
+        // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
+        // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
+        // AND there was surgery done (surgery codes 30, 32, 40, 31),
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                //result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                List<String> surgerySites = Arrays.asList("30", "31", "32", "40");
+                // Different segments
+                if (!i1.getPrimarySite().substring(3, 4).equals(i2.getPrimarySite().substring(3, 4))) {
+                    int compDateRes = GroupUtility.compareDxDate(i1, i2);
+                    if ((compDateRes == 1 && surgerySites.contains(i2.getSurgeryOfPrimarySite())) ||
+                        (compDateRes == 2 && surgerySites.contains(i1.getSurgeryOfPrimarySite()))) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
+                }
                 return result;
             }
         };
@@ -235,7 +239,8 @@ public class Mp2018ColonGroup extends MphGroup {
         // •	 The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
         // •	 The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
         // •	 The pathologist or clinician documents an anastomotic recurrence
-        // TODO
+        // ABH 7/19/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
+        /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -256,6 +261,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("The physician may stage the subsequent tumor because the depth of invasion determines the second course of treatment.");
         rule.getNotes().add("These tumors are a single primary/recurrence.  Registrars that collect recurrence information should record the information in the recurrence fields.");
         _rules.add(rule);
+        */
 
         // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M10") {

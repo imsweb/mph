@@ -323,7 +323,6 @@ public abstract class MphGroup {
         }
     }
 
-
     public static class MphRuleDiagnosisDate extends MphRule {
 
         public MphRuleDiagnosisDate(String groupId, String step) {

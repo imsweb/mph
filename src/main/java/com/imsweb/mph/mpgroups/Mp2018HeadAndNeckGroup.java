@@ -173,22 +173,8 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
         // Rule M7	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
         // TODO - Is Paired site list correct?
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C312,C310,C301,C300,C098,C079,C081,C080,C090,C091,C099");
-                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of head and neck should be provided.");
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7",
+                        Arrays.asList("C312,C310,C301,C300,C098,C079,C081,C080,C090,C091,C099"), null);
         rule.setQuestion("Are there separate, non-contiguous tumors on both the right side and the left side of a paired site?");
         rule.setReason("Separate, non-contiguous tumors on the right side and the left side of a paired site are multiple primaries.");
         rule.getNotes().add("See Equivalent Terms and Definitions Table 11 for list of paired sites.");

@@ -125,23 +125,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M4	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M4") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than three (3) years apart?");
-        rule.setReason("Tumors diagnosed more than three (3) years apart are multiple primaries.");
+        rule = new MphRuleDiagnosisDateGreaterThan3Years(MphConstants.MP_2018_LUNG_GROUP_ID, "M4");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence in the same lung on follow-up.");
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  •	 Tumor biomarkers are NED");

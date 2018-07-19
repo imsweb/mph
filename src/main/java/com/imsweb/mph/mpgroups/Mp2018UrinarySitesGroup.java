@@ -153,21 +153,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M3	Abstract multiple primaries when there are:
         // •	Tumor(s) in both the right AND left renal pelvis AND
         // •	No other urinary sites are involved
-        MphRule rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M3") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for renal pelvis tumors should be provided.");
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        MphRule rule = new MphRuleLeftAndRight(MphConstants.MP_2018_URINARY_GROUP_ID, "M3", null, MphConstants.RENAL_PELVIS);
         rule.setQuestion("Are there tumors in both the right renal pelvis and the left renal pelvis and no other urinary sites are involved?");
         rule.setReason("When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries.");
         rule.getNotes().add("Only abstract a single primary when pathology confirms tumor(s) in the contralateral renal pelvis tumors are metastatic.");

@@ -285,7 +285,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M11");
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M11", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");

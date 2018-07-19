@@ -181,25 +181,9 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
-                        "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
-
-                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for paired sites of other-sites should be provided.");
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-
-                return result;
-            }
-        };
+        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8",
+                Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
+                        "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754"), null);
         rule.setQuestion("Are there tumors in both the left and right sides of a paired site (Table 1)?");
         rule.setReason("Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.");
         rule.getNotes().add("Table 1 – Paired Organs and Sites with Laterality.");

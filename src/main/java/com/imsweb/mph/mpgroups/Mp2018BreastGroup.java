@@ -150,20 +150,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M6") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
-                }
-                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
+        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_BREAST_GROUP_ID, "M6", null, null);
         rule.setQuestion("Is there a tumor(s) in each breast?");
         rule.setReason("Tumors on both sides (right and left breast) are multiple primaries.");
         rule.getNotes().add("Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently.  The literal definition of bilateral is “cancer in both breasts”.");
@@ -282,7 +269,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M13");
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M13", true);
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");

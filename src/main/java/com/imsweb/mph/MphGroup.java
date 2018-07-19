@@ -303,17 +303,21 @@ public abstract class MphGroup {
 
     public static class MphRuleInSituAfterInvasive extends MphRule {
 
-        public MphRuleInSituAfterInvasive(String groupId, String step) {
+        boolean _mustBeSameSide;
+
+        public MphRuleInSituAfterInvasive(String groupId, String step, boolean mustBeSameSide) {
             super(groupId, step);
             setQuestion("Is there an in situ tumor following an invasive tumor?");
             setReason("An in situ tumor diagnosed following an invasive tumor is a single primary.");
+            _mustBeSameSide =  mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
             return result;
         }
@@ -584,6 +588,36 @@ public abstract class MphGroup {
             return result;
         }
     }
+
+    public static class MphRuleLeftAndRight extends MphRule {
+
+        List<String> _pairedSites;
+        String _requiredSite;
+
+        public MphRuleLeftAndRight(String groupId, String step, List<String> pairedSites, String requiredSite) {
+            super(groupId, step);
+            _pairedSites = pairedSites;
+            _requiredSite = requiredSite;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((_requiredSite == null) || (_requiredSite.equals(i1.getPrimarySite()) && _requiredSite.equals(i2.getPrimarySite()))) {
+                if ((_pairedSites == null) || (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), _pairedSites))) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+            }
+
+            return result;
+        }
+    };
+
 
 
 

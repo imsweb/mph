@@ -78,12 +78,14 @@ public class Mp2018KidneyGroup extends MphGroup {
         Note 4:	The physician may state this is a recurrence, meaning the patient had a previous kidney tumor and now has another kidney tumor. Follow the rules; do not attempt to interpret the physician’s statement.
         Note 5:	The location and histology of the subsequent tumor is irrelevant. Kidney tumors that occur more than 3 years apart are always multiple primaries.
 
-    Rule M11	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
+    Rule M12	Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
         Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
+
     */
 
     // TODO - Question M4 - Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
     // TODO - Question M6 - Table 1: What to do with "Rhabdomyosarcoma"?
+
 
     // Kidney Multiple Primary Rules - Text
     // C649
@@ -114,20 +116,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5	Abstract multiple primaries when there are tumors in both the right kidney and in the left kidney.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
-                }
-                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
+        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M5", null, null);
         rule.setQuestion("Are there tumors in both the left and right kidney?");
         rule.setReason("Tumors in both the right kidney and in the left kidney are multiple primaries.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -144,8 +133,8 @@ public class Mp2018KidneyGroup extends MphGroup {
 
         // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7", MphConstants.KIDNEY_2018_TABLE1_ROWS, true);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
@@ -161,17 +150,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                return result;
-            }
-        };
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9", true);
         rule.setQuestion("Is there an in situ tumor following an invasive tumor and tumors are in the same kidney?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor and tumors are in the same kidney is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");

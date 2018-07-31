@@ -60,13 +60,21 @@ public class HematoDbLab {
                 offset += 100;
             } while (allDiseases.size() < total);
 
+            // Get the complete values of each of the diseases.
+            Map<String, Disease> allFullDiseases = new HashMap<>();
             if (total == allDiseases.size()) {
+                for (Disease d : allDiseases) {
+                    Disease disease = api.disease().getById("latest", d.getId()).execute().body();
+                    allFullDiseases.put(disease.getId(), disease);
+                }
+            }
+
+            if (allFullDiseases.size() > 0) {
                 List<String[]> samePrimaryPairs = new ArrayList<>(), transformTo = new ArrayList<>(), transformFrom = new ArrayList<>();
                 samePrimaryPairs.add(new String[] {"morphology", "start year", "end year", "same primary"});
                 transformTo.add(new String[] {"morphology", "start year", "end year", "transform to"});
                 transformFrom.add(new String[] {"morphology", "start year", "end year", "transform from"});
-                for (Disease d : allDiseases) {
-                    Disease disease = api.disease().getById("latest", d.getId()).execute().body();
+                for (Disease disease : allFullDiseases.values()) {
                     String morphology = disease.getIcdO3Morphology();
                     if (disease.getSamePrimaries() != null)
                         for (YearRangeString range : disease.getSamePrimaries()) {
@@ -77,7 +85,7 @@ public class HematoDbLab {
                                     range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
                             Disease samePrimary = null;
                             try {
-                                samePrimary = api.disease().getById("latest", range.getValue()).execute().body();
+                                samePrimary = allFullDiseases.get(range.getValue());
                             }
                             catch (NotFoundException e) {
                                 //If a disease is listed as same primary but not existed, don't add it.
@@ -95,7 +103,7 @@ public class HematoDbLab {
                                     range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
                             Disease transformToMorphology = null;
                             try {
-                                transformToMorphology = api.disease().getById("latest", range.getValue()).execute().body();
+                                transformToMorphology = allFullDiseases.get(range.getValue());
                             }
                             catch (NotFoundException e) {
                                 //If a disease is listed as transform to but not existed, don't add it.
@@ -113,7 +121,7 @@ public class HematoDbLab {
                                     range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
                             Disease transformFromMorphology = null;
                             try {
-                                transformFromMorphology = api.disease().getById("latest", range.getValue()).execute().body();
+                                transformFromMorphology = allFullDiseases.get(range.getValue());
                             }
                             catch (NotFoundException e) {
                                 //If a disease is listed as transform from but not existed, don't add it.

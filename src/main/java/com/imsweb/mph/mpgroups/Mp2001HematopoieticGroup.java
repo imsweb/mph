@@ -48,7 +48,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (laterDx == -1) {
                         result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         return result;
                     }
                     String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;

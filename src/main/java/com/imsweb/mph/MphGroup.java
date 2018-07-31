@@ -212,7 +212,7 @@ public abstract class MphGroup {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (1 == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -237,7 +237,7 @@ public abstract class MphGroup {
             int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
             if (-1 == diff) {
                 result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
+                result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
             }
             else if (1 == diff)
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

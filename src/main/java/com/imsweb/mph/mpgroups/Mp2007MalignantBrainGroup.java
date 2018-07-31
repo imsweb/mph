@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Collections;
+import java.util.List;
 
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
@@ -44,7 +45,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule" + this.getStep() + " of " + this.getGroupId() + ". Known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -63,13 +64,14 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
-                if (branch1 != null && branch2 != null && (branch1.equals(branch2) || "Neuroepithelial".equals(branch1) || "Neuroepithelial".equals(branch2)))
+                List<String> branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology());
+                List<String> branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
+                if (branch1 != null && branch2 != null && (!Collections.disjoint(branch1, branch2) || branch1.contains("Neuroepithelial") || branch2.contains("Neuroepithelial")))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 else {
                     branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
                     branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
-                    if (branch1 != null && branch2 != null && (branch1.equals(branch2)))
+                    if (branch1 != null && branch2 != null && (!Collections.disjoint(branch1, branch2)))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -86,13 +88,14 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology()), branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
-                if (branch1 != null && branch2 != null && !branch1.equals(branch2) && !"Neuroepithelial".equals(branch1) && !"Neuroepithelial".equals(branch2))
+                List<String> branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology());
+                List<String> branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
+                if (branch1 != null && branch2 != null && Collections.disjoint(branch1, branch2) && !branch1.contains("Neuroepithelial") && !branch2.contains("Neuroepithelial"))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
                     branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i1.getHistology());
                     branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART2.get(i2.getHistology());
-                    if (branch1 != null && branch2 != null && !branch1.equals(branch2))
+                    if (branch1 != null && branch2 != null && Collections.disjoint(branch1, branch2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;

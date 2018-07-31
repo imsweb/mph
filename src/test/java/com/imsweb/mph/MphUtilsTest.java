@@ -4,12 +4,14 @@
 package com.imsweb.mph;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.imsweb.mph.MphUtils.MpResult;
+import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2001HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2004BenignBrainGroup;
@@ -113,6 +115,27 @@ public class MphUtilsTest {
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C718", "8700", "3", 2006));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C752", "9000", "3", 1980));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C009", "9000", "3", 2000));
+    }
+
+    @Test
+    public void testGetAllGroups() {
+        Map<String, MphGroup> testMap = _utils.getAllGroups();
+
+        Assert.assertEquals(MphConstants.MP_1998_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_1998_HEMATO_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2001_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_2001_HEMATO_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2010_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_2010_HEMATO_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, testMap.get(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_BREAST_GROUP_ID, testMap.get(MphConstants.MP_2007_BREAST_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_COLON_GROUP_ID, testMap.get(MphConstants.MP_2007_COLON_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, testMap.get(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_KIDNEY_GROUP_ID, testMap.get(MphConstants.MP_2007_KIDNEY_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_LUNG_GROUP_ID, testMap.get(MphConstants.MP_2007_LUNG_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_MELANOMA_GROUP_ID, testMap.get(MphConstants.MP_2007_MELANOMA_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, testMap.get(MphConstants.MP_2007_OTHER_SITES_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MP_2007_URINARY_GROUP_ID, testMap.get(MphConstants.MP_2007_URINARY_GROUP_ID).getId());
     }
 
     @Test
@@ -442,7 +465,7 @@ public class MphUtilsTest {
         //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("no enough diagnosis date")); //not sure if they are 60 days apart
+        Assert.assertTrue(output.getReason().contains("Valid and known diagnosis date")); //not sure if they are 60 days apart
         i2.setDateOfDiagnosisYear("2007");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -1141,6 +1164,15 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
+        // Check Histology pairs 9392, 9501 and 9392, 9393. Both pairs are supposed to return a single primary.
+        i1.setHistologyIcdO3("9392");
+        i2.setHistologyIcdO3("9501");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9392");
+        i2.setHistologyIcdO3("9393");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
         i1.setHistologyIcdO3("9505");
@@ -1155,6 +1187,14 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
+        i1.setHistologyIcdO3("9392");
+        i2.setHistologyIcdO3("9392");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9392");
+        i2.setHistologyIcdO3("9505");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
         i1.setHistologyIcdO3("8230");
@@ -1839,8 +1879,8 @@ public class MphUtilsTest {
         Assert.assertTrue(output.getReason().contains("non-Hodgkin"));
         i2.setDateOfDiagnosisDay(null);
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(15, output.getAppliedRules().size());
         i1.setPrimarySite("C771");
         i2.setPrimarySite("C772"); //not same location
         output = _utils.computePrimaries(i1, i2);
@@ -1848,8 +1888,8 @@ public class MphUtilsTest {
         i1.setPrimarySite("C181");
         i2.setPrimarySite("C182"); //same location
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(15, output.getAppliedRules().size());
         i2.setDateOfDiagnosisYear("2011"); //not simultaneous
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());
@@ -2494,4 +2534,77 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
 
+    @Test
+    public void testUnableToApplyRule() {
+
+        // Unknown Laterality
+        MphInput i1 = new MphInput();
+        MphInput i2 = new MphInput();
+        i1.setPrimarySite("C090");
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisMonth("08");
+        i1.setDateOfDiagnosisDay("17");
+        i2.setPrimarySite("C098");
+        i2.setHistologyIcdO3("8100");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("9");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("10");
+        i2.setDateOfDiagnosisDay("28");
+        MphOutput output = _utils.computePrimaries(i1, i2);
+        Assert.assertTrue(output.getReason().contains("Valid and known laterality should"));
+
+        // Unknown days apart
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setPrimarySite("C659");
+        i1.setHistologyIcdO3("9590");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisMonth("08");
+        i2.setPrimarySite("C669");
+        i2.setHistologyIcdO3("9590");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisMonth("10");
+
+        Mp2007UrinaryGroup group = new Mp2007UrinaryGroup();
+        MphComputeOptions options = new MphComputeOptions();
+
+        for (MphRule rule : group.getRules()) {
+            if (rule.getStep().equals("M5")) {
+                TempRuleResult result = rule.apply(i1, i2, options);
+                Assert.assertTrue(result.getMessage().contains("Valid and known diagnosis date"));
+            }
+        }
+
+        // Unknown laterality and days apart
+        i1 = new MphInput();
+        i2 = new MphInput();
+        i1.setPrimarySite("C090");
+        i1.setHistologyIcdO3("8100");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("0");
+        i1.setDateOfDiagnosisYear("2004");
+        i2.setPrimarySite("C090");
+        i2.setHistologyIcdO3("8100");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("0");
+        i2.setDateOfDiagnosisYear("2004");
+
+        Mp2004SolidMalignantGroup malgroup = new Mp2004SolidMalignantGroup();
+        options = new MphComputeOptions();
+
+        for (MphRule rule : malgroup.getRules()) {
+            if (rule.getStep().equals("M3")) {
+                TempRuleResult result = rule.apply(i1, i2, options);
+                Assert.assertTrue(result.getMessage().contains("Valid and known laterality and diagnosis date"));
+            }
+        }
+    }
 }

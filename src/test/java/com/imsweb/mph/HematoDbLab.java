@@ -29,9 +29,9 @@ public class HematoDbLab {
 
     @SuppressWarnings("ConstantConditions")
     private static void createHematoDbCsvFiles() throws IOException {
-        File samePrimaryFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
-        File transformToFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");
-        File transformFromFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010TransformFromPairs.csv");
+        File samePrimaryFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
+        File transformToFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");
+        File transformFromFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformFromPairs.csv");
 
         try (CSVWriter samePrimaryWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(samePrimaryFile), StandardCharsets.UTF_8));
              CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformToFile), StandardCharsets.UTF_8));
@@ -137,5 +137,9 @@ public class HematoDbLab {
             else
                 System.out.println("Something wasn't right. The total number of diseases you got is different from what the API returns. Please try again.");
         }
+    }
+
+    public static String getWorkingDirectory() {
+        return System.getProperty("user.dir").replace(".idea\\modules", ""); // this will make it work in IntelliJ and outside of it...
     }
 }

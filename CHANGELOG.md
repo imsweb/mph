@@ -2,7 +2,8 @@
 
 **Changes in version 1.10**
 
- - Updated Commons Lang library from version 3.4 to version 3.6.
+ - Updated Commons Lang library from version 3.4 to version 3.7.
+ - Updated CSV library from version 2.4 to version 4.2.
 
 **Changes in version 1.9**
 

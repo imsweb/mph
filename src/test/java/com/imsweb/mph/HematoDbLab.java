@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
 
 import com.imsweb.seerapi.client.NotFoundException;
 import com.imsweb.seerapi.client.SeerApi;
@@ -27,6 +27,7 @@ public class HematoDbLab {
         createHematoDbCsvFiles();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void createHematoDbCsvFiles() throws IOException {
         File samePrimaryFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
         File transformToFile = new File(System.getProperty("user.dir") + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");

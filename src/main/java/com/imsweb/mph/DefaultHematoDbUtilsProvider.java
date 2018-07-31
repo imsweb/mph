@@ -6,14 +6,13 @@ package com.imsweb.mph;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import com.imsweb.mph.internal.HematoDbDTO;
 
@@ -31,8 +30,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     public DefaultHematoDbUtilsProvider() {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_samePrimaryDto.containsKey(row[0]))
                     _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -47,8 +45,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         }
         _transformToDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_transformToDto.containsKey(row[0]))
                     _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -63,8 +60,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         }
         _transformFromDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_transformFromDto.containsKey(row[0]))
                     _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {

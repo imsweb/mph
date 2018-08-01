@@ -413,68 +413,8 @@ public class MphConstants {
 
     public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
-/*
-Specific and NOS Histology Codes	Synonyms	Subtypes/Variants
-Adenocarcinoma NOS 8140
-
-Note: 	Adenocarcinoma and subtypes/variants are listed as subtypes of carcinoma NOS and also as a separate line item in order to provide documentation of all of the subtypes/variants that are specific to adenocarcinoma.	Mixed adenocarcinoma	Enteric adenocarcinoma 8144
-Mucinous adenocarcinoma 8480
-Carcinoma NOS 8010
-
-Note: 	Subtypes of carcinoma NOS include adenocarcinoma and all subtypes/variants of adenocarcinoma.	Urachal carcinoma	Clear cell carcinoma 8310
-Endometrioid carcinoma 8380
-
-Malignant melanoma 8720/3
-Malignant perivascular epithelioid cell tumor 8714/3	Malignant PEComa
-PEComa
-Sarcoma NOS 8800/3
-Note: 	Embryonal rhabdomyosarcoma/sarcoma botryoides 8910/3 is a subtype/variant of rhabdomyosarcoma.		Angiosarcoma 9120/3
-Chondrosarcoma 9220/3
-Leiomyosarcoma 8890/3
-Liposarcoma 8850/3
-Malignant peripheral nerve sheath tumor (MPNST) 9540/3
-Pleomorphic sarcoma 8802/3
-Rhabdomyosarcoma 8900/3
-Embryonal rhabdomyosarcoma/sarcoma botryoides 8910/3
-
-Small cell neuroendocrine carcinoma 8041	Neuroendocrine carcinoma
-SmCC
-	Large cell neuroendocrine tumor 8013
-Well-differentiated neuroendocrine tumor 8240
-Squamous cell carcinoma 8070	Pure squamous cell carcinoma
-SCC	Verrucous carcinoma 8051
-Urothelial carcinoma 8120
-
-Note 1: 	Previously called transitional cell carcinoma, a term that is no longer recommended.
-Note 2: 	Micropapillary is an invasive /3 neoplasm with aggressive behavior.
-	Clear cell (glycogen-rich) urothelial carcinoma 8120/3
-Infiltrating urothelial carcinoma 8120/3
-Infiltrating urothelial carcinoma with divergent differentiation 8120/3
-Infiltrating urothelial carcinoma with endodermal sinus lines 8120/3
-Infiltrating urothelial carcinoma with glandular differentiation 8120/3
-Infiltrating urothelial carcinoma with squamous differentiation 8120/3
-Infiltrating urothelial carcinoma with trophoblastic differentiation 8120/3
-Lipid-rich urothelial carcinoma 8120/3
-Microcystic urothelial carcinoma 8120/3
-Nested urothelial carcinoma 8120/3
-Plasmacytoid urothelial carcinoma 8120/3
-Urothelial carcinoma in situ 8120/2 	Giant cell urothelial carcinoma 8031/3
-Lymphoepithelioma-like urothelial carcinoma 8082/3
-Micropapillary urothelial carcinoma 8131/3
-Papillary urothelial (transitional cell) carcinoma
-in situ 8130/2
-invasive 8130/3
-Poorly differentiated carcinoma 8020/3
-Sarcomatoid urothelial carcinoma 8122/3
-
-
- */
-
-
-
     public static final List<String> URINARY_2018_TABLE2_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "8144", "8480", "8140", "8310", "8380", "8144", "8480",
-            "9120/3", "9220/3", "8910/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3",
+            "8144", "8480", "8310", "8380", "9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3",
             "8013", "8240", "8051", "8031/3", "8082/3", "8131/3", "8130/2", "8130/3", "8020/3", "8122/3"));
 
     public static final Map<String, List<String>> URINARY_2018_TABLE2_ROWS;
@@ -482,16 +422,15 @@ Sarcomatoid urothelial carcinoma 8122/3
     static {
         Map<String, List<String>> content = new HashMap<>();
         content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480"))); // Adenocarcinoma NOS 8140
-        content.put("8010", Collections.unmodifiableList(Arrays.asList("8140", "8310", "8380", "8144", "8480"))); // Carcinoma NOS 8010
+        content.put("8010", Collections.unmodifiableList(Arrays.asList("8310", "8380"))); // Carcinoma NOS 8010
         content.put("8720/3", Collections.unmodifiableList(Arrays.asList())); // Malignant melanoma 8720/3
         content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // Malignant perivascular epithelioid cell tumor 8714/3
-        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "9220/3", "8910/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3"))); // Sarcoma NOS 8800/3
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3"))); // Sarcoma NOS 8800/3
         content.put("8041", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine carcinoma 8041
         content.put("8070", Collections.unmodifiableList(Arrays.asList("8051"))); // Squamous cell carcinoma 8070
         content.put("8120", Collections.unmodifiableList(Arrays.asList("8031/3", "8082/3", "8131/3", "8130/2", "8130/3", "8020/3", "8122/3"))); // Urothelial carcinoma 8120
         URINARY_2018_TABLE2_ROWS = Collections.unmodifiableMap(content);
     }
-
 
     public static final List<String> LUNG_2018_TABLE3_SUBTYPES = GroupUtility.expandList(
             "8250/2, 8250/3, 8253/2, 8253/3, 8256/3, 8257/3, 9040/3, 9041/3, 9042/3, 9043/3, 9173/3, 8000-8040, 8042-9999");
@@ -521,6 +460,106 @@ Sarcomatoid urothelial carcinoma 8122/3
         content.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"))); // Squamous carcinoma 8070
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
+
+
+    // General Brain Sites
+    public static final String CNS_2018_BRAIN_SITES = "C710-C719";
+    public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
+    public static final String CNS_2018_CEREBRAL_MENINGES_SITES = "C700";
+    public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
+    public static final String CNS_2018_CRANIAL_NERVES_SITES = "C721-C725";
+    public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
+
+    public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
+            "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0",
+            "8825/1", "9550/0", "9560/1", "8815/1"));
+
+    public static final Map<String, List<String>> NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("9431/1", Collections.unmodifiableList(Arrays.asList())); // Angiocentric glioma 9431/1
+        content.put("8830/0", Collections.unmodifiableList(Arrays.asList())); // Benign fibrous histiocytoma 8830/0
+        content.put("9506/1", Collections.unmodifiableList(Arrays.asList())); // Central neurocytoma 9506/1
+        content.put("9220/0", Collections.unmodifiableList(Arrays.asList())); // Chondroma 9220/0
+        content.put("9444/1", Collections.unmodifiableList(Arrays.asList())); // Chordoid glioma of the third ventricle 9444/1
+        content.put("9390/0", Collections.unmodifiableList(Arrays.asList("9390/1"))); // Choroid plexus papilloma 9390/0
+        content.put("9350/1", Collections.unmodifiableList(Arrays.asList("9351/1", "9352/1"))); // Craniopharyngioma 9350/1
+        content.put("9412/1", Collections.unmodifiableList(Arrays.asList())); // Desmoplastic infantile astrocytoma and ganglioglioma 9412/1
+        content.put("9413/0", Collections.unmodifiableList(Arrays.asList())); // Dysembryoplastic neuroepithelial tumor 9413/0
+        content.put("9492/0", Collections.unmodifiableList(Arrays.asList("9493/0"))); // Gangliocytoma 9492/0
+        content.put("9505/1", Collections.unmodifiableList(Arrays.asList())); // Ganglioglioma 9505/1
+        content.put("9582/0", Collections.unmodifiableList(Arrays.asList())); // Granular cell tumor of the sellar region 9582/0
+        content.put("9161/1", Collections.unmodifiableList(Arrays.asList())); // Hemangioblastoma 9161/1
+        content.put("9120/0", Collections.unmodifiableList(Arrays.asList())); // Hemangioma 9120/0
+        content.put("9173/0", Collections.unmodifiableList(Arrays.asList())); // Hygroma 9173/0
+        content.put("8890/0", Collections.unmodifiableList(Arrays.asList())); // Leiomyoma 8890/0
+        content.put("8860/0", Collections.unmodifiableList(Arrays.asList("8880/0"))); // Lipoma 8860/0
+        content.put("8728/0", Collections.unmodifiableList(Arrays.asList("8728/1"))); // Meningeal melanocytosis 8728/0
+        content.put("9530/0", Collections.unmodifiableList(Arrays.asList("9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0"))); // Meningioma 9530/0
+        content.put("8825/0", Collections.unmodifiableList(Arrays.asList("8825/1"))); // Myofibroblastoma 8825/0
+        content.put("9394/1", Collections.unmodifiableList(Arrays.asList())); // Myxopapillary ependymoma 9394/1
+        content.put("9540/0", Collections.unmodifiableList(Arrays.asList("9550/0"))); // Neurofibroma 9540/0
+        content.put("9421/1", Collections.unmodifiableList(Arrays.asList())); // Optic glioma/pilocytic astrocytoma 9421/1
+        content.put("9180/0", Collections.unmodifiableList(Arrays.asList())); // Osteoma 9180/0
+        content.put("9509/1", Collections.unmodifiableList(Arrays.asList())); // Papillary glioneuronal tumor 9509/1
+        content.put("8693/1", Collections.unmodifiableList(Arrays.asList())); // Paraganglioma 8693/1
+        content.put("9571/0", Collections.unmodifiableList(Arrays.asList())); // Perineurioma 9571/0
+        content.put("9361/1", Collections.unmodifiableList(Arrays.asList())); // Pineocytoma 9361/1
+        content.put("9432/1", Collections.unmodifiableList(Arrays.asList())); // Pituicytoma 9432/1
+        content.put("8272/0", Collections.unmodifiableList(Arrays.asList())); // Pituitary adenoma 8272/0
+        content.put("8900/0", Collections.unmodifiableList(Arrays.asList())); // Rhabdomyoma 8900/0
+        content.put("9560/0", Collections.unmodifiableList(Arrays.asList("9560/1"))); // Schwannoma 9560/0
+        content.put("8815/0", Collections.unmodifiableList(Arrays.asList("8815/1"))); // Solitary fibrous tumor Grade 1 8815/0
+        content.put("8290/0", Collections.unmodifiableList(Arrays.asList())); // Spindle cell oncocytoma 8290/0
+        content.put("9384/1", Collections.unmodifiableList(Arrays.asList())); // Subependymal giant cell astrocytoma 9384/1
+        content.put("9383/1", Collections.unmodifiableList(Arrays.asList())); // Subependymoma 9383/1
+        content.put("9080/1", Collections.unmodifiableList(Arrays.asList())); // Teratoma 9080/1
+        NON_MALIGNANT_CNS_2018_TABLE6_ROWS = Collections.unmodifiableMap(content);
+    }
+
+
+    public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
+            "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9085", "9084", "9538", "9474", "9471", "9477", "9476", "9475",
+            "8728", "9451", "9425", "9395", "9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"));
+
+
+    public static final Map<String, List<String>> MALIGNANT_CNS_2018_TABLE3_ROWS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("9505", Collections.unmodifiableList(Arrays.asList())); // Anaplastic ganglioglioma 9505
+        content.put("9430", Collections.unmodifiableList(Arrays.asList())); // Astroblastoma 9430
+        content.put("9400", Collections.unmodifiableList(Arrays.asList("9401", "9411"))); // Astrocytoma NOS 9400
+        content.put("9100", Collections.unmodifiableList(Arrays.asList())); // Choriocarcinoma 9100
+        content.put("9390", Collections.unmodifiableList(Arrays.asList())); // Choroid plexus carcinoma 9390
+        content.put("9508", Collections.unmodifiableList(Arrays.asList())); // CNS embryonal tumor with rhabdoid features 9508
+        content.put("9490", Collections.unmodifiableList(Arrays.asList("9473"))); // CNS ganglioneuroblastoma 9490
+        content.put("9500", Collections.unmodifiableList(Arrays.asList())); // CNS neuroblastoma 9500
+        content.put("9385", Collections.unmodifiableList(Arrays.asList())); // Diffuse midline glioma H3 K27M mutant 9385*
+        content.put("9070", Collections.unmodifiableList(Arrays.asList("9071"))); // Embryonal carcinoma 9070
+        content.put("9478", Collections.unmodifiableList(Arrays.asList())); // Embryonal tumor with multilayered rosettes C19MC-altered 9478*
+        content.put("9391", Collections.unmodifiableList(Arrays.asList("9392", "9396", "9393"))); // Ependymoma 9391
+        content.put("9133", Collections.unmodifiableList(Arrays.asList())); // Epithelioid hemangioendothelioma 9133
+        content.put("9064", Collections.unmodifiableList(Arrays.asList())); // Germinoma 9064
+        content.put("9440", Collections.unmodifiableList(Arrays.asList())); // Glioblastoma multiforme 9440
+        content.put("9080", Collections.unmodifiableList(Arrays.asList("9085", "9084"))); // Immature teratoma 9080
+        content.put("9530", Collections.unmodifiableList(Arrays.asList("9538"))); // Malignant meningioma 9530
+        content.put("9540", Collections.unmodifiableList(Arrays.asList())); // Malignant peripheral nerve sheath tumor 9540
+        content.put("9470", Collections.unmodifiableList(Arrays.asList("9474", "9471", "9477", "9476", "9475"))); // Medulloblastoma NOS 9470
+        content.put("9501", Collections.unmodifiableList(Arrays.asList())); // Medulloepithelioma 9501
+        content.put("8720", Collections.unmodifiableList(Arrays.asList("8728"))); // Meningeal melanoma 8720
+        content.put("9382", Collections.unmodifiableList(Arrays.asList())); // Oligoastrocytoma NOS 9382
+        content.put("9450", Collections.unmodifiableList(Arrays.asList("9451"))); // Oligodendroglioma NOS 9450
+        content.put("9364", Collections.unmodifiableList(Arrays.asList())); // Peripheral primitive neuroectodermal tumor 9364
+        content.put("9421", Collections.unmodifiableList(Arrays.asList("9425"))); // Pilocytic astrocytoma 9421
+        content.put("9362", Collections.unmodifiableList(Arrays.asList("9395"))); // Pineal parenchymal tumor of intermediate differentiation 9362
+        content.put("9424", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic xanthroastrocytoma 9424
+        content.put("8800", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Sarcoma NOS 8800
+        content.put("8815", Collections.unmodifiableList(Arrays.asList())); // Solitary fibrous tumor grade 3 8815
+        MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
+    }
+
 
     public static final Map<String, List<String>> HEAD_AND_NECK_2018_TABLE2_10;
 

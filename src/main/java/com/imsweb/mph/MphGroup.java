@@ -323,6 +323,55 @@ public abstract class MphGroup {
         }
     }
 
+    public static class MphRuleMalignantAfterNonMalignant extends MphRule {
+
+        boolean _mustBeSameSide;
+
+        public MphRuleMalignantAfterNonMalignant(String groupId, String step, boolean mustBeSameSide) {
+            super(groupId, step);
+            setQuestion("Is there a malignant tumor following a non-malignant tumor?");
+            setReason("A malignant tumor diagnosed following an non-malignant tumor is multiple primaries.");
+            _mustBeSameSide =  mustBeSameSide;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.BENIGN) ||
+                    GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.UNCERTAIN)) {
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+            }
+            return result;
+        }
+    }
+
+    public static class MphRuleMalignantAndNonMalignant extends MphRule {
+
+        boolean _mustBeSameSide;
+
+        public MphRuleMalignantAndNonMalignant(String groupId, String step, boolean mustBeSameSide) {
+            super(groupId, step);
+            setQuestion("Is there a malignant tumor and a non-malignant tumor?");
+            setReason("A malignant tumor and a non-malignant tumor is multiple primaries.");
+            _mustBeSameSide =  mustBeSameSide;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if ((i1.getBehavior() == MphConstants.MALIGNANT &&  i2.getBehavior() == MphConstants.BENIGN) ||
+                    (i1.getBehavior() == MphConstants.MALIGNANT &&  i2.getBehavior() == MphConstants.UNCERTAIN) ||
+                    (i1.getBehavior() == MphConstants.BENIGN &&  i2.getBehavior() == MphConstants.MALIGNANT) ||
+                    (i1.getBehavior() == MphConstants.UNCERTAIN &&  i2.getBehavior() == MphConstants.MALIGNANT)) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+            return result;
+        }
+    }
+
+
     public static class MphRuleDiagnosisDate extends MphRule {
 
         public MphRuleDiagnosisDate(String groupId, String step) {

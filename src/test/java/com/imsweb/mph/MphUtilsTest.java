@@ -4495,37 +4495,54 @@ public class MphUtilsTest {
 
     @Test
     public void test2018MalignantCNSAndPeripheralNerves() {
-        // Malignant CNS and Peripheral Nerves
-        // Multiple Primary Rules
-        // C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
+        // Malignant CNS and Peripheral Nerves Histology Rules
+        // C470-C479, C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
         // (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
-
-        // Rule M6	Abstract multiple primaries when there is at least one invasive /3 intracranial or intraspinal tumor AND at least one non-malignant /0 or /1 intracranial or intraspinal tumor.
-
-        // Rule M7	Abstract multiple primaries when multiple tumors are present in:
-        // •	Brain C71_ AND any other part of CNS
-        // •	Cerebral meninges C700 AND spinal meninges C701
-        // •	Cranial nerves C721-C725 AND any other part of the CNS
-        // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-        // •	Peripheral nerves C47_ AND any other part of the CNS
-
-        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Tumors may be:
-        // •	Simultaneous OR
-        // •	Original and subsequent
-
-        // Rule M9	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Tumors may be:
-        // •	Simultaneous OR
-        // •	Original and subsequent
-
-        // Rule M10	Abstract a single primary when there are separate, non-contiguous tumors in
-        // •	Same lobe, for example: two tumors in temporal lobe (same site code)
-        // •	Different lateralities, for example: left and right frontal lobes (same site code)
-        // •	Different lobes, for example: parietal lobe and occipital lobe (different site codes)
-
-        // Rule M11	Abstract a single primary when multiple tumors do not meet any of the above criteria.
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
+
+        // Rule M5	Abstract a single primary when the patient has bilateral optic gliomas/glioblastomas 9440.
+        // TODO
+
+        // Rule M6	Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        // TODO
+
+        // Rule M7	Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
+        // •	Original non-malignant tumor followed by malignant tumor
+        //     	Patient had a resection of the non-malignant tumor (not the same tumor) OR
+        //     	It is unknown/not documented if the patient had a resection
+        // •	Simultaneous non-malignant and malignant tumors
+        //     	Abstract both the malignant and the non-malignant tumors
+        // TODO
+
+        // Rule M8	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
+        // •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        // •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        // •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        // TODO
+
+        // Rule M9	Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
+        // •	Brain C710-C719 AND any other part of CNS
+        // •	Cerebral meninges C700 AND spinal meninges C701
+        // •	Cerebral meninges C700 AND any other part of CNS
+        // •	Cranial nerves C721-C725 AND any other part of the CNS
+        // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        // •	Spinal meninges C701 AND any other part of CNS
+        // TODO
+
+        // Rule M10	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+
+        // Rule M11	Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+
+        // Rule M12	Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+
+        // Rule M13	Abstract a single primary when multiple tumors do not meet any of the above criteria.
+        // TODO
+
 
         /*
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
@@ -4630,45 +4647,59 @@ public class MphUtilsTest {
 
     @Test
     public void test2018NonMalignantCNSTumors() {
-        // Non-Malignant CNS Neoplasms
-        // Multiple Primary Rules
-        // C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
-
-        // Rule M5	Abstract multiple primaries  when a non-malignant tumor /0 or /1 transforms into a malignant /3 tumor AND
-        // •	The patient had a resection of the non-malignant tumor as part of the first course of treatment OR
-        // •	It is unknown if the non-malignant tumor was resected during the first course of treatment.
-
-        // Rule M6	Abstract a single primary when the patient has bilateral
-        // •	Acoustic neuromas/vestibular schwannoma 9560/0
-        // •	Optic nerve gliomas 9380/0
-
-        // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Tumors may be
-        // •	Simultaneous OR
-        // •	Original and subsequent
-
-        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Tumors may be
-        // •	Simultaneous OR
-        // •	Original and subsequent
-
-        // Rule M9	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in the same CNS site code (same second, third and fourth digit CXXX).
-
-        // Rule M10	Abstract a single primary when two or more separate, non-contiguous meningiomas arise:
-        // •	On the same side (left or right) of the cranial meninges OR
-        // •	On both sides (left and right) of the cranial meninges OR
-        // •	In the midline AND in either the right or left cranial meninges
-
-        // Rule M11	Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
-        // •	Brain C71_ AND any other part of CNS
-        // •	Cerebral meninges C700 AND spinal meninges C701
-        // •	Cranial nerves C721-C725 AND any other part of the CNS
-        // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-
-        // Rule M12	Abstract a single primary when there are multiple tumors in the brain.
-
-        // Rule M13	Abstract a single primary when the tumors do not meet any of the above criteria.
+        // Non-Malignant CNS Multiple Primary Rules
+        // C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
+        // Peripheral nerves C470, C473, C475, C476 (for nerve roots only)
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
+
+        // Rule M5	Abstract a single primary when the patient has:
+        // •	Acoustic neuromas/ vestibular schwannomas 9560/0
+        // •	Optic gliomas/pilocytic astrocytomas 9421/1
+        // TODO
+
+        // Rule M6	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+
+        // Rule M7	Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        // TODO
+
+        // Rule M8	Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // TODO
+
+        // Rule M9	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in the same CNS site (same second, third and fourth digit CXXX).
+        // TODO
+
+        // Rule M10	Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
+        // •	The patient had a resection of the non-malignant tumor OR
+        // •	It is unknown/not documented whether a resection was done
+        // TODO
+
+        // Rule M11	Abstract a single primary when two or more separate, non-contiguous meningiomas arise in the cranial meninges.  Laterality is irrelevant and may be any of the following combinations:
+        // •	The same laterality (left or right) of the cranial meninges
+        // •	Bilateral (both left and right) cranial meninges
+        // •	The midline AND in either the right or left cranial meninges
+        // TODO
+
+        // Rule M12	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
+        // •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        // •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        // •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        // TODO
+
+        // Rule M13	Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
+        // •	Brain C710-C719 AND any other part of CNS
+        // •	Cerebral meninges C700 AND spinal meninges C701
+        // •	Cerebral meninges C700 AND any other part of CNS
+        // •	Cranial nerves C721-C725 AND any other part of the CNS
+        // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        // •	Spinal meninges C701 AND any other part of CNS
+        // TODO
+
+        // Rule M14	Abstract a single primary when the tumors do not meet any of the above criteria.
+        // TODO
+
 
         /*
         // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
@@ -5081,7 +5112,7 @@ public class MphUtilsTest {
         MphOutput output;
 
         // Rule M3	Abstract multiple primaries when there are:
-        // •	Tumor(s) in both the right AND left renal pelvis AND
+        // •	Separate/non-contiguous tumors in both the right AND left renal pelvis AND
         // •	No other urinary sites are involved
         i1.setPrimarySite("C659");
         i1.setHistologyIcdO3("8720");
@@ -5104,7 +5135,7 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M3", output.getStep());
 
         // Rule M4	Abstract multiple primaries when there are:
-        // •	Tumor(s) in the right AND left ureter AND
+        // •	Separate/non-contiguous tumors in the right AND left ureter AND
         // •	No other urinary sites are involved
         i1.setPrimarySite("C669");
         i2.setPrimarySite("C669");
@@ -5119,122 +5150,8 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M4", output.getStep());
 
-        // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8144");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8480");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(3, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("tumors that are two or more different subtypes/variants in Column 3, Table 2"));
-        Assert.assertEquals("M5", output.getStep());
-        // Does not apply.
-        i1.setHistologyIcdO3("8144");
-        i2.setHistologyIcdO3("8010");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M5", output.getStep());
-
-        // Rule M6	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8010");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8144");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 2"));
-        Assert.assertEquals("M6", output.getStep());
-        i1.setHistologyIcdO3("8120");
-        i2.setHistologyIcdO3("8130");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 2"));
-        Assert.assertEquals("M6", output.getStep());
-        // Does not apply.
-        i1.setHistologyIcdO3("8070");
-        i2.setHistologyIcdO3("8010");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M6", output.getStep());
-        // Does not apply.
-        i1.setHistologyIcdO3("8380");
-        i2.setHistologyIcdO3("8051");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M6", output.getStep());
-
-        // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8070");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8010");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
-        Assert.assertEquals("M7", output.getStep());
-        i1.setHistologyIcdO3("8010");
-        i2.setHistologyIcdO3("8051");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
-        Assert.assertEquals("M7", output.getStep());
-        // Does not apply.
-        i1.setHistologyIcdO3("8131");
-        i2.setHistologyIcdO3("8130");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M7", output.getStep());
-        // Does not apply.
-        i1.setHistologyIcdO3("9500");
-        i2.setHistologyIcdO3("9600");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M7", output.getStep());
-
-        // Rule M8	Abstract a single primary when the patient has multiple recurrence(s) of in situ carcinoma which:
-        // •	Occur in the same urinary site OR
-        // •	Are multifocal/multicentric tumors in multiple urinary sites
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("2");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("2");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Multiple recurrences of an In Situ carcinom"));
-        Assert.assertEquals("M8", output.getStep());
-        // Does not apply.
-        i2.setBehaviorIcdO3("3");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M8", output.getStep());
-
-        // Rule M9	Abstract a single primary when tumors are diagnosed in the bladder C67_ and one or both ureter(s) C669 AND tumors are:
-        // •	Noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2 OR
-        // •	Any one of the subtypes/variants of noninvasive in situ urothelial carcinoma
+        // Rule M5	Abstract a single primary when tumors are diagnosed in the bladder C67_ and one or both ureter(s) C669 AND tumors are noninvasive
+        //          in situ /2 urothelial carcinoma (flat tumor) 8120/2.
         i1.setPrimarySite("C670");
         i1.setHistologyIcdO3("8120");
         i1.setBehaviorIcdO3("2");
@@ -5247,9 +5164,9 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("bladder (C670-C679) or ureter (C669)"));
-        Assert.assertEquals("M9", output.getStep());
+        Assert.assertEquals("M5", output.getStep());
         i1.setPrimarySite("C670");
         i1.setHistologyIcdO3("8120");
         i1.setDateOfDiagnosisYear("2015");
@@ -5258,19 +5175,158 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertEquals(3, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("bladder (C670-C679) or ureter (C669)"));
-        Assert.assertEquals("M9", output.getStep());
+        Assert.assertEquals("M5", output.getStep());
         // Does not apply.
         i1.setPrimarySite("C680");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M9", output.getStep());
+        Assert.assertNotEquals("M5", output.getStep());
         // Does not apply.
         i2.setHistologyIcdO3("8131");
         output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M5", output.getStep());
+
+        // Rule M6	Abstract a single primary when the patient has multiple occurrences of invasive urothelial carcinoma of the bladder.
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8031");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8130");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("invasive urothelial carcinoma of the bladder"));
+        Assert.assertEquals("M6", output.getStep());
+        // Does not apply.
+        i2.setPrimarySite("C680");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M6", output.getStep());
+        // Does not apply.
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("9500");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M6", output.getStep());
+
+        // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8144");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8480");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are two or more different subtypes/variants in Column 3, Table 2"));
+        Assert.assertEquals("M7", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("8144");
+        i2.setHistologyIcdO3("8010");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M7", output.getStep());
+
+        // Rule M8	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8070");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8010");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
+        Assert.assertEquals("M8", output.getStep());
+        i1.setHistologyIcdO3("8010");
+        i2.setHistologyIcdO3("8051");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
+        Assert.assertEquals("M8", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("8131");
+        i2.setHistologyIcdO3("8130");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M8", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("9500");
+        i2.setHistologyIcdO3("9600");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M8", output.getStep());
+
+        // Rule M9	Abstract a single primary when the patient has multiple recurrence(s) of in situ carcinoma which:
+        // •	Occur in the same urinary site OR
+        // •	Are multifocal/multicentric tumors in multiple urinary sites
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8720");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8780");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Multiple recurrences of an In Situ carcinom"));
+        Assert.assertEquals("M9", output.getStep());
+        // Does not apply.
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M9", output.getStep());
 
-        // Rule M10	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
+        // Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8010");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8144");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(8, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 2"));
+        Assert.assertEquals("M10", output.getStep());
+        i1.setHistologyIcdO3("8120");
+        i2.setHistologyIcdO3("8130");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(8, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 2"));
+        Assert.assertEquals("M10", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("8070");
+        i2.setHistologyIcdO3("8010");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M10", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("8380");
+        i2.setHistologyIcdO3("8051");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M10", output.getStep());
+
+        // Rule M11	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
@@ -5285,15 +5341,32 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(8, output.getAppliedRules().size());
+        Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
-        Assert.assertEquals("M10", output.getStep());
+        Assert.assertEquals("M11", output.getStep());
         // Does not apply.
         i1.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M10", output.getStep());
+        Assert.assertNotEquals("M11", output.getStep());
 
-        // Rule M11	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
+        // Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+        i1.setPrimarySite("C679");
+        i1.setHistologyIcdO3("8720");
+        i1.setDateOfDiagnosisYear("2014");
+        i2.setPrimarySite("C679");
+        i2.setHistologyIcdO3("8180");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("greater than three (3) years apart"));
+        Assert.assertEquals("M12", output.getStep());
+        // Does not apply.
+        i1.setDateOfDiagnosisYear("2016");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M12", output.getStep());
+
+        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
@@ -5310,15 +5383,15 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(9, output.getAppliedRules().size());
+        Assert.assertEquals(11, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive tumor following an in situ tumor less than or equal to 60"));
-        Assert.assertEquals("M11", output.getStep());
+        Assert.assertEquals("M13", output.getStep());
         // Does not apply.
         i2.setDateOfDiagnosisMonth("6");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M11", output.getStep());
+        Assert.assertNotEquals("M13", output.getStep());
 
-        // Rule M12	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor AND tumors:
+        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
@@ -5335,81 +5408,15 @@ public class MphUtilsTest {
         i2.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(12, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor more than 60 days after"));
-        Assert.assertEquals("M12", output.getStep());
+        Assert.assertEquals("M14", output.getStep());
         // Does not apply.
         i1.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M12", output.getStep());
-
-        // Rule M13	Abstract a single primary when there is a NOS and a subtype/variant of that NOS in:
-        // •	A single urinary organ OR
-        // •	Multifocal/multicentric tumors in multiple urinary sites
-        // rule = new MphRuleMainTypeAndSubTypeInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", MphConstants.URINARY_2018_TABLE2_ROWS);
-        i1.setPrimarySite("C659");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C659");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(11, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("NOS and a subtype/variant of that NOS"));
-        Assert.assertEquals("M13", output.getStep());
-        // Does not apply.
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M13", output.getStep());
-
-        // Rule M14	Abstract a single primary when the patient has multiple occurrences of invasive urothelial carcinoma of the bladder.
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8031");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8130");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(12, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("invasive urothelial carcinoma of the bladder"));
-        Assert.assertEquals("M14", output.getStep());
-        // Does not apply.
-        i2.setPrimarySite("C680");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M14", output.getStep());
-        // Does not apply.
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("9500");
-        output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M14", output.getStep());
 
-        // Rule M15	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        i1.setPrimarySite("C679");
-        i1.setHistologyIcdO3("8720");
-        i1.setDateOfDiagnosisYear("2014");
-        i2.setPrimarySite("C679");
-        i2.setHistologyIcdO3("8180");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(13, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("greater than three (3) years apart"));
-        Assert.assertEquals("M15", output.getStep());
-        // Does not apply.
-        i1.setDateOfDiagnosisYear("2016");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M15", output.getStep());
-
-        // Rule M16	Abstract a single primary when multifocal/multicentric urothelial carcinoma NOS 8120 OR any subtypes/variants of urothelial carcinoma NOS are diagnosed simultaneously in two or more of the following sites:
+        // Rule M15	Abstract a single primary when multifocal/multicentric urothelial carcinoma NOS 8120 OR any subtypes/variants of urothelial carcinoma NOS are diagnosed simultaneously in two or more of the following sites:
         // •	Renal pelvis C659
         // •	Ureter C669
         // •	Bladder C670-C679
@@ -5428,34 +5435,34 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(14, output.getAppliedRules().size());
+        Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("urothelial carcinoma NOS 8120 (or a subtype)"));
-        Assert.assertEquals("M16", output.getStep());
+        Assert.assertEquals("M15", output.getStep());
         // Does not apply.
         i2.setPrimarySite("C682");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M16", output.getStep());
+        Assert.assertNotEquals("M15", output.getStep());
         // Does not apply.
         i2.setPrimarySite("C659");
         i2.setHistologyIcdO3("9500");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M16", output.getStep());
+        Assert.assertNotEquals("M15", output.getStep());
         // Does not apply.
         i2.setHistologyIcdO3("8131");
         i1.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M16", output.getStep());
+        Assert.assertNotEquals("M15", output.getStep());
 
-        // Rule M17	Abstract a single primary when tumors do not meet any of the above criteria.
+        // Rule M16	Abstract a single primary when tumors do not meet any of the above criteria.
         i1.setPrimarySite("C670");
         i2.setPrimarySite("C675");
         i1.setHistologyIcdO3("8630");
         i2.setHistologyIcdO3("8630");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(15, output.getAppliedRules().size());
+        Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        Assert.assertEquals("M17", output.getStep());
+        Assert.assertEquals("M16", output.getStep());
     }
 
 }

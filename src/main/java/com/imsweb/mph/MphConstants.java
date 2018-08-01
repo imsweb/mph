@@ -413,6 +413,64 @@ public class MphConstants {
 
     public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
+/*
+Specific and NOS Histology Codes	Synonyms	Subtypes/Variants
+Adenocarcinoma NOS 8140
+
+Note: 	Adenocarcinoma and subtypes/variants are listed as subtypes of carcinoma NOS and also as a separate line item in order to provide documentation of all of the subtypes/variants that are specific to adenocarcinoma.	Mixed adenocarcinoma	Enteric adenocarcinoma 8144
+Mucinous adenocarcinoma 8480
+Carcinoma NOS 8010
+
+Note: 	Subtypes of carcinoma NOS include adenocarcinoma and all subtypes/variants of adenocarcinoma.	Urachal carcinoma	Clear cell carcinoma 8310
+Endometrioid carcinoma 8380
+
+Malignant melanoma 8720/3
+Malignant perivascular epithelioid cell tumor 8714/3	Malignant PEComa
+PEComa
+Sarcoma NOS 8800/3
+Note: 	Embryonal rhabdomyosarcoma/sarcoma botryoides 8910/3 is a subtype/variant of rhabdomyosarcoma.		Angiosarcoma 9120/3
+Chondrosarcoma 9220/3
+Leiomyosarcoma 8890/3
+Liposarcoma 8850/3
+Malignant peripheral nerve sheath tumor (MPNST) 9540/3
+Pleomorphic sarcoma 8802/3
+Rhabdomyosarcoma 8900/3
+Embryonal rhabdomyosarcoma/sarcoma botryoides 8910/3
+
+Small cell neuroendocrine carcinoma 8041	Neuroendocrine carcinoma
+SmCC
+	Large cell neuroendocrine tumor 8013
+Well-differentiated neuroendocrine tumor 8240
+Squamous cell carcinoma 8070	Pure squamous cell carcinoma
+SCC	Verrucous carcinoma 8051
+Urothelial carcinoma 8120
+
+Note 1: 	Previously called transitional cell carcinoma, a term that is no longer recommended.
+Note 2: 	Micropapillary is an invasive /3 neoplasm with aggressive behavior.
+	Clear cell (glycogen-rich) urothelial carcinoma 8120/3
+Infiltrating urothelial carcinoma 8120/3
+Infiltrating urothelial carcinoma with divergent differentiation 8120/3
+Infiltrating urothelial carcinoma with endodermal sinus lines 8120/3
+Infiltrating urothelial carcinoma with glandular differentiation 8120/3
+Infiltrating urothelial carcinoma with squamous differentiation 8120/3
+Infiltrating urothelial carcinoma with trophoblastic differentiation 8120/3
+Lipid-rich urothelial carcinoma 8120/3
+Microcystic urothelial carcinoma 8120/3
+Nested urothelial carcinoma 8120/3
+Plasmacytoid urothelial carcinoma 8120/3
+Urothelial carcinoma in situ 8120/2 	Giant cell urothelial carcinoma 8031/3
+Lymphoepithelioma-like urothelial carcinoma 8082/3
+Micropapillary urothelial carcinoma 8131/3
+Papillary urothelial (transitional cell) carcinoma
+in situ 8130/2
+invasive 8130/3
+Poorly differentiated carcinoma 8020/3
+Sarcomatoid urothelial carcinoma 8122/3
+
+
+ */
+
+
 
     public static final List<String> URINARY_2018_TABLE2_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8144", "8480", "8140", "8310", "8380", "8144", "8480",

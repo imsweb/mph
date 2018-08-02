@@ -106,8 +106,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getHistology().equals("9440") && i2.getHistology().equals("9440")) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if (i1.getPrimarySite().equals(i2.getPrimarySite())) {
+                    if (i1.getHistology().equals("9440") && i2.getHistology().equals("9440")) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 }
                 return result;
             }
@@ -121,10 +123,21 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                int latestDx = GroupUtility.compareDxDate(i1, i2);
+                if ((MphConstants.GLIAL_TUMOR.contains(i1.getHistology()) && i2.getHistology().equals("9440") && (2 == latestDx)) ||
+                    (MphConstants.GLIAL_TUMOR.contains(i2.getHistology()) && i1.getHistology().equals("9440") && (1 == latestDx)))
+                {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Does the patient have a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM)?");
+        rule.setReason("A glial or astrocytic tumor that is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM) is multiple primaries.");
         rule.getNotes().add("This is a change from the 2007 Rules.");
         rule.getNotes().add("Abstracting GBM as a new primary will allow analysis of:");
         rule.getNotes().add("  • The number of tumors that recur as a more aggressive histology (GBM)");

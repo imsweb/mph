@@ -397,7 +397,6 @@ public class MphConstants {
             "8920/3", "9120/3", "8964/3", "8910/3", "8890/3", "9180/3", "8901/3", "9364/3", "8890/3", "8900/3", "8912/3", "9040/3",
             "8013", "8240"));
 
-
     public static final Map<String, List<String>> KIDNEY_2018_TABLE1_ROWS;
 
     static {
@@ -409,7 +408,6 @@ public class MphConstants {
         content.put("8042", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
-
 
     public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
@@ -518,11 +516,9 @@ public class MphConstants {
         NON_MALIGNANT_CNS_2018_TABLE6_ROWS = Collections.unmodifiableMap(content);
     }
 
-
     public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9085", "9084", "9538", "9474", "9471", "9477", "9476", "9475",
             "8728", "9451", "9425", "9395", "9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"));
-
 
     public static final Map<String, List<String>> MALIGNANT_CNS_2018_TABLE3_ROWS;
 
@@ -556,6 +552,8 @@ public class MphConstants {
         content.put("9362", Collections.unmodifiableList(Arrays.asList("9395"))); // Pineal parenchymal tumor of intermediate differentiation 9362
         content.put("9424", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic xanthroastrocytoma 9424
         content.put("8800", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Sarcoma NOS 8800
+        content.put("9220", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Chondrosarcoma 9220
+        content.put("8890", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Leiomyosarcoma 8890
         content.put("8815", Collections.unmodifiableList(Arrays.asList())); // Solitary fibrous tumor grade 3 8815
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }

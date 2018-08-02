@@ -102,7 +102,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
     public Mp2018NonMalignantCNSTumorsGroup() {
         super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
                 "C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476", null, null,
-                "", "0-1, 3", "2018-9999");
+                "", "0-1", "2018-9999");
 
         // Rule M5	Abstract a single primary when the patient has:
         // •	Acoustic neuromas/ vestibular schwannomas 9560/0
@@ -200,11 +200,13 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Bilateral (both left and right) cranial meninges
         // •	The midline AND in either the right or left cranial meninges
         // TODO
+        /*
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M11");
         rule.setQuestion("");
         rule.setReason("");
         rule.getNotes().add("This rule applies ONLY to meningiomas.");
         _rules.add(rule);
+        */
 
         // Rule M12	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
         // •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)

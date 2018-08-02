@@ -121,6 +121,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
     Rule M16	Abstract a single primary when tumors do not meet any of the above criteria.
         Note: Use caution when applying this default rule. Please confirm that you have not overlooked an applicable rule.
+
     */
 
     // Renal Pelvis, Ureter, Bladder, and Other Urinary Multiple Primary Rules
@@ -180,13 +181,14 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (MphConstants.BLADDER.equals(i1.getPrimarySite()) && MphConstants.BLADDER.equals(i2.getPrimarySite())) {
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER)) {
                     String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    List<String> types = MphConstants.URINARY_2018_TABLE2_ROWS.get("8120");
+                    List<String> types = new ArrayList<>(MphConstants.URINARY_2018_TABLE2_ROWS.get("8120"));
                     types.add("8120/2");
                     types.add("8120/3");
-                    if (types.contains(icd1) && types.contains(icd2))
+                    if (types.contains(icd1) && types.contains(icd2)) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 }
                 return result;
             }
@@ -224,7 +226,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((i1.getBehavior() == MphConstants.INSITU) && (i2.getBehavior() == MphConstants.INSITU)) {
+                if ((i1.getBehavior().equals(MphConstants.INSITU)) && (i2.getBehavior().equals(MphConstants.INSITU))) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -311,13 +313,13 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 // Urothelial or subtype?
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> types = MphConstants.URINARY_2018_TABLE2_ROWS.get("8120");
+                List<String> types = new ArrayList<>(MphConstants.URINARY_2018_TABLE2_ROWS.get("8120"));
                 types.add("8120/2");
                 types.add("8120/3");
                 if (types.contains(icd1) && types.contains(icd2)) {
                     // Allowed site?
                     if (GroupUtility.isSiteContained(MphConstants.URINARY_UROTHELIAL_CARCINAOMA_SITES_2018, i1.getPrimarySite()) &&
-                            GroupUtility.isSiteContained(MphConstants.URINARY_UROTHELIAL_CARCINAOMA_SITES_2018, i2.getPrimarySite())) {
+                        GroupUtility.isSiteContained(MphConstants.URINARY_UROTHELIAL_CARCINAOMA_SITES_2018, i2.getPrimarySite())) {
                         // Simultaneous?
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (-1 == sixtyDaysApart) {

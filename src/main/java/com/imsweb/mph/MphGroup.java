@@ -561,10 +561,11 @@ public abstract class MphGroup {
                     rowIndex++;
                 }
 
-                // Both histologies not in the table counts as a different row.
-                //if (foundRow1 == -1 && foundRow2 == -1) {
-                //    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                //}
+                // Both histologies not in the table is a manual review.
+                if (foundRow1 == -1 && foundRow2 == -1) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Could not find both histologies in the table.");
+                }
                 // One histology not in the table counts as a different row.
                 if ((foundRow1 >= 0 && foundRow2 == -1) || (foundRow1 == -1 && foundRow2 >= 0)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

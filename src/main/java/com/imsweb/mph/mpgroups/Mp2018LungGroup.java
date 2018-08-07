@@ -110,8 +110,6 @@ public class Mp2018LungGroup extends MphGroup {
 
      */
 
-
-
     // Lung Multiple Primary Rules
     // C340-C343, C348, C349
     // (Excludes lymphoma and leukemia M9590–M9992 and Kaposi sarcoma M9140)

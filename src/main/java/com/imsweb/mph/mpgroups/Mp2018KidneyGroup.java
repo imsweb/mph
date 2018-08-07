@@ -83,10 +83,6 @@ public class Mp2018KidneyGroup extends MphGroup {
 
     */
 
-    // TODO - Question M4 - Is WILMS = "8960" the correct histology for bilateral nephroblastomas?
-    // TODO - Question M6 - Table 1: What to do with "Rhabdomyosarcoma"?
-
-
     // Kidney Multiple Primary Rules - Text
     // C649
     // (Excludes lymphoma and leukemia – M9590-M9992 and Kaposi sarcoma M9140)

@@ -2541,16 +2541,15 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
     }
 
-
+    //==================================================================================================================
+    // 2018 Rule Tests
+    //==================================================================================================================
 
     @Test
     public void test2018Breast() {
-
-        /*
-        Breast Histology Coding Rules
-        C500-C506, C508-C509
-        (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
-        */
+        // Breast Histology Coding Rules
+        // C500-C506, C508-C509
+        // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
@@ -3376,8 +3375,6 @@ public class MphUtilsTest {
         // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
         // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
         // AND there was surgery done (surgery codes 30, 32, 40, 31),
-        // TODO - Waiting on answers.
-        /*
         i1.setPrimarySite("C180");
         i1.setHistologyIcdO3("8561");
         i1.setBehaviorIcdO3("3");
@@ -3391,7 +3388,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertEquals("M8", output.getStep());
-        */
 
         // Rule M9	Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
         // •	 The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
@@ -3698,50 +3694,39 @@ public class MphUtilsTest {
     @Test
     public void test2018HeadAndNeck() {
         // Head and Neck Multiple Primary Rules
-        // C000-C148, C300-C339, C410, C411, C442
+        // C000-C148, C300-C339, C410, C411, C442, C479
         // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
-        // Rule M3	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Tables 2-10 in the Equivalent Terms and Definitions. Tumors may be
-        // •	Simultaneous OR
-        // •	Original and subsequent
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        MphOutput output;
 
-        // Rule M4	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Tables 2-10 in the Equivalent Terms and Definitions. Tumors may be
-        // •	Simultaneous OR
-        // •	Original and subsequent
-
-        // Rule M5	Abstract multiple primaries when there are tumors on both the:
-        // •	Upper lip C000 or C005 AND lower lip C001 or C003 OR
+        // Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors on both the:
+        // •	Upper lip C000 or C003 AND lower lip C001 or C004 OR
         // •	Upper gum C030 AND lower gum C031 OR
         // •	Nasal cavity C300 AND middle ear C301
 
-        // Rule M6	Abstract multiple primaries when separate, non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
+        // TODO
 
-        // Rule M7	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
+        // Rule M4	Abstract multiple primaries when separate, non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
 
-        // Rule M8	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor.
+        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
 
-        // Rule M9	Abstract a single primary when there is a NOS and a subtype/variant of that NOS such as the following:
-        // •	Adenocarcinoma 8140 and subtypes/variants of adenocarcinoma
-        // •	Ameloblastic carcinoma-primary type 9270/3 and subtypes/variants of ameloblastic carcinoma-primary type
-        // •	Ceruminous adenocarcinoma 8420 and subtypes/variants of ceruminous adenocarcinoma
-        // •	Chondrosarcoma grade 2/3 9220/3 and subtypes/variants of chondrosarcoma grade 2/3
-        // •	Neuroendocrine carcinoma 8246 and subtypes/variants of neuroendocrine carcinoma
-        // •	Odontogenic carcinosarcoma 8980/3 and subtypes/variants of odontogenic carcinosarcoma
-        // •	Osteosarcoma 9180/3 and subtypes/variants of osteosarcoma
-        // •	Rhabdomyosarcoma 8900/3 and subtypes/variants of rhabdomyosarcoma
-        // •	Sarcoma 8800/3 and subtypes/variants of sarcoma
-        // •	Small cell neuroendocrine carcinoma 8041 and subtypes/variants of small cell neuroendocrine carcinoma
-        // •	Squamous cell carcinoma 8070 and subtypes/variants of squamous cell carcinoma
-        // •	Well-differentiated neuroendocrine carcinoma 8240 and subtypes/variants of well-differentiated neuroendocrine carcinoma
+        // Rule M6	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
+
+        // Rule M7	Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
+
+        // Rule M8	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
+
+        // Rule M9	Abstract a single primary (the invasive)when an in situ tumor is diagnosed after an invasive tumor.
 
         // Rule M10	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
 
         // Rule M11	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
 
-        // Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
+        // Rule M12	Abstract a single primary when separate, non-contiguous tumors are on the same row in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
 
-        MphInput i1 = new MphInput(), i2 = new MphInput();
-        MphOutput output;
+        // Rule M13	Abstract a single primary  when none of the previous rules apply.
+
 
         /*
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.
@@ -5029,7 +5014,7 @@ public class MphUtilsTest {
         // •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         i1.setPrimarySite("C712");
-        i1.setHistologyIcdO3("9440");
+        i1.setHistologyIcdO3("9180");
         i1.setBehaviorIcdO3("0");
         i2.setPrimarySite("C712");
         i2.setHistologyIcdO3("8050");

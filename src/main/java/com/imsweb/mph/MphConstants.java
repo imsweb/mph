@@ -111,9 +111,6 @@ public class MphConstants {
     public static final List<String> NASAL_CAVITY = Collections.unmodifiableList(Collections.singletonList("C300"));
     public static final List<String> MIDDLE_EAR = Collections.unmodifiableList(Collections.singletonList("C301"));
 
-    public static final List<String> UPPER_LIP_2018 = Collections.unmodifiableList( Arrays.asList("C000", "C005"));
-    public static final List<String> LOWER_LIP_2018 = Collections.unmodifiableList(Arrays.asList("C001", "C003"));
-
     public static final String ALL_PAIRED_SITES =
             "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";
 
@@ -430,8 +427,7 @@ public class MphConstants {
         URINARY_2018_TABLE2_ROWS = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> LUNG_2018_TABLE3_SUBTYPES = GroupUtility.expandList(
-            "8250/2, 8250/3, 8253/2, 8253/3, 8256/3, 8257/3, 9040/3, 9041/3, 9042/3, 9043/3, 9173/3, 8000-8040, 8042-9999");
+    public static final List<String> LUNG_2018_TABLE3_SUBTYPES = GroupUtility.expandList("8000-8040, 8042-9999");
 
     public static final Map<String, List<String>> LUNG_2018_TABLE3_ROWS;
 
@@ -558,13 +554,202 @@ public class MphConstants {
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
+    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C312", "C310", "C301", "C300", "C098", "C079", "C081", "C080", "C090", "C091", "C099"));
 
-    public static final Map<String, List<String>> HEAD_AND_NECK_2018_TABLE2_10;
+    public static final List<String> HEAD_AND_NECK_2018_TABLE2_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C300", "C310", "C311", "C312", "C313", "C318", "C319", "C410"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE3_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C110", "C111", "C112", "C113", "C118", "C119"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE4_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C129", "C130", "C131", "C132", "C138", "C139", "C339"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE5_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C020", "C021", "C022", "C023", "C028", "C029", "C030", "C031", "C039", "C040", "C041", "C048", "C049",
+            "C050", "C051", "C052", "C058", "C059", "C060", "C061", "C062", "C068", "C069"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE6_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C100", "C101", "C102", "C103", "C104", "C108", "C109", "C019", "C090", "C091", "C098", "C099", "C111"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE7_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C079", "C080", "C081", "C088", "C089"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE8_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C030", "C031", "C039", "C410", "C411"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE9_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C301", "C442"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLE10_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C479"));
 
+
+    public static final Map<String, List<String>> HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE;
     static {
         Map<String, List<String>> content = new HashMap<>();
-        HEAD_AND_NECK_2018_TABLE2_10 = Collections.unmodifiableMap(content);
+
+        // Table 2 ----------------------------------------
+        List<String> thisTableSubTypes = Collections.unmodifiableList(Arrays.asList(
+                "8144", "9120/3", "9045/3", "9133/3", "8810/3", "8890/3", "8900/3", "8920/3", "8910/3", "8901/3", "8912/3", "9040/3", "8802/3",
+                "8071", "8074"));
+        for (String site : HEAD_AND_NECK_2018_TABLE2_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 3 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"));
+        for (String site : HEAD_AND_NECK_2018_TABLE3_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 4 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList(
+                "8560", "8083", "8082", "8052", "8074", "8051", "8013", "8249", "8041"));
+        for (String site : HEAD_AND_NECK_2018_TABLE4_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 5 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList("8075"));
+        for (String site : HEAD_AND_NECK_2018_TABLE5_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 6 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList("8071", "8072", "8086", "8085"));
+        for (String site : HEAD_AND_NECK_2018_TABLE6_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 7 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList(
+                "8147", "8941", "8310", "8201", "8144", "8012", "8520", "8470", "8430", "8450", "8525", "8500", "8500/2", "8020",
+                "8013", "8041"));
+        for (String site : HEAD_AND_NECK_2018_TABLE7_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 8 ----------------------------------------
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList(
+                "9310/3", "9330/3", "9220/3", "9240/3", "9180/3", "9181/3", "9187/3", "9192/3", "9193/3"));
+        for (String site : HEAD_AND_NECK_2018_TABLE8_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
+
+        // Table 9: No SubTypes
+        // Table 10: No SubTypes
+
+        HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE = Collections.unmodifiableMap(content);
     }
 
+    public static final Map<String, Map<String, List<String>>> HEAD_AND_NECK_2018_TABLE_FOR_SITE;
+    static {
+        Map<String, Map<String, List<String>>> content = new HashMap<>();
+
+        // Table 2 ----------------------------------------------------------------------------------------------------------------------
+        Map<String, List<String>> thisTableRows = new HashMap<>();
+        thisTableRows.put("8140", Collections.unmodifiableList(Arrays.asList("8144"))); // Adenocarcinoma 8140
+        thisTableRows.put("8082", Collections.unmodifiableList(Arrays.asList())); // Lymphoepithelial carcinoma 8082
+        thisTableRows.put("9540/3", Collections.unmodifiableList(Arrays.asList())); // Malignant peripheral nerve sheath tumor 9540/3
+        thisTableRows.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
+        thisTableRows.put("8720", Collections.unmodifiableList(Arrays.asList())); // Mucosal melanoma 8720
+        thisTableRows.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        thisTableRows.put("8072", Collections.unmodifiableList(Arrays.asList())); // Non-keratinizing squamous cell carcinoma 8072
+        thisTableRows.put("8023", Collections.unmodifiableList(Arrays.asList())); // NUT carcinoma 8023*
+        thisTableRows.put("9522/3", Collections.unmodifiableList(Arrays.asList())); // Olfactory neuroblastoma 9522/3
+        thisTableRows.put("9364", Collections.unmodifiableList(Arrays.asList())); // Primitive neuroectodermal tumor 9364
+        thisTableRows.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "9045/3", "9133/3", "8810/3", "8890/3", "8900/3", "8920/3", "8910/3", "8901/3", "8912/3", "9040/3", "8802/3"))); // Sarcoma 8800/3
+        thisTableRows.put("8020", Collections.unmodifiableList(Arrays.asList())); // Sinonasal undifferentiated carcinoma 8020
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8071", "8074"))); // Squamous cell carcinoma 8070
+        thisTableRows.put("9081", Collections.unmodifiableList(Arrays.asList())); // Teratocarcinosarcoma 9081
+        for (String site : HEAD_AND_NECK_2018_TABLE2_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 3 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma 8200
+        thisTableRows.put("9370", Collections.unmodifiableList(Arrays.asList())); // Chordoma 9370
+        thisTableRows.put("8260", Collections.unmodifiableList(Arrays.asList())); // Nasopharyngeal papillary adenocarcinoma 8260
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"))); // Squamous cell carcinoma NOS 8070
+        for (String site : HEAD_AND_NECK_2018_TABLE3_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 4 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma 8200
+        thisTableRows.put("9220", Collections.unmodifiableList(Arrays.asList())); // Chondrosarcoma 9220
+        thisTableRows.put("8850", Collections.unmodifiableList(Arrays.asList())); // Liposarcoma 8850
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8560", "8083", "8082", "8052", "8074", "8051"))); // Squamous cell carcinoma (SCC) 8070
+        thisTableRows.put("8240", Collections.unmodifiableList(Arrays.asList("8013", "8249", "8041"))); // Well-differentiated neuroendocrine carcinoma 8240
+        for (String site : HEAD_AND_NECK_2018_TABLE4_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 5 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("9140", Collections.unmodifiableList(Arrays.asList())); // Kaposi sarcoma 9140
+        thisTableRows.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
+        thisTableRows.put("8825", Collections.unmodifiableList(Arrays.asList())); // Myofibroblastic sarcoma 8825
+        thisTableRows.put("8720", Collections.unmodifiableList(Arrays.asList())); // Oral mucosal melanoma 8720
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8075"))); // Squamous cell carcinoma 8070
+        for (String site : HEAD_AND_NECK_2018_TABLE5_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 6 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma 8200
+        thisTableRows.put("8525", Collections.unmodifiableList(Arrays.asList())); //Polymorphous adenocarcinoma 8525
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8071", "8072", "8086", "8085"))); //Squamous cell carcinoma 8070
+        for (String site : HEAD_AND_NECK_2018_TABLE6_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 7 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8550", Collections.unmodifiableList(Arrays.asList())); // Acinic cell carcinoma 8550
+        thisTableRows.put("8140", Collections.unmodifiableList(Arrays.asList("8147", "8941", "8310", "8201", "8144", "8012", "8520", "8470", "8430", "8450", "8525", "8500", "8500/2", "8020"))); // Adenocarcinoma 8140
+        thisTableRows.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma 8200
+        thisTableRows.put("8980", Collections.unmodifiableList(Arrays.asList())); // Carcinosarcoma 8980
+        thisTableRows.put("8440", Collections.unmodifiableList(Arrays.asList())); // Cystadenocarcinoma 8440
+        thisTableRows.put("8562", Collections.unmodifiableList(Arrays.asList())); // Epithelial-myoepithelial carcinoma 8562
+        thisTableRows.put("8082", Collections.unmodifiableList(Arrays.asList())); // Lymphoepithelial carcinoma (LEC) 8082
+        thisTableRows.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        thisTableRows.put("8246", Collections.unmodifiableList(Arrays.asList("8013", "8041"))); // Neuroendocrine carcinoma 8246
+        thisTableRows.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
+        thisTableRows.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous adenocarcinoma 8410
+        thisTableRows.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList())); // Squamous cell carcinoma 8070
+        for (String site : HEAD_AND_NECK_2018_TABLE7_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 8 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("9270/3", Collections.unmodifiableList(Arrays.asList("9310/3"))); // Ameloblastic carcinoma-primary type 9270/3
+        thisTableRows.put("9341", Collections.unmodifiableList(Arrays.asList())); // Clear cell odontogenic carcinoma 9341*
+        thisTableRows.put("9302", Collections.unmodifiableList(Arrays.asList())); // Ghost cell odontogenic carcinoma 9302*
+        thisTableRows.put("8980/3", Collections.unmodifiableList(Arrays.asList("9310/3", "9330/3"))); // Odontogenic carcinosarcoma 8980/3
+        thisTableRows.put("8800/3", Collections.unmodifiableList(Arrays.asList("9220/3", "9240/3", "9180/3", "9181/3", "9187/3", "9192/3", "9193/3"))); // Sarcoma NOS 8800/3
+        thisTableRows.put("9180/3", Collections.unmodifiableList(Arrays.asList("9220/3", "9240/3", "9180/3", "9181/3", "9187/3", "9192/3", "9193/3"))); // Osteosarcoma 9180/3
+        thisTableRows.put("9920/3", Collections.unmodifiableList(Arrays.asList("9220/3", "9240/3", "9180/3", "9181/3", "9187/3", "9192/3", "9193/3"))); // Chondrosarcoma grade 2/3 9920/3
+        for (String site : HEAD_AND_NECK_2018_TABLE8_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 9 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8420", Collections.unmodifiableList(Arrays.asList())); // Ceruminous adenocarcinoma 8420
+        thisTableRows.put("8140", Collections.unmodifiableList(Arrays.asList())); // Endolymphatic sac tumor 8140
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList())); // Squamous cell carcinoma of the middle ear 8070
+        for (String site : HEAD_AND_NECK_2018_TABLE9_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        // Table 10 ----------------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8690", Collections.unmodifiableList(Arrays.asList())); // Carotid body paraganglioma 8690
+        for (String site : HEAD_AND_NECK_2018_TABLE10_SITES) {
+            content.put(site, thisTableRows);
+        }
+
+        HEAD_AND_NECK_2018_TABLE_FOR_SITE = Collections.unmodifiableMap(content);
+    }
 
 }

@@ -596,7 +596,7 @@ public abstract class MphGroup {
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
 
-                if (!icd1.equals(icd2)) {
+                if (!i1.getHistology().equals(i2.getHistology())) {
                     boolean isPresent1 = _listToTest.contains(icd1);
                     if (!isPresent1) isPresent1 = _listToTest.contains(i1.getHistology());
                     boolean isPresent2 = _listToTest.contains(icd2);

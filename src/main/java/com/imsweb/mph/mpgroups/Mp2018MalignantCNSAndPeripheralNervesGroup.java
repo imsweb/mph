@@ -95,7 +95,6 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
     // Malignant CNS and Peripheral Nerves Histology Rules
     // C470-C479, C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
     // (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
-
     public Mp2018MalignantCNSAndPeripheralNervesGroup() {
         super(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
                 "C470-C479, C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753", null,

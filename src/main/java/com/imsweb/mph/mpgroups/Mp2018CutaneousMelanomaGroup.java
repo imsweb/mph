@@ -52,7 +52,6 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
     // Cutaneous Melanoma Multiple Primary Rules – Text
     // C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
     // Rules Apply to Cases Diagnosed 1/1/2007 to 12/31/2018
-    // TODO - This cannot have an overlapping yearInclusions with the Mp2007 rule!
     public Mp2018CutaneousMelanomaGroup() {
         super(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME, "C440-C449", null,
                 "8720-8780", null, "2-3,6", "2007-2018");

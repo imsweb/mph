@@ -147,7 +147,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 List<String> list1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.getOrDefault(i1.getPrimarySite(), null);
                 List<String> list2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.getOrDefault(i2.getPrimarySite(), null);
 
-                if ((list1 != null) || (list2 != null)) {
+                if ((list1 != null) && (list2 != null)) {
                     String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
 
                     if (!i1.getHistology().equals(i2.getHistology())) {
@@ -269,7 +269,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary when separate, non-contiguous tumors are on the same row in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M13") {
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();

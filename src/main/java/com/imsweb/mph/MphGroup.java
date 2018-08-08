@@ -544,11 +544,6 @@ public abstract class MphGroup {
                 // A histology not on the table counts as a different row.
 
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> subTypes1 = _tableToTest.get(icd1);
-                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
-                List<String> subTypes2 = _tableToTest.get(icd2);
-                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
-
                 int foundRow1 = -1; int foundRow2 = -1; int rowIndex = 0;
                 for (Map.Entry<String, List<String>> entry : _tableToTest.entrySet()) {
                     if (entry.getKey().equals(icd1) || entry.getValue().contains(icd1) || entry.getKey().equals(i1.getHistology()) || entry.getValue().contains(i1.getHistology())) {

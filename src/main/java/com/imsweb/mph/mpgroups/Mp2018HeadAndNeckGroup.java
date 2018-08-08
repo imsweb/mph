@@ -6,6 +6,7 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
@@ -139,40 +140,98 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        /*
-        // Rule M10	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10", MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES, false);
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
-         */
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M6");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M6") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> list1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.getOrDefault(i1.getPrimarySite(), null);
+                List<String> list2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.getOrDefault(i2.getPrimarySite(), null);
+
+                if ((list1 != null) || (list2 != null)) {
+                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+
+                    if (!i1.getHistology().equals(i2.getHistology())) {
+                        boolean isPresent1 = list1.contains(icd1);
+                        if (!isPresent1) isPresent1 = list1.contains(i1.getHistology());
+                        boolean isPresent2 = list2.contains(icd2);
+                        if (!isPresent2) isPresent2 = list2.contains(i2.getHistology());
+
+                        if (isPresent1 && isPresent2) {
+                            result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        }
+                    }
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add("  • Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add("  • Different NOS: Colloid-type adenocarcinoma 8144 is a subtype of adenocarcinoma NOS 8140; Sarcomatoid carcinoma 8074 is a subtype of squamous cell carcinoma 8070. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        /*
-        // Rule M12	Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M12", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions is multiple primaries.");
-         */
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, List<String>> table1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i1.getPrimarySite(), null);
+                Map<String, List<String>> table2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i2.getPrimarySite(), null);
+
+                if (table1 == null && table2 == null) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Could not find both histologies in one of the tables.");
+                }
+                else {
+                    // Different rows in any column. So a histology in column 1 and a histology on a different row in column 3 would be a situation where this rule would apply.
+                    // A histology not on the table counts as a different row.
+                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                    int foundRow1 = -1, rowIndex = 0;
+                    if (table1 != null) {
+                        for (Map.Entry<String, List<String>> entry : table1.entrySet()) {
+                            if (entry.getKey().equals(icd1) || entry.getValue().contains(icd1) || entry.getKey().equals(i1.getHistology()) || entry.getValue().contains(i1.getHistology())) {
+                                foundRow1 = rowIndex;
+                            }
+                            if (foundRow1 >= 0) break;
+                            rowIndex++;
+                        }
+                    }
+                    int foundRow2 = -1;
+                    if (table2 != null) {
+                        rowIndex = 0;
+                        for (Map.Entry<String, List<String>> entry : table2.entrySet()) {
+                            if (entry.getKey().equals(icd2) || entry.getValue().contains(icd2) || entry.getKey().equals(i2.getHistology()) || entry.getValue().contains(i2.getHistology())) {
+                                foundRow2 = rowIndex;
+                            }
+                            if (foundRow2 >= 0) break;
+                            rowIndex++;
+                        }
+                    }
+
+                    // Both histologies not in the table is a manual review.
+                    if (foundRow1 == -1 && foundRow2 == -1) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Could not find both histologies in one of the tables.");
+                    }
+                    // One histology not in the table counts as a different row.
+                    if ((foundRow1 >= 0 && foundRow2 == -1) || (foundRow1 == -1 && foundRow2 >= 0)) {
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
+                    // Different rows.
+                    else if (foundRow1 != foundRow2) {
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are separate, non-contiguous tumors on different rows in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate, non-contiguous tumors on different rows in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions is multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
-
-
-
         // Rule M8	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
-        // TODO
         rule = new MphRuleDiagnosisDate(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M8");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Scopes are NED");
@@ -185,25 +244,13 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9	Abstract a single primary (the invasive)when an in situ tumor is diagnosed after an invasive tumor.
-        // TODO
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is there an in situ tumor diagnosed after an in invasive tumor?");
-        rule.setReason("An in situ tumor diagnosed after an invasive tumor is a single primary.");
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M9", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Tables 2-10 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M10	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        // TODO
         rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M10", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS");
@@ -214,8 +261,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        // TODO
-        rule = new MphRuleBehavior(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M11");
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M11", false);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
@@ -223,16 +269,42 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary when separate, non-contiguous tumors are on the same row in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        /*
-        // Rule M11	Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
-        rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
-         */
-        // TODO
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M13");
-        rule.setQuestion("");
-        rule.setReason("");
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M13") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, List<String>> table1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i1.getPrimarySite(), null);
+                Map<String, List<String>> table2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i2.getPrimarySite(), null);
+
+                if (table1 != null && table2 != null) {
+                    if (table1.equals(table2)) {
+                        // Same histology for both tumors,OR
+                        // In the same row, one tumor is in Column 1, and one tumor is in Column 3.
+
+                        String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                        List<String> subTypes1 = table1.get(icd1);
+                        if (subTypes1 == null) subTypes1 = table1.get(i1.getHistology());
+                        List<String> subTypes2 = table1.get(icd2);
+                        if (subTypes2 == null) subTypes2 = table1.get(i2.getHistology());
+
+                        // Same histology and both in the table.
+                        if (subTypes1 != null && subTypes2 != null && i1.getHistology().equals(i2.getHistology())) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            // One in Column 1, and one in Column 3.
+                        } else if (subTypes1 != null && subTypes2 == null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            // One in Column 1, and one in Column 3.
+                        } else if (subTypes1 == null && subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        }
+                    }
+                }
+                return result;
+            }
+        };
+
+        rule.setQuestion("Are separate, non-contiguous tumors on the same row in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate, non-contiguous tumors on the same row in the appropriate site table (Tables 2-10) in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
@@ -240,10 +312,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13	Abstract a single primary  when none of the previous rules apply.
-        // TODO
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M13");
-        rule.setQuestion("");
-        rule.setReason("");
         rule.getNotes().add("Use caution when applying this default rule. Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

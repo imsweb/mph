@@ -557,6 +557,7 @@ public class MphConstants {
     public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList(
             "C312", "C310", "C301", "C300", "C098", "C079", "C081", "C080", "C090", "C091", "C099"));
 
+
     public static final List<String> HEAD_AND_NECK_2018_TABLE2_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319", "C410"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE3_SITES = Collections.unmodifiableList(Arrays.asList(
@@ -576,7 +577,6 @@ public class MphConstants {
             "C301", "C442"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE10_SITES = Collections.unmodifiableList(Arrays.asList(
             "C479"));
-
 
     public static final Map<String, List<String>> HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE;
     static {

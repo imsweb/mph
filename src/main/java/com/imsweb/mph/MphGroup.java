@@ -502,6 +502,10 @@ public abstract class MphGroup {
                 // Same histology for both tumors,OR
                 // In the same row, one tumor is in Column 1, and one tumor is in Column 3.
 
+                // 1. Histology A = Histology B (in either column 1 or column 3)
+                // 2. Histology A in Column 1; Histology B in column 3
+                // 3. It is not possible for Histology A != Histology B and both be in column 3. In other words, two subtypes in column 3 cannot satisfy this rule.
+
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 List<String> subTypes1 = _tableToTest.get(icd1);
                 if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
@@ -509,13 +513,25 @@ public abstract class MphGroup {
                 if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
 
                 // Same histology and both in the table.
-                if (subTypes1 != null && subTypes2 != null && i1.getHistology().equals(i2.getHistology())) {
+                if (i1.getHistology().equals(i2.getHistology())) {
+                    if (subTypes1 != null && subTypes2 != null) {
+                        // Both in Column 1
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    } else {
+                        // Both in Column 3
+                        for (Map.Entry<String, List<String>> entry : _tableToTest.entrySet()) {
+                            if ((entry.getValue().contains(icd1) || entry.getValue().contains(i1.getHistology())) &&
+                                (entry.getValue().contains(icd2) || entry.getValue().contains(i2.getHistology()))) {
+                                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                                break;
+                            }
+                        }
+                    }
+                // One in Column 1, and one in Column 3.
+                } else if (subTypes1 != null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 // One in Column 1, and one in Column 3.
-                } else if (subTypes1 != null && subTypes2 == null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                // One in Column 1, and one in Column 3.
-                } else if (subTypes1 == null && subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
+                } else if (subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
             }
@@ -541,7 +557,7 @@ public abstract class MphGroup {
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) {
 
                 // Different rows in any column. So a histology in column 1 and a histology on a different row in column 3 would be a situation where this rule would apply.
-                // A histology not on the table counts as a different row.
+                // A histology not on the table counts as a different row. Both not in the table raises a Questionable.
 
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 int foundRow1 = -1; int foundRow2 = -1; int rowIndex = 0;

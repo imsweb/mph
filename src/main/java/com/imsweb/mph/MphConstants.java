@@ -327,9 +327,9 @@ public class MphConstants {
 
 
     public static final List<String> BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-        "8310", "8035", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070", "8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3",
-        "9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3", "8910/3", "8901/3", "8920/3", "8910/3", "8901/3", "8574/3", "8246"));
-
+        "8035", "8201/3", "8022/3", "8310", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070",
+        "8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3", "9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3",
+        "8910/3", "8901/3", "8574/3", "8246"));
 
     public static final Map<String, List<String>> BREAST_2018_TABLE3_ROWS;
 
@@ -339,9 +339,7 @@ public class MphConstants {
         content.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma (ACC) 8200
         content.put("8983", Collections.unmodifiableList(Arrays.asList())); // Adenomyoepithelioma with carcinoma 8983
         content.put("8401", Collections.unmodifiableList(Arrays.asList())); // Apocrine carcinoma 8401
-        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035"))); // Carcinoma NST 8500
-        content.put("8501", Collections.unmodifiableList(Arrays.asList())); // Comedocarcinoma 8501
-        content.put("8201", Collections.unmodifiableList(Arrays.asList())); // Cribriform carcinoma 8201
+        content.put("8500", Collections.unmodifiableList(Arrays.asList("8035", "8201/3", "8022/3"))); // Carcinoma NST 8500
         content.put("8315", Collections.unmodifiableList(Arrays.asList("8310"))); // Glycogen-rich clear cell carcinoma 8315
         content.put("8530", Collections.unmodifiableList(Arrays.asList())); // Inflammatory carcinoma 8530
         content.put("8314", Collections.unmodifiableList(Arrays.asList())); // Lipid-rich carcinoma 8314
@@ -356,8 +354,7 @@ public class MphConstants {
         content.put("8503", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
         content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
         content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
-        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3", "8910/3", "8901/3", "8920/3", "8910/3", "8901/3"))); // Sarcoma NOS 8800
-        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3", "8910/3", "8901/3", "8920/3", "8910/3", "8901/3"))); // Note: Rhabdomyosarcoma 8900 is also a NOS
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3", "8910/3", "8901/3"))); // Sarcoma NOS 8800
         content.put("8410", Collections.unmodifiableList(Arrays.asList())); // Sebaceous carcinoma 8410
         content.put("8502", Collections.unmodifiableList(Arrays.asList())); // Secretory carcinoma 8502
         content.put("8490", Collections.unmodifiableList(Arrays.asList())); // Signet ring carcinoma 8490
@@ -428,6 +425,9 @@ public class MphConstants {
     }
 
     public static final List<String> LUNG_2018_TABLE3_SUBTYPES = GroupUtility.expandList("8000-8040, 8042-9999");
+    public static final List<String> LUNG_2018_TABLE3_NO_8046_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
+        "8551", "8200", "8480", "8333", "8250/3", "8253/2", "8253/3", "8257/3", "8265", "8254", "8250/2", "8256/3", "8260", "8144", "8230",
+        "9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3", "8249", "8045", "8013", "8240", "8083", "8071", "8072"));
 
     public static final Map<String, List<String>> LUNG_2018_TABLE3_ROWS;
 

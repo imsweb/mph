@@ -559,24 +559,28 @@ public class MphConstants {
 
 
     public static final List<String> HEAD_AND_NECK_2018_TABLE2_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C300", "C310", "C311", "C312", "C313", "C318", "C319", "C410"));
+            "C300", "C310", "C311", "C312", "C313", "C318", "C319"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE3_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C110", "C111", "C112", "C113", "C118", "C119"));
+            "C110", "C112", "C113", "C118", "C119"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE4_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C129", "C130", "C131", "C132", "C138", "C139", "C339"));
+            "C129", "C130", "C131", "C132", "C138", "C139", "C320", "C321", "C322", "C323", "C328", "C329", "C339"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE5_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C020", "C021", "C022", "C023", "C028", "C029", "C030", "C031", "C039", "C040", "C041", "C048", "C049",
+            "C020", "C021", "C022", "C023", "C024", "C028", "C029",
+            "C030", "C031", "C039", "C040", "C041", "C048", "C049",
             "C050", "C051", "C052", "C058", "C059", "C060", "C061", "C062", "C068", "C069"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE6_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C100", "C101", "C102", "C103", "C104", "C108", "C109", "C019", "C090", "C091", "C098", "C099", "C111"));
+            "C100", "C101", "C102", "C103", "C104", "C108", "C109", "C019", "C090", "C091", "C098", "C099"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE7_SITES = Collections.unmodifiableList(Arrays.asList(
             "C079", "C080", "C081", "C088", "C089"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE8_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C030", "C031", "C039", "C410", "C411"));
+            "C410", "C411"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE9_SITES = Collections.unmodifiableList(Arrays.asList(
             "C301", "C442"));
     public static final List<String> HEAD_AND_NECK_2018_TABLE10_SITES = Collections.unmodifiableList(Arrays.asList(
             "C479"));
+    public static final List<String> HEAD_AND_NECK_2018_TABLEC111_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C111"));
+
 
     public static final Map<String, List<String>> HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE;
     static {
@@ -632,6 +636,12 @@ public class MphConstants {
 
         // Table 9: No SubTypes
         // Table 10: No SubTypes
+
+        // Special C111 Site - Combine Table 3 and 6.
+        thisTableSubTypes = Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072", "8086", "8085"));
+        for (String site : HEAD_AND_NECK_2018_TABLEC111_SITES) {
+            content.put(site, thisTableSubTypes);
+        }
 
         HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE = Collections.unmodifiableMap(content);
     }
@@ -748,6 +758,18 @@ public class MphConstants {
         for (String site : HEAD_AND_NECK_2018_TABLE10_SITES) {
             content.put(site, thisTableRows);
         }
+
+        // Special Table C111 -------------------------------------------------------------------------------------------------------------
+        thisTableRows = new HashMap<>();
+        thisTableRows.put("8200", Collections.unmodifiableList(Arrays.asList())); // Adenoid cystic carcinoma 8200
+        thisTableRows.put("9370", Collections.unmodifiableList(Arrays.asList())); // Chordoma 9370
+        thisTableRows.put("8260", Collections.unmodifiableList(Arrays.asList())); // Nasopharyngeal papillary adenocarcinoma 8260
+        thisTableRows.put("8525", Collections.unmodifiableList(Arrays.asList())); //Polymorphous adenocarcinoma 8525
+        thisTableRows.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072", "8086", "8085"))); //Squamous cell carcinoma 8070
+        for (String site : HEAD_AND_NECK_2018_TABLEC111_SITES) {
+            content.put(site, thisTableRows);
+        }
+
 
         HEAD_AND_NECK_2018_TABLE_FOR_SITE = Collections.unmodifiableMap(content);
     }

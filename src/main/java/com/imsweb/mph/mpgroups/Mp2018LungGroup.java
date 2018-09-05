@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +18,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
+import static com.imsweb.mph.mpgroups.GroupUtility.containsElement;
+import static com.imsweb.mph.mpgroups.GroupUtility.createHistologyBehaviorList;
+
 public class Mp2018LungGroup extends MphGroup {
+
+
+    // LUNG 2018 - AS OF 9/5/2018
 
     /*
     Lung Multiple Primary Rules
@@ -46,9 +53,10 @@ public class Mp2018LungGroup extends MphGroup {
         •	Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.
         •	Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.
 
-    Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        Note 1:	The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.
-        Note 2:	The same row means the tumors are:
+    Rule M7	Abstract a single primary when separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note 1:	Tumors must be in the same lung.
+        Note 2:	The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.
+        Note 3:	The same row means the tumors are:
         •	The same histology (same four-digit ICD-O code) OR
         •	One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR
         •	A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)
@@ -139,12 +147,16 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> subTypes8041 = MphConstants.LUNG_2018_TABLE3_ROWS.get("8041");
-                List<String> subTypes8046 = MphConstants.LUNG_2018_TABLE3_ROWS.get("8046");
+                List<String> subTypes8041 = new ArrayList<String>(MphConstants.LUNG_2018_TABLE3_ROWS.get("8041"));
+                List<String> subTypes8046 = new ArrayList<String>(MphConstants.LUNG_2018_8046_AND_SUBTYPES);
                 if ((subTypes8041 != null) && (subTypes8046 != null)) {
-                    String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                    if (((hist1.equals("8041") || subTypes8041.contains(hist1)) && (hist2.equals("8046") || subTypes8046.contains(hist2))) ||
-                            ((hist1.equals("8046") || subTypes8046.contains(hist1)) && (hist2.equals("8041") || subTypes8041.contains(hist2)))) {
+                    subTypes8041.add("8041");
+                    subTypes8046.add("8046");
+                    List<String> i1list = createHistologyBehaviorList(i1);
+                    List<String> i2list = createHistologyBehaviorList(i2);
+
+                    if ((containsElement(i1list, subTypes8041) && containsElement(i2list, subTypes8046)) ||
+                        (containsElement(i1list, subTypes8046) && containsElement(i2list, subTypes8041))) {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     }
                 }
@@ -162,7 +174,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M6", MphConstants.LUNG_2018_TABLE3_NO_8046_SUBTYPES, false);
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M6", MphConstants.LUNG_2018_TABLE3_SUBTYPES, false);
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -170,10 +182,11 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M7	Abstract a single primary when separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3_ROWS, true);
-        rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
+        rule.setQuestion("Are separate/non-contiguous tumors in the same lung on the same rows in Table 3 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
+        rule.getNotes().add("Tumors must be in the same lung.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");

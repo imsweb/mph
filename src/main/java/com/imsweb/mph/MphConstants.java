@@ -403,7 +403,10 @@ public class MphConstants {
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
 
-    public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
+
+    // URINARY 2018 - AS OF 9/5/2018
+
+    //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
     public static final List<String> URINARY_2018_TABLE2_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8144", "8480", "8310", "8380", "9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3",
@@ -424,10 +427,18 @@ public class MphConstants {
         URINARY_2018_TABLE2_ROWS = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> LUNG_2018_TABLE3_SUBTYPES = GroupUtility.expandList("8000-8040, 8042-9999");
-    public static final List<String> LUNG_2018_TABLE3_NO_8046_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
+
+    // LUNG 2018 - AS OF 9/5/2018
+
+    public static final List<String> LUNG_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8551", "8200", "8480", "8333", "8250/3", "8253/2", "8253/3", "8257/3", "8265", "8254", "8250/2", "8256/3", "8260", "8144", "8230",
         "9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3", "8249", "8045", "8013", "8240", "8083", "8071", "8072"));
+
+    public static final List<String> LUNG_2018_8046_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
+        "8012", "8022", "8023", "8031", "8032", "8046", "8070", "8071", "8072", "8082", "8083", "8140", "8144", "8200", "8230", "8250",
+        "8253", "8254", "8256", "8257", "8260", "8265", "8333", "8430", "8480", "8551", "8560", "8562", "8580",
+        "8714", "8720", "8800", "8842", "8982", "9040", "9041", "9042", "9043", "9133", "9173"));
+
 
     public static final Map<String, List<String>> LUNG_2018_TABLE3_ROWS;
 
@@ -439,18 +450,19 @@ public class MphConstants {
         content.put("8560", Collections.unmodifiableList(Arrays.asList())); // Adenosquamous carcinoma 8560
         content.put("8562", Collections.unmodifiableList(Arrays.asList())); // Epithelial-myoepithelial carcinoma 8562
         content.put("9133", Collections.unmodifiableList(Arrays.asList())); // Epithelioid hemangioepithelioma 9133
+        content.put("8031", Collections.unmodifiableList(Arrays.asList())); // Giant cell carcinoma 8031
         content.put("8580/3", Collections.unmodifiableList(Arrays.asList())); // Intrapulmonary thymoma (arising within lung) 8580/3
         content.put("8012", Collections.unmodifiableList(Arrays.asList())); // Large cell carcinoma 8012
         content.put("8082", Collections.unmodifiableList(Arrays.asList())); // Lymphoepithelioma-like carcinoma 8082
         content.put("8720", Collections.unmodifiableList(Arrays.asList())); // Melanoma 8720
         content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
         content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
-        content.put("8046", GroupUtility.expandList("8000-8012, 8014-8040, 8042-8044, 8046-8239, 8241-8248, 8250-9999")); // Non-small cell carcinoma 8046
         content.put("8023/3", Collections.unmodifiableList(Arrays.asList())); // NUT carcinoma 8023/3*
         content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // PEComa malignant 8714/3
         content.put("8022", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic carcinoma 8022
         content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3"))); // Sarcoma NOS 8800/3
         content.put("8041", Collections.unmodifiableList(Arrays.asList("8249", "8045", "8013", "8240"))); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8032", Collections.unmodifiableList(Arrays.asList())); // Spindle cell carcinoma 8032
         content.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"))); // Squamous carcinoma 8070
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
@@ -554,9 +566,14 @@ public class MphConstants {
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
+
+    // HEAD & NECK 2018 - AS OF 9/5/2018
+
     public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList(
             "C312", "C310", "C301", "C300", "C098", "C079", "C081", "C080", "C090", "C091", "C099"));
 
+    public static final List<String> HEAD_AND_NECK_2018_QUESTIONABLE_SITES = Collections.unmodifiableList(Arrays.asList(
+        "C000", "C001", "C002", "C003", "C004", "C005", "C006", "C008", "C009"));
 
     public static final List<String> HEAD_AND_NECK_2018_TABLE2_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319"));

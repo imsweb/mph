@@ -13,6 +13,9 @@ import org.apache.commons.lang3.Range;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
+import static com.imsweb.mph.mpgroups.GroupUtility.containsElement;
+import static com.imsweb.mph.mpgroups.GroupUtility.createHistologyBehaviorList;
+
 public abstract class MphGroup {
 
     protected String _id;

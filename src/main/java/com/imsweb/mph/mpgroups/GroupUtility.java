@@ -435,4 +435,24 @@ public class GroupUtility {
     }
 
 
+    /**
+     * Checks if one element from the first list is in the second.
+     */
+    public static boolean containsElement(List<String> list1, List<String> list2) {
+        for (String s : list1) {
+            if (list2.contains(s)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Creates a list of Histology and Histology / Behavior.
+     */
+    public static List<String> createHistologyBehaviorList(MphInput i1) {
+        List<String> i1list = new ArrayList<String>();
+        i1list.add(i1.getHistology() + "/" + i1.getBehavior());
+        i1list.add(i1.getHistology());
+        return i1list;
+    }
+
 }

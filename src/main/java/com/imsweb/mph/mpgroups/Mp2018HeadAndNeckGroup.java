@@ -18,6 +18,9 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018HeadAndNeckGroup extends MphGroup {
 
+
+    // HEAD & NECK 2018 - AS OF 9/5/2018
+
     /*
     Head and Neck Multiple Primary Rules
     C000-C148, C300-C339, C410, C411, C442, C479
@@ -190,7 +193,12 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 Map<String, List<String>> table1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i1.getPrimarySite(), null);
                 Map<String, List<String>> table2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.getOrDefault(i2.getPrimarySite(), null);
 
-                if (table1 == null && table2 == null) {
+                if (MphConstants.HEAD_AND_NECK_2018_QUESTIONABLE_SITES.contains(i1.getPrimarySite()) &&
+                    MphConstants.HEAD_AND_NECK_2018_QUESTIONABLE_SITES.contains(i2.getPrimarySite())) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Two separate lesions of lip is rare; no histology tables exist for lip in Terms and Definitions.");
+                }
+                else if (table1 == null && table2 == null) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Could not find both histologies in one of the tables.");
                 }

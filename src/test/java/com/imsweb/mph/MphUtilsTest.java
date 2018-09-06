@@ -4525,41 +4525,42 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M8", output.getStep());
 
         // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
-        i1.setHistologyIcdO3("8160");
+        // •	In both lungs OR
+        // •	In the same lung OR
+        // •	Single tumor in one lung; multiple tumors in contralateral lung
+        i1.setPrimarySite("C342");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
-        i2.setHistologyIcdO3("8165");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setPrimarySite("C349");
+        i2.setHistologyIcdO3("8253");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8430");
-        i2.setHistologyIcdO3("8022");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8560");
-        i2.setHistologyIcdO3("8083");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8200");
-        i2.setHistologyIcdO3("8200");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8560");
-        i2.setHistologyIcdO3("8560");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("9500");
-        i2.setHistologyIcdO3("9501");
-        output = _utils.computePrimaries(i1, i2);
-
-
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors diagnosed less than or equal to 60 days"));
         Assert.assertEquals("M9", output.getStep());
-        i1.setDateOfDiagnosisMonth("09");
-        i2.setDateOfDiagnosisMonth("08");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8253");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors diagnosed less than or equal to 60 days"));
+        Assert.assertEquals("M9", output.getStep());
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8253");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors diagnosed less than or equal to 60 days"));
         Assert.assertEquals("M9", output.getStep());
@@ -4570,24 +4571,26 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M9", output.getStep());
 
         // Rule M10	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
-        i1.setHistologyIcdO3("8160");
+        i1.setPrimarySite("C342");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("09");
-        i1.setBehaviorIcdO3("2");
-        i1.setLaterality("2");
-        i2.setHistologyIcdO3("8165");
-        i2.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisMonth("08");
+        i2.setPrimarySite("C349");
+        i2.setHistologyIcdO3("8253");
         i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
+        i2.setLaterality("1");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("05");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor diagnosed following an invasive tumor in the same lung"));
         Assert.assertEquals("M10", output.getStep());
         // Does not apply.
-        i1.setLaterality("2");
-        i2.setLaterality("3");
+        i1.setLaterality("3");
+        i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M10", output.getStep());
         // Does not apply.
@@ -4600,22 +4603,24 @@ public class MphUtilsTest {
 
         // Rule M11	Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
         i1.setPrimarySite("C342");
-        i1.setHistologyIcdO3("8155");
-        i1.setDateOfDiagnosisYear("2016");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("2");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("0");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
         i2.setPrimarySite("C349");
-        i2.setHistologyIcdO3("8153");
-        i2.setDateOfDiagnosisYear("2018");
+        i2.setHistologyIcdO3("8253");
         i2.setBehaviorIcdO3("3");
-        i2.setLaterality("1");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("06");
         // Questionable.
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertEquals("M11", output.getStep());
         // Applies.
-        i1.setLaterality("4");
+        i1.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
@@ -4629,27 +4634,17 @@ public class MphUtilsTest {
 
         // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
         i1.setPrimarySite("C342");
-        i1.setHistologyIcdO3("8155");
+        i1.setHistologyIcdO3("8253");
         i1.setBehaviorIcdO3("3");
+        i1.setLaterality("2");
         i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth(null);
-        i1.setLaterality("2");
+        i1.setDateOfDiagnosisMonth("7");
         i2.setPrimarySite("C349");
-        i2.setHistologyIcdO3("8153");
+        i2.setHistologyIcdO3("8140");
         i2.setBehaviorIcdO3("2");
-        i2.setDateOfDiagnosisYear("2017");
-        i2.setDateOfDiagnosisMonth("11");
-        i1.setLaterality("2");
-        output = _utils.computePrimaries(i1, i2);
-        // Questionable
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(10, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("invasive tumor diagnosed less than or equal to 60 days after an in situ "));
-        Assert.assertEquals("M12", output.getStep());
-        // Applies.
+        i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("6");
-        i2.setDateOfDiagnosisMonth("7");
+        i2.setDateOfDiagnosisMonth("06");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());

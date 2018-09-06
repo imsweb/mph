@@ -476,6 +476,10 @@ public class MphConstants {
     public static final String CNS_2018_CRANIAL_NERVES_SITES = "C721-C725";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
 
+    public static final List<String> CNS_2018_MENINGIOMAS = Collections.unmodifiableList(Arrays.asList(
+            "9530/0", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0"));
+
+
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0",
             "8825/1", "9550/0", "9560/1", "8815/1"));

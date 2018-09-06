@@ -206,7 +206,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().equals("C725") && i2.getPrimarySite().equals("C725")) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                    if (MphConstants.CNS_2018_MENINGIOMAS.contains(icd1) && MphConstants.CNS_2018_MENINGIOMAS.contains(icd2)) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 }
                 return result;
             }

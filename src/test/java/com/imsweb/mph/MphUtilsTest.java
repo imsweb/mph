@@ -5188,18 +5188,21 @@ public class MphUtilsTest {
         // •	Bilateral (both left and right) cranial meninges
         // •	The midline AND in either the right or left cranial meninges
         i1.setPrimarySite("C725");
-        i1.setHistologyIcdO3("9390");
+        i1.setHistologyIcdO3("9530");
         i1.setBehaviorIcdO3("0");
         i1.setDateOfDiagnosisYear("2017");
         i2.setPrimarySite("C725");
-        i2.setHistologyIcdO3("9390");
+        i2.setHistologyIcdO3("9534");
         i2.setBehaviorIcdO3("0");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertEquals("M9", output.getStep());
-        i1.setBehaviorIcdO3("1");
+        i1.setHistologyIcdO3("9530");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9537");
+        i2.setBehaviorIcdO3("0");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());

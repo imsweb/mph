@@ -498,7 +498,6 @@ public class MphConstants {
         content.put("9582/0", Collections.unmodifiableList(Arrays.asList())); // Granular cell tumor of the sellar region 9582/0
         content.put("9161/1", Collections.unmodifiableList(Arrays.asList())); // Hemangioblastoma 9161/1
         content.put("9120/0", Collections.unmodifiableList(Arrays.asList())); // Hemangioma 9120/0
-        content.put("9173/0", Collections.unmodifiableList(Arrays.asList())); // Hygroma 9173/0
         content.put("8890/0", Collections.unmodifiableList(Arrays.asList())); // Leiomyoma 8890/0
         content.put("8860/0", Collections.unmodifiableList(Arrays.asList("8880/0"))); // Lipoma 8860/0
         content.put("8728/0", Collections.unmodifiableList(Arrays.asList("8728/1"))); // Meningeal melanocytosis 8728/0

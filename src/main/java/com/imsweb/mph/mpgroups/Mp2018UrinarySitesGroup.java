@@ -244,7 +244,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M10", MphConstants.URINARY_2018_TABLE2_ROWS, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M10", MphConstants.URINARY_2018_TABLE2_ROWS, true, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");

@@ -3060,6 +3060,7 @@ public class MphUtilsTest {
 
         // Rule M16	Abstract a single primary when none of the previous rules apply.
         // Can't seem to get to this rule.
+        /*
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8523");
         i1.setBehaviorIcdO3("3");
@@ -3077,6 +3078,7 @@ public class MphUtilsTest {
         Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
         Assert.assertEquals("M16", output.getStep());
+        */
     }
 
     @Test
@@ -3131,7 +3133,8 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M3", output.getStep());
 
-        // Rule M4	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx, third CxXx and/or fourth characters C18X.
+        // Rule M4	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third CxXx character.
+        // TODO
         i1.setPrimarySite("C180");
         i1.setHistologyIcdO3("8221");
         i1.setBehaviorIcdO3("2");
@@ -3233,7 +3236,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M5", output.getStep());
 
-        // Rule M6	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         i1.setPrimarySite("C180");
         i1.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("2");
@@ -3292,6 +3295,108 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M6", output.getStep());
+
+        // Rule M7	Abstract multiple primaries when a subsequent tumor arises at the anastomotic site AND:
+        // •	 One tumor is a NOS and the other is a subtype/variant of that NOS OR
+        // •	 The subsequent tumor occurs greater than 24 months after original tumor resection OR
+        // • The subsequent tumor arises in the mucosa
+        // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
+        // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
+        // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
+        // AND there was surgery done (surgery codes 30, 32, 40, 31),
+        i1.setPrimarySite("C180");
+        i1.setHistologyIcdO3("8561");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2016");
+        i2.setPrimarySite("C181");
+        i2.setHistologyIcdO3("8212");
+        i2.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setSurgeryOfPrimarySite("30");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(6, output.getAppliedRules().size());
+        Assert.assertEquals("M8", output.getStep());
+
+        // Rule M8	Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
+        // •	 The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
+        // •	 The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
+        // •	 The pathologist or clinician documents an anastomotic recurrence
+        // ABH 7/19/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
+        /*
+        i1.setPrimarySite("C180");
+        i1.setHistologyIcdO3("8561");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2016");
+        i2.setPrimarySite("C180");
+        i2.setHistologyIcdO3("8212");
+        i2.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertEquals("M9", output.getStep());
+        */
+
+        // Rule M9	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the fourth characters C18X.
+        // TODO
+
+
+
+        // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
+        i1.setPrimarySite("C180");
+        i1.setHistologyIcdO3("8221");
+        i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2016");
+        i2.setPrimarySite("C180");
+        i2.setHistologyIcdO3("8266");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("more than one (1) year apart"));
+        Assert.assertEquals("M10", output.getStep());
+        i1.setPrimarySite("C180");
+        i1.setHistologyIcdO3("8221");
+        i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2016");
+        i2.setPrimarySite("C180");
+        i2.setHistologyIcdO3("8266");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(7, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("more than one (1) year apart"));
+        Assert.assertEquals("M10", output.getStep());
+        // Does not apply
+        i1.setPrimarySite("C180");
+        i1.setHistologyIcdO3("8221");
+        i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setPrimarySite("C180");
+        i2.setHistologyIcdO3("8266");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M10", output.getStep());
+
+
+        // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+
+        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
+
+        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
+
+        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
+
+        // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
+
+
+
+
+
 
         // Rule M7	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         i1.setPrimarySite("C180");
@@ -3367,86 +3472,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M7", output.getStep());
 
-        // Rule M8	Abstract multiple primaries when a subsequent tumor arises at the anastomotic site AND:
-        // •	 One tumor is a NOS and the other is a subtype/variant of that NOS OR
-        // •	 The subsequent tumor occurs greater than 24 months after original tumor resection OR
-        // • The subsequent tumor arises in the mucosa
-        // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
-        // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
-        // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
-        // AND there was surgery done (surgery codes 30, 32, 40, 31),
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8561");
-        i1.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2016");
-        i2.setPrimarySite("C181");
-        i2.setHistologyIcdO3("8212");
-        i2.setBehaviorIcdO3("2");
-        i2.setDateOfDiagnosisYear("2018");
-        i2.setSurgeryOfPrimarySite("30");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertEquals("M8", output.getStep());
 
-        // Rule M9	Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
-        // •	 The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
-        // •	 The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
-        // •	 The pathologist or clinician documents an anastomotic recurrence
-        // ABH 7/19/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
-        /*
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8561");
-        i1.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2016");
-        i2.setPrimarySite("C180");
-        i2.setHistologyIcdO3("8212");
-        i2.setBehaviorIcdO3("2");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertEquals("M9", output.getStep());
-        */
-
-        // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8221");
-        i1.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2016");
-        i2.setPrimarySite("C180");
-        i2.setHistologyIcdO3("8266");
-        i2.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("more than one (1) year apart"));
-        Assert.assertEquals("M10", output.getStep());
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8221");
-        i1.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2016");
-        i2.setPrimarySite("C180");
-        i2.setHistologyIcdO3("8266");
-        i2.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("more than one (1) year apart"));
-        Assert.assertEquals("M10", output.getStep());
-        // Does not apply
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8221");
-        i1.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setPrimarySite("C180");
-        i2.setHistologyIcdO3("8266");
-        i2.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M10", output.getStep());
 
         // Rule M11	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
         i1.setPrimarySite("C180");
@@ -4127,10 +4153,12 @@ public class MphUtilsTest {
         i1.setPrimarySite("C649");
         i1.setHistologyIcdO3("8960");
         i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2016");
         i2.setPrimarySite("C649");
         i2.setHistologyIcdO3("8960");
         i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
@@ -4273,12 +4301,12 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M8", output.getStep());
 
         // Rule M9	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        i1.setHistologyIcdO3("8400");
+        i1.setHistologyIcdO3("8312");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2016");
         i1.setDateOfDiagnosisMonth("1");
-        i2.setHistologyIcdO3("8401");
+        i2.setHistologyIcdO3("8317");
         i2.setBehaviorIcdO3("2");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
@@ -4301,12 +4329,12 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M9", output.getStep());
 
         // Rule M10	Abstract a single primary (recurrence) when tumors recur less than or equal to 3 years apart.
-        i1.setHistologyIcdO3("8400");
-        i1.setBehaviorIcdO3("3");
+        i1.setHistologyIcdO3("8312");
+        i1.setBehaviorIcdO3("2");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2015");
         i1.setDateOfDiagnosisMonth("");
-        i2.setHistologyIcdO3("8401");
+        i2.setHistologyIcdO3("8317");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
@@ -4465,10 +4493,16 @@ public class MphUtilsTest {
         Assert.assertNotEquals("M6", output.getStep());
 
         // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8041");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("2");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("09");
+        i2.setPrimarySite("C349");
         i2.setHistologyIcdO3("8041");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2016");
         i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
@@ -5808,38 +5842,23 @@ public class MphUtilsTest {
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8500");
+        i1.setHistologyIcdO3("8010");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2015");
         i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8501");
+        i2.setHistologyIcdO3("8310");
         i2.setBehaviorIcdO3("2");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8010");
-        i2.setHistologyIcdO3("8310");
-        output = _utils.computePrimaries(i1, i2);
-
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(9, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
+        Assert.assertEquals("M11", output.getStep());
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8140");
         output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8144");
-        i2.setHistologyIcdO3("8144");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8480");
-        i2.setHistologyIcdO3("8380");
-        output = _utils.computePrimaries(i1, i2);
-
-        i1.setHistologyIcdO3("8041");
-        i2.setHistologyIcdO3("8070");
-        output = _utils.computePrimaries(i1, i2);
-
-
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
@@ -5872,17 +5891,17 @@ public class MphUtilsTest {
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("2");
+        i1.setHistologyIcdO3("8010");
+        i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisMonth("6");
         i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8310");
+        i2.setBehaviorIcdO3("2");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("2");
+        i2.setDateOfDiagnosisMonth("5");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(11, output.getAppliedRules().size());
@@ -5920,18 +5939,22 @@ public class MphUtilsTest {
 
         // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
         i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8630");
+        i1.setHistologyIcdO3("8010");
         i1.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2016");
-        i2.setPrimarySite("C675");
-        i2.setHistologyIcdO3("8630");
-        i2.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("6");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8310");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("6");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(14, output.getAppliedRules().size());
+        Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        Assert.assertEquals("M16", output.getStep());
+        Assert.assertEquals("M15", output.getStep());
     }
 
 }

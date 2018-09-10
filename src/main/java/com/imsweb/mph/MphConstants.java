@@ -376,12 +376,12 @@ public class MphConstants {
         content.put("8560", Collections.unmodifiableList(Arrays.asList())); // Adenosquamous carcinoma 8560
         content.put("8045", Collections.unmodifiableList(Arrays.asList())); // Combined small cell carcinoma 8045
         content.put("8153", Collections.unmodifiableList(Arrays.asList())); // Gastrinoma 8153
-        content.put("8936", Collections.unmodifiableList(Arrays.asList())); // Gastrointestinal stromal tumor classified as malignant 8936
+        content.put("8936/3", Collections.unmodifiableList(Arrays.asList())); // Gastrointestinal stromal tumor classified as malignant 8936
         content.put("8244", Collections.unmodifiableList(Arrays.asList("8243"))); // Mixed adenoneuroendocrine carcinoma 8244
         content.put("8246", Collections.unmodifiableList(Arrays.asList("8013", "8041"))); // Neuroendocrine carcinoma 8246
         content.put("8240", Collections.unmodifiableList(Arrays.asList("8241", "8249", "8156"))); // Neuroendocrine tumor Grade 1 (G1) 8240
-        content.put("8032", Collections.unmodifiableList(Arrays.asList())); // Spindle cell carcinoma 8032
         content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8890/3"))); // Sarcoma NOS 8800/3
+        content.put("8032", Collections.unmodifiableList(Arrays.asList())); // Spindle cell carcinoma 8032
         content.put("8070", Collections.unmodifiableList(Arrays.asList())); // Squamous cell carcinoma 8070
         COLON_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }

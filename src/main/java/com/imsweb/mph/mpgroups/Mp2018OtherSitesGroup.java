@@ -17,6 +17,9 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018OtherSitesGroup extends MphGroup {
 
+
+    // OTHER SITES 2018 - AS OF
+
     /*
     Other Sites Multiple Primary Rules – Text
     Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast,

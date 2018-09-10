@@ -211,6 +211,22 @@ public abstract class MphGroup {
         }
     }
 
+    public static class MphRuleTopography4Code extends MphRule {
+
+        public MphRuleTopography4Code(String groupId, String step) {
+            super(groupId, step);
+            setQuestion("Are there tumors in sites with ICD-O site codes that differ at the fourth character (C18X)?");
+            setReason("Tumors in sites with ICD-O site codes that differ at the fourth character (C18X) are multiple primaries.");
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if (!i1.getPrimarySite().substring(3, 4).equals(i2.getPrimarySite().substring(3, 4)))
+                result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+            return result;
+        }
+    }
 
 
     public static class MphRuleBehavior extends MphRule {
@@ -490,17 +506,20 @@ public abstract class MphGroup {
 
         private Map<String, List<String>> _tableToTest;
         boolean _mustBeSameBehavior;
+        boolean _mustBeSameSide;
 
-        public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameBehavior) {
+        public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameBehavior, boolean mustBeSameSide) {
             super(groupId, step);
             _tableToTest = tableToTest;
             _mustBeSameBehavior = mustBeSameBehavior;
+            _mustBeSameSide = mustBeSameSide;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
-            if ((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior()))) {
+            if (((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior())))  &&
+                ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))) {
 
                 // Same histology for both tumors,OR
                 // In the same row, one tumor is in Column 1, and one tumor is in Column 3.

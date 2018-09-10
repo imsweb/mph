@@ -90,6 +90,79 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
     Rule M13	Abstract a single primary when multiple tumors do not meet any of the above criteria.
         Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
 
+
+
+
+
+
+Malignant CNS and Peripheral Nerves Multiple Primary Rules
+C470-C479, C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
+(Excludes lymphoma and leukemia – M9590-M9992 and Kaposi sarcoma M9140)
+
+
+    Rule M5	Abstract multiple primariesii when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
+        •	Original non-malignant tumor followed by malignant tumor
+            	Patient had a resection of the non-malignant tumor (not the same tumor) OR
+            	It is unknown/not documented if the patient had a resection
+        •	Simultaneous non-malignant and malignant tumors
+            	Abstract both the malignant and the non-malignant tumors
+        Note 1:	The rules are hierarchical. Only use when previous rules do not apply.
+        Note 2:	See Table 2 in the Equivalent Terms and Definitions for a listing of CNS sites.
+        Note 3:	A non-malignant CNS tumor and a malignant CNS tumor are always multiple primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.
+
+    Rule M6	Abstract multiple primariesii when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        Note 1:	This is a change from the 2007 Rules.
+        Note 2:	Abstracting GBM as a new primary will allow analysis of:
+        •	The number of tumors that recur as a more aggressive histology (GBM)
+        •	The time interval between occurrence of the glial or astrocytic tumors and a GBM
+        •	Which histologies are more likely to recur as a GBM
+     
+    Rule M7	Abstract a single primaryi when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
+        •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        Example: 	The patient had a resection of an anaplastic astrocytoma 9401 in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.
+        Note 1:	Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:
+        •	Glioblastoma multiforme
+        •	Gliomatosis cerebri
+        Note 2:	Metastases are never used to determine multiple primaries. Seeding metastasis is often noted for the following tumors:
+        •	Glioblastoma multiforme
+        •	pNET-medulloblastoma
+        •	Oligodendroglioma
+        Note 3:	Hereditary syndromes frequently exhibit multiple tumors including the following:
+        •	Neurofibromatosis type 1 (NF1)
+        	Malignant peripheral nerve sheath tumors (MPNST)
+        •	Neurofibromatosis type 2 (NF2)
+        	Anaplastic ependymomas
+        	Meningiomas
+        Note 4:	Most malignant neoplasms are single tumors with the exception of those listed in this rule.
+        Note 5:	This is a change from/clarification to previous rules.
+
+    Rule M8	Abstract multiple primariesii when multiple tumors are present in any of the following sites or subsites:
+        •	Any lobe of the brain C710-C719 AND any other part of CNS
+        •	Cerebral meninges C700 AND spinal meninges C701
+        •	Cerebral meninges C700 AND any other part of CNS
+        •	Any of the cranial nerves C721-C725 AND any other part of the CNS
+        •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        •	Spinal meninges C701 AND any other part of CNS
+        Rule M9	Abstract multiple primariesii when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note: 	The tumors may be subtypes/variants of the same or different NOS histologies.
+        •	Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries.
+        •	Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.
+
+    Rule M10	Abstract a single primaryi when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note:	The same row means the tumors are:
+        •	The same histology (same four-digit ICD-O code) OR
+        •	One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR
+        •	A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)
+
+    Rule M11	Abstract multiple primariesii when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note:	Each row in the table is a distinctly different histology.
+
+    Rule M12	Abstract a single primaryi when multiple tumors do not meet any of the above criteria.
+        Note:	Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.
+
+
     */
 
     // Malignant CNS and Peripheral Nerves Histology Rules
@@ -258,7 +331,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

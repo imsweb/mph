@@ -18,6 +18,9 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018BreastGroup extends MphGroup {
 
+    // BREAST 2018 - AS OF 9/10/2018
+
+
     /*
     Breast Histology Coding Rules
     C500-C506, C508-C509
@@ -48,7 +51,7 @@ public class Mp2018BreastGroup extends MphGroup {
         Note 4:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
         Note 5:	The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.
 
-    Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular:
+    Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
         •	Both/all tumors may be a mixture of carcinoma NST/duct and lobular OR
         •	One tumor may be duct and another tumor lobular
         Note 1:	Tumors must be in the same breast.
@@ -251,7 +254,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3_ROWS, true);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M11", MphConstants.BREAST_2018_TABLE3_ROWS, true, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");

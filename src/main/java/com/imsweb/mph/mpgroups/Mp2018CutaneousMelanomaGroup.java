@@ -15,6 +15,8 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018CutaneousMelanomaGroup extends MphGroup {
 
+    // MELANOMA 2018 - AS OF 9/10/2018
+
     /*
     Cutaneous Melanoma Multiple Primary Rules – Text
     C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)

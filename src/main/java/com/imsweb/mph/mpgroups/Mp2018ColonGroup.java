@@ -196,6 +196,8 @@ public class Mp2018ColonGroup extends MphGroup {
         // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
         // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
         // AND there was surgery done (surgery codes 30, 32, 40, 31),
+        // ABH 9/14/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
+        /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -229,12 +231,13 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("The tumor may or may not invade into the colon wall or adjacent tissue.");
         rule.getNotes().add("These rules are hierarchical. Only use this rule when previous rules do not apply.");
         _rules.add(rule);
+        */
 
         // Rule M8	Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
         // •	 The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
         // •	 The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
         // •	 The pathologist or clinician documents an anastomotic recurrence
-        // ABH 7/19/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
+        // ABH 9/14/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
         /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
             @Override

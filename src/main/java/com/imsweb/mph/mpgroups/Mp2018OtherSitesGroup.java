@@ -18,7 +18,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2018OtherSitesGroup extends MphGroup {
 
 
-    // OTHER SITES 2018 - AS OF
+    // OTHER SITES 2018 - AS OF 9/14/2018
 
     /*
     Other Sites Multiple Primary Rules – Text

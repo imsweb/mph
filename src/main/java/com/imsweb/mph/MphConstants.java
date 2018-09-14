@@ -528,7 +528,8 @@ public class MphConstants {
     }
 
     public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9085", "9084", "9538", "9474", "9471", "9477", "9476", "9475",
+            "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9445", "9441", "9442",
+            "9085", "9084", "9538", "9474", "9471", "9477", "9476", "9475",
             "8728", "9451", "9425", "9395", "9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"));
 
     public static final Map<String, List<String>> MALIGNANT_CNS_2018_TABLE3_ROWS;
@@ -549,7 +550,7 @@ public class MphConstants {
         content.put("9391", Collections.unmodifiableList(Arrays.asList("9392", "9396", "9393"))); // Ependymoma 9391
         content.put("9133", Collections.unmodifiableList(Arrays.asList())); // Epithelioid hemangioendothelioma 9133
         content.put("9064", Collections.unmodifiableList(Arrays.asList())); // Germinoma 9064
-        content.put("9440", Collections.unmodifiableList(Arrays.asList())); // Glioblastoma multiforme 9440
+        content.put("9440", Collections.unmodifiableList(Arrays.asList("9445", "9441", "9442"))); // Glioblastoma multiforme 9440
         content.put("9080", Collections.unmodifiableList(Arrays.asList("9085", "9084"))); // Immature teratoma 9080
         content.put("9530", Collections.unmodifiableList(Arrays.asList("9538"))); // Malignant meningioma 9530
         content.put("9540", Collections.unmodifiableList(Arrays.asList())); // Malignant peripheral nerve sheath tumor 9540

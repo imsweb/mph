@@ -99,7 +99,7 @@ if (version.endsWith('-SNAPSHOT'))
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '4.10'
 }
 
 

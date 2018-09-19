@@ -1,4 +1,7 @@
 ## Multiple Primary and Histology Coding Rules Version History
+**Changes in version 1.11**
+
+ - Changed Hemato data provider to use two years instead of one to calculate same primary and transforms to.
 
 **Changes in version 1.10**
 

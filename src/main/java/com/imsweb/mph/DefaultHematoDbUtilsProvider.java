@@ -96,7 +96,12 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     @Override
-    public boolean isAcuteTransformation(String leftCode, String rightCode, int year) {
+    public boolean canTransformTo(String fromCode, String toCode, int fromYear, int toYear) {
+        return confirmTransformTo(fromCode, toCode, fromYear) || confirmTransformFrom(toCode, fromCode, toYear);
+    }
+
+
+    private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (_transformToDto.containsKey(leftCode)) {
@@ -107,8 +112,8 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return false;
     }
 
-    @Override
-    public boolean isChronicTransformation(String leftCode, String rightCode, int year) {
+
+    private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (_transformFromDto.containsKey(leftCode)) {

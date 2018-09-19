@@ -269,15 +269,16 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                if (isTransformation(morph1, morph2, latestYear)) {
+                int year1 = Integer.valueOf(i1.getDateOfDiagnosisYear()), year2 = Integer.valueOf(i2.getDateOfDiagnosisYear());
+                //If one disease can not be converted to another, no need to check other criteria
+                if (isTransformation(morph1, morph2, year1, year2)) {
+                    int latestDx = GroupUtility.compareDxDate(i1, i2);
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (daysApart == -1 || latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear))
+                    else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
@@ -318,14 +319,15 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                if (isTransformation(morph1, morph2, latestYear)) {
+                int year1 = Integer.valueOf(i1.getDateOfDiagnosisYear()), year2 = Integer.valueOf(i2.getDateOfDiagnosisYear());
+                //If one disease can not be converted to another, no need to check other criteria
+                if (isTransformation(morph1, morph2, year1, year2)) {
+                    int latestDx = GroupUtility.compareDxDate(i1, i2);
                     if (latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
+                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2) &&
                             !MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
@@ -350,14 +352,16 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
-                if (isTransformation(morph1, morph2, latestYear)) {
+
+                int year1 = Integer.valueOf(i1.getDateOfDiagnosisYear()), year2 = Integer.valueOf(i2.getDateOfDiagnosisYear());
+                //If one disease can not be converted to another, no need to check other criteria
+                if (isTransformation(morph1, morph2, year1, year2)) {
+                    int latestDx = GroupUtility.compareDxDate(i1, i2);
                     if (latestDx == -1) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestYear) &&
+                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2) &&
                             MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
@@ -428,21 +432,18 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    private static boolean isTransformation(String leftCode, String rightCode, int year) {
-        return MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(rightCode,
-                leftCode, year) ||
-                MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(leftCode, rightCode, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(
-                rightCode, leftCode, year);
+    private static boolean isTransformation(String leftCode, String rightCode, int leftYear, int rightYear) {
+        return isChronicToAcuteTransformation(leftCode, rightCode, leftYear, rightYear) || isAcuteToChronicTransformation(leftCode, rightCode, leftYear, rightYear);
     }
 
-    private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(
-                latestMorph, earlierMorph, year);
+    //when a neoplasm is originally diagnosed as a chronic neoplasm AND there is a second diagnosis of an acute neoplasm
+    private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int earlierYear, int latestYear) {
+        return MphUtils.getInstance().getHematoDbUtilsProvider().canTransformTo(earlierMorph, latestMorph, earlierYear, latestYear);
     }
 
-    private static boolean isChronicToAcuteTransformation(String earlierMorph, String latestMorph, int year) {
-        return MphUtils.getInstance().getHematoDbUtilsProvider().isAcuteTransformation(earlierMorph, latestMorph, year) || MphUtils.getInstance().getHematoDbUtilsProvider().isChronicTransformation(
-                latestMorph, earlierMorph, year);
+    //when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm
+    private static boolean isAcuteToChronicTransformation(String earlierMorph, String latestMorph, int earlierYear, int latestYear) {
+        return MphUtils.getInstance().getHematoDbUtilsProvider().canTransformTo(latestMorph, earlierMorph, latestYear, earlierYear);
     }
 
 }

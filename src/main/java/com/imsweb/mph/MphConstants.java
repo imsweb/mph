@@ -403,6 +403,14 @@ public class MphConstants {
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
 
+    public static final Map<String, List<String>> KIDNEY_2018_SUBTYPE_NOS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3", "8912/3")));
+        KIDNEY_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
+    }
+
 
     // URINARY 2018 - AS OF 9/5/2018
 
@@ -564,10 +572,19 @@ public class MphConstants {
         content.put("9362", Collections.unmodifiableList(Arrays.asList("9395"))); // Pineal parenchymal tumor of intermediate differentiation 9362
         content.put("9424", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic xanthroastrocytoma 9424
         content.put("8800", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Sarcoma NOS 8800
-        content.put("9220", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Chondrosarcoma 9220
-        content.put("8890", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Leiomyosarcoma 8890
+        //content.put("9220", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Chondrosarcoma 9220
+        //content.put("8890", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Leiomyosarcoma 8890
         content.put("8815", Collections.unmodifiableList(Arrays.asList())); // Solitary fibrous tumor grade 3 8815
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
+    }
+
+    public static final Map<String, List<String>> MALIGNANT_CNS_2018_SUBTYPE_NOS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("9220", Collections.unmodifiableList(Arrays.asList("9240")));
+        content.put("8890", Collections.unmodifiableList(Arrays.asList("8891", "8896")));
+        MALIGNANT_CNS_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
     }
 
 

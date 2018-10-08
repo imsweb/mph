@@ -130,7 +130,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M7", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES, false);
+        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M7", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES, null, false);
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
@@ -146,7 +146,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getPrimarySite().equals("C725") && i2.getPrimarySite().equals("C725")) {
+                if (i1.getPrimarySite().equals("C700") && i2.getPrimarySite().equals("C700")) {
                     String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                     if (MphConstants.CNS_2018_MENINGIOMAS.contains(icd1) && MphConstants.CNS_2018_MENINGIOMAS.contains(icd2)) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -186,7 +186,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS, false, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS, null, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 6 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 6 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

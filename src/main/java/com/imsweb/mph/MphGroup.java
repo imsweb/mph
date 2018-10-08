@@ -505,12 +505,15 @@ public abstract class MphGroup {
     public static class MphRuleSameRowInTable extends MphRule {
 
         private Map<String, List<String>> _tableToTest;
+        private Map<String, List<String>> _subtypeNOS;
         boolean _mustBeSameBehavior;
         boolean _mustBeSameSide;
 
-        public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, boolean mustBeSameBehavior, boolean mustBeSameSide) {
+        public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, Map<String, List<String>> subtypeNOS,
+                                     boolean mustBeSameBehavior, boolean mustBeSameSide) {
             super(groupId, step);
             _tableToTest = tableToTest;
+            _subtypeNOS = subtypeNOS;
             _mustBeSameBehavior = mustBeSameBehavior;
             _mustBeSameSide = mustBeSameSide;
         }
@@ -521,6 +524,8 @@ public abstract class MphGroup {
             if (((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior())))  &&
                 ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))) {
 
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+
                 // Same histology for both tumors,OR
                 // In the same row, one tumor is in Column 1, and one tumor is in Column 3.
 
@@ -528,33 +533,42 @@ public abstract class MphGroup {
                 // 2. Histology A in Column 1; Histology B in column 3
                 // 3. It is not possible for Histology A != Histology B and both be in column 3. In other words, two subtypes in column 3 cannot satisfy this rule.
 
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                List<String> subTypes1 = _tableToTest.get(icd1);
-                if (subTypes1 == null) subTypes1 = _tableToTest.get(i1.getHistology());
-                List<String> subTypes2 = _tableToTest.get(icd2);
-                if (subTypes2 == null) subTypes2 = _tableToTest.get(i2.getHistology());
+                Map<String, List<String>> loopList = null;
+                boolean valueSet = false;
+                for (int loop = 0; (loop < 2) && (!valueSet); loop++) {
+                    if (loop == 0) loopList = _subtypeNOS;
+                    else if (loop == 1) loopList = _tableToTest;
 
-                // Same histology and both in the table.
-                if (i1.getHistology().equals(i2.getHistology())) {
-                    if (subTypes1 != null && subTypes2 != null) {
-                        // Both in Column 1
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    } else {
-                        // Both in Column 3
-                        for (Map.Entry<String, List<String>> entry : _tableToTest.entrySet()) {
-                            if ((entry.getValue().contains(icd1) || entry.getValue().contains(i1.getHistology())) &&
-                                (entry.getValue().contains(icd2) || entry.getValue().contains(i2.getHistology()))) {
+                    if (loopList != null) {
+                        List<String> subTypes1 = loopList.get(icd1);
+                        if (subTypes1 == null) subTypes1 = loopList.get(i1.getHistology());
+                        List<String> subTypes2 = loopList.get(icd2);
+                        if (subTypes2 == null) subTypes2 = loopList.get(i2.getHistology());
+
+                        // Same histology and both in the table.
+                        if (i1.getHistology().equals(i2.getHistology())) {
+                            if (subTypes1 != null && subTypes2 != null) {
+                                // Both in Column 1
                                 result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                                break;
+                            } else {
+                                // Both in Column 3
+                                for (Map.Entry<String, List<String>> entry : loopList.entrySet()) {
+                                    if ((entry.getValue().contains(icd1) || entry.getValue().contains(i1.getHistology())) &&
+                                            (entry.getValue().contains(icd2) || entry.getValue().contains(i2.getHistology()))) {
+                                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                                        break;
+                                    }
+                                }
                             }
+                            // One in Column 1, and one in Column 3.
+                        } else if (subTypes1 != null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            // One in Column 1, and one in Column 3.
+                        } else if (subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
+
                     }
-                // One in Column 1, and one in Column 3.
-                } else if (subTypes1 != null && (subTypes1.contains(icd2) || subTypes1.contains(i2.getHistology()))) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                // One in Column 1, and one in Column 3.
-                } else if (subTypes2 != null && (subTypes2.contains(icd1) || subTypes2.contains(i1.getHistology()))) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
             }
             return result;
@@ -615,12 +629,14 @@ public abstract class MphGroup {
     public static class MphRuleTwoOrMoreDifferentSubTypesInTable extends MphRule {
 
         private List<String> _listToTest;
+        private Map<String, List<String>> _subtypeNOS;
         boolean _mustBeSameSide;
 
-        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, List<String> listToTest, boolean mustBeSameSide) {
+        public MphRuleTwoOrMoreDifferentSubTypesInTable(String groupId, String step, List<String> listToTest, Map<String, List<String>> subtypeNOS, boolean mustBeSameSide) {
             super(groupId, step);
             _listToTest = listToTest;
             _mustBeSameSide = mustBeSameSide;
+            _subtypeNOS = subtypeNOS;
         }
 
         @Override
@@ -630,13 +646,32 @@ public abstract class MphGroup {
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
 
                 if (!i1.getHistology().equals(i2.getHistology())) {
-                    boolean isPresent1 = _listToTest.contains(icd1);
-                    if (!isPresent1) isPresent1 = _listToTest.contains(i1.getHistology());
-                    boolean isPresent2 = _listToTest.contains(icd2);
-                    if (!isPresent2) isPresent2 = _listToTest.contains(i2.getHistology());
 
-                    if (isPresent1 && isPresent2) {
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    boolean bothAreSubTypeNOS = false;
+                    if (_subtypeNOS != null) {
+                        List<String> subtypeNOSList1 = _subtypeNOS.get(icd1);
+                        if (subtypeNOSList1 == null) subtypeNOSList1 = _subtypeNOS.get(i1.getHistology());
+                        List<String> subtypeNOSList2 = _subtypeNOS.get(icd2);
+                        if (subtypeNOSList2 == null) subtypeNOSList2 = _subtypeNOS.get(i2.getHistology());
+
+                        if (subtypeNOSList1 != null) {
+                            bothAreSubTypeNOS = subtypeNOSList1.contains(icd2);
+                            if (!bothAreSubTypeNOS) bothAreSubTypeNOS = subtypeNOSList1.contains(i2.getHistology());
+                        } else if (subtypeNOSList2 != null) {
+                            bothAreSubTypeNOS = subtypeNOSList2.contains(icd1);
+                            if (!bothAreSubTypeNOS) bothAreSubTypeNOS = subtypeNOSList2.contains(i1.getHistology());
+                        }
+                    }
+
+                    if (!bothAreSubTypeNOS) {
+                        boolean isPresent1 = _listToTest.contains(icd1);
+                        if (!isPresent1) isPresent1 = _listToTest.contains(i1.getHistology());
+                        boolean isPresent2 = _listToTest.contains(icd2);
+                        if (!isPresent2) isPresent2 = _listToTest.contains(i2.getHistology());
+
+                        if (isPresent1 && isPresent2) {
+                            result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        }
                     }
                 }
             }

@@ -4776,7 +4776,7 @@ public class MphUtilsTest {
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("2");
         i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("7");
+        i1.setDateOfDiagnosisMonth("07");
         i2.setPrimarySite("C349");
         i2.setHistologyIcdO3("8140");
         i2.setBehaviorIcdO3("2");

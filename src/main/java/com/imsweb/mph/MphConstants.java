@@ -12,10 +12,6 @@ import java.util.Map;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
 
-// TODO Question BREAST_2018_TABLE3 - Is a blank value (List with no elements) matchable to other blank values?
-// TODO Question BREAST_2018_TABLE3 - Is 8900 considered to be the same row as 8800? And do they have the same subtypes?
-
-
 
 public class MphConstants {
 
@@ -363,6 +359,15 @@ public class MphConstants {
         BREAST_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
+    public static final Map<String, List<String>> BREAST_2018_SUBTYPE_NOS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3")));
+        BREAST_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
+    }
+
+
 
     public static final List<String> COLON_2018_TABLE1_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8020", "8200", "8201", "8145", "8142/3", "8510", "8265", "8480", "8430", "8213", "8490", "8143", "8263",
@@ -402,6 +407,14 @@ public class MphConstants {
         content.put("8042", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
+
+    // Rules for SUBTYPE_NOS lookup tables:
+    // 1. These are from items described in the Table #: Specific Histologies, NOS, and Subtypes/Variants.
+    // 2. SubType NOS's are items listed in the first column as "Note: XXXXXX #### is also a NOS with the following subtypes/variants:"
+    // 3. Only the NOS and its subtypes should be in this lookup table.
+    // 4. All of the values below should also be listed under the parent type in the above TABLE1_ROWS as its Subtypes\Variants.
+    // 5. All of the values below should also be listed in the TABLE1_SUBTYPES above as well.
+    // 6. All of these tables are used for the classes MphGroup.MphRuleSameRowInTable() and MphGroup.MphRuleTwoOrMoreDifferentSubTypesInTable().
 
     public static final Map<String, List<String>> KIDNEY_2018_SUBTYPE_NOS;
 

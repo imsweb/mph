@@ -17,11 +17,11 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
-    // NON-MALIGNANT 2018 - AS OF 9/14/2018
+    // NON-MALIGNANT 2018 - AS OF 10/15/2018
 
     /*
     Non-Malignant CNS Multiple Primary Rules
-    C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
+    C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753
     Peripheral nerves C470, C473, C475, C476 (for nerve roots only)
 
     Rule M5	Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
@@ -82,6 +82,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         •	Cerebral meninges C700 AND any other part of CNS
         •	Any cranial nerve(s) C721-C725 AND any other part of the CNS
         •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        •   Spinal cord C720 AND any other part of CNS
         •	Spinal meninges C701 AND any other part of CNS
         (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
          other site in the header besides C700 (C701, C709, C710-C719, C721-C725, C728, C729, C751-C753))
@@ -92,11 +93,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
     */
 
     // Non-Malignant CNS Multiple Primary Rules
-    // C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753
+    // C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753
     // Peripheral nerves C470, C473, C475, C476 (for nerve roots only)
     public Mp2018NonMalignantCNSTumorsGroup() {
         super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
-                "C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476", null, null,
+                "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476", null, null,
                 "", "0-1", "2018-9999");
 
         // Rule M5	Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
@@ -218,9 +219,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // •	Cerebral meninges C700 AND any other part of CNS
         // •	Any cranial nerve(s) C721-C725 AND any other part of the CNS
         // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        // •Spinal cord C720 AND any other part of CNS
         // •	Spinal meninges C701 AND any other part of CNS
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
-        //  other site in the header besides C700 (C701, C709, C710-C719, C721-C725, C728, C729, C751-C753))
+        //  other site in the header besides C700 (C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753))
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -244,6 +246,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 }
                 // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                // •Spinal cord C720 AND any other part of CNS
+                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Spinal meninges C701 AND any other part of CNS

@@ -391,9 +391,12 @@ public class MphConstants {
         COLON_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
 
+
+    // KIDNEY 2018 - AS OF 10/15/2018
+
     public static final List<String> KIDNEY_2018_TABLE1_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "8316", "8317", "8310", "8319", "8311", "8480", "8260", "8510", "8290",
-            "8920/3", "9120/3", "8964/3", "8910/3", "8890/3", "9180/3", "8901/3", "9364/3", "8890/3", "8900/3", "8912/3", "9040/3",
+            "8316", "8317", "8323/3", "8310", "8319", "8311", "8480", "8260", "8510",
+            "9120/3", "8964/3", "8890/3", "9180/3", "9364/3", "8890/3", "8900/3", "8920/3", "8910/3", "8901/3",  "8912/3", "9040/3",
             "8013", "8240"));
 
     public static final Map<String, List<String>> KIDNEY_2018_TABLE1_ROWS;
@@ -401,10 +404,9 @@ public class MphConstants {
     static {
         Map<String, List<String>> content = new HashMap<>();
         content.put("8960", Collections.unmodifiableList(Arrays.asList())); // Nephroblastoma 8960
-        content.put("8312", Collections.unmodifiableList(Arrays.asList("8316", "8317", "8310", "8319", "8311", "8480", "8260", "8510", "8290"))); // Renal cell carcinoma NOS 8312
-        content.put("8963", Collections.unmodifiableList(Arrays.asList())); // Rhabdoid tumor 8963
-        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("8920/3", "9120/3", "8964/3", "8910/3", "8890/3", "9180/3", "8901/3", "9364/3", "8890/3", "8900/3", "8912/3", "9040/3"))); // Sarcoma 8800/3
-        content.put("8042", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
+        content.put("8312", Collections.unmodifiableList(Arrays.asList("8316", "8317", "8323/3", "8310", "8319", "8311", "8480", "8260", "8510"))); // Renal cell carcinoma NOS 8312
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8964/3", "8890/3", "9180/3", "9364/3", "8890/3", "8900/3", "8920/3", "8910/3", "8901/3",  "8912/3", "9040/3"))); // Sarcoma 8800/3
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8013", "8240"))); // Small cell neuroendocrine tumor 8041
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
 
@@ -425,7 +427,7 @@ public class MphConstants {
     }
 
 
-    // URINARY 2018 - AS OF 9/5/2018
+    // URINARY 2018 - AS OF 10/15/2018
 
     //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
@@ -437,7 +439,7 @@ public class MphConstants {
 
     static {
         Map<String, List<String>> content = new HashMap<>();
-        content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480"))); // Adenocarcinoma NOS 8140
+        //content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480"))); // Adenocarcinoma NOS 8140
         content.put("8010", Collections.unmodifiableList(Arrays.asList("8310", "8380"))); // Carcinoma NOS 8010
         content.put("8720/3", Collections.unmodifiableList(Arrays.asList())); // Malignant melanoma 8720/3
         content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // Malignant perivascular epithelioid cell tumor 8714/3
@@ -447,6 +449,24 @@ public class MphConstants {
         content.put("8120", Collections.unmodifiableList(Arrays.asList("8031/3", "8082/3", "8131/3", "8130/2", "8130/3", "8020/3", "8122/3"))); // Urothelial carcinoma 8120
         URINARY_2018_TABLE2_ROWS = Collections.unmodifiableMap(content);
     }
+
+    // Rules for SUBTYPE_NOS lookup tables:
+    // 1. These are from items described in the Table #: Specific Histologies, NOS, and Subtypes/Variants.
+    // 2. SubType NOS's are items listed in the first column as "Note: XXXXXX #### is also a NOS with the following subtypes/variants:"
+    // 3. Only the NOS and its subtypes should be in this lookup table.
+    // 4. All of the values below should also be listed under the parent type in the above TABLE1_ROWS as its Subtypes\Variants.
+    // 5. All of the values below should also be listed in the TABLE1_SUBTYPES above as well.
+    // 6. All of these tables are used for the classes MphGroup.MphRuleSameRowInTable() and MphGroup.MphRuleTwoOrMoreDifferentSubTypesInTable().
+
+    public static final Map<String, List<String>> URINARY_2018_SUBTYPE_NOS;
+
+    static {
+        Map<String, List<String>> content = new HashMap<>();
+        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3", "8912/3")));
+        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3", "8912/3")));
+        URINARY_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
+    }
+
 
 
     // LUNG 2018 - AS OF 9/5/2018
@@ -488,18 +508,20 @@ public class MphConstants {
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
-
     // General Brain Sites
+    public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
     public static final String CNS_2018_BRAIN_SITES = "C710-C719";
-    public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
     public static final String CNS_2018_CEREBRAL_MENINGES_SITES = "C700";
     public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
+    public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
     public static final String CNS_2018_CRANIAL_NERVES_SITES = "C721-C725";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
 
     public static final List<String> CNS_2018_MENINGIOMAS = Collections.unmodifiableList(Arrays.asList(
             "9530/0", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0"));
 
+
+    // NON-MALIGNANT 2018 - AS OF 10/15/2018
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0",
@@ -547,6 +569,8 @@ public class MphConstants {
         content.put("9080/1", Collections.unmodifiableList(Arrays.asList())); // Teratoma 9080/1
         NON_MALIGNANT_CNS_2018_TABLE6_ROWS = Collections.unmodifiableMap(content);
     }
+
+    // MALIGNANT 2018 - AS OF 10/15/2018
 
     public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9445", "9441", "9442",

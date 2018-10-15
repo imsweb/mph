@@ -4318,8 +4318,8 @@ public class MphUtilsTest {
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("two or more different subtypes/variants in Column 3, Table 1"));
         Assert.assertEquals("M6", output.getStep());
-        i1.setHistologyIcdO3("8480");
-        i2.setHistologyIcdO3("8290");
+        i1.setHistologyIcdO3("9120");
+        i2.setHistologyIcdO3("8240");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
@@ -4352,7 +4352,7 @@ public class MphUtilsTest {
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 1"));
         Assert.assertEquals("M7", output.getStep());
-        i1.setHistologyIcdO3("8042");
+        i1.setHistologyIcdO3("8041");
         i2.setHistologyIcdO3("8240");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
@@ -5990,7 +5990,7 @@ public class MphUtilsTest {
         Assert.assertEquals(7, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
         Assert.assertEquals("M9", output.getStep());
-        i1.setHistologyIcdO3("8010");
+        i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8051");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -6062,8 +6062,8 @@ public class MphUtilsTest {
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
         Assert.assertEquals("M11", output.getStep());
-        i1.setHistologyIcdO3("8140");
-        i2.setHistologyIcdO3("8140");
+        i1.setHistologyIcdO3("8031");
+        i2.setHistologyIcdO3("8120");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());

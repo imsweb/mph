@@ -205,7 +205,39 @@ public class Mp2018LungGroup extends MphGroup {
         // •	 In both lungs OR
         // •	 In the same lung OR
         // • Single tumor in one lung; multiple tumors in contralateral lung
-        rule = new MphRuleSimultaneousTumors(MphConstants.MP_2018_LUNG_GROUP_ID, "M9");
+        // Real requirements:
+        // 1. If we cannot determine if the DX Dates are within 60 days of each other, return QUESTIONABLE.
+        // 2. If one of the tumors is for site C349, return QUESTIONABLE.
+        // 3. If one of the tumors has a laterality of 0, 3, 4, 5, or 9, return QUESTIONABLE.
+        // 4. If the tumors are within 60 days of each other, and one tumor is laterality 1 and one tumor is laterality 2, then return SINGLE PRIMARY.
+
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                if (-1 == sixtyDaysApart) {
+                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                }
+                else if (0 == sixtyDaysApart) {
+                    if (GroupUtility.isSiteContained(MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES, i1.getPrimarySite()) ||
+                        GroupUtility.isSiteContained(MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES, i2.getPrimarySite())) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() +
+                                ". Site " + MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES + " is ambiguous to the number of tumors present.");
+                    } else if (MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i1.getLaterality()) ||
+                               MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i2.getLaterality())) {
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". The lateralities for the tumors are ambiguous.");
+                    } else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality())) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are there two or more tumors diagnosed less than or equal to 60 days apart, that are on opposite sides and not site C349?");
+        rule.setReason("Two or more tumors diagnosed less than or equal to 60 days of each other and on opposite sides and not site C349 is a single primary.");
         rule.getNotes().add("Tumors may be combinations of:");
         rule.getNotes().add("  • In situ and invasive OR");
         rule.getNotes().add("  • NOS and subtype/variant (See Table 3 in the Equivalent Terms and Definitions)");

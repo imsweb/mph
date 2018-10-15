@@ -432,15 +432,14 @@ public class MphConstants {
     //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
     public static final List<String> URINARY_2018_TABLE2_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "8144", "8480", "8310", "8380", "9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3",
+            "8140", "8144", "8480", "8310", "8380", "9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3",
             "8013", "8240", "8051", "8031/3", "8082/3", "8131/3", "8130/2", "8130/3", "8020/3", "8122/3"));
 
     public static final Map<String, List<String>> URINARY_2018_TABLE2_ROWS;
 
     static {
         Map<String, List<String>> content = new HashMap<>();
-        //content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480"))); // Adenocarcinoma NOS 8140
-        content.put("8010", Collections.unmodifiableList(Arrays.asList("8310", "8380"))); // Carcinoma NOS 8010
+        content.put("8010", Collections.unmodifiableList(Arrays.asList("8140", "8144", "8480", "8310", "8380"))); // Carcinoma NOS 8010
         content.put("8720/3", Collections.unmodifiableList(Arrays.asList())); // Malignant melanoma 8720/3
         content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // Malignant perivascular epithelioid cell tumor 8714/3
         content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3"))); // Sarcoma NOS 8800/3
@@ -462,14 +461,15 @@ public class MphConstants {
 
     static {
         Map<String, List<String>> content = new HashMap<>();
-        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3", "8912/3")));
-        content.put("8900/3", Collections.unmodifiableList(Arrays.asList("8920/3", "8910/3", "8901/3", "8912/3")));
+        content.put("8140", Collections.unmodifiableList(Arrays.asList("8144", "8480")));
+        content.put("8900", Collections.unmodifiableList(Arrays.asList("8910/3")));
         URINARY_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
     }
 
-
-
-    // LUNG 2018 - AS OF 9/5/2018
+    // LUNG 2018 - AS OF 10/15/2018
+    public static final String LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES = "C349";
+    public static final List<String> LUNG_2018_AMBIGUOUS_LATERALITIES = Collections.unmodifiableList(Arrays.asList(
+            NOT_PAIRED, ONLY_ONE_SIDE_NS, BOTH, MID_LINE, PAIRED_NO_INFORMATION));
 
     public static final List<String> LUNG_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8551", "8200", "8480", "8333", "8250/3", "8253/2", "8253/3", "8257/3", "8265", "8254", "8250/2", "8256/3", "8260", "8144", "8230",
@@ -479,7 +479,6 @@ public class MphConstants {
         "8012", "8022", "8023", "8031", "8032", "8046", "8070", "8071", "8072", "8082", "8083", "8140", "8144", "8200", "8230", "8250",
         "8253", "8254", "8256", "8257", "8260", "8265", "8333", "8430", "8480", "8551", "8560", "8562", "8580",
         "8714", "8720", "8800", "8842", "8982", "9040", "9041", "9042", "9043", "9133", "9173"));
-
 
     public static final Map<String, List<String>> LUNG_2018_TABLE3_ROWS;
 

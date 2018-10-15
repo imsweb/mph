@@ -194,6 +194,14 @@ public class GroupUtility {
     }
 
     /**
+     * checks if one cancers is BOTH, and the other is left or right side
+     */
+    public static boolean areBothAndLeftOrRightSides(String lat1, String lat2) {
+        return (MphConstants.BOTH.equals(lat1) && (MphConstants.RIGHT.equals(lat2) || MphConstants.LEFT.equals(lat2))) ||
+               (MphConstants.BOTH.equals(lat2) && (MphConstants.RIGHT.equals(lat1) || MphConstants.LEFT.equals(lat1)));
+    }
+
+    /**
      * checks if two cases have same and valid site, hist, behavior, date, laterality
      */
     public static boolean sameAndValidMainFields(MphInput i1, MphInput i2) {

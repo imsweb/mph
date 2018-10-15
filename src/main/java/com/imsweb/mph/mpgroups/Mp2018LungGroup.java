@@ -209,7 +209,8 @@ public class Mp2018LungGroup extends MphGroup {
         // 1. If we cannot determine if the DX Dates are within 60 days of each other, return QUESTIONABLE.
         // 2. If one of the tumors is for site C349, return QUESTIONABLE.
         // 3. If one of the tumors has a laterality of 0, 3, 4, 5, or 9, return QUESTIONABLE.
-        // 4. If the tumors are within 60 days of each other, and one tumor is laterality 1 and one tumor is laterality 2, then return SINGLE PRIMARY.
+        // 4. If the tumors are within 60 days of each other, and either one tumor is laterality 1 and one tumor is laterality 2, or
+        //    one tumor is laterality 4 and one tumor is laterality 1 or 2, then return SINGLE PRIMARY.
 
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
             @Override
@@ -229,7 +230,8 @@ public class Mp2018LungGroup extends MphGroup {
                     } else if (MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i1.getLaterality()) ||
                                MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i2.getLaterality())) {
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". The lateralities for the tumors are ambiguous.");
-                    } else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality())) {
+                    } else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()) ||
+                               GroupUtility.areBothAndLeftOrRightSides(i1.getLaterality(), i2.getLaterality())) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
                 }

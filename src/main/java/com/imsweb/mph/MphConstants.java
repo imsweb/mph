@@ -322,9 +322,11 @@ public class MphConstants {
     }
 
 
+    // BREAST 2018 - AS OF 10/26/2018
+
     public static final List<String> BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8035", "8201/3", "8022/3", "8310", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8032", "8070",
-        "8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3", "9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3",
+        "8504/2", "8504/3", "8507", "8509/2", "8509/3", "9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3",
         "8910/3", "8901/3", "8574/3", "8246"));
 
     public static final Map<String, List<String>> BREAST_2018_TABLE3_ROWS;
@@ -347,7 +349,7 @@ public class MphConstants {
         content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
         content.put("8290", Collections.unmodifiableList(Arrays.asList())); // Oncocytic carcinoma 8290
         content.put("8540/3", Collections.unmodifiableList(Arrays.asList())); // Paget disease of the nipple with no underlying tumor 8540/3
-        content.put("8503", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8520/2", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
+        content.put("8503", Collections.unmodifiableList(Arrays.asList("8504/2", "8504/3", "8507", "8509/2", "8509/3"))); // Papillary carcinoma 8503/3
         content.put("9020/3", Collections.unmodifiableList(Arrays.asList())); // Periductal stromal tumor, low grade 9020/3
         content.put("8525", Collections.unmodifiableList(Arrays.asList())); // Polymorphous carcinoma 8525
         content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3", "8910/3", "8901/3"))); // Sarcoma NOS 8800
@@ -427,7 +429,7 @@ public class MphConstants {
     }
 
 
-    // URINARY 2018 - AS OF 10/15/2018
+    // URINARY 2018 - AS OF 10/26/2018
 
     //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 

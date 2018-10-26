@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
 
-    // URINARY 2018 - AS OF 9/5/2018
+    // URINARY 2018 - AS OF 10/26/2018
 
     /*
     Renal Pelvis, Ureter, Bladder, and Other Urinary Multiple Primary Rules
@@ -43,8 +43,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         Note 2:	Use this rule ONLY for noninvasive in situ urothelial carcinoma. For other histologies, continue through the rules.
         Note 3:	Urothelial carcinoma in situ spreads by intramucosal extension and may involve large areas of mucosal surface.  The default for these cases is coding a bladder primary.
 
-    Rule M6	Abstract a single primary when the patient has multiple occurrences of invasive tumors in the bladder that are:
-        •	Papillary urothelial carcinoma 8130/3 AND/OR
+    Rule M6	Abstract a single primary when the patient has multiple occurrences of invasive tumors in the bladder.  Original tumor and subsequent tumor are either:
+        •	Papillary urothelial carcinoma 8130/3 OR
         •	Urothelial carcinoma 8120/3
         Note 1:	This rule applies to subtypes/variants of both urothelial carcinoma and papillary urothelial carcinoma.
         Note 2:	A patient can have only one invasive urothelial bladder tumor per lifetime.
@@ -68,7 +68,18 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         •	Adenocarcinoma NOS and all adenocarcinoma subtypes/variants are included in the carcinoma NOS category (they are all subtypes/variants of carcinoma NOS)
         Example: 	Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows in the first column of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.
 
-    Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+    Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+        Note 1:	This rule applies to all histologies and urinary sites with the exception of invasive urothelial carcinoma of the bladder (see previous rules).
+        Note 2:	Clinically disease-free means that there was no evidence of recurrence on follow-up.
+        •	Scans are NED
+        •	Urine cytology is NED
+        •	Scopes are NED
+        Note 3:	When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.
+        Note 4:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
+        Note 5:	The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.
+        Example: 	Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.
+
+    Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         Note 1:	The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.
         Note 2:	The same row means the tumors are:
         •	The same histology (same four-digit ICD-O code) OR
@@ -83,29 +94,16 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             	Urethra/prostatic urethra C680
         Note:	A previous rule specifically lists noninvasive urothelial carcinoma of bladder and ureter as a single primary.
 
-    Rule M11	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
+    Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         •	Occur in the same urinary site OR
-        •	Are multifocal/multicentric tumors in multiple urinary sites
-        Example:	The first presentation was multifocal/multicentric invasive tumors in multiple urinary organs; the subsequent presentation was in situ tumor in at least one of the previously involved urinary organs.
+        •	The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
         Note 1:	The rules are hierarchical. Only use this rule when previous rules do not apply.
         Note 2:	The tumors may be a NOS and a subtype/variant of that NOS. See Table 2 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.
         Note 3:	Once the patient has an invasive tumor, the subsequent in situ is recorded as a recurrence for those registrars who collect recurrence data.
 
-    Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        Note 1:	This rule applies to all histologies and urinary sites with the exception of invasive urothelial carcinoma of the bladder (see previous rules).
-        Note 2:	Clinically disease-free means that there was no evidence of recurrence on follow-up.
-        •	Scans are NED
-        •	Urine cytology is NED
-        •	Scopes are NED
-        Note 3:	When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.
-        Note 4:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
-        Note 5:	The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.
-        Example: 	Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.
-
     Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         •	Occur in the same urinary site OR
-        •	Are multifocal/multicentric tumors in multiple urinary sites
-        Example:	The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.
+        •	Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
         Note 1:	The rules are hierarchical. Only use this rule if none of the previous rules apply.
         Note 2:	The tumors may be an NOS and a subtype/variant of that NOS
         Note 3:	When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.
@@ -124,7 +122,6 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
     Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
         Note: Use caution when applying this default rule. Please confirm that you have not overlooked an applicable rule.
-
     */
 
     // Renal Pelvis, Ureter, Bladder, and Other Urinary Multiple Primary Rules
@@ -179,9 +176,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("Urothelial carcinoma in situ spreads by intramucosal extension and may involve large areas of mucosal surface.  The default for these cases is coding a bladder primary.");
         _rules.add(rule);
 
-
-        // Rule M6	Abstract a single primary when the patient has multiple occurrences of invasive tumors in the bladder that are:
-        //•	Papillary urothelial carcinoma 8130/3 AND/OR
+        // Rule M6	Abstract a single primary when the patient has multiple occurrences of invasive tumors in the bladder.  Original tumor and subsequent tumor are either:
+        //•	Papillary urothelial carcinoma 8130/3 OR
         //•	Urothelial carcinoma 8120/3
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M6") {
             @Override
@@ -243,8 +239,21 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getExamples().add("Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows in the first column of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
         _rules.add(rule);
 
-        // Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M10", MphConstants.URINARY_2018_TABLE2_ROWS, null, true, false);
+        // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
+        rule = new MphRuleDiagnosisDateGreaterThan3Years(MphConstants.MP_2018_URINARY_GROUP_ID, "M10");
+        rule.getExamples().add("Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
+        rule.getNotes().add("This rule applies to all histologies and urinary sites with the exception of invasive urothelial carcinoma of the bladder (see previous rules).");
+        rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
+        rule.getNotes().add("  • Scans are NED");
+        rule.getNotes().add("  • Urine cytology is NED");
+        rule.getNotes().add("  • Scopes are NED");
+        rule.getNotes().add("When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.");
+        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
+        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
+        _rules.add(rule);
+
+        // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M11", MphConstants.URINARY_2018_TABLE2_ROWS, null, true, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
@@ -262,34 +271,20 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("A previous rule specifically lists noninvasive urothelial carcinoma of bladder and ureter as a single primary.");
         _rules.add(rule);
 
-        // Rule M11	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
+        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // •	Occur in the same urinary site OR
-        // •	Are multifocal/multicentric tumors in multiple urinary sites
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M11", false);
+        // •	The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M12", false);
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
-        rule.getExamples().add("The first presentation was multifocal/multicentric invasive tumors in multiple urinary organs; the subsequent presentation was in situ tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 2 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the subsequent in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
-        // Rule M12	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRuleDiagnosisDateGreaterThan3Years(MphConstants.MP_2018_URINARY_GROUP_ID, "M12");
-        rule.getExamples().add("Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
-        rule.getNotes().add("This rule applies to all histologies and urinary sites with the exception of invasive urothelial carcinoma of the bladder (see previous rules).");
-        rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
-        rule.getNotes().add("  • Scans are NED");
-        rule.getNotes().add("  • Urine cytology is NED");
-        rule.getNotes().add("  • Scopes are NED");
-        rule.getNotes().add("When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.");
-        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
-        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
-        _rules.add(rule);
-
         // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
-        // •	Are multifocal/multicentric tumors in multiple urinary sites
+        // •	Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
         rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", false);
         rule.getExamples().add("The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");

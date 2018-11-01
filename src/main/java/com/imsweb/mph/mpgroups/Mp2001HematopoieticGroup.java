@@ -10,7 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
@@ -70,14 +70,14 @@ public class Mp2001HematopoieticGroup extends MphGroup {
         if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv")) {
                 Reader reader = new InputStreamReader(is, "US-ASCII");
-                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReader(reader, ',', '\"', 1).readAll());
+                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(reader).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
                 Reader reader = new InputStreamReader(is, "US-ASCII");
-                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReader(reader, ',', '\"', 1).readAll());
+                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(reader).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);

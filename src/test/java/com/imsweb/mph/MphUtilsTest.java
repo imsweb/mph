@@ -2971,7 +2971,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M12", output.getStep());
 
-        // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+        // Rule M13 Abstract a single primary (the invasive) when there are separate/non-contiguous synchronous invasive AND in situ tumors.
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8401");
         i1.setBehaviorIcdO3("3");
@@ -6064,7 +6064,38 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M11", output.getStep());
 
-        // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
+        // Rule M12 Abstract a single primary (the invasive) when there are synchronous, separate/non-contiguous tumors that are invasive AND in situ.
+        // Note: The rules are hierarchical.  Both tumors must be the same histology.
+        // Example: TURB shows invasive urothelial carcinoma 8120/3 and CIS/in situ urothelial carcinoma 8120/2. Abstract a single primary.
+        i1.setPrimarySite("C670");
+        i1.setHistologyIcdO3("8010");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2016");
+        i2.setPrimarySite("C670");
+        i2.setHistologyIcdO3("8010");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("in situ tumor and an an invasive tumor"));
+        Assert.assertEquals("M12", output.getStep());
+        i1.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("in situ tumor and an an invasive tumor"));
+        Assert.assertEquals("M12", output.getStep());
+        // Does not apply.
+        i1.setHistologyIcdO3("8031");
+        i2.setHistologyIcdO3("8120");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals("M12", output.getStep());
+
+        // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
         i1.setPrimarySite("C670");
@@ -6079,22 +6110,22 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(11, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
-        Assert.assertEquals("M12", output.getStep());
+        Assert.assertEquals("M13", output.getStep());
         i1.setHistologyIcdO3("8031");
         i2.setHistologyIcdO3("8120");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(11, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor following an invasive tumor"));
-        Assert.assertEquals("M12", output.getStep());
+        Assert.assertEquals("M13", output.getStep());
         // Does not apply.
         i1.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M12", output.getStep());
+        Assert.assertNotEquals("M13", output.getStep());
 
-        // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
+        // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
         i1.setPrimarySite("C670");
@@ -6111,15 +6142,15 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("5");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(11, output.getAppliedRules().size());
+        Assert.assertEquals(12, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("invasive tumor following an in situ tumor less than or equal to 60"));
-        Assert.assertEquals("M13", output.getStep());
+        Assert.assertEquals("M14", output.getStep());
         // Does not apply.
         i2.setDateOfDiagnosisMonth("6");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M13", output.getStep());
+        Assert.assertNotEquals("M14", output.getStep());
 
-        // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor AND tumors:
+        // Rule M15	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
         i1.setPrimarySite("C670");
@@ -6129,22 +6160,22 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisMonth("1");
         i1.setLaterality("9");
         i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8001");
         i2.setBehaviorIcdO3("3");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("2");
         i2.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(12, output.getAppliedRules().size());
+        Assert.assertEquals(13, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("in situ tumor more than 60 days after"));
-        Assert.assertEquals("M14", output.getStep());
+        Assert.assertEquals("M15", output.getStep());
         // Does not apply.
         i1.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals("M14", output.getStep());
+        Assert.assertNotEquals("M15", output.getStep());
 
-        // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
+        // Rule M16	Abstract a single primary when tumors do not meet any of the above criteria.
         i1.setPrimarySite("C670");
         i1.setHistologyIcdO3("8010");
         i1.setBehaviorIcdO3("3");
@@ -6159,9 +6190,9 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("6");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(13, output.getAppliedRules().size());
+        Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        Assert.assertEquals("M15", output.getStep());
+        Assert.assertEquals("M16", output.getStep());
     }
 
 }

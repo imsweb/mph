@@ -342,6 +342,35 @@ public abstract class MphGroup {
         }
     }
 
+    public static class MphRuleInSituAndInvasive extends MphRule {
+
+        boolean _mustBeSameSide;
+        boolean _mustBeSameHistology;
+
+        public MphRuleInSituAndInvasive(String groupId, String step, boolean mustBeSameSide, boolean mustBeSameHistology) {
+            super(groupId, step);
+            setQuestion("Is there an in situ tumor and an invasive tumor?");
+            setReason("An in situ tumor and an an invasive tumor is a single primary.");
+            _mustBeSameSide =  mustBeSameSide;
+            _mustBeSameHistology = mustBeSameHistology;
+        }
+
+        @Override
+        public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            TempRuleResult result = new TempRuleResult();
+            if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
+                if ((!_mustBeSameHistology) || (i1.getHistology().equals(i2.getHistology()))) {
+                    String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+                    if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
+            return result;
+        }
+    }
+
+
+
     public static class MphRuleMalignantAfterNonMalignant extends MphRule {
 
         boolean _mustBeSameSide;

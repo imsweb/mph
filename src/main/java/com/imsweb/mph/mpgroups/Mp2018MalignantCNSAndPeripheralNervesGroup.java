@@ -238,7 +238,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
         // Rule M10	Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS,
-                                         MphConstants.MALIGNANT_CNS_2018_SUBTYPE_NOS, false, false);
+                                         MphConstants.MALIGNANT_CNS_2018_SUBTYPE_NOS, false, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

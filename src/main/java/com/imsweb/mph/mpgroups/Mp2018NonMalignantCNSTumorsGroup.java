@@ -187,7 +187,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS, null, false, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10", MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS, null, false, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 6 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 6 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

@@ -295,7 +295,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M11", MphConstants.COLON_2018_TABLE1_ROWS, null, true, false);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M11", MphConstants.COLON_2018_TABLE1_ROWS, null, true, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.");

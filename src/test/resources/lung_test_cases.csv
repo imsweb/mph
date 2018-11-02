@@ -1,0 +1,17 @@
+Site,Hist,Beh,Lat,YYYY,MM,DD,Site,Hist,Beh,Lat,YYYY,MM,DD,,,Expected Group,,,Expected Result,Expected Rule #
+C341,8480,3,1,2018,1,1,C343,8480,3,1,2018,1,1,Single,M7,,,,Single,M7
+C341,8480,3,1,2018,1,1,C343,8480,3,2,2018,1,1,Multiple,M11,,,,Multiple,M11
+C341,8140,3,1,2018,1,1,C343,8480,3,2,2018,1,1,Multiple ,M11,,,,Multiple,M11
+C341,8140,3,1,2018,1,1,C343,8480,3,1,2018,1,1,Single,M7,,,,Single,M7
+C342,8140,3,1,2018,1,1,C344,8560,3,1,2018,1,1,Multiple,M8,,,,Multiple,M8
+C342,8140,3,1,2011,1,1,C342,8140,3,1,2018,1,1,Multiple,M4,,,,Multiple,M4
+C341,8249,3,1,2018,1,1,C348,8070,3,1,2018,1,1,Multiple,M5,,,,Multiple,M5
+C341,8140,3,1,2018,1,1,C348,8140,2,1,2018,1,1,Single,M9,,,,Single,Need new rule- or does M9 capture cases that are same or NOS/sub and in situ and invasive??
+C340,8083,3,1,2016,1,1,C348,8071,3,1,2018,1,1,Multiple,M6,,,,Multiple,M6
+C340,8070,3,1,2016,1,1,C348,8071,2,1,2018,1,1,Single,M10,,,,Single,M10
+C340,8070,3,1,2016,1,1,C348,8071,2,2,2018,1,1,Multiple ,M11,,,,Multiple,M11
+C344,8032,2,1,2018,1,1,C344,8032,3,1,2018,5,1,Multiple,M13,,,,Multiple,M13
+C344,8032,2,1,2018,1,1,C344,8032,3,1,2018,2,1,Single,M12,,,,Single,M12
+C341,8140,3,1,2018,1,1,C342,8250,3,1,2018,1,1,Single,M7,,,,Single,M7
+C341,8073,3,1,2016,1,1,C342,8250,3,1,2018,1,1,,,,,,Single,M9
+C341,8140,3,1,2018,1,1,C341,8140,2,1,2018,1,1,,,,,,Single,M9

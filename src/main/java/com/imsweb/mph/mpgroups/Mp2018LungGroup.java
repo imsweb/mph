@@ -183,7 +183,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7	Abstract a single primary when separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3_ROWS, null, true, true);
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3_ROWS, null, true, true, false);
         rule.setQuestion("Are separate/non-contiguous tumors in the same lung on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("Tumors must be in the same lung.");

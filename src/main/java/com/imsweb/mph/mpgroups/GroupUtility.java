@@ -478,6 +478,16 @@ public class GroupUtility {
         return false;
     }
 
+    /**
+     * Return true if tumors occur within 60 days of each other.
+     */
+    public static boolean areSimultaneousTumors(MphInput i1, MphInput i2) {
+        if (GroupUtility.verifyDaysApart(i1, i2, 60) == 0) {
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

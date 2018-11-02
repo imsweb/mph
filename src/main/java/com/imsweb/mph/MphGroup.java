@@ -537,21 +537,24 @@ public abstract class MphGroup {
         private Map<String, List<String>> _subtypeNOS;
         boolean _mustBeSameBehavior;
         boolean _mustBeSameSide;
+        boolean _mustBeSimultaneous;
 
         public MphRuleSameRowInTable(String groupId, String step, Map<String, List<String>> tableToTest, Map<String, List<String>> subtypeNOS,
-                                     boolean mustBeSameBehavior, boolean mustBeSameSide) {
+                                     boolean mustBeSameBehavior, boolean mustBeSameSide, boolean mustBeSimultaneous) {
             super(groupId, step);
             _tableToTest = tableToTest;
             _subtypeNOS = subtypeNOS;
             _mustBeSameBehavior = mustBeSameBehavior;
             _mustBeSameSide = mustBeSameSide;
+            _mustBeSimultaneous = mustBeSimultaneous;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if (((!_mustBeSameBehavior) || (i1.getBehavior().equals(i2.getBehavior())))  &&
-                ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))) {
+                ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))) &&
+                ((!_mustBeSimultaneous) || (GroupUtility.areSimultaneousTumors(i1, i2)))) {
 
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
 

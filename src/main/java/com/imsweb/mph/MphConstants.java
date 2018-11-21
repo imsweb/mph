@@ -322,7 +322,7 @@ public class MphConstants {
     }
 
 
-    // BREAST 2018 - AS OF 10/29/2018
+    // BREAST 2018 - AS OF 11/21/2018
 
     public static final List<String> BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8035", "8201/3", "8022/3", "8310", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8033", "8032", "8070",

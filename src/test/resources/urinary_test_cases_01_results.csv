@@ -1,0 +1,15 @@
+File: urinary_test_cases_01.csv ------------------------------
+Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason
+2,Single Primary,mp_2018_urinary,M12,Single Primary,mp_2018_urinary,M12,Yes,An in situ tumor and an an invasive tumor is a single primary.
+3,Single Primary,mp_2018_urinary,M11,Single Primary,mp_2018_urinary,M6,No,Multiple occurrences of invasive urothelial carcinoma of the bladder is a single primary.
+4,Multiple Primaries,mp_2018_urinary,M3,Multiple Primaries,mp_2018_urinary,M3,Yes,When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries.
+5,Multiple Primaries,mp_2018_urinary,M4,Multiple Primaries,mp_2018_urinary,M4,Yes,When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries.
+6,Multiple Primaries,mp_2018_urinary,M9,Multiple Primaries,mp_2018_urinary,M9,Yes,Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.
+7,Single Primary,mp_2018_urinary,M10,Single Primary,mp_2018_urinary,M7,No,Multiple recurrences of situ papillary urothelial carcinoma 8130/2 OR non-invasive urothelial carcinoma 8120/2 is a single primary.
+8,Single Primary,mp_2018_urinary,M6,Single Primary,mp_2018_urinary,M6,Yes,Multiple occurrences of invasive urothelial carcinoma of the bladder is a single primary.
+9,Single Primary,mp_2018_urinary,M10,Single Primary,mp_2018_urinary,M7,No,Multiple recurrences of situ papillary urothelial carcinoma 8130/2 OR non-invasive urothelial carcinoma 8120/2 is a single primary.
+10,Multiple Primaries,mp_2018_urinary,M8,Multiple Primaries,mp_2018_urinary,M8,Yes,Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions, are multiple primaries.
+11,Multiple Primaries,mp_2018_urinary,M10,Multiple Primaries,mp_2018_urinary,M9,No,Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.
+12,Single Primary,mp_2018_urinary,M13,Single Primary,mp_2018_urinary,M12,No,An in situ tumor and an an invasive tumor is a single primary.
+13,Single Primary,mp_2018_urinary,M14,Multiple Primaries,mp_2018_urinary,M9,No,Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.
+14,Multiple Primaries,mp_2018_urinary,M15,Multiple Primaries,mp_2018_urinary,M9,No,Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.

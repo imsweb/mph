@@ -1,0 +1,18 @@
+File: breast_test_cases_01.csv ------------------------------
+Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason
+2,Single Primary,mp_2018_breast,M4,Single Primary,mp_2018_breast,M4,Yes,Inflammatory carcinoma in multiple quadrants of the same breast or in bilateral breasts is a single primary.
+3,Single Primary,mp_2018_breast,M4,Multiple Primaries,mp_2018_breast,M6,No,Tumors on both sides (right and left breast) are multiple primaries.
+4,Multiple Primaries,mp_2018_breast,M12,Multiple Primaries,mp_2018_breast,M13,No,Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.
+5,Multiple Primaries,mp_2018_breast,M6,Multiple Primaries,mp_2018_breast,M6,Yes,Tumors on both sides (right and left breast) are multiple primaries.
+6,Multiple Primaries,mp_2018_breast,M6,Multiple Primaries,mp_2018_breast,M6,Yes,Tumors on both sides (right and left breast) are multiple primaries.
+7,Multiple Primaries,mp_2018_breast,M12,Multiple Primaries,mp_2018_breast,M13,No,Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.
+8,Single Primary,mp_2018_breast,M14,Single Primary,mp_2018_breast,M15,No,An in situ tumor diagnosed following an invasive tumor is a single primary.
+9,Multiple Primaries,mp_2018_breast,M16,Multiple Primaries,mp_2018_breast,M17,No,An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
+10,Single Primary,mp_2018_breast,M15,Single Primary,mp_2018_breast,M9,No,Simultaneous carcinoma NST/duct and lobular carcinoma is a single primary.
+11,Single Primary,mp_2018_breast,M11,Single Primary,mp_2018_breast,M11,Yes,Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.
+12,Multiple Primaries,mp_2018_breast,M8,Multiple Primaries,mp_2018_breast,M8,Yes,Patient has a subsequent tumor after being clinically disease-free for greater than five years are multiple primaries.
+13,Single Primary,mp_2018_breast,M9,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.
+14,Multiple Primaries,mp_2018_breast,M12,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.
+15,Multiple Primaries,mp_2018_breast,M12,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.
+16,Multiple Primaries,mp_2018_breast,M5,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.
+17,Single Primary,mp_2018_breast,M13,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.

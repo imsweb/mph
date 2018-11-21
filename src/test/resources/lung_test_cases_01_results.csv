@@ -1,0 +1,18 @@
+File: lung_test_cases_01.csv ------------------------------
+Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason
+2,Single Primary,mp_2018_lung,M7,Single Primary,mp_2018_lung,M7,Yes,Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.
+3,Multiple Primaries,mp_2018_lung,M11,Single Primary,mp_2018_lung,M9,No,Two or more tumors diagnosed less than or equal to 60 days of each other and on opposite sides and not site C349 is a single primary.
+4,Multiple Primaries,mp_2018_lung,M11,Single Primary,mp_2018_lung,M9,No,Two or more tumors diagnosed less than or equal to 60 days of each other and on opposite sides and not site C349 is a single primary.
+5,Single Primary,mp_2018_lung,M7,Single Primary,mp_2018_lung,M7,Yes,Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.
+6,Multiple Primaries,mp_2018_lung,M8,Multiple Primaries,null,null,No,The two sets of parameters belong to two different cancer groups.
+7,Multiple Primaries,mp_2018_lung,M4,Multiple Primaries,mp_2018_lung,M4,Yes,Tumors diagnosed greater than three (3) years apart are multiple primaries.
+8,Multiple Primaries,mp_2018_lung,M5,Multiple Primaries,mp_2018_lung,M5,Yes,One tumor that is small cell carcinoma 8041 (or any small cell subtypes/variants), and another tumor that is non-small cell carcinoma 8046 (or any non-small cell carcinoma subtypes/variants), is multiple primaries.
+9,Single Primary,mp_2018_lung,M9,Single Primary,mp_2018_lung,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
+10,Multiple Primaries,mp_2018_lung,M6,Multiple Primaries,mp_2018_lung,M6,Yes,Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.
+11,Single Primary,mp_2018_lung,M10,Single Primary,mp_2018_lung,M10,Yes,An in situ tumor diagnosed following an invasive tumor in the same lung is a single primary.
+12,Multiple Primaries,mp_2018_lung,M11,Multiple Primaries,mp_2018_lung,M11,Yes,A single tumor in each lung is multiple primaries.
+13,Multiple Primaries,mp_2018_lung,M13,Multiple Primaries,mp_2018_other_sites,M15,No,An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
+14,Single Primary,mp_2018_lung,M12,Single Primary,mp_2018_other_sites,M18,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
+15,Single Primary,mp_2018_lung,M7,Single Primary,mp_2018_lung,M7,Yes,Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.
+16,Single Primary,mp_2018_lung,M9,Multiple Primaries,mp_2018_lung,M8,No,Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions is multiple primaries.
+17,Single Primary,mp_2018_lung,M9,Single Primary,mp_2018_lung,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.

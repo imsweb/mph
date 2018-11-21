@@ -442,6 +442,14 @@ public class GroupUtility {
         return false;
     }
 
+    /**
+     * checks if first Input occurs before second Input.
+     */
+    public static boolean isFirstTumorBeforeSecondTumor(MphInput i1, MphInput i2) {
+        if (compareDxDate(i1, i2) == 2)
+            return true;
+        return false;
+    }
 
     /**
      * Checks if one element from the first list is in the second.

@@ -241,13 +241,24 @@ public class CsvRuleTesting {
     @Test
     public void testCsvCases() {
         boolean retval = true;
+        final boolean PERFORM_LOOP = false;
 
         loadMappings();
 
-        if (!testCsvFile("breast_test_cases_01.csv")) retval = false;
-        if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
-        if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
+        int iLoopCount = 1;
+        if (PERFORM_LOOP) iLoopCount = 150000;
 
+        for (int i=0; i < iLoopCount; i++) {
+            if (!testCsvFile("breast_test_cases_01.csv")) retval = false;
+            if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
+            if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
+
+            if (PERFORM_LOOP) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {}
+            }
+        }
 
         Assert.assertEquals("CSV Tests Failed", true, retval);
 

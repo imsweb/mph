@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018ColonGroup extends MphGroup {
 
-    // COLON 2018 - AS OF 9/10/2018
+    // COLON 2018 - AS OF 11/21/2018
 
     /*
     Colon, Rectosigmoid, and Rectum Multiple Primary Rules
@@ -31,7 +31,7 @@ public class Mp2018ColonGroup extends MphGroup {
             	Greater than 100 polyps are documented AND
             	Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
         Note 1:	A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.
-        Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
+        Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
         Note 3:	FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.
         Note 4:	Multiple polyps in the colorectum is not equivalent to FAP.
         Note 5:	Code primary site as follows:
@@ -66,7 +66,7 @@ public class Mp2018ColonGroup extends MphGroup {
         Note:	Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.
         Example: 	(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.
         Note 1:	There may or may not be physician documentation of anastomotic recurrence.  Follow the rules.
-        Note 2:	When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.
+        Note 2:	When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma per 2018 rules, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.
         Note 3:	The tumor may or may not invade into the colon wall or adjacent tissue.
         Note 4:	These rules are hierarchical. Only use this rule when previous rules do not apply.
  
@@ -91,7 +91,7 @@ public class Mp2018ColonGroup extends MphGroup {
         Note 5:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
         Note 6:	The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.  
 
-    Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+    Rule M11	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
         Note 1:	The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.
         Note 2:	The same row means the tumors are:
         •	The same histology (same four-digit ICD-O code) OR
@@ -119,6 +119,10 @@ public class Mp2018ColonGroup extends MphGroup {
 
     Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
         Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
+        Example:	The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.
+
+
+
 
 
     */
@@ -149,7 +153,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setQuestion("Is one tumor a FAP (8220)?");
         rule.setReason("If one tumor is a FAP (8220) then this is a single primary.");
         rule.getNotes().add("A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
-        rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
+        rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
         rule.getNotes().add("FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
         rule.getNotes().add("Multiple polyps in the colorectum is not equivalent to FAP.");
         rule.getNotes().add("Code primary site as follows:");
@@ -227,7 +231,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.");
         rule.getExamples().add("(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.");
         rule.getNotes().add("There may or may not be physician documentation of anastomotic recurrence.  Follow the rules.");
-        rule.getNotes().add("When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.");
+        rule.getNotes().add("When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma per 2018 rules, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.");
         rule.getNotes().add("The tumor may or may not invade into the colon wall or adjacent tissue.");
         rule.getNotes().add("These rules are hierarchical. Only use this rule when previous rules do not apply.");
         _rules.add(rule);
@@ -294,7 +298,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
-        // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M11	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M11", MphConstants.COLON_2018_TABLE1_ROWS, null, true, false, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
@@ -333,6 +337,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M15");
         rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
+        rule.getExamples().add("The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.");
         _rules.add(rule);
     }
 }

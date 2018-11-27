@@ -18,7 +18,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018BreastGroup extends MphGroup {
 
-    // BREAST 2018 - AS OF 11/27/2018
+    // BREAST 2018 - See MphConstants for AS OF date.
 
 
     /*

@@ -1,9 +1,0 @@
-Tumor 1 Primary Site,Tumor 1 HistologyIcd03,Tumor 1 BehaviorIcd03,Tumor 1 Laterality ,Tumor 1 Date of Diagnosis ? Year,Tumor 1 Date of Diagnosis ? Month ,Tumor 1 Date of Diagnosis ? Day ,Tumor 2 Primary Site,Tumor 2 HistologyIcd03,Tumor 2 BehaviorIcd03,Tumor 2 Laterality ,Tumor 2 Date of Diagnosis ? Year,Tumor 2 Date of Diagnosis ? Month ,Tumor 2 Date of Diagnosis ? Day ,Expected Result,Expected Group,Expected Rule #
-C711,9430,3,,2018,1,1,C712,9440,3,,2018,3,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M6
-C712,9430,3,,2018,1,1,C713,9440,3,,2018,1,1,Single Primary,2018 MalignantCNSAndPeripheralNerves,M7
-C710,9392,3,,2018,1,1,C700,9530,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M8
-C700,9530,3,,2018,1,1,C700,8720,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M11
-C700,9538,3,,2018,1,1,C701,9538,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M8
-C721,9540,3,,2018,1,1,C725,9540,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M8
-C709,9530,3,,2018,1,1,C709,9538,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M10
-C701,9085,3,,2018,1,1,C701,9538,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M9

@@ -55,18 +55,39 @@ public class CsvRuleTesting {
 
     private static Map<String, String> GROUP_NAMES;
     private static Map<MphUtils.MpResult, String> EXPECTED_RESULTS;
+    private static Map<String, String> RULES_UPDATED;
 
     private static void loadMappings() {
         GROUP_NAMES = new HashMap<String, String>();
-        GROUP_NAMES.put("2018 Breast", "mp_2018_breast");
-        GROUP_NAMES.put("2018 Lung", "mp_2018_lung");
-        GROUP_NAMES.put("2018 Urinary", "mp_2018_urinary");
+        GROUP_NAMES.put("2018 Breast", MphConstants.MP_2018_BREAST_GROUP_ID);
+        GROUP_NAMES.put("2018 Colon", MphConstants.MP_2018_COLON_GROUP_ID);
+        GROUP_NAMES.put("2018 Cutaneous Melanoma", MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID);
+        GROUP_NAMES.put("2018 Head And Neck", MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID);
+        GROUP_NAMES.put("2018 Kidney", MphConstants.MP_2018_KIDNEY_GROUP_ID);
+        GROUP_NAMES.put("2018 Lung", MphConstants.MP_2018_LUNG_GROUP_ID);
+        GROUP_NAMES.put("2018 MalignantCNSAndPeripheralNerves", MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID);
+        GROUP_NAMES.put("2018 NonMalignantCNSTumors", MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID);
+        GROUP_NAMES.put("2018 Other Sites", MphConstants.MP_2018_OTHER_SITES_GROUP_ID);
+        GROUP_NAMES.put("2018 Urinary", MphConstants.MP_2018_URINARY_GROUP_ID);
 
         EXPECTED_RESULTS = new HashMap<MphUtils.MpResult, String>();
         EXPECTED_RESULTS.put(MphUtils.MpResult.SINGLE_PRIMARY, "Single Primary");
         EXPECTED_RESULTS.put(MphUtils.MpResult.MULTIPLE_PRIMARIES, "Multiple Primaries");
         EXPECTED_RESULTS.put(MphUtils.MpResult.QUESTIONABLE, "Questionable");
         EXPECTED_RESULTS.put(MphUtils.MpResult.INVALID_INPUT, "Invalid Input");
+
+        RULES_UPDATED = new HashMap<String, String>();
+        RULES_UPDATED.put(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.BREAST_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.COLON_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.CUT_MELANOMA_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.HEAD_AND_NECK_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.KIDNEY_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.LUNG_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MALIGNANT_CNS_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.NON_MALIGNANT_CNS_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.OTHER_STIES_2018_AS_OF_DATE);
+        RULES_UPDATED.put(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.URINARY_2018_AS_OF_DATE);
+
     }
 
 
@@ -156,17 +177,41 @@ public class CsvRuleTesting {
         List<String> outputLines = new ArrayList<String>();
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
-        int iLineCount = 2;
         String outLine = "";
 
-        outputLines.add("File: " + fileName + " ------------------------------");
-        outputLines.add("Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason");
+        //outputLines.add("File: " + fileName + " ------------------------------");
+        //outputLines.add("Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason");
+
+        outLine = "Tumor 1 Primary Site,";
+        outLine += "Tumor 1 HistologyIcd03,";
+        outLine += "Tumor 1 BehaviorIcd03,";
+        outLine += "Tumor 1 Laterality,";
+        outLine += "Tumor 1 Date of Diagnosis ? Year,";
+        outLine += "Tumor 1 Date of Diagnosis ? Month,";
+        outLine += "Tumor 1 Date of Diagnosis ? Day,";
+        outLine += "Tumor 2 Primary Site,";
+        outLine += "Tumor 2 HistologyIcd03,";
+        outLine += "Tumor 2 BehaviorIcd03,";
+        outLine += "Tumor 2 Laterality,";
+        outLine += "Tumor 2 Date of Diagnosis ? Year,";
+        outLine += "Tumor 2 Date of Diagnosis ? Month,";
+        outLine += "Tumor 2 Date of Diagnosis ? Day,";
+        outLine += "Expected Result,";
+        outLine += "Expected Group,";
+        outLine += "Expected Rule #,";
+        outLine += ",";
+        outLine += "Actual Result,";
+        outLine += "Actual Group,";
+        outLine += "Last Updated,";
+        outLine += "Actual Rule #,";
+        outLine += "Match,";
+        outLine += "Reason";
+        outputLines.add(outLine);
+
 
         for (Map<String, String> record : listRecs) {
             setInputs(record, i1, i2);
             output = _utils.computePrimaries(i1, i2);
-
-            // C509,8530,3,1,2018,1,1,C509,8530,3,1,2028,1,1,Single Primary,2018 Breast,M4
 
             String expResult = record.get(FIELD_EXPECTED_RESULT);
             String expGroup = GROUP_NAMES.get(record.get(FIELD_EXPECTED_GROUP));
@@ -186,12 +231,27 @@ public class CsvRuleTesting {
             String matchText = "Yes";
             if (!rowRetval) matchText = "No";
 
-            outLine = Integer.toString(iLineCount) + ",";
+            outLine = record.get(FIELD_T1_PRIMARY_SITE) + ",";
+            outLine += record.get(FIELD_T1_HISTOLOGY) + ",";
+            outLine += record.get(FIELD_T1_BEHAVIOR) + ",";
+            outLine += record.get(FIELD_T1_LATERALITY) + ",";
+            outLine += record.get(FIELD_T1_DX_DATE_YEAR) + ",";
+            outLine += record.get(FIELD_T1_DX_DATE_MONTH) + ",";
+            outLine += record.get(FIELD_T1_DX_DATE_DAY) + ",";
+            outLine += record.get(FIELD_T2_PRIMARY_SITE) + ",";
+            outLine += record.get(FIELD_T2_HISTOLOGY) + ",";
+            outLine += record.get(FIELD_T2_BEHAVIOR) + ",";
+            outLine += record.get(FIELD_T2_LATERALITY) + ",";
+            outLine += record.get(FIELD_T2_DX_DATE_YEAR) + ",";
+            outLine += record.get(FIELD_T2_DX_DATE_MONTH) + ",";
+            outLine += record.get(FIELD_T2_DX_DATE_DAY) + ",";
             outLine += expResult + ",";
             outLine += expGroup + ",";
             outLine += expRuleNum + ",";
+            outLine += ",";
             outLine += outputResult + ",";
             outLine += output.getGroupId() + ",";
+            outLine += RULES_UPDATED.get(output.getGroupId()) + ",";
             outLine += output.getStep() + ",";
             outLine += matchText + ",";
             outLine += strReason;
@@ -199,8 +259,6 @@ public class CsvRuleTesting {
             outputLines.add(outLine);
 
             if (!rowRetval) fileRetval = false;
-
-            iLineCount++;
         }
 
         WriteComparisonFile(fileName, outputLines);
@@ -215,12 +273,14 @@ public class CsvRuleTesting {
 
         BufferedWriter outputWriter = null;
         try {
-            String outputFileName = inputFileName;
+            String outputFileName = "src\\test\\resources\\" + inputFileName;
+            /*
             int sepPos = inputFileName.lastIndexOf(".csv");
             if (sepPos >= 0) {
                 outputFileName = inputFileName.substring(0, sepPos);
             }
             outputFileName = "src\\test\\resources\\" + outputFileName + "_results.csv";
+            */
 
             File outputFile = new File(outputFileName);
             outputWriter = new BufferedWriter(new FileWriter(outputFile));
@@ -245,6 +305,21 @@ public class CsvRuleTesting {
 
         loadMappings();
 
+        if (!testCsvFile("MPH_test_cases.csv")) retval = false;
+
+        Assert.assertEquals("CSV Tests Failed", true, retval);
+
+    }
+
+
+    /*
+    @Test
+    public void testCsvCases() {
+        boolean retval = true;
+        final boolean PERFORM_LOOP = false;
+
+        loadMappings();
+
         int iLoopCount = 1;
         if (PERFORM_LOOP) iLoopCount = 150000;
 
@@ -252,6 +327,9 @@ public class CsvRuleTesting {
             if (!testCsvFile("breast_test_cases_02.csv")) retval = false;
             //if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
             //if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
+
+            "MPH_test_cases.csv""
+
 
             if (PERFORM_LOOP) {
                 try {
@@ -263,6 +341,7 @@ public class CsvRuleTesting {
         Assert.assertEquals("CSV Tests Failed", true, retval);
 
     }
+    */
 
 
 }

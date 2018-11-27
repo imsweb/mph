@@ -69,6 +69,17 @@ public class MphConstants {
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 
+    public static final String BREAST_2018_AS_OF_DATE = "11/27/2018";
+    public static final String COLON_2018_AS_OF_DATE = "11/21/2018";
+    public static final String CUT_MELANOMA_2018_AS_OF_DATE = "9/1/2018";
+    public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "9/5/2018";
+    public static final String KIDNEY_2018_AS_OF_DATE = "10/15/2018";
+    public static final String LUNG_2018_AS_OF_DATE = "10/15/2018";
+    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "10/15/2018";
+    public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "11/21/2018";
+    public static final String OTHER_STIES_2018_AS_OF_DATE = "9/1/2018";
+    public static final String URINARY_2018_AS_OF_DATE = "11/21/2018";
+
     //Topographies
     public static final String COLON = "C18";
     public static final String RECTOSIGMOID = "C199";
@@ -318,7 +329,10 @@ public class MphConstants {
     }
 
 
-    // BREAST 2018 - AS OF 11/27/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Breast
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Breast 2018 AS OF date at top of this file.
 
     public static final List<String> BREAST_NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3");
     public static final List<String> BREAST_LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2,8519/2,8520/3");
@@ -372,7 +386,10 @@ public class MphConstants {
     }
 
 
-    // COLON 2018 - AS OF 11/21/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Colon
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Colon 2018 AS OF date at top of this file.
 
     public static final List<String> COLON_2018_TABLE1_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8020", "8200", "8201", "8145", "8142/3", "8510", "8265", "8480", "8430", "8213", "8490", "8143", "8263",
@@ -397,7 +414,10 @@ public class MphConstants {
     }
 
 
-    // KIDNEY 2018 - AS OF 10/15/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Kidney
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Kidney 2018 AS OF date at top of this file.
 
     public static final List<String> KIDNEY_2018_TABLE1_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8316", "8317", "8323/3", "8310", "8319", "8311", "8480", "8260", "8510",
@@ -432,7 +452,10 @@ public class MphConstants {
     }
 
 
-    // URINARY 2018 - AS OF 11/21/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Urinary
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Urinary 2018 AS OF date at top of this file.
 
     //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
@@ -470,7 +493,12 @@ public class MphConstants {
         URINARY_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
     }
 
-    // LUNG 2018 - AS OF 10/15/2018
+
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Lung
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Lung 2018 AS OF date at top of this file.
+
     public static final String LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES = "C349";
     public static final List<String> LUNG_2018_AMBIGUOUS_LATERALITIES = Collections.unmodifiableList(Arrays.asList(
             NOT_PAIRED, ONLY_ONE_SIDE_NS, BOTH, MID_LINE, PAIRED_NO_INFORMATION));
@@ -511,6 +539,7 @@ public class MphConstants {
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
+
     // General Brain Sites
     public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
     public static final String CNS_2018_BRAIN_SITES = "C710-C719";
@@ -524,7 +553,11 @@ public class MphConstants {
             "9530/0", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0"));
 
 
-    // NON-MALIGNANT 2018 - AS OF 11/21/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Non-Malignant CNS
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Non-Malignant CNS 2018 AS OF date at top of this file.
+
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0",
@@ -573,7 +606,12 @@ public class MphConstants {
         NON_MALIGNANT_CNS_2018_TABLE6_ROWS = Collections.unmodifiableMap(content);
     }
 
-    // MALIGNANT 2018 - AS OF 10/15/2018
+
+
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Malignant CNS
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Malignant CNS 2018 AS OF date at top of this file.
 
     public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9445", "9441", "9442",
@@ -627,8 +665,10 @@ public class MphConstants {
         MALIGNANT_CNS_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
     }
 
-
-    // HEAD & NECK 2018 - AS OF 9/5/2018
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // Head and Neck
+    //--------------------------------------------------------------------------------------------------------------------------------------
+    // See Head and Neck 2018 AS OF date at top of this file.
 
     public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList(
             "C312", "C310", "C301", "C300", "C098", "C079", "C081", "C080", "C090", "C091", "C099"));

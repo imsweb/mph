@@ -249,9 +249,9 @@ public class CsvRuleTesting {
         if (PERFORM_LOOP) iLoopCount = 150000;
 
         for (int i=0; i < iLoopCount; i++) {
-            if (!testCsvFile("breast_test_cases_01.csv")) retval = false;
-            if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
-            if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
+            if (!testCsvFile("breast_test_cases_02.csv")) retval = false;
+            //if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
+            //if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
 
             if (PERFORM_LOOP) {
                 try {

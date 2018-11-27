@@ -186,10 +186,6 @@ public class MphConstants {
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
 
-    public static final List<String> NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3");
-    public static final List<String> LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2,8519/2,8520/3");
-
-
     //Histology Charts
     public static final Map<String, List<String>> NOS_VS_SPECIFIC;
 
@@ -322,10 +318,16 @@ public class MphConstants {
     }
 
 
-    // BREAST 2018 - AS OF 11/21/2018
+    // BREAST 2018 - AS OF 11/27/2018
+
+    public static final List<String> BREAST_NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3");
+    public static final List<String> BREAST_LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2,8519/2,8520/3");
+    public static final List<String> BREAST_DUCT_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3,8520/2,8519/2,8520/3");
+    public static final List<String> BREAST_LOBULAR_2018 = GroupUtility.expandList("8522/3,8522/2");
+
 
     public static final List<String> BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-        "8035", "8201/3", "8022/3", "8310", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8033", "8032", "8070",
+        "8035", "8201/3", "8022/3", "8310", "8519/2", "8513", "8980/3", "8572", "8570", "8032", "8571", "8982", "8033", "8070",
         "8504/2", "8504/3", "8507", "8509/2", "8509/3", "9120/3", "8850/3", "8890/3", "9180/3", "8900/3", "8920/3",
         "8910/3", "8901/3", "8574/3", "8246"));
 
@@ -343,7 +345,7 @@ public class MphConstants {
         content.put("8314", Collections.unmodifiableList(Arrays.asList())); // Lipid-rich carcinoma 8314
         content.put("8520", Collections.unmodifiableList(Arrays.asList("8519/2"))); // Lobular carcinoma 8520
         content.put("8510", Collections.unmodifiableList(Arrays.asList("8513"))); // Medullary carcinoma 8510
-        content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8033", "8032", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
+        content.put("8575", Collections.unmodifiableList(Arrays.asList("8980/3", "8572", "8570", "8032", "8571", "8982", "8033", "8070"))); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8480", Collections.unmodifiableList(Arrays.asList())); // Mucinous carcinoma 8480
         content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
         content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982

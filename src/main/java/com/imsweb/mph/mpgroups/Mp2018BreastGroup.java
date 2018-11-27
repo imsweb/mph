@@ -18,7 +18,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018BreastGroup extends MphGroup {
 
-    // BREAST 2018 - AS OF 11/21/2018
+    // BREAST 2018 - AS OF 11/27/2018
 
 
     /*
@@ -30,7 +30,7 @@ public class Mp2018BreastGroup extends MphGroup {
         •	Multiple quadrants of same breast OR
         •	Bilateral breasts
 
-    Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C50¬_) that differ at the second (CXxx) and/or third characters (CxXx).
+    Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
         Note 1:	Tumors with site codes that differ at the second or third character are in different primary sites; for example, a breast tumor C50x and a colon tumor C18x differ at the second and third character.
         Note 2:	This rule does not include metastases. Metastatic tumors are not used to determine multiple primaries; for example, liver metastases from the breast cancer would not be counted as a second primary.
 
@@ -77,29 +77,26 @@ public class Mp2018BreastGroup extends MphGroup {
         •	One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR
         •	A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)
 
-    Rule M12	Abstract a single primary when any of the following conditions are met:
-        •	DCIS subsequent to a diagnosis of:
-            	DCIS and lobular carcinoma in situ 8522/2
-            	DCIS and in situ Paget 8543/2
-            	DCIS and invasive Paget 8543/3
-        •	Invasive carcinoma NST/duct subsequent to a diagnosis of:
-            	Invasive carcinoma NST/duct and invasive lobular 8522/3
-            	Invasive carcinoma NST/duct and invasive Paget 8541/3
-
-    Rule M13	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+    Rule M12	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         Note:	Each row in the table is a distinctly different histology.
 
-    Rule M14	Abstract multiple primaries when a DCIS is diagnosed in the same breast after a diagnosis of any one of the following:
-        •	DCIS and other 8523/2 OR
-        •	DCIS and in situ lobular 8524/2 OR
-        •	DCIS and in situ Paget 8543/2
+    Rule M13	Abstract a single primary when any of the following conditions are met in the same breast:
+        •	DCIS subsequent to a diagnosis of:
+            	DCIS and lobular carcinoma in situ 8522/2 OR
+            	DCIS and in situ Paget 8543/2 OR
+            	DCIS and invasive Paget 8543/3
+            	DCIS and other in situ 8523/2 (prior to 2018, DCIS and other in situ was coded 8523/2)
+        •	Invasive carcinoma NST/duct subsequent to a diagnosis of:
+            	Invasive carcinoma NST/duct and invasive lobular 8522/3 OR
+            	Invasive carcinoma NST/duct and invasive Paget 8541/3
+            	Invasive carcinoma NST/duct and other invasive 8523/3
 
-    Rule M15	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+    Rule M14	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
         Note 1:	Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.
         Note 2:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 3:	The tumors may be a NOS and a subtype/variant of that NOS.
 
-    Rule M16	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
+    Rule M15	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
         Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 2:	The tumors may be a NOS and a subtype/variant of that NOS.
         Note 3:	When the case has been abstracted, change behavior code on original abstract from /2 to /3.
@@ -108,15 +105,16 @@ public class Mp2018BreastGroup extends MphGroup {
         Note 6:	The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).
         Note 7:	See the COC and SEER manuals for instructions on coding other data items such as Date of Diagnosis, Accession Year and Sequence Number.
 
-    Rule M17	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
+    Rule M16	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
         Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
         Note 2:	Abstract both the invasive and in situ tumors.
         Note 3:	Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.
         Note 4:	This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.
 
-    Rule M18	Abstract a single primary when none of the previous rules apply.
+    Rule M17	Abstract a single primary when none of the previous rules apply.
         Note:	Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.
         Example:	One tumor is invasive carcinoma NST/ductal 8500/3 and a separate non-contiguous tumor in the same breast is DCIS 8500/2.  Abstract a single primary: invasive carcinoma NST/ductal 8500/3.
+
 
     */
 
@@ -126,7 +124,7 @@ public class Mp2018BreastGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018BreastGroup() {
         super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
-              "9590-9992, 9140", "2-3,6", "2018-9999");
+              "9590-9992, 9140", "2-4,6", "2018-9999");
 
         // Rule M4	Abstract a single primary when there is inflammatory carcinoma in:
         // • Multiple quadrants of same breast OR
@@ -138,7 +136,8 @@ public class Mp2018BreastGroup extends MphGroup {
                 if ((i1.getLaterality().equals(MphConstants.LEFT) && i2.getLaterality().equals(MphConstants.LEFT)) ||
                     (i1.getLaterality().equals(MphConstants.RIGHT) && i2.getLaterality().equals(MphConstants.RIGHT)) ||
                     (i1.getLaterality().equals(MphConstants.BOTH) && i2.getLaterality().equals(MphConstants.BOTH))) {
-                    if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology()) &&
+                    if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) &&
+                            MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology()) &&
                             MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology())) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
@@ -150,14 +149,13 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.setReason("Inflammatory carcinoma in multiple quadrants of the same breast or in bilateral breasts is a single primary.");
         _rules.add(rule);
 
-        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes (C50¬_) that differ at the second (CXxx) and/or third characters (CxXx).
+        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((i1.getPrimarySite().substring(0, 2).equals("C50")) && (i2.getPrimarySite().substring(0, 2).equals("C50")))
-                    if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -234,15 +232,23 @@ public class Mp2018BreastGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if ((MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd1) || MphConstants.LOBULAR_CARCINOMA_2018.contains(icd1)) &&
-                    (MphConstants.NST_DUCT_CARCINOMA_2018.contains(icd2) || MphConstants.LOBULAR_CARCINOMA_2018.contains(icd2))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                    }
-                    else if (0 == sixtyDaysApart) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
+                // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
+                // Behaviors must match.
+
+                if (i1.getBehavior().equals(i2.getBehavior())) {
+                    if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
+                        (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
+                        (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
+                        (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1))) {
+                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (-1 == sixtyDaysApart) {
+                            result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
+                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                        }
+                        else if (0 == sixtyDaysApart) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        }
                     }
                 }
                 return result;
@@ -282,26 +288,40 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M12	Abstract a single primary when any of the following conditions are met:
+        // Rule M12	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M12", MphConstants.BREAST_2018_TABLE3_ROWS, false);
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
+        rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.getNotes().add("Each row in the table is a distinctly different histology.");
+        _rules.add(rule);
+
+        // Rule M13	Abstract a single primary when any of the following conditions are met in the same breast:
         // • DCIS subsequent to a diagnosis of:
-        //      DCIS and lobular carcinoma in situ 8522/2
-        //      DCIS and in situ Paget 8543/2
-        //      DCIS and invasive Paget 8543/3
+        //    DCIS and lobular carcinoma in situ 8522/2 OR
+        //    DCIS and in situ Paget 8543/2 OR
+        //    DCIS and invasive Paget 8543/3
+        //    DCIS and other in situ 8523/2 (prior to 2018, DCIS and other in situ was coded 8523/2)
         // • Invasive carcinoma NST/duct subsequent to a diagnosis of:
-        //      Invasive carcinoma NST/duct and invasive lobular 8522/3
-        //      Invasive carcinoma NST/duct and invasive Paget 8541/3
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M12") {
+        //    Invasive carcinoma NST/duct and invasive lobular 8522/3 OR
+        //    Invasive carcinoma NST/duct and invasive Paget 8541/3
+        //    Invasive carcinoma NST/duct and other invasive 8523/3
+        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if ((icd1.equals("8522/2") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                    (icd1.equals("8543/2") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                    (icd1.equals("8543/3") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                    (icd1.equals("8522/3") && icd2.equals("8500/3") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                    (icd1.equals("8541/3") && icd2.equals("8500/3") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
+                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())) {
+                    if (GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) {
+                        if ((icd1.equals("8522/2") && icd2.equals("8500/2")) ||
+                            (icd1.equals("8543/2") && icd2.equals("8500/2")) ||
+                            (icd1.equals("8543/3") && icd2.equals("8500/2")) ||
+                            (icd1.equals("8523/2") && icd2.equals("8500/2")) ||
+                            (icd1.equals("8522/3") && icd2.equals("8500/3")) ||
+                            (icd1.equals("8541/3") && icd2.equals("8500/3")) ||
+                            (icd1.equals("8523/3") && icd2.equals("8500/3")))
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
                 return result;
             }
         };
@@ -309,62 +329,29 @@ public class Mp2018BreastGroup extends MphGroup {
                 "Lobular carcinoma in situ 8522/2 followed by DCIS,\n" +
                 "In situ Paget 8543/2 followed by DCIS,\n" +
                 "Invasive Paget 8543/3 followed by DCIS,\n" +
+                "Other in situ 8523/2 followed by DCIS,\n" +
                 "Invasive lobular 8522/3 followd by Invasive carcinoma NST/duct,\n" +
-                "Invasive Paget 8541/3 followd by Invasive carcinoma NST/duct?");
+                "Invasive Paget 8541/3 followed by Invasive carcinoma NST/duct,\n" +
+                "Other invasive 8523/3 followed by Invasive carcinoma NST/duct?");
         rule.setReason("The following conditions are single primary:\n" +
                 "Lobular carcinoma in situ 8522/2 followed by DCIS,\n" +
                 "In situ Paget 8543/2 followed by DCIS,\n" +
                 "Invasive Paget 8543/3 followed by DCIS,\n" +
-                "Invasive lobular 8522/3 followd by Invasive carcinoma NST/duct,\n" +
-                "Invasive Paget 8541/3 followd by Invasive carcinoma NST/duct.");
+                "Other in situ 8523/2 followed by DCIS,\n" +
+                "Invasive lobular 8522/3 followed by Invasive carcinoma NST/duct,\n" +
+                "Invasive Paget 8541/3 followed by Invasive carcinoma NST/duct,\n" +
+                "Other invasive 8523/3 followed by Invasive carcinoma NST/duct.");
         _rules.add(rule);
 
-
-        // Rule M13	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M13", MphConstants.BREAST_2018_TABLE3_ROWS, false);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
-        rule.getNotes().add("Each row in the table is a distinctly different histology.");
-        _rules.add(rule);
-
-        // Rule M14	Abstract multiple primaries when a DCIS is diagnosed in the same breast after a diagnosis of any one of the following:
-        // •	DCIS and other 8523/2 OR
-        // •	DCIS and in situ lobular 8524/2 OR
-        // •	DCIS and in situ Paget 8543/2
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M14") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                    if ((icd1.equals("8523/2") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                            (icd1.equals("8524/2") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)) ||
-                            (icd1.equals("8543/2") && icd2.equals("8500/2") && GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2)))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors in the same breast where:\n" +
-                "Other 8523/2 followed by DCIS,\n" +
-                "In situ Lobular 8524/2 followed by DCIS,\n" +
-                "In situ Paget 8543/2 followed by DCIS?");
-        rule.setReason("The following conditions are multiple primaries when they occur in the same breast:\n" +
-                "Other 8523/2 followed by DCIS,\n" +
-                "In situ Lobular 8524/2 followed by DCIS,\n" +
-                "In situ Paget 8543/2 followed by DCIS.");
-        _rules.add(rule);
-
-
-        // Rule M15	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M15", true);
+        // Rule M14	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_BREAST_GROUP_ID, "M14", true);
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         _rules.add(rule);
 
-        // Rule M16	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M16", true);
+        // Rule M15	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M15", true);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3.");
@@ -374,16 +361,16 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("See the COC and SEER manuals for instructions on coding other data items such as Date of Diagnosis, Accession Year and Sequence Number.");
         _rules.add(rule);
 
-        // Rule M17	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M17", true);
+        // Rule M16	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
+        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M16", true);
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
-        // Rule M18	Abstract a single primary when none of the previous rules apply.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M18");
+        // Rule M17	Abstract a single primary when none of the previous rules apply.
+        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M17");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add("One tumor is invasive carcinoma NST/ductal 8500/3 and a separate non-contiguous tumor in the same breast is DCIS 8500/2.  Abstract a single primary: invasive carcinoma NST/ductal 8500/3.");
 

@@ -53,23 +53,36 @@ public class CsvRuleTesting {
     private static final String FIELD_EXPECTED_RULE_NUM = "Expected Rule #";
 
 
+    private static Map<String, String> GROUP_IDS;
     private static Map<String, String> GROUP_NAMES;
     private static Map<MphUtils.MpResult, String> EXPECTED_RESULTS;
     private static Map<String, String> RULES_UPDATED;
 
     private static void loadMappings() {
-        GROUP_NAMES = new HashMap<String, String>();
-        GROUP_NAMES.put("2018 Breast", MphConstants.MP_2018_BREAST_GROUP_ID);
-        GROUP_NAMES.put("2018 Colon", MphConstants.MP_2018_COLON_GROUP_ID);
-        GROUP_NAMES.put("2018 Cutaneous Melanoma", MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID);
-        GROUP_NAMES.put("2018 Head And Neck", MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID);
-        GROUP_NAMES.put("2018 Kidney", MphConstants.MP_2018_KIDNEY_GROUP_ID);
-        GROUP_NAMES.put("2018 Lung", MphConstants.MP_2018_LUNG_GROUP_ID);
-        GROUP_NAMES.put("2018 MalignantCNSAndPeripheralNerves", MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID);
-        GROUP_NAMES.put("2018 NonMalignantCNSTumors", MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID);
-        GROUP_NAMES.put("2018 Other Sites", MphConstants.MP_2018_OTHER_SITES_GROUP_ID);
-        GROUP_NAMES.put("2018 Urinary", MphConstants.MP_2018_URINARY_GROUP_ID);
+        GROUP_IDS = new HashMap<String, String>();
+        GROUP_IDS.put("2018 Breast", MphConstants.MP_2018_BREAST_GROUP_ID);
+        GROUP_IDS.put("2018 Colon", MphConstants.MP_2018_COLON_GROUP_ID);
+        GROUP_IDS.put("2018 Cutaneous Melanoma", MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID);
+        GROUP_IDS.put("2018 Head And Neck", MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID);
+        GROUP_IDS.put("2018 Kidney", MphConstants.MP_2018_KIDNEY_GROUP_ID);
+        GROUP_IDS.put("2018 Lung", MphConstants.MP_2018_LUNG_GROUP_ID);
+        GROUP_IDS.put("2018 MalignantCNSAndPeripheralNerves", MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID);
+        GROUP_IDS.put("2018 NonMalignantCNSTumors", MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID);
+        GROUP_IDS.put("2018 Other Sites", MphConstants.MP_2018_OTHER_SITES_GROUP_ID);
+        GROUP_IDS.put("2018 Urinary", MphConstants.MP_2018_URINARY_GROUP_ID);
 
+        GROUP_NAMES = new HashMap<String, String>();
+        GROUP_NAMES.put(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME);
+        GROUP_NAMES.put(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME);
+        
         EXPECTED_RESULTS = new HashMap<MphUtils.MpResult, String>();
         EXPECTED_RESULTS.put(MphUtils.MpResult.SINGLE_PRIMARY, "Single Primary");
         EXPECTED_RESULTS.put(MphUtils.MpResult.MULTIPLE_PRIMARIES, "Multiple Primaries");
@@ -141,6 +154,8 @@ public class CsvRuleTesting {
                     newMap.put(FIELD_EXPECTED_RULE_NUM, row[16].trim());
 
                     retval.add(newMap);
+                } else {
+                    retval.add(null);
                 }
             }
         }
@@ -178,6 +193,7 @@ public class CsvRuleTesting {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
         String outLine = "";
+        boolean writeBlankLine = false;
 
         //outputLines.add("File: " + fileName + " ------------------------------");
         //outputLines.add("Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason");
@@ -210,55 +226,79 @@ public class CsvRuleTesting {
 
 
         for (Map<String, String> record : listRecs) {
-            setInputs(record, i1, i2);
-            output = _utils.computePrimaries(i1, i2);
+            writeBlankLine = false;
+            if (record == null) {
+                writeBlankLine = true;
+            } else {
+                setInputs(record, i1, i2);
+                output = _utils.computePrimaries(i1, i2);
 
-            String expResult = record.get(FIELD_EXPECTED_RESULT);
-            String expGroup = GROUP_NAMES.get(record.get(FIELD_EXPECTED_GROUP));
-            String expRuleNum = record.get(FIELD_EXPECTED_RULE_NUM);
+                String expResult = record.get(FIELD_EXPECTED_RESULT);
+                if (expResult == null) expResult = "";
+                String expGroup = record.get(FIELD_EXPECTED_GROUP);
+                if (expGroup == null) expGroup = "";
+                String expRuleNum = record.get(FIELD_EXPECTED_RULE_NUM);
+                if (expRuleNum == null) expRuleNum = "";
 
-            String outputResult = EXPECTED_RESULTS.get(output.getResult());
-            if (outputResult == null) outputResult = "";
+                if (expResult.equals("") && expGroup.equals("") && expRuleNum.equals("")) {
+                    writeBlankLine = true;
+                }
+                else {
+                    String outputResult = (EXPECTED_RESULTS.get(output.getResult()) == null ? "" : EXPECTED_RESULTS.get(output.getResult()));
+                    String outputStep = (output.getStep() == null ? "" : output.getStep());
+                    String outputGroupId = (output.getGroupId() == null ? "" : output.getGroupId());
 
-            rowRetval = true;
-            if ((!expResult.equals(outputResult)) ||
-                (!expRuleNum.equals(output.getStep())) ||
-                (!expGroup.equals(output.getGroupId()))) {
-                rowRetval = false;
+                    String internalExpectedGroup = (GROUP_IDS.get(expGroup) == null ? "NULL" : GROUP_IDS.get(expGroup));
+
+                    rowRetval = true;
+                    if ((!expResult.equals(outputResult)) ||
+                            (!expRuleNum.equals(outputStep)) ||
+                            (!internalExpectedGroup.equals(outputGroupId))) {
+                        rowRetval = false;
+                    }
+
+                    String strReason = output.getReason().replaceAll("\n", " - ");
+                    String matchText = "Yes";
+                    if (!rowRetval) matchText = "No";
+
+                    String actualGroupName = (GROUP_NAMES.get(output.getGroupId()) == null ? "NULL" : GROUP_NAMES.get(output.getGroupId()));
+
+
+                    outLine = record.get(FIELD_T1_PRIMARY_SITE) + ",";
+                    outLine += record.get(FIELD_T1_HISTOLOGY) + ",";
+                    outLine += record.get(FIELD_T1_BEHAVIOR) + ",";
+                    outLine += record.get(FIELD_T1_LATERALITY) + ",";
+                    outLine += record.get(FIELD_T1_DX_DATE_YEAR) + ",";
+                    outLine += record.get(FIELD_T1_DX_DATE_MONTH) + ",";
+                    outLine += record.get(FIELD_T1_DX_DATE_DAY) + ",";
+                    outLine += record.get(FIELD_T2_PRIMARY_SITE) + ",";
+                    outLine += record.get(FIELD_T2_HISTOLOGY) + ",";
+                    outLine += record.get(FIELD_T2_BEHAVIOR) + ",";
+                    outLine += record.get(FIELD_T2_LATERALITY) + ",";
+                    outLine += record.get(FIELD_T2_DX_DATE_YEAR) + ",";
+                    outLine += record.get(FIELD_T2_DX_DATE_MONTH) + ",";
+                    outLine += record.get(FIELD_T2_DX_DATE_DAY) + ",";
+                    outLine += expResult + ",";
+                    outLine += expGroup + ",";
+                    outLine += expRuleNum + ",";
+                    outLine += ",";
+                    outLine += outputResult + ",";
+                    outLine += actualGroupName + ",";
+                    outLine += RULES_UPDATED.get(output.getGroupId()) + ",";
+                    outLine += output.getStep() + ",";
+                    outLine += matchText + ",";
+                    outLine += strReason;
+
+                    outputLines.add(outLine);
+
+                    if (!rowRetval) fileRetval = false;
+                }
             }
 
-            String strReason = output.getReason();
-            String matchText = "Yes";
-            if (!rowRetval) matchText = "No";
+            if (writeBlankLine) {
+                outputLines.add(",,,,,,,,,,,,,,,,,,,,,,,,,");
+            }
 
-            outLine = record.get(FIELD_T1_PRIMARY_SITE) + ",";
-            outLine += record.get(FIELD_T1_HISTOLOGY) + ",";
-            outLine += record.get(FIELD_T1_BEHAVIOR) + ",";
-            outLine += record.get(FIELD_T1_LATERALITY) + ",";
-            outLine += record.get(FIELD_T1_DX_DATE_YEAR) + ",";
-            outLine += record.get(FIELD_T1_DX_DATE_MONTH) + ",";
-            outLine += record.get(FIELD_T1_DX_DATE_DAY) + ",";
-            outLine += record.get(FIELD_T2_PRIMARY_SITE) + ",";
-            outLine += record.get(FIELD_T2_HISTOLOGY) + ",";
-            outLine += record.get(FIELD_T2_BEHAVIOR) + ",";
-            outLine += record.get(FIELD_T2_LATERALITY) + ",";
-            outLine += record.get(FIELD_T2_DX_DATE_YEAR) + ",";
-            outLine += record.get(FIELD_T2_DX_DATE_MONTH) + ",";
-            outLine += record.get(FIELD_T2_DX_DATE_DAY) + ",";
-            outLine += expResult + ",";
-            outLine += expGroup + ",";
-            outLine += expRuleNum + ",";
-            outLine += ",";
-            outLine += outputResult + ",";
-            outLine += output.getGroupId() + ",";
-            outLine += RULES_UPDATED.get(output.getGroupId()) + ",";
-            outLine += output.getStep() + ",";
-            outLine += matchText + ",";
-            outLine += strReason;
-
-            outputLines.add(outLine);
-
-            if (!rowRetval) fileRetval = false;
         }
 
         WriteComparisonFile(fileName, outputLines);
@@ -273,14 +313,12 @@ public class CsvRuleTesting {
 
         BufferedWriter outputWriter = null;
         try {
-            String outputFileName = "src\\test\\resources\\" + inputFileName;
-            /*
+            String outputFileName = inputFileName;
             int sepPos = inputFileName.lastIndexOf(".csv");
             if (sepPos >= 0) {
                 outputFileName = inputFileName.substring(0, sepPos);
             }
             outputFileName = "src\\test\\resources\\" + outputFileName + "_results.csv";
-            */
 
             File outputFile = new File(outputFileName);
             outputWriter = new BufferedWriter(new FileWriter(outputFile));

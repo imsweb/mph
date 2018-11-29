@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
 
-    // NON-MALIGNANT 2018 - AS OF 11/21/2018
+    // NON-MALIGNANT 2018 - See MphConstants for AS OF date.
 
     /*
     Non-Malignant CNS Multiple Primary Rules

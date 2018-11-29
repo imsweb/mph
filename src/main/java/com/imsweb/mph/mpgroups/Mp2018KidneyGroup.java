@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2018KidneyGroup extends MphGroup {
 
 
-    // KIDNEY 2018 - AS OF 9/10/2018
+    // KIDNEY 2018 - See MphConstants for AS OF date.
 
     /*
     Kidney Multiple Primary Rules - Text

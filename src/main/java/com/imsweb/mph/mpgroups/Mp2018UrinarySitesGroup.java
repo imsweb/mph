@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
 
-    // URINARY 2018 - AS OF 11/21/2018
+    // URINARY 2018 - See MphConstants for AS OF date.
 
     /*
     Renal Pelvis, Ureter, Bladder, and Other Urinary Multiple Primary Rules

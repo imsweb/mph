@@ -24,7 +24,7 @@ import static com.imsweb.mph.mpgroups.GroupUtility.createHistologyBehaviorList;
 public class Mp2018LungGroup extends MphGroup {
 
 
-    // LUNG 2018 - AS OF 9/10/2018
+    // LUNG 2018 - See MphConstants for AS OF date.
 
     /*
     Lung Multiple Primary Rules

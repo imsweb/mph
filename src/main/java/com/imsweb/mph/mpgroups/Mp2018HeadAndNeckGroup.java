@@ -19,7 +19,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2018HeadAndNeckGroup extends MphGroup {
 
 
-    // HEAD & NECK 2018 - AS OF 9/5/2018
+    // HEAD & NECK 2018 - See MphConstants for AS OF date.
 
     /*
     Head and Neck Multiple Primary Rules

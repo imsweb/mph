@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
-    // MALIGNANT 2018 - AS OF 10/15/2018
+    // MALIGNANT 2018 - See MphConstants for AS OF date.
 
     /*
     Malignant CNS and Peripheral Nerves Histology Rules
@@ -34,21 +34,36 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         Note 2:	See Table 2 in the Equivalent Terms and Definitions for a listing of CNS sites.
         Note 3:	A non-malignant CNS tumor and a malignant CNS tumor are always multiple primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.
 
-    Rule M6	Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
-        Note 1:	This is a change from the 2007 Rules.
-        Note 2:	Abstracting GBM as a new primary will allow analysis of:
+    Rule M6	Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        Note 1:	Definition of a glial tumor: Any tumor arising from the CNS glial cells.  The following is simply a list of all tumors which would be classified as glial.
+        •	Astroblastoma 9430
+        •	Astrocytomas 9400 and all subtypes
+            	Anaplastic astrocytoma IDH-mutant/wildtype; anaplastic astrocytoma NOS 9401
+            	Gemistocytic astrocytoma IDH-mutant 9411
+        •	Diffuse midline glioma H3 K27M Mutant 9385
+        •	Ependymoma 9391 and all subtypes
+            	Anaplastic ependymoma 9392
+            	Ependymoma, RELA fusion-positive 9396
+            	Papillary ependymoma 9393
+        •	Glioblastoma 9440 and all subtypes (this is a glial tumor; however do not apply this rule to a GBM followed by a GBM)
+            	Giant cell glioblastoma 9441
+            	Glioblastoma IDH-mutant 9445
+            	Gliosarcoma 9442
+        •	Oligodendroglioma and all subtypes 9450
+            	Anaplastic oligodendroglioma; IDH-mutant; 1p/19q-codeleted; IDH-mutant and 1p/19q-codeleted 9451
+        •	Pleomorphic xanthroastrocytoma 9424
+        Note 2:	This is a change from the 2007 Rules.
+        Note 3:	Abstracting GBM as a new primary will allow analysis of:
         •	The number of tumors that recur as a more aggressive histology (GBM)
         •	The time interval between occurrence of the glial or astrocytic tumors and a GBM
         •	Which histologies are more likely to recur as a GBM
 
-    Rule M7	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
+    Rule M7	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
         •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         Example: 	The patient had a resection of an anaplastic astrocytoma 9401 in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.
-        Note 1:	Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:
-        •	Glioblastoma multiforme
-        •	Gliomatosis cerebri
+        Note 1:	Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. Glioblastoma multiforme commonly exhibits multiple tumors which are described as multifocal/multicentric.
         Note 2:	Metastases are never used to determine multiple primaries. Seeding metastasis is often noted for the following tumors:
         •	Glioblastoma multiforme
         •	pNET-medulloblastoma
@@ -64,16 +79,15 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
     Rule M8	Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
         •	Any lobe of the brain C710-C719 AND any other part of CNS
+        •	Cauda equina C721 AND any other part of CNS
         •	Cerebral meninges C700 AND spinal meninges C701
         •	Cerebral meninges C700 AND any other part of CNS
-        •	Any of the cranial nerves C721-C725 AND any other part of the CNS
+        •	Any one of the cranial nerves C722-C725 AND any other part of the CNS
+        •	Any two or more of the cranial nerves
+            	C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
         •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         •	Spinal cord C720 AND any other part of CNS
         •	Spinal meninges C701 AND any other part of CNS
-        Rule M9	Abstract multiple primariesii when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        Note: 	The tumors may be subtypes/variants of the same or different NOS histologies.
-        •	Same NOS: Anaplastic astrocytoma IDH-mutant 9401 and gemistocytic astrocytoma IDH-mutant 9411 are both subtypes of astrocytoma NOS 9400/3 but are distinctly different histologies. Abstract multiple primaries.
-        •	Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.
 
     Rule M9	Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         Note: 	The tumors may be subtypes/variants of the same or different NOS histologies.
@@ -114,22 +128,39 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.getNotes().add("A non-malignant CNS tumor and a malignant CNS tumor are always multiple primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.");
         _rules.add(rule);
 
-        // Rule M6	Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        // Rule M6	Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
         rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
-                if ((MphConstants.GLIAL_TUMOR.contains(i1.getHistology()) && i2.getHistology().equals("9440") && (2 == latestDx)) ||
-                    (MphConstants.GLIAL_TUMOR.contains(i2.getHistology()) && i1.getHistology().equals("9440") && (1 == latestDx)))
+                if ((MphConstants.GLIAL_TUMOR_2018.contains(i1.getHistology()) && i2.getHistology().equals("9440") && (2 == latestDx)) ||
+                    (MphConstants.GLIAL_TUMOR_2018.contains(i2.getHistology()) && i1.getHistology().equals("9440") && (1 == latestDx)))
                 {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
         };
-        rule.setQuestion("Does the patient have a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM)?");
-        rule.setReason("A glial or astrocytic tumor that is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM) is multiple primaries.");
+        rule.setQuestion("Does the patient have a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM)?");
+        rule.setReason("A glial tumor that is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM) is multiple primaries.");
+        rule.getNotes().add("Definition of a glial tumor: Any tumor arising from the CNS glial cells.  The following is simply a list of all tumors which would be classified as glial.");
+        rule.getNotes().add("  • Astroblastoma 9430");
+        rule.getNotes().add("  • Astrocytomas 9400 and all subtypes");
+        rule.getNotes().add("     Anaplastic astrocytoma IDH-mutant/wildtype; anaplastic astrocytoma NOS 9401");
+        rule.getNotes().add("     Gemistocytic astrocytoma IDH-mutant 9411");
+        rule.getNotes().add("  • Diffuse midline glioma H3 K27M Mutant 9385");
+        rule.getNotes().add("  • Ependymoma 9391 and all subtypes");
+        rule.getNotes().add("     Anaplastic ependymoma 9392");
+        rule.getNotes().add("     Ependymoma, RELA fusion-positive 9396");
+        rule.getNotes().add("     Papillary ependymoma 9393");
+        rule.getNotes().add("  • Glioblastoma 9440 and all subtypes (this is a glial tumor; however do not apply this rule to a GBM followed by a GBM)");
+        rule.getNotes().add("     Giant cell glioblastoma 9441");
+        rule.getNotes().add("     Glioblastoma IDH-mutant 9445");
+        rule.getNotes().add("     Gliosarcoma 9442");
+        rule.getNotes().add("  • Oligodendroglioma and all subtypes 9450");
+        rule.getNotes().add("     Anaplastic oligodendroglioma; IDH-mutant; 1p/19q-codeleted; IDH-mutant and 1p/19q-codeleted 9451");
+        rule.getNotes().add("  • Pleomorphic xanthroastrocytoma 9424");
         rule.getNotes().add("This is a change from the 2007 Rules.");
         rule.getNotes().add("Abstracting GBM as a new primary will allow analysis of:");
         rule.getNotes().add("  • The number of tumors that recur as a more aggressive histology (GBM)");
@@ -137,27 +168,26 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.getNotes().add("  • Which histologies are more likely to recur as a GBM");
         _rules.add(rule);
 
-        // Rule M7	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal).  Tumors may be any of the following combinations:
-        // •	In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
-        // •	Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
-        // •	In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        // Rule M7	Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
+        // • In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        // • Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        // • In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i1.getPrimarySite()) &&
+                if (i1.getHistology().equals(i2.getHistology()))
+                    if (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i1.getPrimarySite()) &&
                         GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i2.getPrimarySite())) {
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 return result;
             }
         };
-        rule.setQuestion("Are the tumors separate, non-contiguous and in the brain (multicentric/multifocal)?");
-        rule.setReason("Tumors which are separate, non-contiguous and in the brain (multicentric/multifocal) are a single primary.");
+        rule.setQuestion("Are the tumors separate, non-contiguous, in the brain (multicentric/multifocal), and have the same histology?");
+        rule.setReason("Tumors which are separate, non-contiguous, in the brain (multicentric/multifocal), and have the same histology are a single primary.");
         rule.getExamples().add("The patient had a resection of an anaplastic astrocytoma 9401 in the right parietal lobe. Three months later the patient is diagnosed with a de novo anaplastic astrocytoma in the left parietal lobe. This is one primary because neither laterality nor timing are used to determine multiple primary status.");
-        rule.getNotes().add("Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. The following histologies commonly have multiple tumors which are described as multifocal/multicentric:");
-        rule.getNotes().add("  • Glioblastoma multiforme");
-        rule.getNotes().add("  • Gliomatosis cerebri");
+        rule.getNotes().add("Multiple sites/subsites and/or different lateralities imply either metastatic or multifocal/multicentric disease. Glioblastoma multiforme commonly exhibits multiple tumors which are described as multifocal/multicentric.");
         rule.getNotes().add("Metastases are never used to determine multiple primaries. Seeding metastasis is often noted for the following tumors:");
         rule.getNotes().add("  • Glioblastoma multiforme");
         rule.getNotes().add("  • pNET-medulloblastoma");
@@ -173,56 +203,82 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8	Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
-        // •	Any lobe of the brain C710-C719 AND any other part of CNS
-        // •	Cerebral meninges C700 AND spinal meninges C701
-        // •	Cerebral meninges C700 AND any other part of CNS
-        // •	Any of the cranial nerves C721-C725 AND any other part of the CNS
-        // •	Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-        // •	Spinal cord C720 AND any other part of CNS
-        // •	Spinal meninges C701 AND any other part of CNS
+        // • Any lobe of the brain C710-C719 AND any other part of CNS
+        // • Cauda equina C721 AND any other part of CNS
+        // • Cerebral meninges C700 AND spinal meninges C701
+        // • Cerebral meninges C700 AND any other part of CNS
+        // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
+        // • Any two or more of the cranial nerves
+        //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
+        // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        // • Spinal cord C720 AND any other part of CNS
+        // • Spinal meninges C701 AND any other part of CNS
         rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
 
+                // • Any lobe of the brain C710-C719 AND any other part of CNS
                 if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+                // • Cauda equina C721 AND any other part of CNS
+                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CAUDA_EQUINA, MphConstants.CNS_2018_CNS_SITES)) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                // • Cerebral meninges C700 AND spinal meninges C701
+                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                // • Cerebral meninges C700 AND any other part of CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
+                // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+                // • Any two or more of the cranial nerves
+                //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
+                else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i1.getPrimarySite()) &&
+                         GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i2.getPrimarySite())) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+                // • Spinal cord C720 AND any other part of CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+                // • Spinal meninges C701 AND any other part of CNS
                 else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
         };
-        rule.setQuestion("Are multiple tumors are present in the following sites:\n" +
-                "Any lobe of the brain C710-C719 AND any other part of CNS\n" +
-                "Cerebral meninges C700 AND spinal meninges C701\n" +
-                "Cerebral meninges C700 AND any other part of CNS\n" +
-                "Any of the cranial nerves C721-C725 AND any other part of the CNS\n" +
-                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS\n" +
+        rule.setQuestion("Are multiple tumors present in the following sites:\n" +
+                "Any lobe of the brain C710-C719 AND any other part of CNS,\n" +
+                "Cauda equina C721 AND any other part of CNS,\n" +
+                "Cerebral meninges C700 AND spinal meninges C701,\n" +
+                "Cerebral meninges C700 AND any other part of CNS,\n" +
+                "Any of the cranial nerves C722-C725 AND any other part of the CNS,\n" +
+                "Any two or more of the cranial nerves: C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS,\n" +
+                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS,\n" +
+                "Spinal cord C720 AND any other part of CNS,\n" +
                 "Spinal meninges C701 AND any other part of CNS?");
         rule.setReason("Multiple tumors present in the following sites:\n" +
-                "Any lobe of the brain C710-C719 AND any other part of CNS\n" +
-                "Cerebral meninges C700 AND spinal meninges C701\n" +
-                "Cerebral meninges C700 AND any other part of CNS\n" +
-                "Any of the cranial nerves C721-C725 AND any other part of the CNS\n" +
-                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS\n" +
-                "Spinal meninges C701 AND any other part of CNS\n" +
+                "Any lobe of the brain C710-C719 AND any other part of CNS,\n" +
+                "Cauda equina C721 AND any other part of CNS,\n" +
+                "Cerebral meninges C700 AND spinal meninges C701,\n" +
+                "Cerebral meninges C700 AND any other part of CNS,\n" +
+                "Any of the cranial nerves C722-C725 AND any other part of the CNS,\n" +
+                "Any two or more of the cranial nerves: C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS,\n" +
+                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS,\n" +
+                "Spinal cord C720 AND any other part of CNS,\n" +
+                "Spinal meninges C701 AND any other part of CNS,\n" +
                 "are multiple primaries.");
         _rules.add(rule);
 

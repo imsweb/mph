@@ -135,6 +135,8 @@ public class Mp2018BreastGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 if ((i1.getLaterality().equals(MphConstants.LEFT) && i2.getLaterality().equals(MphConstants.LEFT)) ||
                     (i1.getLaterality().equals(MphConstants.RIGHT) && i2.getLaterality().equals(MphConstants.RIGHT)) ||
+                    (i1.getLaterality().equals(MphConstants.LEFT) && i2.getLaterality().equals(MphConstants.RIGHT)) ||
+                    (i1.getLaterality().equals(MphConstants.RIGHT) && i2.getLaterality().equals(MphConstants.LEFT)) ||
                     (i1.getLaterality().equals(MphConstants.BOTH) && i2.getLaterality().equals(MphConstants.BOTH))) {
                     if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) &&
                             MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology()) &&

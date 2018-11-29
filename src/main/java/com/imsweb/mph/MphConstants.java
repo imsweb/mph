@@ -69,13 +69,13 @@ public class MphConstants {
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 
-    public static final String BREAST_2018_AS_OF_DATE = "11/27/2018";
+    public static final String BREAST_2018_AS_OF_DATE = "11/29/2018";
     public static final String COLON_2018_AS_OF_DATE = "11/21/2018";
     public static final String CUT_MELANOMA_2018_AS_OF_DATE = "9/1/2018";
     public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "9/5/2018";
     public static final String KIDNEY_2018_AS_OF_DATE = "10/15/2018";
     public static final String LUNG_2018_AS_OF_DATE = "10/15/2018";
-    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "10/15/2018";
+    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "11/29/2018";
     public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "11/21/2018";
     public static final String OTHER_STIES_2018_AS_OF_DATE = "9/1/2018";
     public static final String URINARY_2018_AS_OF_DATE = "11/21/2018";
@@ -196,6 +196,11 @@ public class MphConstants {
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
+
+    public static final List<String> GLIAL_TUMOR_2018 = GroupUtility.expandList("9385,9391,9392,9393,9396,9400,9401,9411,9424,9430,9440,9441,9442,9445,9450,9451");
+
+
+
 
     //Histology Charts
     public static final Map<String, List<String>> NOS_VS_SPECIFIC;
@@ -543,10 +548,11 @@ public class MphConstants {
     // General Brain Sites
     public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
     public static final String CNS_2018_BRAIN_SITES = "C710-C719";
+    public static final String CNS_2018_CAUDA_EQUINA = "C721";
     public static final String CNS_2018_CEREBRAL_MENINGES_SITES = "C700";
     public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
     public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
-    public static final String CNS_2018_CRANIAL_NERVES_SITES = "C721-C725";
+    public static final String CNS_2018_CRANIAL_NERVES_SITES = "C722-C725";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
 
     public static final List<String> CNS_2018_MENINGIOMAS = Collections.unmodifiableList(Arrays.asList(
@@ -557,7 +563,6 @@ public class MphConstants {
     // Non-Malignant CNS
     //--------------------------------------------------------------------------------------------------------------------------------------
     // See Non-Malignant CNS 2018 AS OF date at top of this file.
-
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0",
@@ -614,7 +619,7 @@ public class MphConstants {
     // See Malignant CNS 2018 AS OF date at top of this file.
 
     public static final List<String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "9401", "9411", "9473", "9071", "9392", "9396", "9393", "9445", "9441", "9442",
+            "9401", "9411", "9424", "9473", "9071", "9392", "9396", "9393", "9441", "9445", "9442",
             "9085", "9084", "9538", "9474", "9471", "9477", "9476", "9475",
             "8728", "9451", "9425", "9395", "9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"));
 
@@ -624,7 +629,7 @@ public class MphConstants {
         Map<String, List<String>> content = new HashMap<>();
         content.put("9505", Collections.unmodifiableList(Arrays.asList())); // Anaplastic ganglioglioma 9505
         content.put("9430", Collections.unmodifiableList(Arrays.asList())); // Astroblastoma 9430
-        content.put("9400", Collections.unmodifiableList(Arrays.asList("9401", "9411"))); // Astrocytoma NOS 9400
+        content.put("9400", Collections.unmodifiableList(Arrays.asList("9401", "9411", "9424"))); // Astrocytoma NOS 9400
         content.put("9100", Collections.unmodifiableList(Arrays.asList())); // Choriocarcinoma 9100
         content.put("9390", Collections.unmodifiableList(Arrays.asList())); // Choroid plexus carcinoma 9390
         content.put("9508", Collections.unmodifiableList(Arrays.asList())); // CNS embryonal tumor with rhabdoid features 9508
@@ -636,7 +641,7 @@ public class MphConstants {
         content.put("9391", Collections.unmodifiableList(Arrays.asList("9392", "9396", "9393"))); // Ependymoma 9391
         content.put("9133", Collections.unmodifiableList(Arrays.asList())); // Epithelioid hemangioendothelioma 9133
         content.put("9064", Collections.unmodifiableList(Arrays.asList())); // Germinoma 9064
-        content.put("9440", Collections.unmodifiableList(Arrays.asList("9445", "9441", "9442"))); // Glioblastoma multiforme 9440
+        content.put("9440", Collections.unmodifiableList(Arrays.asList("9441", "9445", "9442"))); // Glioblastoma multiforme 9440
         content.put("9080", Collections.unmodifiableList(Arrays.asList("9085", "9084"))); // Immature teratoma 9080
         content.put("9530", Collections.unmodifiableList(Arrays.asList("9538"))); // Malignant meningioma 9530
         content.put("9540", Collections.unmodifiableList(Arrays.asList())); // Malignant peripheral nerve sheath tumor 9540
@@ -648,10 +653,7 @@ public class MphConstants {
         content.put("9364", Collections.unmodifiableList(Arrays.asList())); // Peripheral primitive neuroectodermal tumor 9364
         content.put("9421", Collections.unmodifiableList(Arrays.asList("9425"))); // Pilocytic astrocytoma 9421
         content.put("9362", Collections.unmodifiableList(Arrays.asList("9395"))); // Pineal parenchymal tumor of intermediate differentiation 9362
-        content.put("9424", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic xanthroastrocytoma 9424
         content.put("8800", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Sarcoma NOS 8800
-        //content.put("9220", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Chondrosarcoma 9220
-        //content.put("8890", Collections.unmodifiableList(Arrays.asList("9120", "9220", "9240", "8890", "8891", "8896", "9180", "8802"))); // Leiomyosarcoma 8890
         content.put("8815", Collections.unmodifiableList(Arrays.asList())); // Solitary fibrous tumor grade 3 8815
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }

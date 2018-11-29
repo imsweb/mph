@@ -15,7 +15,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018CutaneousMelanomaGroup extends MphGroup {
 
-    // MELANOMA 2018 - AS OF 9/10/2018
+    // MELANOMA 2018 - See MphConstants for AS OF date.
 
     /*
     Cutaneous Melanoma Multiple Primary Rules – Text

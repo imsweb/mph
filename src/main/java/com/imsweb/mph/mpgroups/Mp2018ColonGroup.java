@@ -17,7 +17,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018ColonGroup extends MphGroup {
 
-    // COLON 2018 - AS OF 11/21/2018
+    // COLON 2018 - See MphConstants for AS OF date.
 
     /*
     Colon, Rectosigmoid, and Rectum Multiple Primary Rules

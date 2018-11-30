@@ -22,7 +22,7 @@ public class Mp2018BreastGroup extends MphGroup {
 
 
     /*
-    Breast Histology Coding Rules
+    Breast Equivalent Terms and Definitions
     C500-C506, C508-C509
     (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
@@ -48,7 +48,7 @@ public class Mp2018BreastGroup extends MphGroup {
         •	Scans are NED
         •	Tumor biomarkers are NED
         Note 3:	When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.
-        Note 4:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
+        Note 4:	When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.
         Note 5:	The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.
 
     Rule M9	 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
@@ -222,7 +222,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  • Tumor biomarkers are NED");
         rule.getNotes().add("When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
-        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
+        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.");
         rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 

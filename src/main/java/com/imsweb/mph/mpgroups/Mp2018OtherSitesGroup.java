@@ -21,13 +21,9 @@ public class Mp2018OtherSitesGroup extends MphGroup {
     // OTHER SITES 2018 - See MphConstants for AS OF date.
 
     /*
-    Other Sites Multiple Primary Rules – Text
+    Other Sites Multiple Primary Rules
     Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast,
     Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
-
-    Multiple tumors may be a single primary or multiple primaries.
-    Note 1: Tumors not described as metastases
-    Note 2: Includes combinations of in situ and invasive
 
     Rule M3	Adenocarcinoma of the prostate is always a single primary. *
         Note 1:  Report only one adenocarcinoma of the prostate per patient per lifetime.
@@ -43,7 +39,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
     Rule M7	Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. *
 
     Rule M8	Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries. **
-        Note: Table 1 – Paired Organs and Sites with Laterality)
+        Note:	See Table 1: Paired Organs and Sites with Laterality
 
     Rule M9	Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.*
         Note: Tumors may be present in a single or multiple segments of the colon, rectosigmoid, rectum.
@@ -84,7 +80,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         Note: When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.
     */
 
-    // Other Sites Multiple Primary Rules – Text
+    // Other Sites Multiple Primary Rules
     // Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
     public Mp2018OtherSitesGroup() {
         super(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME, null, null, null,
@@ -185,10 +181,10 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
         rule = new MphRuleLeftAndRight(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8",
                 Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
-                        "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754"), null);
+                              "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754"), null);
         rule.setQuestion("Are there tumors in both the left and right sides of a paired site (Table 1)?");
         rule.setReason("Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.");
-        rule.getNotes().add("Table 1 – Paired Organs and Sites with Laterality.");
+        rule.getNotes().add("See Table 1: Paired Organs and Sites with Laterality");
         _rules.add(rule);
 
         //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.

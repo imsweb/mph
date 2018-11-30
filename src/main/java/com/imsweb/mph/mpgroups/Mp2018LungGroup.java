@@ -39,7 +39,7 @@ public class Mp2018LungGroup extends MphGroup {
         •	Scans are NED
         •	Tumor biomarkers are NED
         Note 2:	When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.
-        Note 3:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
+        Note 3:	When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.
         Note 4:	The physician may state this is a recurrence, meaning the patient had a previous lung tumor and now has another lung site tumor. Follow the rules; do not attempt to interpret the physician’s statement.
 
     Rule M5	Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
@@ -51,9 +51,9 @@ public class Mp2018LungGroup extends MphGroup {
     Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         Note:	The tumors may be subtypes/variants of the same or different NOS histologies.
         •	Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.
-        •	Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.
+        •	Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Lepidic adenocarcinoma 8520/3 is a subtype of adenocarcinoma 8140/3. They are distinctly different histologies. Abstract multiple primaries.
 
-    Rule M7	Abstract a single primary when separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+    Rule M7	Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         Note 1:	Tumors must be in the same lung.
         Note 2:	The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.
         Note 3:	The same row means the tumors are:
@@ -65,7 +65,7 @@ public class Mp2018LungGroup extends MphGroup {
         Note:	Each row in the table is a distinctly different histology.
 
     Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
-        •	In both lungs OR
+        •	In both lungs (multiple in right and multiple in left) OR
         •	In the same lung OR
         •	Single tumor in one lung; multiple tumors in contralateral lung
         Note 1:	Tumors may be combinations of:
@@ -74,7 +74,6 @@ public class Mp2018LungGroup extends MphGroup {
         Note 2:	NOS and subtypes/variants are:
         •	Adenocarcinoma 8140 and a subtype/variant of adenocarcinoma
         •	Mucinous adenocarcinoma and a subtype/variant of mucinous adenocarcinoma
-        •	Non-mucinous adenocarcinoma and a subtype/variant of non-mucinous adenocarcinoma
         •	Non-small cell carcinoma 8046 and a subtype/variant of non-small cell carcinoma
         •	Sarcoma 8800 and a subtype/variant of sarcoma
         •	Small cell neuroendocrine tumors/NET 8041 and a subtype/variant of small cell neuroendocrine tumor/NET
@@ -82,7 +81,7 @@ public class Mp2018LungGroup extends MphGroup {
         Note 3:	Code multiple primaries only when there is proof that one of the tumors is a different histology. Proof is any one of the following:
         •	Pathology from a biopsy or resection proves tumors are different histologies
         •	Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries
-            	Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove metastasis.
+            	Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove different primaries.
         Note 4:	When there are multiple tumors in one or both lungs, the physician usually biopsies only one mass/tumor. They treat the patient based on that single biopsy, assuming all of the masses/tumors are the same histology.
 
     Rule M10	Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
@@ -116,7 +115,7 @@ public class Mp2018LungGroup extends MphGroup {
         Note 4:	This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.
 
     Rule M14	Abstract a single primary when none of the previous rules apply.
-        Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
+        Note:	Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.
 
      */
 
@@ -138,7 +137,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  •	 Tumor biomarkers are NED");
         rule.getNotes().add("When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
-        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
+        rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.");
         rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous lung tumor and now has another lung site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
@@ -179,13 +178,13 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add("  •	 Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add("  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Typical carcinoid 8240/3 is a subtype of small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add("  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Lepidic adenocarcinoma 8520/3 is a subtype of adenocarcinoma 8140/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M7	Abstract a single primary when separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M7	Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         rule = new MphRuleSameRowInTable(MphConstants.MP_2018_LUNG_GROUP_ID, "M7", MphConstants.LUNG_2018_TABLE3_ROWS, null, true, true, false);
-        rule.setQuestion("Are separate/non-contiguous tumors in the same lung on the same rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions?");
+        rule.setReason("Synchronous separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("Tumors must be in the same lung.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
@@ -202,7 +201,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
-        // •	 In both lungs OR
+        // •	 In both lungs (multiple in right and multiple in left) OR
         // •	 In the same lung OR
         // • Single tumor in one lung; multiple tumors in contralateral lung
         // Real requirements:
@@ -246,7 +245,6 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("NOS and subtypes/variants are:");
         rule.getNotes().add("  • Adenocarcinoma 8140 and a subtype/variant of adenocarcinoma");
         rule.getNotes().add("  • Mucinous adenocarcinoma and a subtype/variant of mucinous adenocarcinoma");
-        rule.getNotes().add("  • Non-mucinous adenocarcinoma and a subtype/variant of non-mucinous adenocarcinoma");
         rule.getNotes().add("  • Non-small cell carcinoma 8046 and a subtype/variant of non-small cell carcinoma");
         rule.getNotes().add("  • Sarcoma 8800 and a subtype/variant of sarcoma");
         rule.getNotes().add("  • Small cell neuroendocrine tumors/NET 8041 and a subtype/variant of small cell neuroendocrine tumor/NET");
@@ -254,7 +252,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("Code multiple primaries only when there is proof that one of the tumors is a different histology. Proof is any one of the following:");
         rule.getNotes().add("  • Pathology from a biopsy or resection proves tumors are different histologies");
         rule.getNotes().add("  • Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries");
-        rule.getNotes().add("     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove metastasis.");
+        rule.getNotes().add("     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove different primaries.");
         rule.getNotes().add("When there are multiple tumors in one or both lungs, the physician usually biopsies only one mass/tumor. They treat the patient based on that single biopsy, assuming all of the masses/tumors are the same histology.");
         _rules.add(rule);
 
@@ -329,7 +327,7 @@ public class Mp2018LungGroup extends MphGroup {
 
         // Rule M14	Abstract a single primary when none of the previous rules apply.
         rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
-        rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
+        rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }
 }

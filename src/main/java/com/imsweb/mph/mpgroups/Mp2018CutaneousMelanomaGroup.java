@@ -18,13 +18,9 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
     // MELANOMA 2018 - See MphConstants for AS OF date.
 
     /*
-    Cutaneous Melanoma Multiple Primary Rules – Text
+    Cutaneous Melanoma Multiple Primary Rules
     C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
     Rules Apply to Cases Diagnosed 1/1/2007 to 12/31/2018
-
-    Multiple melanomas may be a single primary or multiple primaries
-    Note 1: Melanoma not described as metastases
-    Note 2: Includes combinations of in situ and invasive
 
     Rule M3	Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
 
@@ -45,13 +41,13 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         Note 1: 	Use the data item “Multiplicity Counter” to record the number of melanomas abstracted as a single primary.
         Note 2:	 When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.
         Note 3: 	All cases covered by this rule are the same site and histology.
+        Note 4:	The below examples are not exhaustive.
         Example 1: Solitary melanoma on the left back and another solitary melanoma on the left chest.
         Example 2: Solitary melanoma on the right thigh and another solitary melanoma on the right ankle.
-        Note: 	The above examples are not exhaustive.
     */
 
 
-    // Cutaneous Melanoma Multiple Primary Rules – Text
+    // Cutaneous Melanoma Multiple Primary Rules
     // C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
     // Rules Apply to Cases Diagnosed 1/1/2007 to 12/31/2018
     public Mp2018CutaneousMelanomaGroup() {
@@ -134,9 +130,9 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         rule.getNotes().add("Use the data item “Multiplicity Counter” to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by this rule are the same site and histology.");
+        rule.getNotes().add("The below examples are not exhaustive.");
         rule.getExamples().add("Solitary melanoma on the left back and another solitary melanoma on the left chest.");
         rule.getExamples().add("Solitary melanoma on the right thigh and another solitary melanoma on the right ankle.");
-        rule.getNotes().add("The above examples are not exhaustive.");
         _rules.add(rule);
 
     }

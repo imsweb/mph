@@ -3,6 +3,12 @@
  */
 package com.imsweb.mph;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -2224,7 +2230,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals("M6", output.getStep());
 
-        // Rule M7	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M7	Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8041");
         i1.setBehaviorIcdO3("3");
@@ -3888,5 +3894,42 @@ public class Mph2018RuleTests {
         //Assert.assertEquals("", output.getStep());
     }
 
+    @Test
+    public void test2018GetWordDocLastModifiedDates() {
+
+        List<String> fileList = new ArrayList<String>();
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Breast\\Breast_STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Colon\\Colon_STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Head and Neck\\Head and Neck_STM.docx");
+        //fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Kidney\\Kidney_STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Lung\\Lung_STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Malignant Brain\\Malignant CNS STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Melanoma\\Melanoma_STM.docx");
+        //fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Non-malignant CNS\\Non malignant_CNS_STM_quarterly.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Other Sites\\Other_sites_STM.docx");
+        fileList.add("\\\\omni\\btp\\csb\\SEER Documentation\\Solid Tumor Rules\\Urinary\\Urinary_STM.docx");
+
+        String modDate = "";
+        String outLine = "";
+
+        for (String fileName : fileList) {
+            modDate = GetFileLastModified(fileName);
+
+            outLine = "File: ";
+            outLine += fileName;
+            outLine += StringUtils.repeat(' ', 100 - fileName.length());
+            outLine += "  Last Modified: ";
+            outLine += modDate;
+
+            System.out.println(outLine);
+        }
+    }
+
+    public String GetFileLastModified(String fileName)
+    {
+        File file = new File(fileName);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        return sdf.format(file.lastModified());
+    }
 
 }

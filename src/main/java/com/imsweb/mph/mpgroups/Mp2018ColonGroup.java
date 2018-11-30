@@ -31,7 +31,7 @@ public class Mp2018ColonGroup extends MphGroup {
             	Greater than 100 polyps are documented AND
             	Adenocarcinoma in situ /2 or invasive /3 is present in at least one polyp
         Note 1:	A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.
-        Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
+        Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in both the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
         Note 3:	FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.
         Note 4:	Multiple polyps in the colorectum is not equivalent to FAP.
         Note 5:	Code primary site as follows:
@@ -153,7 +153,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setQuestion("Is one tumor a FAP (8220)?");
         rule.setReason("If one tumor is a FAP (8220) then this is a single primary.");
         rule.getNotes().add("A diagnosis of adenomatous polyposis coli (familial polyposis/FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
-        rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
+        rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in both the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
         rule.getNotes().add("FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
         rule.getNotes().add("Multiple polyps in the colorectum is not equivalent to FAP.");
         rule.getNotes().add("Code primary site as follows:");

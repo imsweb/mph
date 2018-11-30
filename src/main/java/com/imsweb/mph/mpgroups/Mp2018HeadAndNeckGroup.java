@@ -22,25 +22,25 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     // HEAD & NECK 2018 - See MphConstants for AS OF date.
 
     /*
-    Head and Neck Multiple Primary Rules
+    Head and Neck Histology Coding Rules
     C000-C148, C300-C339, C410, C411, C442, C479
     (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
-    Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors on both the:
+    Rule M3	Abstract multiple primaries when there are separate/non-contiguous tumors on both the:
         •	Upper lip C000 or C003 AND lower lip C001 or C004 OR
         •	Upper gum C030 AND lower gum C031 OR
         •	Nasal cavity C300 AND middle ear C301
         Note 1:	Use this rule only for multiple tumors.
         Note 2:	Timing is irrelevant.
         Note 3:	Histology is irrelevant.
-        Note 4:	These primary sites differ at the fourth digit of the site code CxxX. Use this rule ONLY for the primary sites listed.
+        Note 4:	These primary sites differ at the fourth character of the site code CxxX. Use this rule ONLY for the primary sites listed.
 
-    Rule M4	Abstract multiple primaries when separate, non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
+    Rule M4	Abstract multiple primaries when separate/non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
         Note 1:	Use this rule only for multiple tumors.
         Note 2:	Timing is irrelevant.
         Note 3:	Histology is irrelevant.
 
-    Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
+    Rule M5	Abstract multiple primaries when there are separate/non-contiguous tumors on both the right side and the left side of a paired site.
         Note 1:	See Table 11 for a list of paired sites.
         Note 2:	Use this rule only for multiple tumors.
         Note 3:	Timing is irrelevant.
@@ -93,14 +93,14 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     */
 
-    // Head and Neck Multiple Primary Rules
+    // Head and Neck Histology Coding Rules
     // C000-C148, C300-C339, C410, C411, C442, C479
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
         super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C339, C410, C411, C442, C479", null, null,
                 "9590-9992, 9140", "2-3,6", "2018-9999");
 
-        // Rule M3	Abstract multiple primaries when there are separate, non-contiguous tumors on both the:
+        // Rule M3	Abstract multiple primaries when there are separate/non-contiguous tumors on both the:
         // •	Upper lip C000 or C003 AND lower lip C001 or C004 OR
         // •	Upper gum C030 AND lower gum C031 OR
         // •	Nasal cavity C300 AND middle ear C301
@@ -122,17 +122,17 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("Use this rule only for multiple tumors.");
         rule.getNotes().add("Timing is irrelevant.");
         rule.getNotes().add("Histology is irrelevant.");
-        rule.getNotes().add("These primary sites differ at the fourth digit of the site code CxxX. Use this rule ONLY for the primary sites listed.");
+        rule.getNotes().add("These primary sites differ at the fourth character of the site code CxxX. Use this rule ONLY for the primary sites listed.");
         _rules.add(rule);
 
-        // Rule M4	Abstract multiple primaries when separate, non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
+        // Rule M4	Abstract multiple primaries when separate/non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
         rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M4");
         rule.getNotes().add("Use this rule only for multiple tumors.");
         rule.getNotes().add("Timing is irrelevant.");
         rule.getNotes().add("Histology is irrelevant.");
         _rules.add(rule);
 
-        // Rule M5	Abstract multiple primaries when there are separate, non-contiguous tumors on both the right side and the left side of a paired site.
+        // Rule M5	Abstract multiple primaries when there are separate/non-contiguous tumors on both the right side and the left side of a paired site.
         rule = new MphRuleLeftAndRight(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M5", MphConstants.HEAD_AND_NECK_2018_PAIRED_SITES, null);
         rule.setQuestion("Are there separate, non-contiguous tumors on both the right side and the left side of a paired site?");
         rule.setReason("Separate, non-contiguous tumors on the right side and the left side of a paired site are multiple primaries.");

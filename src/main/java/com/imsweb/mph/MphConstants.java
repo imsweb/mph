@@ -69,15 +69,15 @@ public class MphConstants {
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 
-    public static final String BREAST_2018_AS_OF_DATE = "11/29/2018";
-    public static final String COLON_2018_AS_OF_DATE = "11/21/2018";
-    public static final String CUT_MELANOMA_2018_AS_OF_DATE = "9/1/2018";
-    public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "9/5/2018";
-    public static final String KIDNEY_2018_AS_OF_DATE = "10/15/2018";
-    public static final String LUNG_2018_AS_OF_DATE = "10/15/2018";
-    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "11/29/2018";
-    public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "11/21/2018";
-    public static final String OTHER_STIES_2018_AS_OF_DATE = "9/1/2018";
+    public static final String BREAST_2018_AS_OF_DATE = "11/30/2018";
+    public static final String COLON_2018_AS_OF_DATE = "11/29/2018";
+    public static final String CUT_MELANOMA_2018_AS_OF_DATE = "11/30/2018";
+    public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "11/30/2018";
+    public static final String KIDNEY_2018_AS_OF_DATE = "11/30/2018";
+    public static final String LUNG_2018_AS_OF_DATE = "11/29/2018";
+    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "11/30/2018";
+    public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "11/30/2018";
+    public static final String OTHER_STIES_2018_AS_OF_DATE = "11/30/2018";
     public static final String URINARY_2018_AS_OF_DATE = "11/21/2018";
 
     //Topographies
@@ -510,7 +510,7 @@ public class MphConstants {
 
     public static final List<String> LUNG_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8551", "8200", "8480", "8333", "8250/3", "8253/2", "8253/3", "8257/3", "8265", "8254", "8250/2", "8256/3", "8260", "8144", "8230",
-        "9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3", "8249", "8045", "8013", "8240", "8083", "8071", "8072"));
+        "8249", "8045", "8013", "8240", "9043/3", "9042/3", "9173/3", "8842/3", "9041/3", "9040/3", "8083", "8071", "8072"));
 
     public static final List<String> LUNG_2018_8046_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8012", "8022", "8023", "8031", "8032", "8046", "8070", "8071", "8072", "8082", "8083", "8140", "8144", "8200", "8230", "8250",
@@ -534,18 +534,20 @@ public class MphConstants {
         content.put("8720", Collections.unmodifiableList(Arrays.asList())); // Melanoma 8720
         content.put("8430", Collections.unmodifiableList(Arrays.asList())); // Mucoepidermoid carcinoma 8430
         content.put("8982", Collections.unmodifiableList(Arrays.asList())); // Myoepithelial carcinoma 8982
+        content.put("8041", Collections.unmodifiableList(Arrays.asList("8249", "8045", "8013", "8240"))); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
         content.put("8023/3", Collections.unmodifiableList(Arrays.asList())); // NUT carcinoma 8023/3*
         content.put("8714/3", Collections.unmodifiableList(Arrays.asList())); // PEComa malignant 8714/3
         content.put("8022", Collections.unmodifiableList(Arrays.asList())); // Pleomorphic carcinoma 8022
-        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9043/3", "9042/3", "9173/3", "8842", "9041/3", "9040/3"))); // Sarcoma NOS 8800/3
-        content.put("8041", Collections.unmodifiableList(Arrays.asList("8249", "8045", "8013", "8240"))); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8800/3", Collections.unmodifiableList(Arrays.asList("9043/3", "9042/3", "9173/3", "8842/3", "9041/3", "9040/3"))); // Sarcoma NOS 8800/3
         content.put("8032", Collections.unmodifiableList(Arrays.asList())); // Spindle cell carcinoma 8032
         content.put("8070", Collections.unmodifiableList(Arrays.asList("8083", "8071", "8072"))); // Squamous carcinoma 8070
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
 
+    //--------------------------------------------------------------------------------------------------------------------------------------
     // General Brain Sites
+    //--------------------------------------------------------------------------------------------------------------------------------------
     public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
     public static final String CNS_2018_BRAIN_SITES = "C710-C719";
     public static final String CNS_2018_CAUDA_EQUINA = "C721";
@@ -890,8 +892,10 @@ public class MphConstants {
             content.put(site, thisTableRows);
         }
 
-
         HEAD_AND_NECK_2018_TABLE_FOR_SITE = Collections.unmodifiableMap(content);
+
     }
+
+
 
 }

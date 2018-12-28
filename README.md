@@ -1,6 +1,5 @@
 # Multiple Primary and Histology Coding Rules
 
-[![Build Status](https://travis-ci.org/imsweb/algorithms.svg?branch=master)](https://travis-ci.org/imsweb/mph)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imsweb/algorithms/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imsweb/mph)
 
 This library contains the SEER Java implementations of the Multiple Primary and Histology Coding Rules.

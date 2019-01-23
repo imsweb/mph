@@ -121,10 +121,110 @@ public class Mp2018ColonGroup extends MphGroup {
         Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
         Example:	The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.
 
+    */
 
 
+    // COLON 2019 - See MphConstants for AS OF date.
+
+    /*
+    Colon, Rectosigmoid, and Rectum Multiple Primary Rules
+    C180-C189, C199, C209
+    (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
 
+    Rule M3	Abstract a single primaryi when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
+        •	There is a clinical diagnosis of familial polyposis (FAP) OR
+        •	Greater than 100 polyps are documented (no diagnosis of FAP)
+        Note 1:	A diagnosis of familial polyposis (FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.
+        Note 2:	In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in both the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).
+        Note 3:	FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.
+        Note 4:	Multiple polyps in the colorectum is not equivalent to FAP.
+        Note 5:	Code primary site as follows:
+            •	Present in more than one segment of colon: C189 colon, NOS
+            •	Present in colon and rectosigmoid OR colon and rectum: C199 rectosigmoid junction
+            •	Present in colon and small intestine: C260 intestinal tract, NOS (there is no code for large and small bowel)
+        Note:	In addition to the colon and small intestine, FAP may also be present in the:
+            •	Stomach AND/OR
+            •	Rectosigmoid AND/OR
+            •	Rectum
+        Example: 	The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.
+
+    Rule M4	Abstract multiple primariesii when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third CxXx character.
+        Note 1:	Definition of separate/non-contiguous tumors: at least two malignancies which do not overlap/merge.
+        Note 2:	Differences at either the second or third characters are different primary sites/multiple primaries.
+        Example 1: 	Breast C50x and colon C18x
+        Example 2: 	Colon C18x and rectum C209 (This does not include FAP- see earlier rules)
+        Note: This rule does not apply to a single overlapping malignancy of colon and rectum.
+
+    Rule M5	Abstract multiple primariesii when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note: 	The tumors may be subtypes/variants of the same or different NOS histologies.
+        •	Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.
+        •	Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.
+
+    Rule M6	Abstract multiple primariesii when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        Note:	 Each row in the table is a distinctly different histology.
+
+    Rule M7	Abstract multiple primariesii when a subsequent tumor arises at the anastomotic site AND:
+        •	One tumor is a NOS and the other is a subtype/variant of that NOS OR
+        •	The subsequent tumor occurs greater than 24 months after original tumor resection OR
+        •	The subsequent tumor arises in the mucosa
+        Note:	Bullet three does not apply to GIST.  GISTs only start in the wall; never in the mucosa.
+        Example: 	(For bullet 1: NOS and subtype/variant) The original tumor was adenocarcinoma NOS 8140. The patient had a hemicolectomy. There was a recurrence at the anastomotic site diagnosed exactly as mucinous adenocarcinoma 8480. Mucinous adenocarcinoma is a subtype/variant of the NOS adenocarcinoma, but they are two different histologies. Code two primaries, one for the original adenocarcinoma NOS and another for the subsequent anastomotic site mucinous adenocarcinoma.
+        Note 1:	There may or may not be physician documentation of anastomotic recurrence.  Follow the rules.
+        Note 2:	When the original tumor was diagnosed prior to 1/1/2018 and was coded to adenocarcinoma in a polyp, and the anastomotic site tumor is adenocarcinoma per 2018 rules, the tumors are the same histology. ICD-O codes differ because of changes in histology coding rules.  Continue through the rules.
+        Note 3:	The tumor may or may not invade into the colon wall or adjacent tissue.
+        Note 4:	These rules are hierarchical. Only use this rule when previous rules do not apply.
+
+    Rule M8	Abstract a single primaryi when a subsequent tumor arises at the anastomotic site AND:
+        •	The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
+        •	The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
+        •	The pathologist or clinician documents an anastomotic recurrence
+        Note 1:	The physician may stage the subsequent tumor because the depth of invasion determines the second course of treatment.
+        Note 2:	These tumors are a single primary/recurrence.  Registrars that collect recurrence information should record the information in the recurrence fields.
+
+    Rule M9	Abstract multiple primariesii when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the fourth characters C18X.
+        Note:	Differences at the fourth character include different segments of the colon. Abstract a primary for each separate non-contiguous tumor in a different segment of the colon. This rule is not used for colon NOS C189.  C189 is rarely used other than DCO.
+        Example: 	The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the site code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.
+
+    Rule M10	Abstract multiple primariesii when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
+        Note 1:	Clinically disease-free means that there was no evidence of recurrence on follow-up.
+            •	Colonoscopies are NED
+            •	Scans are NED
+        Note 2:	When there is a recurrence less than or equal to one year of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.
+        Note 3:	When the first course of treatment was a polypectomy only, this rule means there were no recurrences for greater than one year.
+        Note 4:	When the first course of treatment was a colectomy or A&P resection, there were no anastomotic recurrences for greater than one year.
+        Note 5:	When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.
+        Note 6:	The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.
+
+    Rule M11	Abstract a single primaryi when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
+        Note 1:	The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.
+        Note 2:	The same row means the tumors are:
+        •	The same histology (same four-digit ICD-O code) OR
+        •	One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR
+        •	A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)
+        Note 1:	The tumors may be de novo (formerly called frank) and carcinoma in a polyp.
+        Note 2:	The tumors may be adenocarcinoma in multiple polyps 8221.
+
+    Rule M12	Abstract a single primaryi (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
+        Note 1:	The rules are hierarchical. Only use this rule when none of the previous rules apply.
+        Note 2:	The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.
+        Note 3:	The in situ is recorded as a recurrence for those registrars who collect recurrence data.
+
+    Rule M13	Abstract a single primaryi (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
+        Note 1:	The rules are hierarchical. Only use this rule when previous rules do not apply.
+        Note 2:	Change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.
+        Note 3:	If the case has already been submitted to the central registry, report all changes.
+        Note 4:	The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).
+        Note 5:	See the COC and SEER manuals for instructions on coding data items such as Date of Diagnosis, Accession Year and Sequence Number.
+
+    Rule M14	Abstract multiple primariesii when an invasive tumor occurs more than 60 days after an in situ tumor.
+        Note 1:	Abstract both the invasive and in situ tumors.
+        Note 2:	Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.
+        This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were authors, co-authors, or editors of the AJCC Staging Manual.
+
+    Rule M15	Abstract a single primaryi when tumors do not meet any of the above criteria.
+        Note:	Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.
+        Example:	The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.
     */
 
 

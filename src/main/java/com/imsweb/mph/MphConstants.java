@@ -69,6 +69,7 @@ public class MphConstants {
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 
+    /*
     public static final String BREAST_2018_AS_OF_DATE = "11/30/2018";
     public static final String COLON_2018_AS_OF_DATE = "11/29/2018";
     public static final String CUT_MELANOMA_2018_AS_OF_DATE = "11/30/2018";
@@ -79,6 +80,17 @@ public class MphConstants {
     public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "11/30/2018";
     public static final String OTHER_STIES_2018_AS_OF_DATE = "11/30/2018";
     public static final String URINARY_2018_AS_OF_DATE = "11/21/2018";
+    */
+    public static final String BREAST_2018_AS_OF_DATE = "01/23/2019";
+    public static final String COLON_2018_AS_OF_DATE = "01/23/2019";
+    public static final String CUT_MELANOMA_2018_AS_OF_DATE = "01/23/2019";
+    public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "01/23/2019";
+    public static final String KIDNEY_2018_AS_OF_DATE = "01/23/2019";
+    public static final String LUNG_2018_AS_OF_DATE = "01/23/2019";
+    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
+    public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
+    public static final String OTHER_STIES_2018_AS_OF_DATE = "01/23/2019";
+    public static final String URINARY_2018_AS_OF_DATE = "01/23/2019";
 
     //Topographies
     public static final String COLON = "C18";

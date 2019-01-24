@@ -441,7 +441,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M13	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", false);
+        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M13", false, false);
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
@@ -452,7 +452,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M14	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M14", false);
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M14", false, false);
         rule.getExamples().add("The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS");

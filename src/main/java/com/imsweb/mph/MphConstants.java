@@ -129,6 +129,17 @@ public class MphConstants {
     public static final List<String> LOWER_GUM = Collections.unmodifiableList(Collections.singletonList("C031"));
     public static final List<String> NASAL_CAVITY = Collections.unmodifiableList(Collections.singletonList("C300"));
     public static final List<String> MIDDLE_EAR = Collections.unmodifiableList(Collections.singletonList("C301"));
+    public static final List<String> SUBMANDIBULAR_GLAND = Collections.unmodifiableList(Collections.singletonList("C080"));
+    public static final List<String> SUBLINGUAL_GLAND = Collections.unmodifiableList(Collections.singletonList("C081"));
+    public static final List<String> HARD_PALATE = Collections.unmodifiableList(Collections.singletonList("C050"));
+    public static final List<String> SOFT_PALATE = Collections.unmodifiableList(Collections.singletonList("C051"));
+    public static final List<String> UVULA = Collections.unmodifiableList(Collections.singletonList("C052"));
+    public static final List<String> MAXILLARY_SINUS = Collections.unmodifiableList(Collections.singletonList("C310"));
+    public static final List<String> ETHMOID_SINUS = Collections.unmodifiableList(Collections.singletonList("C311"));
+    public static final List<String> FRONTAL_SINUS = Collections.unmodifiableList(Collections.singletonList("C312"));
+    public static final List<String> SPHENOID_SINUS = Collections.unmodifiableList(Collections.singletonList("C313"));
+
+
 
     public static final String ALL_PAIRED_SITES =
             "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";

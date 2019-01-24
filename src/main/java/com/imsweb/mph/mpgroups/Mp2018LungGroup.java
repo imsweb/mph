@@ -397,7 +397,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12", true);
+        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12", true, false);
         rule.setQuestion("Is there an invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung?");
         rule.setReason("An invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");

@@ -294,27 +294,30 @@ public abstract class MphGroup {
     public static class MphRuleInvasiveAfterInSituLess60Days extends MphRule {
 
         boolean _mustBeSameSide;
+        boolean _mustBeSamePrimarySite;
 
-        public MphRuleInvasiveAfterInSituLess60Days(String groupId, String step, boolean mustBeSameSide) {
+        public MphRuleInvasiveAfterInSituLess60Days(String groupId, String step, boolean mustBeSameSide, boolean mustBeSamePrimarySite) {
             super(groupId, step);
             setQuestion("Is there an invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis?");
             setReason("An invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis is a single primary.");
             _mustBeSameSide =  mustBeSameSide;
+            _mustBeSamePrimarySite = mustBeSamePrimarySite;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
-                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                if ((!_mustBeSamePrimarySite) || (i1.getPrimarySite().equals(i2.getPrimarySite())))
+                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.INSITU, MphConstants.MALIGNANT)) {
+                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (-1 == sixtyDaysApart) {
+                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                        }
+                        else if (0 == sixtyDaysApart)
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
-                    else if (0 == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
             return result;
         }
     }
@@ -323,20 +326,23 @@ public abstract class MphGroup {
     public static class MphRuleInSituAfterInvasive extends MphRule {
 
         boolean _mustBeSameSide;
+        boolean _mustBeSamePrimarySite;
 
-        public MphRuleInSituAfterInvasive(String groupId, String step, boolean mustBeSameSide) {
+        public MphRuleInSituAfterInvasive(String groupId, String step, boolean mustBeSameSide, boolean mustBeSamePrimarySite) {
             super(groupId, step);
             setQuestion("Is there an in situ tumor following an invasive tumor?");
             setReason("An in situ tumor diagnosed following an invasive tumor is a single primary.");
             _mustBeSameSide =  mustBeSameSide;
+            _mustBeSamePrimarySite = mustBeSamePrimarySite;
         }
 
         @Override
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
-                if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if ((!_mustBeSamePrimarySite) || (i1.getPrimarySite().equals(i2.getPrimarySite())))
+                    if (GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, MphConstants.MALIGNANT, MphConstants.INSITU))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
             return result;
         }

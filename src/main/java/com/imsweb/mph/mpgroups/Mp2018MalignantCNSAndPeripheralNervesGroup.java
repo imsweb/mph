@@ -17,12 +17,12 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
-    // MALIGNANT 2018 - See MphConstants for AS OF date.
+    // MALIGNANT 2019 - See MphConstants for AS OF date.
 
     /*
     Malignant CNS and Peripheral Nerves Histology Rules
     C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
-    (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
+    (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
 
     Rule M5	Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
         •	Original non-malignant tumor followed by malignant tumor
@@ -109,13 +109,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
     */
 
 
-    // MALIGNANT 2019 - See MphConstants for AS OF date.
 
     /*
-    Malignant CNS and Peripheral Nerves Multiple Primary Rules
-    C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
-    (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
-
 
     Rule M5	Abstract multiple primariesii when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
         •	Original non-malignant tumor followed by malignant tumor
@@ -203,7 +198,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
     // Malignant CNS and Peripheral Nerves Histology Rules
     // C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
-    // (Excludes lymphoma and leukemia M9590-M9992 and Kaposi sarcoma M9140)
+    // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018MalignantCNSAndPeripheralNervesGroup() {
         super(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
                 "C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null,

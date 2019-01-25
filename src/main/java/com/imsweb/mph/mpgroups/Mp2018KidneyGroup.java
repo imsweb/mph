@@ -88,10 +88,6 @@ public class Mp2018KidneyGroup extends MphGroup {
     */
 
 
-
-
-
-
     // Kidney Multiple Primary Rules - Text
     // C649
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)

@@ -172,8 +172,10 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((GroupUtility.isSiteContained("C670-C679", i1.getPrimarySite()) || i1.getPrimarySite().equals("C669")) &&
-                    (GroupUtility.isSiteContained("C670-C679", i2.getPrimarySite()) || i2.getPrimarySite().equals("C669"))) {
+                //if ((GroupUtility.isSiteContained("C670-C679", i1.getPrimarySite()) || i1.getPrimarySite().equals("C669")) &&
+                //    (GroupUtility.isSiteContained("C670-C679", i2.getPrimarySite()) || i2.getPrimarySite().equals("C669"))) {
+                if ((GroupUtility.isSiteContained("C670-C679", i1.getPrimarySite()) && i2.getPrimarySite().equals("C669")) ||
+                    (GroupUtility.isSiteContained("C670-C679", i2.getPrimarySite()) && i1.getPrimarySite().equals("C669"))) {
                     if (GroupUtility.areSimultaneousTumors(i1, i2)) {
                         String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                         if (icd1.equals("8120/2") && icd2.equals("8120/2"))   {
@@ -184,8 +186,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors of the bladder (C670-C679) or ureter (C669) in situ utothelial carcinoma (8120/2)?");
-        rule.setReason("Tumors of the bladder (C670-C679) or ureter (C669) and are in situ utothelial carcinoma (8120/2) are a single primary.");
+        rule.setQuestion("Are tumors of the bladder (C670-C679) and ureter (C669) in situ utothelial carcinoma (8120/2)?");
+        rule.setReason("Tumors of the bladder (C670-C679) and ureter (C669) and are in situ utothelial carcinoma (8120/2) are a single primary.");
         rule.getNotes().add("No other urinary organs are involved.");
         rule.getNotes().add("Use this rule ONLY for noninvasive in situ urothelial carcinoma (may be called noninvasive urothelial carcinoma or noninvasive flat tumor). For other histologies, continue through the rules.");
         rule.getNotes().add("Urothelial carcinoma in situ spreads by intramucosal extension and may involve large areas of mucosal surface.  The default for these cases is coding a bladder primary.");

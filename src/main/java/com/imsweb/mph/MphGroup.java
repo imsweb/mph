@@ -415,10 +415,10 @@ public abstract class MphGroup {
         public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
             TempRuleResult result = new TempRuleResult();
             if ((!_mustBeSameSide) || (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())))
-                if ((i1.getBehavior() == MphConstants.MALIGNANT &&  i2.getBehavior() == MphConstants.BENIGN) ||
-                    (i1.getBehavior() == MphConstants.MALIGNANT &&  i2.getBehavior() == MphConstants.UNCERTAIN) ||
-                    (i1.getBehavior() == MphConstants.BENIGN &&  i2.getBehavior() == MphConstants.MALIGNANT) ||
-                    (i1.getBehavior() == MphConstants.UNCERTAIN &&  i2.getBehavior() == MphConstants.MALIGNANT)) {
+                if ((i1.getBehavior().equals(MphConstants.MALIGNANT) &&  i2.getBehavior().equals(MphConstants.BENIGN)) ||
+                    (i1.getBehavior().equals(MphConstants.MALIGNANT) &&  i2.getBehavior().equals(MphConstants.UNCERTAIN)) ||
+                    (i1.getBehavior().equals(MphConstants.BENIGN) &&  i2.getBehavior().equals(MphConstants.MALIGNANT)) ||
+                    (i1.getBehavior().equals(MphConstants.UNCERTAIN) &&  i2.getBehavior().equals(MphConstants.MALIGNANT))) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
             return result;
@@ -760,20 +760,18 @@ public abstract class MphGroup {
             TempRuleResult result = new TempRuleResult();
             if ((_requiredSite == null) || (_requiredSite.equals(i1.getPrimarySite()) && _requiredSite.equals(i2.getPrimarySite()))) {
                 if ((_pairedSites == null) || (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), _pairedSites))) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                    //if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                    //    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    //    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
+                    //}
+                    if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
             }
 
             return result;
         }
-    };
-
-
+    }
 
 
 }

@@ -200,40 +200,32 @@ public class Mp2018LungGroup extends MphGroup {
         // •	In both lungs (multiple in right and multiple in left) OR
         // •	In the same lung OR
         // •	Single tumor in one lung; multiple tumors in contralateral lung
-        // Real requirements:
-        // 1. If we cannot determine if the DX Dates are within 60 days of each other, return QUESTIONABLE.
-        // 2. If one of the tumors is for site C349, return QUESTIONABLE.
-        // 3. If one of the tumors has a laterality of 0, 3, 4, 5, or 9, return QUESTIONABLE.
-        // 4. If the tumors are within 60 days of each other, and either one tumor is laterality 1 and one tumor is laterality 2, or
-        //    one tumor is laterality 4 and one tumor is laterality 1 or 2, then return SINGLE PRIMARY.
+        // Real requirements (1/25/2019):
+        // For records within 60 days of each other, return SINGLE PRIMARY if:
+        // 1. both records have laterality=1 OR both records have laterality=2
+        // 2. one record has laterality = 4 and the other record has laterality = 1, 2 or 3
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (-1 == sixtyDaysApart) {
-                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                }
-                else if (0 == sixtyDaysApart) {
-                    if (GroupUtility.isSiteContained(MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES, i1.getPrimarySite()) ||
-                        GroupUtility.isSiteContained(MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES, i2.getPrimarySite())) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() +
-                                ". Site " + MphConstants.LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES + " is ambiguous to the number of tumors present.");
-                    } else if (MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i1.getLaterality()) ||
-                               MphConstants.LUNG_2018_AMBIGUOUS_LATERALITIES.contains(i2.getLaterality())) {
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". The lateralities for the tumors are ambiguous.");
-                    } else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()) ||
-                               GroupUtility.areBothAndLeftOrRightSides(i1.getLaterality(), i2.getLaterality())) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if (0 == sixtyDaysApart) {
+                    String lat1 = i1.getLaterality();
+                    String lat2 = i2.getLaterality();
+                    if (lat1 != null && lat2 != null) {
+                        if ((lat1.equals(MphConstants.RIGHT) && lat2.equals(MphConstants.RIGHT)) ||
+                            (lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.LEFT)) ||
+                            (lat1.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat2)) ||
+                            (lat2.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat1))) {
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        }
                     }
                 }
                 return result;
             }
         };
-        rule.setQuestion("Are there two or more tumors diagnosed less than or equal to 60 days apart, that are on opposite sides and not site C349?");
-        rule.setReason("Two or more tumors diagnosed less than or equal to 60 days of each other and on opposite sides and not site C349 is a single primary.");
+        rule.setQuestion("Are there simultaneous multiple tumors in both lungs, the same lung, or opposite lungs?");
+        rule.setReason("Simultaneous multiple tumors in both lungs, the same lung, or opposite lungs is a single primary.");
         rule.getNotes().add("Tumors may be combinations of:");
         rule.getNotes().add("  • In situ and invasive OR");
         rule.getNotes().add("  • NOS and subtype/variant (See Table 3 in the Equivalent Terms and Definitions)");
@@ -272,13 +264,9 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality for lung cancer should be provided.");
-                }
-                else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality())) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
+                }
                 return result;
             }
         };

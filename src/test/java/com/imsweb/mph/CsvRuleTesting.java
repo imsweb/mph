@@ -257,7 +257,8 @@ public class CsvRuleTesting {
                         rowRetval = false;
                     }
 
-                    String strReason = output.getReason().replaceAll("\n", " - ");
+                    String strReason = output.getReason().replaceAll("\\n", " - ").replaceAll("\\t", "   ").replaceAll(",", "  ");
+
                     String matchText = "Yes";
                     if (!rowRetval) matchText = "No";
 

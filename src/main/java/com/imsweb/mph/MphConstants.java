@@ -69,16 +69,16 @@ public class MphConstants {
     public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
 
-    private static final String BREAST_2018_AS_OF_DATE = "01/23/2019";
-    private static final String COLON_2018_AS_OF_DATE = "01/23/2019";
-    private static final String CUT_MELANOMA_2018_AS_OF_DATE = "01/23/2019";
-    private static final String HEAD_AND_NECK_2018_AS_OF_DATE = "01/23/2019";
-    private static final String KIDNEY_2018_AS_OF_DATE = "01/23/2019";
-    private static final String LUNG_2018_AS_OF_DATE = "01/23/2019";
-    private static final String MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
-    private static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
-    private static final String OTHER_STIES_2018_AS_OF_DATE = "01/23/2019";
-    private static final String URINARY_2018_AS_OF_DATE = "01/23/2019";
+    public static final String BREAST_2018_AS_OF_DATE = "01/23/2019";
+    public static final String COLON_2018_AS_OF_DATE = "01/23/2019";
+    public static final String CUT_MELANOMA_2018_AS_OF_DATE = "01/23/2019";
+    public static final String HEAD_AND_NECK_2018_AS_OF_DATE = "01/23/2019";
+    public static final String KIDNEY_2018_AS_OF_DATE = "01/23/2019";
+    public static final String LUNG_2018_AS_OF_DATE = "01/23/2019";
+    public static final String MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
+    public static final String NON_MALIGNANT_CNS_2018_AS_OF_DATE = "01/23/2019";
+    public static final String OTHER_STIES_2018_AS_OF_DATE = "01/23/2019";
+    public static final String URINARY_2018_AS_OF_DATE = "01/23/2019";
 
     //Topographies
     public static final String COLON = "C18";
@@ -519,6 +519,9 @@ public class MphConstants {
     public static final String LUNG_2018_POSSIBLE_MULTIPLE_TUMOR_SITES = "C349";
     public static final List<String> LUNG_2018_AMBIGUOUS_LATERALITIES = Collections.unmodifiableList(Arrays.asList(
             NOT_PAIRED, ONLY_ONE_SIDE_NS, BOTH, MID_LINE, PAIRED_NO_INFORMATION));
+
+    public static final List<String> LUNG_2018_OTHER_SIDE = Collections.unmodifiableList(Arrays.asList(
+            RIGHT, LEFT, ONLY_ONE_SIDE_NS));
 
     public static final List<String> LUNG_2018_TABLE3_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
         "8551", "8200", "8480", "8333", "8250/3", "8253/2", "8253/3", "8257/3", "8265", "8254", "8250/2", "8256/3", "8260", "8144", "8230",

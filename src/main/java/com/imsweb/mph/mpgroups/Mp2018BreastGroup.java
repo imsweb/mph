@@ -181,14 +181,22 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((i1.getLaterality().equals(MphConstants.LEFT) && i2.getLaterality().equals(MphConstants.LEFT)) ||
-                        (i1.getLaterality().equals(MphConstants.RIGHT) && i2.getLaterality().equals(MphConstants.RIGHT)) ||
-                        (i1.getLaterality().equals(MphConstants.LEFT) && i2.getLaterality().equals(MphConstants.RIGHT)) ||
-                        (i1.getLaterality().equals(MphConstants.RIGHT) && i2.getLaterality().equals(MphConstants.LEFT)) ||
-                        (i1.getLaterality().equals(MphConstants.BOTH) && i2.getLaterality().equals(MphConstants.BOTH))) {
+                String lat1 = i1.getLaterality();
+                String lat2 = i2.getLaterality();
+
+                if (lat1 == null || lat2 == null)
+                {
+                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
+                }
+                else if ((lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.LEFT)) ||
+                        (lat1.equals(MphConstants.RIGHT) && lat2.equals(MphConstants.RIGHT)) ||
+                        (lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.RIGHT)) ||
+                        (lat1.equals(MphConstants.RIGHT) && lat2.equals(MphConstants.LEFT)) ||
+                        (lat1.equals(MphConstants.BOTH) && lat2.equals(MphConstants.BOTH))) {
                     if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) &&
-                            MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology()) &&
-                            MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology())) {
+                        MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology()) &&
+                        MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology())) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
                 }
@@ -215,7 +223,7 @@ public class Mp2018BreastGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if ((icd1.equals("8541/3") || icd1.equals("8543/2") || icd1.equals("8543/3")) &&
-                   (icd2.equals("8541/3") || icd2.equals("8543/2") || icd2.equals("8543/3"))) {
+                    (icd2.equals("8541/3") || icd2.equals("8543/2") || icd2.equals("8543/3"))) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -237,12 +245,14 @@ public class Mp2018BreastGroup extends MphGroup {
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
                 // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
+                // -One tumor= 8522; other tumor = 8522
                 // Behaviors must match.
                 if (i1.getBehavior().equals(i2.getBehavior())) {
                     if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
                         (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
                         (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
-                        (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1))) {
+                        (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
+                        (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2))) {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (-1 == sixtyDaysApart) {
                             result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
@@ -292,6 +302,7 @@ public class Mp2018BreastGroup extends MphGroup {
                         if ((icd1.equals("8522/2") && icd2.equals("8500/2")) ||
                                 (icd1.equals("8543/2") && icd2.equals("8500/2")) ||
                                 (icd1.equals("8543/3") && icd2.equals("8500/2")) ||
+                                (icd1.equals("8500/2") && icd2.equals("8500/2")) ||
                                 (icd1.equals("8523/2") && icd2.equals("8500/2")) ||
                                 (icd1.equals("8522/3") && icd2.equals("8500/3")) ||
                                 (icd1.equals("8541/3") && icd2.equals("8500/3")) ||

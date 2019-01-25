@@ -475,6 +475,9 @@ public class MphConstants {
 
     //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
 
+    public static final List<String> URINARY_2018_UROTHELIAL_CARCINOMAS = Collections.unmodifiableList(Arrays.asList(
+            "8120", "8031", "8082", "8130", "8131", "8020", "8122"));
+
     public static final List<String> URINARY_2018_TABLE2_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "8310", "8380", "8144", "8480",  "9120/3", "9220/3", "8890/3", "8850/3", "9540/3", "8802/3", "8900/3", "8910/3",
             "8013", "8240", "8051", "8031/3", "8082/3", "8130/2", "8130/3", "8131/3", "8020/3", "8122/3"));

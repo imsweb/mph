@@ -251,11 +251,15 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology();
-                String hist2 = i2.getHistology();
-                if (hist1 != null && hist2 != null) {
-                    if (hist1.equals(hist2) && (MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(hist1))) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if (GroupUtility.areSimultaneousTumors(i1, i2)) {
+                    if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
+                        String hist1 = i1.getHistology();
+                        String hist2 = i2.getHistology();
+                        if (hist1 != null && hist2 != null) {
+                            if (hist1.equals(hist2) && (MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(hist1))) {
+                                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            }
+                        }
                     }
                 }
                 return result;
@@ -331,8 +335,10 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (!i1.getPrimarySite().equals(i2.getPrimarySite())) {
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                if (!GroupUtility.areSimultaneousTumors(i1, i2)) {
+                    if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    }
                 }
                 return result;
             }
@@ -409,6 +415,31 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getExamples().add("TURB shows invasive urothelial carcinoma 8120/3 and CIS/in situ urothelial carcinoma 8120/2. Abstract a single primary.");
 
         _rules.add(rule);
+    }
+
+    private boolean AreTwoDifferentUrinarySites(String primarySite1, String primarySite2) {
+        boolean retval = false;
+
+        if (primarySite1 != null && primarySite2 != null) {
+            if (MphConstants.URINARY_2018_URINARY_SITES.contains(primarySite1) && MphConstants.URINARY_2018_URINARY_SITES.contains(primarySite2)) {
+                String g1 = "";
+                String g2 = "";
+                if (MphConstants.URINARY_2018_RENAL_PELVIS.contains(primarySite1)) g1 = "1";
+                else if (MphConstants.URINARY_2018_URETER.contains(primarySite1)) g1 = "2";
+                else if (MphConstants.URINARY_2018_BLADDER.contains(primarySite1)) g1 = "3";
+                else if (MphConstants.URINARY_2018_URETHRA.contains(primarySite1)) g1 = "4";
+
+                if (MphConstants.URINARY_2018_RENAL_PELVIS.contains(primarySite2)) g2 = "1";
+                else if (MphConstants.URINARY_2018_URETER.contains(primarySite2)) g2 = "2";
+                else if (MphConstants.URINARY_2018_BLADDER.contains(primarySite2)) g2 = "3";
+                else if (MphConstants.URINARY_2018_URETHRA.contains(primarySite2)) g2 = "4";
+
+                if (!g1.equals(g2)) {
+                    retval = true;
+                }
+            }
+        }
+        return retval;
     }
 }
 

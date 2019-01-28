@@ -473,7 +473,11 @@ public class MphConstants {
     //--------------------------------------------------------------------------------------------------------------------------------------
     // See Urinary 2019 AS OF date at top of this file.
 
-    //public static final String URINARY_UROTHELIAL_CARCINAOMA_SITES_2018 = "C659,C669,C670-C679,C680";
+    public static final List<String> URINARY_2018_URINARY_SITES = Collections.unmodifiableList(Arrays.asList("C659","C669","C670", "C671", "C672", "C673", "C674", "C675", "C676", "C677", "C678", "C679", "C680"));
+    public static final List<String> URINARY_2018_RENAL_PELVIS = Collections.unmodifiableList(Collections.singletonList("C659"));
+    public static final List<String> URINARY_2018_URETER = Collections.unmodifiableList(Collections.singletonList("C669"));
+    public static final List<String> URINARY_2018_BLADDER = Collections.unmodifiableList(Arrays.asList("C670", "C671", "C672", "C673", "C674", "C675", "C676", "C677", "C678", "C679"));
+    public static final List<String> URINARY_2018_URETHRA = Collections.unmodifiableList(Collections.singletonList("C680"));
 
     public static final List<String> URINARY_2018_UROTHELIAL_CARCINOMAS = Collections.unmodifiableList(Arrays.asList(
             "8120", "8031", "8082", "8130", "8131", "8020", "8122"));
@@ -509,7 +513,7 @@ public class MphConstants {
     static {
         Map<String, List<String>> content = new HashMap<>();
         content.put("8900", Collections.unmodifiableList(Collections.singletonList("8910/3")));
-        //content.put("8131", Collections.unmodifiableList(Arrays.asList("8130")));
+        content.put("8131", Collections.unmodifiableList(Arrays.asList("8130")));
         URINARY_2018_SUBTYPE_NOS = Collections.unmodifiableMap(content);
     }
 

@@ -4127,17 +4127,22 @@ public class Mph2018RuleTests {
         i1.setPrimarySite("C711");
         i1.setHistologyIcdO3("9440");
         i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2010");
+        i1.setLaterality("");
+        i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
         i1.setDateOfDiagnosisDay("1");
         i2.setPrimarySite("C712");
-        i2.setHistologyIcdO3("9442");
+        i2.setHistologyIcdO3("9430");
         i2.setBehaviorIcdO3("3");
-        i2.setLaterality("2");
+        i2.setLaterality("");
         i2.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisMonth("3");
         i1.setDateOfDiagnosisDay("1");
+
+        //C711	9440	3		2018	1	1	C712	9430	3		2018	3	1	Single Primary	2018 MalignantCNSAndPeripheralNerves	M10		Multiple Primaries	2018 Malignant CNS And Peripheral Nerves	1/23/2019	M11	No	Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions is multiple primaries.
+
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals("M15", output.getStep());
         */
 
         /*

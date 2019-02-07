@@ -219,23 +219,23 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
 
                 // • Any lobe of the brain C710-C719 AND any other part of CNS
-                if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Cauda equina C721 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CAUDA_EQUINA, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CAUDA_EQUINA, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Cerebral meninges C700 AND spinal meninges C701
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Cerebral meninges C700 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Any two or more of the cranial nerves
@@ -245,15 +245,15 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Spinal cord C720 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Spinal meninges C701 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;

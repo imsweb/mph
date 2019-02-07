@@ -474,6 +474,7 @@ public class GroupUtility {
     /**
      * Return true if one site is in each list but they are not the same site.
      */
+    /*
     public static boolean areSitesInBothGroupsButNotTheSame(String site1, String site2, String groupList1, String groupList2) {
 
         if (isSiteContained(groupList1, site1) && isSiteContained(groupList2, site2) && !site1.equals(site2)) {
@@ -483,6 +484,26 @@ public class GroupUtility {
             return true;
         }
 
+        return false;
+    }
+    */
+
+
+    /**
+     * Return true if one site is in the first group, and the second site is in the second group AND not in the first group.
+     */
+    public static boolean areSitesInBothGroupsAndSecondNotInFirstGroup(String site1, String site2, String groupList1, String groupList2) {
+
+        if (isSiteContained(groupList1, site1)) {
+            if (isSiteContained(groupList2, site2) && !isSiteContained(groupList1, site2)) {
+                return true;
+            }
+        }
+        else if (isSiteContained(groupList1, site2)) {
+            if (isSiteContained(groupList2, site1) && !isSiteContained(groupList1, site1)) {
+                return true;
+            }
+        }
         return false;
     }
 

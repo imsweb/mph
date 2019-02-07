@@ -146,31 +146,31 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
 
                 // •	Any lobe(s) of the brain C710-C719 AND any other part of CNS
-                if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Cerebral meninges C700 AND spinal meninges C701
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Cerebral meninges C700 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Any cranial nerve(s) C721-C725 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Meninges of cranial nerves C709 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •Spinal cord C720 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Spinal meninges C701 AND any other part of CNS
-                else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;

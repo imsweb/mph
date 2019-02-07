@@ -14,34 +14,23 @@ public interface HematoDbUtilsProvider {
      * <p/>
      * @param leftCode left code to compare
      * @param rightCode right code to compare
-     * @param year The requested DX year, cannot be null
+     * @param leftYear dx year of left disease
+     * @param rightYear dx year of right disease
      * @return true if the codes are same primary, false otherwise
      */
-    boolean isSamePrimary(String leftCode, String rightCode, int year);
+    boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear);
 
     /**
-     * Compares the second disease is in 'transform to' list of the first disease.
+     * Checks if the second disease is in 'transform to' list of the first disease.
+     * or the first disease is in 'transform from' list of the second disease
      * <p/>
      * Codes should have the format "9999/9".
      * <p/>
-     * @param leftCode left code to compare
-     * @param rightCode right code to compare
-     * @param year The requested DX year, cannot be null
-     * @return true if the the second disease is in 'transform to' list of the first disease.
+     * @param fromCode the first disease code
+     * @param toCode the second disease code
+     * @param fromYear The diagnosis year of the first disease
+     * @param toYear The diagnosis year of the second disease
+     * @return true if the the second disease is in 'transform to' list of the first disease or the first disease is in 'transform from' list of the second.
      */
-    boolean isAcuteTransformation(String leftCode, String rightCode, int year);
-
-    /**
-     * Compares the second disease is in 'transform from' list of the first disease.
-     * <p/>
-     * Codes should have the format "9999/9".
-     * <p/>
-     * @param leftCode left code to compare
-     * @param rightCode right code to compare
-     * @param year The requested DX year, cannot be null
-     * @return true if the the second disease is in 'transform from' list of the first disease.
-     */
-    boolean isChronicTransformation(String leftCode, String rightCode, int year);
-
-
+    boolean canTransformTo(String fromCode, String toCode, int fromYear, int toYear);
 }

@@ -59,7 +59,7 @@ public class CsvRuleTesting {
     private static Map<String, String> RULES_UPDATED;
 
     private static void loadMappings() {
-        GROUP_IDS = new HashMap<String, String>();
+        GROUP_IDS = new HashMap<>();
         GROUP_IDS.put("2018 Breast", MphConstants.MP_2018_BREAST_GROUP_ID);
         GROUP_IDS.put("2018 Colon", MphConstants.MP_2018_COLON_GROUP_ID);
         GROUP_IDS.put("2018 Cutaneous Melanoma", MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID);
@@ -71,7 +71,7 @@ public class CsvRuleTesting {
         GROUP_IDS.put("2018 Other Sites", MphConstants.MP_2018_OTHER_SITES_GROUP_ID);
         GROUP_IDS.put("2018 Urinary", MphConstants.MP_2018_URINARY_GROUP_ID);
 
-        GROUP_NAMES = new HashMap<String, String>();
+        GROUP_NAMES = new HashMap<>();
         GROUP_NAMES.put(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME);
         GROUP_NAMES.put(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME);
         GROUP_NAMES.put(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME);
@@ -83,13 +83,13 @@ public class CsvRuleTesting {
         GROUP_NAMES.put(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, MphConstants.MP_2018_OTHER_SITES_GROUP_NAME);
         GROUP_NAMES.put(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME);
         
-        EXPECTED_RESULTS = new HashMap<MphUtils.MpResult, String>();
+        EXPECTED_RESULTS = new HashMap<>();
         EXPECTED_RESULTS.put(MphUtils.MpResult.SINGLE_PRIMARY, "Single Primary");
         EXPECTED_RESULTS.put(MphUtils.MpResult.MULTIPLE_PRIMARIES, "Multiple Primaries");
         EXPECTED_RESULTS.put(MphUtils.MpResult.QUESTIONABLE, "Questionable");
         EXPECTED_RESULTS.put(MphUtils.MpResult.INVALID_INPUT, "Invalid Input");
 
-        RULES_UPDATED = new HashMap<String, String>();
+        RULES_UPDATED = new HashMap<>();
         RULES_UPDATED.put(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.BREAST_2018_AS_OF_DATE);
         RULES_UPDATED.put(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.COLON_2018_AS_OF_DATE);
         RULES_UPDATED.put(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.CUT_MELANOMA_2018_AS_OF_DATE);
@@ -134,7 +134,7 @@ public class CsvRuleTesting {
             for (String[] row : new CSVReaderBuilder(reader).withSkipLines(1).build().readAll()) {
                 if (row[0].length() > 0) {
 
-                    Map<String, String> newMap = new HashMap<String, String>();
+                    Map<String, String> newMap = new HashMap<>();
                     newMap.put(FIELD_T1_PRIMARY_SITE, row[0].trim());
                     newMap.put(FIELD_T1_HISTOLOGY, row[1].trim());
                     newMap.put(FIELD_T1_BEHAVIOR, row[2].trim());
@@ -187,13 +187,13 @@ public class CsvRuleTesting {
 
     private boolean testCsvFile(String fileName) {
         boolean fileRetval = true;
-        boolean rowRetval = true;
+        boolean rowRetval;
         List<Map<String, String>> listRecs = loadCsvTestFile(fileName);
-        List<String> outputLines = new ArrayList<String>();
+        List<String> outputLines = new ArrayList<>();
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
-        String outLine = "";
-        boolean writeBlankLine = false;
+        String outLine;
+        boolean writeBlankLine;
 
         //outputLines.add("File: " + fileName + " ------------------------------");
         //outputLines.add("Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason");
@@ -251,16 +251,16 @@ public class CsvRuleTesting {
                     String internalExpectedGroup = (GROUP_IDS.get(expGroup) == null ? "NULL" : GROUP_IDS.get(expGroup));
 
                     rowRetval = true;
-                    if ((!expResult.equals(outputResult)) ||
-                            (!expRuleNum.equals(outputStep)) ||
-                            (!internalExpectedGroup.equals(outputGroupId))) {
+                    if (!expResult.equals(outputResult) || !expRuleNum.equals(outputStep) || !internalExpectedGroup.equals(outputGroupId)) {
                         rowRetval = false;
                     }
 
                     String strReason = output.getReason().replaceAll("\\n", " - ").replaceAll("\\t", "   ").replaceAll(",", "  ");
 
                     String matchText = "Yes";
-                    if (!rowRetval) matchText = "No";
+                    if (!rowRetval) {
+                        matchText = "No";
+                    }
 
                     String actualGroupName = (GROUP_NAMES.get(output.getGroupId()) == null ? "NULL" : GROUP_NAMES.get(output.getGroupId()));
 
@@ -312,7 +312,7 @@ public class CsvRuleTesting {
 
     private void WriteComparisonFile(String inputFileName, List<String> outputLines) {
 
-        BufferedWriter outputWriter = null;
+        BufferedWriter outputWriter;
         try {
             String outputFileName = inputFileName;
             int sepPos = inputFileName.lastIndexOf(".csv");
@@ -324,14 +324,15 @@ public class CsvRuleTesting {
             File outputFile = new File(outputFileName);
             outputWriter = new BufferedWriter(new FileWriter(outputFile));
 
-            for (int i=0; i < outputLines.size(); i++) {
-                outputWriter.write(outputLines.get(i));
+            for (String line : outputLines) {
+                outputWriter.write(line);
                 outputWriter.newLine();
             }
 
             outputWriter.close();
 
         } catch (IOException e) {
+            Assert.fail("Exception: " + e.getMessage());
         }
     }
 

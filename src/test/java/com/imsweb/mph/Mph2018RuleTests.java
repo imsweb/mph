@@ -4096,28 +4096,25 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M18	Abstract a single primary when tumors do not meet any of the above criteria.
-        // Unable to trigger.
-        /*
         ruleStepToTest = "M18";
         ruleCountToTest = 16;
-        i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8000");
-        i1.setBehaviorIcdO3("2");
+        i1.setPrimarySite("C671");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
         i1.setLaterality("9");
-        i2.setPrimarySite("C670");
-        i2.setHistologyIcdO3("8001");
-        i2.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C672");
+        i2.setHistologyIcdO3("8140");
+        i2.setBehaviorIcdO3("2");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("2");
+        i2.setDateOfDiagnosisMonth("1");
         i2.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        */
     }
 
 
@@ -4126,26 +4123,130 @@ public class Mph2018RuleTests {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        i1.setPrimarySite("C509");
-        i1.setHistologyIcdO3("8530");
+        /*
+        i1.setPrimarySite("C711");
+        i1.setHistologyIcdO3("9440");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2010");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisDay("1");
+        i2.setPrimarySite("C712");
+        i2.setHistologyIcdO3("9442");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisDay("1");
+        */
+
+        /*
+        public static final String CNS_2018_CNS_SITES = "C700, C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753, C470, C473, C475, C476";
+        public static final String CNS_2018_BRAIN_SITES = "C710-C719";
+        public static final String CNS_2018_CAUDA_EQUINA = "C721";
+        public static final String CNS_2018_CEREBRAL_MENINGES_SITES = "C700";
+        public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
+        public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
+        public static final String CNS_2018_CRANIAL_NERVES_SITES = "C722-C725";
+        public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
+        public static final String CNS_2018_MENINGES_OF_CRANIAL_NERVES_SITES = "C709";
+
+        // • Any lobe of the brain C710-C719 AND any other part of CNS
+        if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_BRAIN_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Cauda equina C721 AND any other part of CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CAUDA_EQUINA, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Cerebral meninges C700 AND spinal meninges C701
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_SPINAL_MENINGES_SITES)) {
+        // • Cerebral meninges C700 AND any other part of CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Any two or more of the cranial nerves
+        //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
+        else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i1.getPrimarySite()) &&
+                GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i2.getPrimarySite())) {
+        // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Spinal cord C720 AND any other part of CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_CORD_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        // • Spinal meninges C701 AND any other part of CNS
+        else if (GroupUtility.areSitesInBothGroupsButNotTheSame(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_SPINAL_MENINGES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+        */
+
+        /*
+        output = _utils.computePrimaries(i1, i2);
+        //Assert.assertEquals("M15", output.getStep());
+
+        i1.setPrimarySite("C712");
+        i1.setHistologyIcdO3("9430");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
         i1.setDateOfDiagnosisDay("1");
-
-        i2.setPrimarySite("C509");
-        i2.setHistologyIcdO3("8530");
+        i2.setPrimarySite("C713");
+        i2.setHistologyIcdO3("9440");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
         i1.setDateOfDiagnosisDay("1");
 
+
+        //Tumor 1 HistologyIcd03	Tumor 1 BehaviorIcd03	Tumor 1 Laterality	Tumor 1 Date of Diagnosis ? Year	Tumor 1 Date of Diagnosis ? Month	Tumor 1 Date of Diagnosis ? Day	Tumor 2 Primary Site	Tumor 2 HistologyIcd03	Tumor 2 BehaviorIcd03	Tumor 2 Laterality	Tumor 2 Date of Diagnosis ? Year	Tumor 2 Date of Diagnosis ? Month	Tumor 2 Date of Diagnosis ? Day	Expected Result	Expected Group	Expected Rule #		Actual Result	Actual Group	Last Updated	Actual Rule #	Match	Reason
+        //C711	9440	3	1	2010	1	1	C712	9442	3	2	2018	1	1	Single Primary	2018 MalignantCNSAndPeripheralNerves	M10		Multiple Primaries	2018 Malignant CNS And Peripheral Nerves	1/23/2019	M8	No	Multiple tumors present in the following sites: - Any lobe of the brain C710-C719 AND any other part of CNS   - Cauda equina C721 AND any other part of CNS   - Cerebral meninges C700 AND spinal meninges C701   - Cerebral meninges C700 AND any other part of CNS   - Any of the cranial nerves C722-C725 AND any other part of the CNS   - Any two or more of the cranial nerves: C722 Olfactory   C723 Optic   C724 Acoustic   C725 Cranial nerves NOS   - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS   - Spinal cord C720 AND any other part of CNS   - Spinal meninges C701 AND any other part of CNS   - are multiple primaries.
+        //C712	9430	3	1	2018	1	1	C713	9440	3	2	2018	1	1	Multiple Primaries	2018 MalignantCNSAndPeripheralNerves	M11		Multiple Primaries	2018 Malignant CNS And Peripheral Nerves	1/23/2019	M8	No	Multiple tumors present in the following sites: - Any lobe of the brain C710-C719 AND any other part of CNS   - Cauda equina C721 AND any other part of CNS   - Cerebral meninges C700 AND spinal meninges C701   - Cerebral meninges C700 AND any other part of CNS   - Any of the cranial nerves C722-C725 AND any other part of the CNS   - Any two or more of the cranial nerves: C722 Olfactory   C723 Optic   C724 Acoustic   C725 Cranial nerves NOS   - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS   - Spinal cord C720 AND any other part of CNS   - Spinal meninges C701 AND any other part of CNS   - are multiple primaries.
+        //C711	9440	3		2018	1	1	C712	9430	3		2018	3	1	Single Primary	2018 MalignantCNSAndPeripheralNerves	M10		Multiple Primaries	2018 Malignant CNS And Peripheral Nerves	1/23/2019	M8	No	Multiple tumors present in the following sites: - Any lobe of the brain C710-C719 AND any other part of CNS   - Cauda equina C721 AND any other part of CNS   - Cerebral meninges C700 AND spinal meninges C701   - Cerebral meninges C700 AND any other part of CNS   - Any of the cranial nerves C722-C725 AND any other part of the CNS   - Any two or more of the cranial nerves: C722 Olfactory   C723 Optic   C724 Acoustic   C725 Cranial nerves NOS   - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS   - Spinal cord C720 AND any other part of CNS   - Spinal meninges C701 AND any other part of CNS   - are multiple primaries.
+
+
+
+        output = _utils.computePrimaries(i1, i2);
+        //Assert.assertEquals("M15", output.getStep());
+
+
+        i1.setPrimarySite("C711");
+        i1.setHistologyIcdO3("9440");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisDay("1");
+        i2.setPrimarySite("C712");
+        i2.setHistologyIcdO3("9430");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("3");
+        i1.setDateOfDiagnosisDay("1");
+
+        //Questionable	2018 Breast	M11		Multiple Primaries	NULL	null	null
+
+        output = _utils.computePrimaries(i1, i2);
+        //Assert.assertEquals("M15", output.getStep());
+
+        i1.setPrimarySite("C504");
+        i1.setHistologyIcdO3("8523");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2016");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisDay("1");
+
+        i2.setPrimarySite("C504");
+        i2.setHistologyIcdO3("8523");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("1");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setDateOfDiagnosisDay("1");
+
+        //Questionable	2018 Breast	M11		Questionable	2018 Breast	1/23/2019	M13
+
         //output = _utils.computePrimaries(i1, i2);
-        //Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        //Assert.assertEquals("", output.getAppliedRules().size());
-        //Assert.assertEquals("", output.getStep());
+        Assert.assertEquals("M15", output.getStep());
+        */
+
+        Assert.assertTrue(true);
     }
 
     @Test

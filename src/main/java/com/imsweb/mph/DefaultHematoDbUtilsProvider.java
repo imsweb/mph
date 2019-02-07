@@ -6,7 +6,6 @@ package com.imsweb.mph;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +30,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     public DefaultHematoDbUtilsProvider() {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            //for (String[] row : new CSVReader(reader, ',', '\"', 1).readAll()) {
-            for (String[] row : new CSVReaderBuilder(reader).withSkipLines(1).build().readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_samePrimaryDto.containsKey(row[0]))
                     _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -48,8 +45,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         }
         _transformToDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            for (String[] row : new CSVReaderBuilder(reader).withSkipLines(1).build().readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_transformToDto.containsKey(row[0]))
                     _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -64,8 +60,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         }
         _transformFromDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
-            Reader reader = new InputStreamReader(is, "US-ASCII");
-            for (String[] row : new CSVReaderBuilder(reader).withSkipLines(1).build().readAll()) {
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
                 if (_transformFromDto.containsKey(row[0]))
                     _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -82,26 +77,31 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     @Override
-    public boolean isSamePrimary(String leftCode, String rightCode, int year) {
+    public boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (leftCode.equals(rightCode))
             return true;
-        else if (_samePrimaryDto.containsKey(leftCode)) {
+        if (_samePrimaryDto.containsKey(leftCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(leftCode))
-                if (dto.matches(rightCode, year))
+                if (dto.matches(rightCode, leftYear))
                     return true;
         }
-        else if (_samePrimaryDto.containsKey(rightCode)) {
+        if (_samePrimaryDto.containsKey(rightCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(rightCode))
-                if (dto.matches(leftCode, year))
+                if (dto.matches(leftCode, rightYear))
                     return true;
         }
         return false;
     }
 
     @Override
-    public boolean isAcuteTransformation(String leftCode, String rightCode, int year) {
+    public boolean canTransformTo(String fromCode, String toCode, int fromYear, int toYear) {
+        return confirmTransformTo(fromCode, toCode, fromYear) || confirmTransformFrom(toCode, fromCode, toYear);
+    }
+
+
+    private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (_transformToDto.containsKey(leftCode)) {
@@ -112,8 +112,8 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return false;
     }
 
-    @Override
-    public boolean isChronicTransformation(String leftCode, String rightCode, int year) {
+
+    private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (_transformFromDto.containsKey(leftCode)) {

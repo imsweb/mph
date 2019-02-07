@@ -13,55 +13,30 @@ public class DefaultHematoDbUtilsProviderTest {
     @Test
     public void testIsSamePrimary() {
 
-        Assert.assertFalse(_provider.isSamePrimary(null, null, 2000));
-        Assert.assertFalse(_provider.isSamePrimary("", "", 2000));
-        Assert.assertFalse(_provider.isSamePrimary("TEST", "TEST", 2000));
-        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2000));
+        Assert.assertFalse(_provider.isSamePrimary(null, null, 2010, 2010));
+        Assert.assertFalse(_provider.isSamePrimary("", "", 2010, 2010));
+        Assert.assertFalse(_provider.isSamePrimary("TEST", "TEST", 2010, 2010));
+        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2000, 2010));
+        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2010, 2000));
 
-        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9590/3", 2016));
-        Assert.assertTrue(_provider.isSamePrimary("9590/3", "9870/3", 2016));
-        Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 1990));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9590/3", 2016, 2011));
+        Assert.assertTrue(_provider.isSamePrimary("9590/3", "9870/3", 2009, 2016));
+        Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 1990, 1998));
 
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2016));
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2010));
-        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9805/3", 2001));
+        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2016, 2016));
+        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2010, 2010));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9805/3", 2001, 2001));
     }
 
     @Test
-    public void testIsAcuteTransformation() {
-        Assert.assertFalse(_provider.isAcuteTransformation(null, null, 2010));
-        Assert.assertFalse(_provider.isAcuteTransformation("", "", 2010));
-        Assert.assertFalse(_provider.isAcuteTransformation("TEST", "TEST", 2010));
-        Assert.assertTrue(_provider.isAcuteTransformation("9963/3", "9861/3", 2010));
-        Assert.assertFalse(_provider.isAcuteTransformation("9963/3", "9861/3", 2000));
-        Assert.assertFalse(_provider.isAcuteTransformation("9963/3", "9861/3", 2005));
-        Assert.assertFalse(_provider.isAcuteTransformation("9861/3", "9963/3", 2010));
+    public void testCanTransformTo() {
+        Assert.assertFalse(_provider.canTransformTo(null, null, 2010, 2010));
+        Assert.assertFalse(_provider.canTransformTo("", "", 2010, 2010));
+        Assert.assertFalse(_provider.canTransformTo("TEST", "TEST", 2010, 2010));
+        Assert.assertTrue(_provider.canTransformTo("9761/3", "9659/3", 2005, 2010));
+        Assert.assertFalse(_provider.canTransformTo("9659/3", "9761/3", 2005, 2010));
+        Assert.assertTrue(_provider.canTransformTo("9992/3", "9872/3", 2005, 2010));
+        Assert.assertTrue(_provider.canTransformTo("9992/3", "9872/3", 2010, 2005));
 
-        Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9651/3", 2015));
-        Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9832/3", 2016));
-        Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9651/3", 2002));
-        Assert.assertTrue(_provider.isAcuteTransformation("9671/3", "9832/3", 2002));
-        Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9651/3", 2000));
-        Assert.assertFalse(_provider.isAcuteTransformation("9671/3", "9832/3", 2000));
-        Assert.assertFalse(_provider.isAcuteTransformation("9651/3", "9671/3", 2010));
-        Assert.assertFalse(_provider.isAcuteTransformation("9861/3", "9832/3", 2010));
-    }
-
-    @Test
-    public void testIsChronicTransformation() {
-        Assert.assertFalse(_provider.isChronicTransformation(null, null, 2010));
-        Assert.assertFalse(_provider.isChronicTransformation("", "", 2010));
-        Assert.assertFalse(_provider.isChronicTransformation("TEST", "TEST", 2010));
-        Assert.assertTrue(_provider.isChronicTransformation("9652/3", "9671/3", 2010));
-        Assert.assertFalse(_provider.isChronicTransformation("9652/3", "9671/3", 2000));
-        Assert.assertFalse(_provider.isChronicTransformation("9652/3", "9671/3", 2005));
-        Assert.assertFalse(_provider.isChronicTransformation("9671/3", "9652/3", 2010));
-
-        Assert.assertTrue(_provider.isChronicTransformation("9671/3", "9675/3", 2015));
-        Assert.assertTrue(_provider.isChronicTransformation("9671/3", "9675/3", 2002));
-        Assert.assertFalse(_provider.isChronicTransformation("9671/3", "9675/3", 2000));
-        Assert.assertFalse(_provider.isChronicTransformation("9675/3", "9671/3", 2000));
-        Assert.assertFalse(_provider.isChronicTransformation("9675/3", "9671/3", 2010));
-        Assert.assertFalse(_provider.isChronicTransformation("9675/3", "9671/3", 2001));
     }
 }

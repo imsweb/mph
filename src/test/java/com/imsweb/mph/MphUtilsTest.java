@@ -1886,8 +1886,8 @@ public class MphUtilsTest {
         Assert.assertTrue(output.getReason().contains("non-Hodgkin"));
         i2.setDateOfDiagnosisDay(null);
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(15, output.getAppliedRules().size());
         i1.setPrimarySite("C771");
         i2.setPrimarySite("C772"); //not same location
         output = _utils.computePrimaries(i1, i2);
@@ -1895,8 +1895,8 @@ public class MphUtilsTest {
         i1.setPrimarySite("C181");
         i2.setPrimarySite("C182"); //same location
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(4, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(15, output.getAppliedRules().size());
         i2.setDateOfDiagnosisYear("2011"); //not simultaneous
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());

@@ -1,6 +1,6 @@
 Tumor 1 Primary Site,Tumor 1 HistologyIcd03,Tumor 1 BehaviorIcd03,Tumor 1 Laterality,Tumor 1 Date of Diagnosis ? Year,Tumor 1 Date of Diagnosis ? Month,Tumor 1 Date of Diagnosis ? Day,Tumor 2 Primary Site,Tumor 2 HistologyIcd03,Tumor 2 BehaviorIcd03,Tumor 2 Laterality,Tumor 2 Date of Diagnosis ? Year,Tumor 2 Date of Diagnosis ? Month,Tumor 2 Date of Diagnosis ? Day,Expected Result,Expected Group,Expected Rule #
 C509,8530,3,1,2008,1,1,C509,8530,3,1,2018,1,1,Multiple Primaries,2018 Breast,M5
-C509,8530,3,1,2018,1,1,C509,8530,3,2,2018,1,1,Multiple Primaries,2018 Breast,M6
+C509,8530,3,1,2018,1,1,C509,8530,3,2,2018,1,1,Single Primary,2018 Breast,M6
 C504,8200,3,1,2018,1,1,C502,8022,3,1,2018,1,1,Multiple Primaries,2018 Breast,M13
 C505,8200,3,1,2018,1,1,C503,8022,3,2,2018,1,1,Multiple Primaries,2018 Breast,M7
 C500,8540,3,1,2018,1,1,C505,8500,2,2,2018,1,1,Multiple Primaries,2018 Breast,M7
@@ -35,7 +35,7 @@ C700,9538,3,,2018,1,1,C701,9538,3,,2018,1,1,Multiple Primaries,2018 MalignantCNS
 C721,9540,3,,2018,1,1,C725,9540,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M8
 C709,9530,3,,2018,1,1,C709,9538,3,,2018,1,1,Single Primary,2018 MalignantCNSAndPeripheralNerves,M10
 C701,9085,3,,2018,1,1,C701,9538,3,,2018,1,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M9
-C711,9440,3,,2018,1,1,C712,9430,3,,2018,3,1,Single Primary,2018 MalignantCNSAndPeripheralNerves,M10
+C711,9440,3,,2018,1,1,C712,9430,3,,2018,3,1,Multiple Primaries,2018 MalignantCNSAndPeripheralNerves,M11
 C712,9470,3,1,2018,1,1,C710,9470,3,2,2018,3,1,Single Primary,2018 MalignantCNSAndPeripheralNerves,M7
 ,,,,,,,,,,,,,,,,
 C341,8480,3,1,2018,1,1,C343,8480,3,1,2018,1,1,Single Primary,2018 Lung,M7
@@ -47,10 +47,16 @@ C341,8140,3,1,2018,1,1,C348,8140,2,1,2018,1,1,Single Primary,2018 Lung,M9
 C340,8083,3,1,2016,1,1,C348,8071,3,1,2018,1,1,Multiple Primaries,2018 Lung,M6
 C340,8070,3,1,2016,1,1,C348,8071,2,1,2018,1,1,Single Primary,2018 Lung,M10
 C343,8032,2,1,2018,1,1,C343,8032,3,1,2018,5,1,Multiple Primaries,2018 Lung,M13
-C343,8032,2,1,2018,1,1,C343,8032,3,1,2018,2,1,Single Primary,2018 Lung,M12
+C343,8032,2,1,2018,1,1,C343,8032,3,1,2018,2,1,Single Primary,2018 Lung,M9
 C341,8140,3,1,2018,1,1,C342,8250,3,1,2018,1,1,Single Primary,2018 Lung,M7
 C341,8073,3,1,2016,1,1,C342,8250,3,1,2018,1,1,Multiple Primaries,2018 Lung,M8
 C341,8140,3,1,2018,1,1,C341,8140,2,1,2018,1,1,Single Primary,2018 Lung,M9
+C341,8140,3,2,2018,1,1,C342,8140,2,2,2018,1,1,Single Primary,2018 Lung,M9
+C341,8140,3,4,2018,1,1,C342,8140,2,2,2018,1,1,Single Primary,2018 Lung,M9
+C341,8140,3,4,2018,1,1,C342,8140,2,2,2018,4,1,Questionable,2018 Lung,M10
+C341,8140,3,1,2018,1,1,C342,8140,2,2,2018,1,1,Questionable,2018 Lung,M9
+C341,8140,3,3,2018,1,1,C342,8140,3,2,2018,1,1,Questionable,2018 Lung,M7
+C341,8140,3,4,2018,1,1,C342,8140,3,2,2018,1,1,Questionable,2018 Lung,M7
 ,,,,,,,,,,,,,,,,
 C671,8140,3,,2018,1,1,C672,8140,2,,2018,1,1,Single Primary,2018 Urinary,M18
 C671,8120,3,,2018,1,1,C672,8120,3,,2018,1,1,Single Primary,2018 Urinary,M7
@@ -67,10 +73,35 @@ C680,8051,2,,2018,1,1,C680,8051,3,,2018,2,1,Single Primary,2018 Urinary,M16
 C680,8051,2,,2018,1,1,C680,8051,3,,2018,5,1,Multiple Primaries,2018 Urinary,M17
 C671,8120,3,,2018,1,1,C672,8020,3,,2018,1,1,Single Primary,2018 Urinary,M14
 C671,8120,3,,2018,1,1,C672,8020,3,,2018,5,1,Single Primary,2018 Urinary,M18
-C671,8120,3,,2018,1,1,C672,8130,2,,2018,1,1,Single Primary,2018 Urinary,M15
+C671,8120,3,,2018,1,1,C672,8130,2,,2018,10,1,Single Primary,2018 Urinary,M15
 C672,8130,3,,2018,1,1,C674,8131,3,,2018,4,1,Multiple Primaries,2018 Urinary,M12
 C672,8130,3,,2018,1,1,C674,8131,3,,2018,1,1,Single Primary,2018 Urinary,M14
 C671,8130,3,,2018,1,1,C680,8131,3,,2018,5,1,Multiple Primaries,2018 Urinary,M12
 C671,8120,2,,2018,1,1,C669,8120,2,,2018,1,1,Single Primary,2018 Urinary,M5
 C659,8310,3,,2018,1,1,C659,8802,2,,2018,1,1,Multiple Primaries,2018 Urinary,M11
 C673,8120,2,,2008,1,1,C673,8120,2,,2018,1,1,Single Primary,2018 Urinary,M6
+,,,,,,,,,,,,,,,,
+C649,8960,3,1,2018,1,1,C649,8960,3,2,2018,1,1,Single Primary,2018 Kidney,M4
+C649,8960,3,1,2010,1,1,C649,8960,3,2,2018,1,1,Single Primary,2018 Kidney,M4
+C649,8960,3,1,2016,1,1,C649,8960,3,1,2018,1,1,Single Primary,2018 Kidney,M13
+C649,8960,3,1,2016,1,1,C649,8312,3,2,2018,1,1,Multiple Primaries,2018 Kidney,M5
+C649,8316,3,1,2014,1,1,C649,8316,2,1,2018,1,1,Multiple Primaries,2018 Kidney,M6
+C649,8323,3,1,2017,1,1,C649,9120,3,1,2018,1,1,Multiple Primaries,2018 Kidney,M7
+C649,8800,3,1,2018,1,1,C649,8920,3,1,2018,1,1,Single Primary,2018 Kidney,M8
+C649,8800,3,1,2018,1,1,C649,8920,3,1,2018,6,1,Single Primary,2018 Kidney,M13
+C649,8312,2,1,2018,1,1,C649,8319,2,1,2018,1,1,Single Primary,2018 Kidney,M8
+C649,8312,2,1,2018,1,1,C649,8319,3,1,2018,2,1,Single Primary,2018 Kidney,M11
+C649,8312,3,1,2018,1,1,C649,8319,2,1,2018,2,1,Single Primary,2018 Kidney,M10
+C649,8312,2,1,2018,1,1,C649,8319,3,1,2018,8,1,Multiple Primaries,2018 Kidney,M12
+C649,8312,2,1,2018,1,1,C649,9120,3,1,2018,8,1,Multiple Primaries,2018 Kidney,M9
+,,,,,,,,,,,,,,,,
+C724,9560,0,1,2018,1,1,C724,9560,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M6
+C724,9560,0,1,2010,1,1,C724,9560,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M6
+C723,9421,1,1,2018,1,1,C723,9421,1,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M6
+C723,9421,1,1,2018,1,1,C723,9421,1,1,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M11
+C723,9421,1,1,2018,1,1,C724,9560,0,1,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M12
+C700,9530,0,,2018,1,1,C701,9530,0,,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M7
+C721,9540,0,1,2018,1,1,C725,9550,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
+C721,9540,0,1,2015,1,1,C725,9550,0,5,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
+C711,9493,0,,2018,1,1,C712,9390,1,,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M8
+C714,9390,0,,2010,1,1,C713,9390,1,,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M10

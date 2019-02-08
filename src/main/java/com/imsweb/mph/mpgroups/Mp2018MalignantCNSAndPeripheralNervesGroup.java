@@ -235,13 +235,13 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Any two or more of the cranial nerves
                 //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
-                else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i1.getPrimarySite()) &&
-                         GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES, i2.getPrimarySite())) {
+                else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, i1.getPrimarySite()) &&
+                         GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, i2.getPrimarySite())) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS

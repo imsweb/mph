@@ -158,7 +158,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Any cranial nerve(s) C721-C725 AND any other part of the CNS
-                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES, MphConstants.CNS_2018_CNS_SITES)) {
+                else if (GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.CNS_2018_CRANIAL_NERVES_SITES_ALL, MphConstants.CNS_2018_CNS_SITES)) {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 // •	Meninges of cranial nerves C709 AND any other part of the CNS

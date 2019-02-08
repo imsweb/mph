@@ -344,10 +344,10 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • Different NOS: Encapsulated papillary carcinoma 8504/2 is a subtype/variant of in situ papillary carcinoma 8503/2.  Pleomorphic lobular carcinoma in situ 8519/2 is a subtype/variant of lobular carcinoma in situ 8520/2. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M12	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M12", MphConstants.BREAST_2018_TABLE3_ROWS, MphConstants.BREAST_2018_SUBTYPE_NOS, true, false, false);
-        rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
+        // Rule M12 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions.
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_BREAST_GROUP_ID, "M12", MphConstants.BREAST_2018_TABLE3_ROWS, MphConstants.BREAST_2018_SUBTYPE_NOS, true, false, true);
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions?");
+        rule.setReason("Synchronous, separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");

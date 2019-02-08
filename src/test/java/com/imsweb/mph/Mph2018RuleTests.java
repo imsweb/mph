@@ -386,21 +386,21 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M12	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M12	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M12";
         ruleCountToTest = 9;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8200");
         i1.setBehaviorIcdO3("2");
         i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2016");
-        i1.setDateOfDiagnosisMonth("");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
         i2.setPrimarySite("C509");
         i2.setHistologyIcdO3("8200");
         i2.setBehaviorIcdO3("2");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("");
+        i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -410,14 +410,14 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8503");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2016");
-        i1.setDateOfDiagnosisMonth("");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("3");
         i2.setPrimarySite("C502");
         i2.setHistologyIcdO3("8509");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("");
+        i2.setDateOfDiagnosisMonth("4");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -427,14 +427,16 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8800");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2016");
-        i1.setDateOfDiagnosisMonth("");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("7");
+        i1.setDateOfDiagnosisDay("24");
         i2.setPrimarySite("C506");
         i2.setHistologyIcdO3("8901");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("");
+        i2.setDateOfDiagnosisMonth("9");
+        i2.setDateOfDiagnosisDay("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -683,17 +685,18 @@ public class Mph2018RuleTests {
 
         // Rule M17	Abstract a single primary when none of the previous rules apply.
         // Unable to trigger this rule.
+        /*
         ruleStepToTest = "M17";
         ruleCountToTest = 14;
-        i1.setPrimarySite("C504");
-        i1.setHistologyIcdO3("8500");
-        i1.setBehaviorIcdO3("3");
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8529");
+        i1.setBehaviorIcdO3("2");
         i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
-        i2.setPrimarySite("C506");
-        i2.setHistologyIcdO3("8500");
-        i2.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2016");
+        i1.setDateOfDiagnosisMonth("8");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8533");
+        i2.setBehaviorIcdO3("6");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("1");
@@ -702,6 +705,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("criteria"));
+        */
     }
 
     @Test
@@ -1060,7 +1064,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M11	Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M11	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M11";
         ruleCountToTest = 7;
         i1.setPrimarySite("C180");
@@ -1072,7 +1076,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8200");
         i2.setBehaviorIcdO3("2");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("8");
+        i2.setDateOfDiagnosisMonth("3");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertTrue(output.getReason().contains("are on the same row in Table 1"));
@@ -1974,10 +1978,12 @@ public class Mph2018RuleTests {
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
         i2.setPrimarySite("C649");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
         i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("2");
 
         ruleStepToTest = "M7";
 
@@ -2406,7 +2412,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8041");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("2");
-        i2.setDateOfDiagnosisYear("2016");
+        i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());

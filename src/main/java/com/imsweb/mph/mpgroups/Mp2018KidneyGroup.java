@@ -148,9 +148,9 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8", MphConstants.KIDNEY_2018_TABLE1_ROWS, MphConstants.KIDNEY_2018_SUBTYPE_NOS, true, true, false);
-        rule.setQuestion("Are separate/non-contiguous tumors on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
-        rule.setReason("Separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8", MphConstants.KIDNEY_2018_TABLE1_ROWS, MphConstants.KIDNEY_2018_SUBTYPE_NOS, true, true, true);
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");

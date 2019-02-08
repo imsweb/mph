@@ -83,7 +83,7 @@ C673,8120,2,,2008,1,1,C673,8120,2,,2018,1,1,Single Primary,2018 Urinary,M6
 ,,,,,,,,,,,,,,,,
 C649,8960,3,1,2018,1,1,C649,8960,3,2,2018,1,1,Single Primary,2018 Kidney,M4
 C649,8960,3,1,2010,1,1,C649,8960,3,2,2018,1,1,Single Primary,2018 Kidney,M4
-C649,8960,3,1,2016,1,1,C649,8960,3,1,2018,1,1,Single Primary,2018 Kidney,M13
+C649,8960,3,1,2016,1,1,C649,8960,3,1,2018,1,1,Single Primary,2018 Kidney,M8
 C649,8960,3,1,2016,1,1,C649,8312,3,2,2018,1,1,Multiple Primaries,2018 Kidney,M5
 C649,8316,3,1,2014,1,1,C649,8316,2,1,2018,1,1,Multiple Primaries,2018 Kidney,M6
 C649,8323,3,1,2017,1,1,C649,9120,3,1,2018,1,1,Multiple Primaries,2018 Kidney,M7
@@ -94,6 +94,8 @@ C649,8312,2,1,2018,1,1,C649,8319,3,1,2018,2,1,Single Primary,2018 Kidney,M11
 C649,8312,3,1,2018,1,1,C649,8319,2,1,2018,2,1,Single Primary,2018 Kidney,M10
 C649,8312,2,1,2018,1,1,C649,8319,3,1,2018,8,1,Multiple Primaries,2018 Kidney,M12
 C649,8312,2,1,2018,1,1,C649,9120,3,1,2018,8,1,Multiple Primaries,2018 Kidney,M9
+C649,8900,3,1,2018,1,1,C649,8910,3,1,2018,1,1,Single Primary,2018 Kidney,M8
+,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
 C724,9560,0,1,2018,1,1,C724,9560,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M6
 C724,9560,0,1,2010,1,1,C724,9560,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M6

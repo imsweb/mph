@@ -136,7 +136,7 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getHistology().equals("8220") || i2.getHistology().equals("8220")) {
+                if (i1.getHistology().equals("8220") && i2.getHistology().equals("8220")) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;

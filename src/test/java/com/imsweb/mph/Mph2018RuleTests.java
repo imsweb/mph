@@ -730,7 +730,7 @@ public class Mph2018RuleTests {
         i1.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2016");
         i2.setPrimarySite("C180");
-        i2.setHistologyIcdO3("8262");
+        i2.setHistologyIcdO3("8220");
         i2.setBehaviorIcdO3("2");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
@@ -738,13 +738,13 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("(FAP)"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        i1.setPrimarySite("C180");
-        i1.setHistologyIcdO3("8650");
-        i1.setBehaviorIcdO3("3");
+        i1.setPrimarySite("C181");
+        i1.setHistologyIcdO3("8220");
+        i1.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2016");
         i2.setPrimarySite("C180");
         i2.setHistologyIcdO3("8220");
-        i2.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("3");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());

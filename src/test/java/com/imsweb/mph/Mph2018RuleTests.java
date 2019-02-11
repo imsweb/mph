@@ -2470,9 +2470,7 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M9	Abstract a single primary when there are simultaneous multiple tumors:
-        // •	In both lungs OR
-        // •	In the same lung OR
-        // •	Single tumor in one lung; multiple tumors in contralateral lung
+        // both records have laterality=1 OR both records have laterality=2
         ruleStepToTest = "M9";
         ruleCountToTest = 7;
         i1.setPrimarySite("C342");
@@ -2497,12 +2495,11 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both lungs, the same lung, or opposite lungs"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        // Does not apply.
         i1.setLaterality("4");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("both lungs, the same lung, or opposite lungs"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertNotEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setDateOfDiagnosisMonth("09");
         i2.setDateOfDiagnosisMonth("01");

@@ -204,6 +204,8 @@ public class Mp2018LungGroup extends MphGroup {
         // For records within 60 days of each other, return SINGLE PRIMARY if:
         // 1. both records have laterality=1 OR both records have laterality=2
         // 2. one record has laterality = 4 and the other record has laterality = 1, 2 or 3
+
+        // ABH 2/11/19: Squish #81230 - Change this rule to be just both records have laterality=1 OR both records have laterality=2
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -214,9 +216,9 @@ public class Mp2018LungGroup extends MphGroup {
                     String lat2 = i2.getLaterality();
                     if (lat1 != null && lat2 != null) {
                         if ((lat1.equals(MphConstants.RIGHT) && lat2.equals(MphConstants.RIGHT)) ||
-                            (lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.LEFT)) ||
-                            (lat1.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat2)) ||
-                            (lat2.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat1))) {
+                            (lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.LEFT))) {
+                            //(lat1.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat2)) ||
+                            //(lat2.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat1))) {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
                     }

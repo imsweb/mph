@@ -52,11 +52,11 @@ C341,8140,3,1,2018,1,1,C342,8250,3,1,2018,1,1,Single Primary,2018 Lung,M7,,Singl
 C341,8073,3,1,2016,1,1,C342,8250,3,1,2018,1,1,Multiple Primaries,2018 Lung,M8,,Multiple Primaries,2018 Lung,01/23/2019,M8,Yes,Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions is multiple primaries.
 C341,8140,3,1,2018,1,1,C341,8140,2,1,2018,1,1,Single Primary,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M9,Yes,Simultaneous multiple tumors in both lungs   the same lung   or opposite lungs is a single primary.
 C341,8140,3,2,2018,1,1,C342,8140,2,2,2018,1,1,Single Primary,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M9,Yes,Simultaneous multiple tumors in both lungs   the same lung   or opposite lungs is a single primary.
-C341,8140,3,4,2018,1,1,C342,8140,2,2,2018,1,1,Single Primary,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M9,Yes,Simultaneous multiple tumors in both lungs   the same lung   or opposite lungs is a single primary.
+C341,8140,3,4,2018,1,1,C342,8140,2,2,2018,1,1,Single Primary,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
 C341,8140,3,4,2018,1,1,C342,8140,2,2,2018,4,1,Questionable,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
 C341,8140,3,1,2018,1,1,C342,8140,2,2,2018,1,1,Questionable,2018 Lung,M9,,Multiple Primaries,2018 Lung,01/23/2019,M11,No,A single tumor in each lung is multiple primaries.
 C341,8140,3,3,2018,1,1,C342,8140,3,2,2018,1,1,Questionable,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
-C341,8140,3,4,2018,1,1,C342,8140,3,2,2018,1,1,Questionable,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M9,No,Simultaneous multiple tumors in both lungs   the same lung   or opposite lungs is a single primary.
+C341,8140,3,4,2018,1,1,C342,8140,3,2,2018,1,1,Questionable,2018 Lung,M9,,Single Primary,2018 Lung,01/23/2019,M14,No,Tumors that do not meet any of the criteria are abstracted as a single primary.
 ,,,,,,,,,,,,,,,,,,,,,,,,,
 C671,8140,3,,2018,1,1,C672,8140,2,,2018,1,1,Single Primary,2018 Urinary,M18,,Single Primary,2018 Urinary,01/23/2019,M18,Yes,Tumors that do not meet any of the criteria are abstracted as a single primary.
 C671,8120,3,,2018,1,1,C672,8120,3,,2018,1,1,Single Primary,2018 Urinary,M7,,Single Primary,2018 Urinary,01/23/2019,M7,Yes,Multiple occurrences of papillary urothelial carcinoma or urothelial carcinoma of the bladder is a single primary.

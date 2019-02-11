@@ -259,7 +259,23 @@ public class Mp2018ColonGroup extends MphGroup {
         */
 
         // Rule M9	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the fourth characters C18X.
-        rule = new MphRuleTopography4Code(MphConstants.MP_2018_COLON_GROUP_ID, "M9");
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M9") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (i1.getPrimarySite().equals("C189") || i2.getPrimarySite().equals("C189")) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". One of the sites is C189.");
+                }
+                else if (!i1.getPrimarySite().substring(3, 4).equals(i2.getPrimarySite().substring(3, 4))) {
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+
+        rule.setQuestion("Are there tumors in sites with ICD-O site codes that differ at the fourth character (C18X)?");
+        rule.setReason("Tumors in sites with ICD-O site codes that differ at the fourth character (C18X) are multiple primaries.");
         rule.getNotes().add("Differences at the fourth character include different segments of the colon. Abstract a primary for each separate non-contiguous tumor in a different segment of the colon. This rule is not used for colon NOS C189.  C189 is rarely used other than DCO.");
         rule.getExamples().add("The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the site code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.");
         _rules.add(rule);

@@ -102,8 +102,8 @@ C723,9421,1,1,2018,1,1,C723,9421,1,2,2018,1,1,Single Primary,2018 NonMalignantCN
 C723,9421,1,1,2018,1,1,C723,9421,1,1,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M11
 C723,9421,1,1,2018,1,1,C724,9560,0,1,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M12
 C700,9530,0,,2018,1,1,C701,9530,0,,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M7
-C700,9540,0,1,2018,1,1,C700,9550,0,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
-C700,9540,0,1,2015,1,1,C700,9550,0,5,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
+C700,9530,0,1,2018,1,1,C700,9538,1,2,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
+C700,9539,1,1,2015,1,1,C700,9537,0,5,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M9
 C711,9493,0,,2018,1,1,C712,9390,1,,2018,1,1,Multiple Primaries,2018 NonMalignantCNSTumors,M8
 C714,9390,0,,2010,1,1,C713,9390,1,,2018,1,1,Single Primary,2018 NonMalignantCNSTumors,M10
 ,,,,,,,,,,,,,,,,

@@ -205,22 +205,29 @@ public class Mp2018LungGroup extends MphGroup {
         // 1. both records have laterality=1 OR both records have laterality=2
         // 2. one record has laterality = 4 and the other record has laterality = 1, 2 or 3
 
-        // ABH 2/11/19: Squish #81230 - Change this rule to be just both records have laterality=1 OR both records have laterality=2
+        // ABH 2/12/19: Squish #81230 -
+        // If Two tumors are within 60 days, proceed, otherwise skip this rule.
+        //   If both are laterality=1 or both are laterality=2 return SINGLE_PRIMARY,
+        //   otherwise return QUESTIONABLE.
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (0 == sixtyDaysApart) {
+                    boolean isResultSet = false;
                     String lat1 = i1.getLaterality();
                     String lat2 = i2.getLaterality();
                     if (lat1 != null && lat2 != null) {
                         if ((lat1.equals(MphConstants.RIGHT) && lat2.equals(MphConstants.RIGHT)) ||
                             (lat1.equals(MphConstants.LEFT) && lat2.equals(MphConstants.LEFT))) {
-                            //(lat1.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat2)) ||
-                            //(lat2.equals(MphConstants.BOTH) && MphConstants.LUNG_2018_OTHER_SIDE.contains(lat1))) {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            isResultSet = true;
                         }
+                    }
+                    if (!isResultSet) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Invalid lateralities provided.");
                     }
                 }
                 return result;

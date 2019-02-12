@@ -103,32 +103,8 @@ public class CsvRuleTesting {
 
     }
 
-
-
-
     private static List<Map<String, String>> loadCsvTestFile(String fileName) {
-
-        // Tumor 1 Primary Site,
-        // Tumor 1 HistologyIcd03,
-        // Tumor 1 BehaviorIcd03,
-        // Tumor 1 Laterality ,
-        // Tumor 1 Date of Diagnosis Year,
-        // Tumor 1 Date of Diagnosis Month,
-        // Tumor 1 Date of Diagnosis Day,
-        // Tumor 2 Primary Site,
-        // Tumor 2 HistologyIcd03,
-        // Tumor 2 BehaviorIcd03,
-        // Tumor 2 Laterality,
-        // Tumor 2 Date of Diagnosis Year,
-        // Tumor 2 Date of Diagnosis Month,
-        // Tumor 2 Date of Diagnosis Day,
-        // Expected Result,
-        // Expected Group,
-        // Expected Rule #
-
-        // C509,8530,3,1,2018,1,1,C509,8530,3,1,2028,1,1,Single Primary,2018 Breast,M4
-
-        List<Map<String, String>> retval = new ArrayList<>(); 
+        List<Map<String, String>> retval = new ArrayList<>();
 
         try (Reader reader = new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName), StandardCharsets.US_ASCII)) {
             for (String[] row : new CSVReaderBuilder(reader).withSkipLines(1).build().readAll()) {
@@ -194,9 +170,7 @@ public class CsvRuleTesting {
         MphOutput output;
         String outLine;
         boolean writeBlankLine;
-
-        //outputLines.add("File: " + fileName + " ------------------------------");
-        //outputLines.add("Row,Expected Result,Expected Group,Expected Rule #,Actual Result,Actual Group,Actual Rule #,Match,Reason");
+        int numRowErrors = 0;
 
         outLine = "Tumor 1 Primary Site,";
         outLine += "Tumor 1 HistologyIcd03,";
@@ -223,7 +197,6 @@ public class CsvRuleTesting {
         outLine += "Match,";
         outLine += "Reason";
         outputLines.add(outLine);
-
 
         for (Map<String, String> record : listRecs) {
             writeBlankLine = false;
@@ -256,14 +229,8 @@ public class CsvRuleTesting {
                     }
 
                     String strReason = output.getReason().replaceAll("\\n", " - ").replaceAll("\\t", "   ").replaceAll(",", "  ");
-
-                    String matchText = "Yes";
-                    if (!rowRetval) {
-                        matchText = "No";
-                    }
-
+                    String matchText = (rowRetval ? "Yes" : "No");
                     String actualGroupName = (GROUP_NAMES.get(output.getGroupId()) == null ? "NULL" : GROUP_NAMES.get(output.getGroupId()));
-
 
                     outLine = record.get(FIELD_T1_PRIMARY_SITE) + ",";
                     outLine += record.get(FIELD_T1_HISTOLOGY) + ",";
@@ -292,7 +259,10 @@ public class CsvRuleTesting {
 
                     outputLines.add(outLine);
 
-                    if (!rowRetval) fileRetval = false;
+                    if (!rowRetval) {
+                        fileRetval = false;
+                        numRowErrors++;
+                    }
                 }
             }
 
@@ -304,7 +274,7 @@ public class CsvRuleTesting {
 
         WriteComparisonFile(fileName, outputLines);
 
-        System.out.println("File: " + fileName + "     Result: " + (fileRetval ? "Passed" : "Failed"));
+        System.out.println("File: " + fileName + "      Result: " + (fileRetval ? "Passed" : "Failed") + "      Num Differences: " + numRowErrors);
 
 
         return fileRetval;
@@ -336,8 +306,6 @@ public class CsvRuleTesting {
         }
     }
 
-
-
     @Test
     public void testCsvCases() {
         boolean retval = true;
@@ -350,39 +318,6 @@ public class CsvRuleTesting {
         Assert.assertEquals("CSV Tests Failed", true, retval);
 
     }
-
-
-    /*
-    @Test
-    public void testCsvCases() {
-        boolean retval = true;
-        final boolean PERFORM_LOOP = false;
-
-        loadMappings();
-
-        int iLoopCount = 1;
-        if (PERFORM_LOOP) iLoopCount = 150000;
-
-        for (int i=0; i < iLoopCount; i++) {
-            if (!testCsvFile("breast_test_cases_02.csv")) retval = false;
-            //if (!testCsvFile("lung_test_cases_01.csv")) retval = false;
-            //if (!testCsvFile("urinary_test_cases_01.csv")) retval = false;
-
-            "MPH_test_cases.csv""
-
-
-            if (PERFORM_LOOP) {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {}
-            }
-        }
-
-        Assert.assertEquals("CSV Tests Failed", true, retval);
-
-    }
-    */
-
 
 }
 

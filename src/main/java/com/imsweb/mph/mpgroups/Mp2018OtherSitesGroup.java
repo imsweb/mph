@@ -18,6 +18,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2018OtherSitesGroup extends MphGroup {
 
     // OTHER SITES 2019 - See MphConstants for AS OF date.
+    // *** Same as Mp2007OtherSitesGroup Rules. ***
 
     /*
     Other Sites Histology Rules

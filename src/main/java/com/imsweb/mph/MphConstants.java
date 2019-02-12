@@ -577,7 +577,7 @@ public class MphConstants {
     public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
     public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
     public static final String CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA = "C722-C725";
-    public static final String CNS_2018_CRANIAL_NERVES_SITES_ALL = "C722-C725";
+    public static final String CNS_2018_CRANIAL_NERVES_SITES_ALL = "C721-C725";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_NERVES_SITES = "C709";
 

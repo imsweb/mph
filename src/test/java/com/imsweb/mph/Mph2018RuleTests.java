@@ -4139,11 +4139,10 @@ public class Mph2018RuleTests {
         i2.setBehaviorIcdO3("0");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
-        i1.setDateOfDiagnosisDay("1");
+        i2.setDateOfDiagnosisMonth("1");
+        i2.setDateOfDiagnosisDay("1");
 
-        //C721	9540	0	1	2018	1	1	C725	9550	0	2	2018	1	1	Single Primary	2018 NonMalignantCNSTumors	M9		Multiple Primaries	2018 Non Malignant CNS Tumors	1/23/2019	M7	No	Multiple tumors present in the following sites: - Any lobe(s) of the brain C710-C719 AND any other part of CNS - Cerebral meninges C700 AND spinal meninges C701 - Cerebral meninges C700 AND any other part of CNS - Any cranial nerve(s) C721-C725 AND any other part of the CNS - Meninges of cranial nerves C709 AND any other part of the CNS - Spinal meninges C701 AND any other part of CNS - are multiple primaries.
-        //C721	9540	0	1	2015	1	1	C725	9550	0	5	2018	1	1	Single Primary	2018 NonMalignantCNSTumors	M9		Multiple Primaries	2018 Non Malignant CNS Tumors	1/23/2019	M7	No	Multiple tumors present in the following sites: - Any lobe(s) of the brain C710-C719 AND any other part of CNS - Cerebral meninges C700 AND spinal meninges C701 - Cerebral meninges C700 AND any other part of CNS - Any cranial nerve(s) C721-C725 AND any other part of the CNS - Meninges of cranial nerves C709 AND any other part of the CNS - Spinal meninges C701 AND any other part of CNS - are multiple primaries.
+        //C721	9540	0	1	2018	1	1	C725	9550	0	2	2018	1	1
 
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals("M15", output.getStep());

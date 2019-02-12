@@ -150,6 +150,36 @@ public class GroupUtilityTest {
     }
 
     @Test
+    public void testAreSameSide() {
+        Assert.assertFalse(GroupUtility.areSameSide("1", "2"));
+        Assert.assertFalse(GroupUtility.areSameSide("2", "1"));
+        Assert.assertTrue(GroupUtility.areSameSide("1", "1"));
+        Assert.assertTrue(GroupUtility.areSameSide("2", "2"));
+        Assert.assertFalse(GroupUtility.areSameSide("1", "0"));
+        Assert.assertFalse(GroupUtility.areSameSide("2", "3"));
+        Assert.assertFalse(GroupUtility.areSameSide("0", "1"));
+        Assert.assertFalse(GroupUtility.areSameSide("3", "2"));
+        Assert.assertFalse(GroupUtility.areSameSide("4", "1"));
+        Assert.assertFalse(GroupUtility.areSameSide("4", "2"));
+        Assert.assertFalse(GroupUtility.areSameSide("1", "4"));
+        Assert.assertFalse(GroupUtility.areSameSide("2", "4"));
+    }
+
+    @Test
+    public void testAreBothAndLeftOrRightSides() {
+        Assert.assertTrue(GroupUtility.areBothAndLeftOrRightSides("1", "4"));
+        Assert.assertTrue(GroupUtility.areBothAndLeftOrRightSides("2", "4"));
+        Assert.assertTrue(GroupUtility.areBothAndLeftOrRightSides("4", "1"));
+        Assert.assertTrue(GroupUtility.areBothAndLeftOrRightSides("4", "2"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("1", "1"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("2", "2"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("0", "4"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("3", "4"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("4", "5"));
+        Assert.assertFalse(GroupUtility.areBothAndLeftOrRightSides("4", "9"));
+    }
+
+    @Test
     public void testSameAndValidMainFields() {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         Assert.assertFalse(GroupUtility.sameAndValidMainFields(i1, i2));
@@ -511,4 +541,259 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisDay("01");
         Assert.assertEquals(unknown, GroupUtility.compareDxDate(i1, i2));
     }
+
+    @Test
+    public void testIsOneBehaviorBeforeTheOther() {
+        //public static boolean isOneBehaviorBeforeTheOther(MphInput i1, MphInput i2, String firstBehavior, String secondBehavior) {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+        String firstBeh = "", secondBeh = "";
+
+        i1.setDateOfDiagnosisYear("2006");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("1");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("3");
+        firstBeh = "1";
+        secondBeh = "3";
+        Assert.assertTrue(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2004");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("1");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("3");
+        firstBeh = "1";
+        secondBeh = "3";
+        Assert.assertTrue(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("1");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("3");
+        firstBeh = "1";
+        secondBeh = "3";
+        Assert.assertFalse(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2006");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("03");
+        i2.setBehaviorIcdO3("1");
+        firstBeh = "3";
+        secondBeh = "1";
+        Assert.assertTrue(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2004");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("1");
+        firstBeh = "3";
+        secondBeh = "1";
+        Assert.assertTrue(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("1");
+        firstBeh = "3";
+        secondBeh = "1";
+        Assert.assertFalse(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("2");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("1");
+        firstBeh = "3";
+        secondBeh = "1";
+        Assert.assertFalse(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i1.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        i2.setBehaviorIcdO3("2");
+        firstBeh = "3";
+        secondBeh = "1";
+        Assert.assertFalse(GroupUtility.isOneBehaviorBeforeTheOther(i1, i2, firstBeh, secondBeh));
+    }
+
+    @Test
+    public void testIsFirstTumorBeforeSecondTumor() {
+        //public static boolean isFirstTumorBeforeSecondTumor(MphInput i1, MphInput i2) {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2008");
+        i2.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertTrue(GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertFalse(GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2005");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertTrue(GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2008");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("02");
+        Assert.assertTrue(GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2008");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2008");
+        i2.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertTrue(GroupUtility.isFirstTumorBeforeSecondTumor(i1, i2));
+    }
+
+    @Test
+    public void testContainsElement() {
+        //public static boolean containsElement(List<String> list1, List<String> list2) {
+        List<String> list1 = Arrays.asList("8100");
+        List<String> list2 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        Assert.assertTrue(GroupUtility.containsElement(list1, list2));
+
+        list1 = Arrays.asList("8109");
+        list2 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        Assert.assertFalse(GroupUtility.containsElement(list1, list2));
+
+        list1 = Arrays.asList("8251", "8255");
+        list2 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        Assert.assertTrue(GroupUtility.containsElement(list1, list2));
+
+        list1 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        list2 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        Assert.assertTrue(GroupUtility.containsElement(list1, list2));
+
+        list1 = Arrays.asList("8100", "8250", "8251", "8252", "8255", "9543");
+        list2 = Arrays.asList("8100", "8250", "8251", "8252", "8255");
+        Assert.assertTrue(GroupUtility.containsElement(list1, list2));
+    }
+
+    @Test
+    public void testCreateHistologyBehaviorList() {
+        //public static List<String> createHistologyBehaviorList(MphInput i1) {
+        MphInput i1 = new MphInput();
+
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        List<String> list = GroupUtility.createHistologyBehaviorList(i1);
+
+        Assert.assertTrue(list.size() == 2);
+        Assert.assertTrue(list.get(0).equals("8140/3"));
+        Assert.assertTrue(list.get(1).equals("8140"));
+
+        i1.setHistologyIcdO3("7566");
+        i1.setBehaviorIcdO3("1");
+        list = GroupUtility.createHistologyBehaviorList(i1);
+
+        Assert.assertTrue(list.size() == 2);
+        Assert.assertTrue(list.get(0).equals("7566/1"));
+        Assert.assertTrue(list.get(1).equals("7566"));
+    }
+
+    @Test
+    public void testAreSitesInBothGroupsAndSecondNotInFirstGroup() {
+        //public static boolean areSitesInBothGroupsAndSecondNotInFirstGroup(String site1, String site2, String groupList1, String groupList2) {
+        String site1 = "C111", site2 = "C222";
+        String list1 = "C100-C200", list2 = "C200-C500";
+        Assert.assertTrue(GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(site1, site2, list1, list2));
+
+        site1 = "C500";
+        site2 = "C222";
+        list1 = "C100-C200";
+        list2 = "C100-C500";
+        Assert.assertFalse(GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(site1, site2, list1, list2));
+
+        site1 = "C100";
+        site2 = "C200";
+        list1 = "C100-C250";
+        list2 = "C200-C300";
+        Assert.assertFalse(GroupUtility.areSitesInBothGroupsAndSecondNotInFirstGroup(site1, site2, list1, list2));
+    }
+
+    @Test
+    public void testAreSimultaneousTumors() {
+        //public static boolean areSimultaneousTumors(MphInput i1, MphInput i2) {
+        MphInput i1 = new MphInput(), i2 = new MphInput();
+
+        i1.setDateOfDiagnosisYear("2005");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertFalse(GroupUtility.areSimultaneousTumors(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2005");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2005");
+        i2.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertTrue(GroupUtility.areSimultaneousTumors(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2005");
+        i1.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("01");
+        i2.setDateOfDiagnosisYear("2005");
+        i2.setDateOfDiagnosisMonth("02");
+        i2.setDateOfDiagnosisDay("28");
+        Assert.assertTrue(GroupUtility.areSimultaneousTumors(i1, i2));
+
+        i1.setDateOfDiagnosisYear("2005");
+        i1.setDateOfDiagnosisMonth("12");
+        i1.setDateOfDiagnosisDay("15");
+        i2.setDateOfDiagnosisYear("2006");
+        i2.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisDay("01");
+        Assert.assertTrue(GroupUtility.areSimultaneousTumors(i1, i2));
+    }
+
+
 }

@@ -228,7 +228,8 @@ public class CsvRuleTesting {
                         rowRetval = false;
                     }
 
-                    String strReason = output.getReason().replaceAll("\\n", " - ").replaceAll("\\t", "   ").replaceAll(",", "  ");
+                    String strReason = "";
+                    if (output.getReason() != null) strReason = output.getReason().replaceAll("\\n", " - ").replaceAll("\\t", "   ").replaceAll(",", "  ");
                     String matchText = (rowRetval ? "Yes" : "No");
                     String actualGroupName = (GROUP_NAMES.get(output.getGroupId()) == null ? "NULL" : GROUP_NAMES.get(output.getGroupId()));
 

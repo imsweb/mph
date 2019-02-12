@@ -2628,6 +2628,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M14	Abstract a single primary when none of the previous rules apply.
+        // Cannot be tested.
+        /*
         ruleStepToTest = "M14";
         ruleCountToTest = 12;
         i1.setPrimarySite("C342");
@@ -2643,10 +2645,11 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("11");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("do not meet any of the criteria"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        */
     }
 
     @Test
@@ -4127,22 +4130,22 @@ public class Mph2018RuleTests {
         MphOutput output;
 
         /*
-        i1.setPrimarySite("C721");
-        i1.setHistologyIcdO3("9540");
-        i1.setBehaviorIcdO3("0");
-        i1.setLaterality("1");
+        i1.setPrimarySite("C341");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("4");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
         i1.setDateOfDiagnosisDay("1");
-        i2.setPrimarySite("C725");
-        i2.setHistologyIcdO3("9550");
-        i2.setBehaviorIcdO3("0");
+        i2.setPrimarySite("C342");
+        i2.setHistologyIcdO3("8140");
+        i2.setBehaviorIcdO3("2");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("1");
         i2.setDateOfDiagnosisDay("1");
 
-        //C721	9540	0	1	2018	1	1	C725	9550	0	2	2018	1	1
+        //C341	8140	3	4	2018	1	1	C342	8140	2	2	2018	1	1	Questionable	2018 Lung	M9			NULL	null	null	No
 
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals("M15", output.getStep());

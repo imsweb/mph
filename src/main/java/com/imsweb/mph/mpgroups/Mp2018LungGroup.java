@@ -315,7 +315,20 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14	Abstract a single primary when none of the previous rules apply.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
+        // New for 2/12/19: Always return Questionable as a last ditch.
+        //rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M14") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
+                //result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough information.");
+                return result;
+            }
+        };
+        rule.setQuestion("Does not meet any of the criteria?");
+        rule.setReason("Tumors that do not meet any of the criteria are abstracted as a potential single primary.");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

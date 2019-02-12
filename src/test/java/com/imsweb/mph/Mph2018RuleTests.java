@@ -2495,11 +2495,11 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("both lungs, the same lung, or opposite lungs"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        // Does not apply.
+        // Questionable
         i1.setLaterality("4");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         // Does not apply.
         i1.setDateOfDiagnosisMonth("09");
         i2.setDateOfDiagnosisMonth("01");

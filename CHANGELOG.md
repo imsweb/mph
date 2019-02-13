@@ -1,10 +1,28 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.13**
+
+ - Added 2018 Solid Tumor rules through January 2019 revision. 
+
+**Changes in version 1.12**
+
+ - Changed Hemato data provider to use two years instead of one to calculate same primary.
+
+**Changes in version 1.11**
+
+ - Changed Hemato data provider to use two years instead of one to calculate transforms to and transforms from.
+
 **Changes in version 1.10**
 
- - Updated Commons Lang library from version 3.4 to version 3.6.
- - Added 2018 rules.
-
+ - Changed MphUtils.getAllGroups() to return a map of ID and MphGroup.
+ - MphGroup names changed from "Year Name" to "Name (Year)".
+ - Updated Hematopoietic2010 files with latest data from SEER API Client.
+ - Added missing space to message "Unable to apply Rule".
+ - Standardized and combined "Unable to apply Rule" warning messages.
+ - Fixed 2007 Malignant Brain Group Charts to contain multiple branches.
+ - Updated Commons Lang library from version 3.4 to version 3.7.
+ - Updated CSV library from version 2.4 to version 4.2.
+ 
 **Changes in version 1.9**
 
  - Added a generic rule to return same primary when inputs have same and valid properties.

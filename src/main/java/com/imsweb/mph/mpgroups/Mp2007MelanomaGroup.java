@@ -41,7 +41,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known laterality should be provided.");
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                 }
                 else if (!i1.getLaterality().equals(i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -75,7 +75,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
                 int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (-1 == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
                 else if (1 == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

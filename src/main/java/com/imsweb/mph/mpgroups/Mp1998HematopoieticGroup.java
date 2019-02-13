@@ -6,7 +6,6 @@ package com.imsweb.mph.mpgroups;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (laterDx == -1) {
                     result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     return result;
                 }
                 String firstDx = laterDx == 1 ? i2.getHistology() : i1.getHistology(), secondDx = laterDx == 1 ? i1.getHistology() : i2.getHistology();
@@ -57,8 +56,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
     private static synchronized void initializeLookup() {
         if (_1998_HEMATOPOIETIC.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                _1998_HEMATOPOIETIC.addAll(new CSVReaderBuilder(reader).withSkipLines(1).build().readAll());
+                _1998_HEMATOPOIETIC.addAll(new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);

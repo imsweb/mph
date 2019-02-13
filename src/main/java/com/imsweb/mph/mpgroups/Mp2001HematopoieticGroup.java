@@ -6,7 +6,6 @@ package com.imsweb.mph.mpgroups;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (laterDx == -1) {
                         result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Valid and known diagnosis date should be provided.");
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         return result;
                     }
                     String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;
@@ -69,15 +68,13 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     private static synchronized void initializeLookups() {
         if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(reader).withSkipLines(1).build().readAll());
+                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
-                Reader reader = new InputStreamReader(is, "US-ASCII");
-                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(reader).withSkipLines(1).build().readAll());
+                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);

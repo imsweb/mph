@@ -51,5 +51,4 @@ public class TempRuleResult {
     public void setMessageUnknownLaterality(String step, String groupId) {
         _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known laterality should be provided.";
     }
-
 }

@@ -283,7 +283,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology();
-                if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && h1.equals(h2) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1)) {
+                if (areTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && h1.equals(h2) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
@@ -402,7 +402,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
+                if (areTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
                         result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
@@ -517,7 +517,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    private boolean AreTwoDifferentUrinarySites(String s1, String s2) {
+    private boolean areTwoDifferentUrinarySites(String s1, String s2) {
         return MphConstants.URINARY_2018_URINARY_SITES.contains(s1) && MphConstants.URINARY_2018_URINARY_SITES.contains(s2) && !s1.substring(0, 3).equals(s2.substring(0, 3));
     }
 }

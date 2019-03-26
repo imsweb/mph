@@ -14,6 +14,11 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
 
 public class Mp2007BreastGroup extends MphGroup {
 
@@ -21,11 +26,11 @@ public class Mp2007BreastGroup extends MphGroup {
         super(MphConstants.MP_2007_BREAST_GROUP_ID, MphConstants.MP_2007_BREAST_GROUP_NAME, "C500-C509", null, null, "9590-9989,9140", "2-3,6", "2007-2017");
 
         // M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        MphRule rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_BREAST_GROUP_ID, "M4");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2007_BREAST_GROUP_ID, "M4");
         _rules.add(rule);
 
         //M5- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        rule = new MphRuleDiagnosisDate(MphConstants.MP_2007_BREAST_GROUP_ID, "M5");
+        rule = new MpRuleFiveYearsApart(MphConstants.MP_2007_BREAST_GROUP_ID, "M5");
         _rules.add(rule);
 
         //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
@@ -64,7 +69,9 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior(MphConstants.MP_2007_BREAST_GROUP_ID, "M8");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_BREAST_GROUP_ID, "M8");
+        rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
+        rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         //M9- Tumors that are intraductal or duct and Paget Disease are a single primary.
@@ -120,11 +127,11 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M12- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_BREAST_GROUP_ID, "M12");
+        rule = new MpRuleHistology(MphConstants.MP_2007_BREAST_GROUP_ID, "M12");
         _rules.add(rule);
 
         //M13- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_BREAST_GROUP_ID, "M13");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_BREAST_GROUP_ID, "M13");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M13 have the same first 3 numbers in ICD-O-3 histology code.");
         rule.getExamples().add("Invasive duct and intraductal carcinoma in the same breast.");

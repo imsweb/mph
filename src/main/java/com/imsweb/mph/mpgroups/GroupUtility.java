@@ -39,7 +39,7 @@ public class GroupUtility {
      * Validates histology
      */
     public static boolean validateHistology(String hist) {
-        return hist != null && NumberUtils.isDigits(hist) && Integer.parseInt(hist) >= 8000 && Integer.parseInt(hist) <= 9999;
+        return NumberUtils.isDigits(hist) && Integer.parseInt(hist) >= 8000 && Integer.parseInt(hist) <= 9999;
     }
 
     /**
@@ -191,14 +191,6 @@ public class GroupUtility {
      */
     public static boolean areSameSide(String lat1, String lat2) {
         return (MphConstants.RIGHT.equals(lat1) && MphConstants.RIGHT.equals(lat2)) || (MphConstants.LEFT.equals(lat2) && MphConstants.LEFT.equals(lat1));
-    }
-
-    /**
-     * checks if one cancers is BOTH, and the other is left or right side
-     */
-    public static boolean areBothAndLeftOrRightSides(String lat1, String lat2) {
-        return (MphConstants.BOTH.equals(lat1) && (MphConstants.RIGHT.equals(lat2) || MphConstants.LEFT.equals(lat2))) ||
-               (MphConstants.BOTH.equals(lat2) && (MphConstants.RIGHT.equals(lat1) || MphConstants.LEFT.equals(lat1)));
     }
 
     /**
@@ -428,95 +420,4 @@ public class GroupUtility {
 
         return minimum ? (int)ChronoUnit.DAYS.between(startDateMax, endDateMin) : (int)ChronoUnit.DAYS.between(startDateMin, endDateMax);
     }
-
-    /**
-     * checks if firstBehavior occurs before secondBehavior.
-     */
-    public static boolean isOneBehaviorBeforeTheOther(MphInput i1, MphInput i2, String firstBehavior, String secondBehavior) {
-        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
-        if (differentCategory(beh1, beh2, Collections.singletonList(secondBehavior), Collections.singletonList(firstBehavior))) {
-            int latestDx = compareDxDate(i1, i2);
-            if ((1 == latestDx && secondBehavior.equals(beh1)) || (2 == latestDx && secondBehavior.equals(beh2)))
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * checks if first Input occurs before second Input.
-     */
-    public static boolean isFirstTumorBeforeSecondTumor(MphInput i1, MphInput i2) {
-        if (compareDxDate(i1, i2) == 2)
-            return true;
-        return false;
-    }
-
-    /**
-     * Checks if one element from the first list is in the second.
-     */
-    public static boolean containsElement(List<String> list1, List<String> list2) {
-        for (String s : list1) {
-            if (list2.contains(s)) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Creates a list of Histology and Histology / Behavior.
-     */
-    public static List<String> createHistologyBehaviorList(MphInput i1) {
-        List<String> i1list = new ArrayList<String>();
-        i1list.add(i1.getHistology() + "/" + i1.getBehavior());
-        i1list.add(i1.getHistology());
-        return i1list;
-    }
-
-    /**
-     * Return true if one site is in each list but they are not the same site.
-     */
-    /*
-    public static boolean areSitesInBothGroupsButNotTheSame(String site1, String site2, String groupList1, String groupList2) {
-
-        if (isSiteContained(groupList1, site1) && isSiteContained(groupList2, site2) && !site1.equals(site2)) {
-            return true;
-        }
-        else if (isSiteContained(groupList2, site1) && isSiteContained(groupList1, site2) && !site1.equals(site2)) {
-            return true;
-        }
-
-        return false;
-    }
-    */
-
-
-    /**
-     * Return true if one site is in the first group, and the second site is in the second group AND not in the first group.
-     */
-    public static boolean areSitesInBothGroupsAndSecondNotInFirstGroup(String site1, String site2, String groupList1, String groupList2) {
-
-        if (isSiteContained(groupList1, site1)) {
-            if (isSiteContained(groupList2, site2) && !isSiteContained(groupList1, site2)) {
-                return true;
-            }
-        }
-        else if (isSiteContained(groupList1, site2)) {
-            if (isSiteContained(groupList2, site1) && !isSiteContained(groupList1, site1)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return true if tumors occur within 60 days of each other.
-     */
-    public static boolean areSimultaneousTumors(MphInput i1, MphInput i2) {
-        if (GroupUtility.verifyDaysApart(i1, i2, 60) == 0) {
-            return true;
-        }
-        return false;
-    }
-
-
-
 }

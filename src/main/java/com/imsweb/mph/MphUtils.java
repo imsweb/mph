@@ -134,28 +134,28 @@ public final class MphUtils {
         addGroup(new Mp2004SolidMalignantGroup());
 
         // 2007 solid tumor rules
-        _groups.add(new Mp2007HeadAndNeckGroup());
-        _groups.add(new Mp2007ColonGroup());
-        _groups.add(new Mp2007LungGroup());
-        _groups.add(new Mp2007MelanomaGroup());
-        _groups.add(new Mp2007BreastGroup());
-        _groups.add(new Mp2007KidneyGroup());
-        _groups.add(new Mp2007UrinaryGroup());
-        _groups.add(new Mp2007BenignBrainGroup());
-        _groups.add(new Mp2007MalignantBrainGroup());
-        _groups.add(new Mp2007OtherSitesGroup());
+        addGroup(new Mp2007HeadAndNeckGroup());
+        addGroup(new Mp2007ColonGroup());
+        addGroup(new Mp2007LungGroup());
+        addGroup(new Mp2007MelanomaGroup());
+        addGroup(new Mp2007BreastGroup());
+        addGroup(new Mp2007KidneyGroup());
+        addGroup(new Mp2007UrinaryGroup());
+        addGroup(new Mp2007BenignBrainGroup());
+        addGroup(new Mp2007MalignantBrainGroup());
+        addGroup(new Mp2007OtherSitesGroup());
 
         // 2018 solid tumor rules
-        _groups.add(new Mp2018BreastGroup());
-        _groups.add(new Mp2018ColonGroup());
-        _groups.add(new Mp2018CutaneousMelanomaGroup());
-        _groups.add(new Mp2018HeadAndNeckGroup());
-        _groups.add(new Mp2018KidneyGroup());
-        _groups.add(new Mp2018LungGroup());
-        _groups.add(new Mp2018MalignantCNSAndPeripheralNervesGroup());
-        _groups.add(new Mp2018NonMalignantCNSTumorsGroup());
-        _groups.add(new Mp2018OtherSitesGroup());
-        _groups.add(new Mp2018UrinarySitesGroup());
+        addGroup(new Mp2018BreastGroup());
+        addGroup(new Mp2018ColonGroup());
+        addGroup(new Mp2018CutaneousMelanomaGroup());
+        addGroup(new Mp2018HeadAndNeckGroup());
+        addGroup(new Mp2018KidneyGroup());
+        addGroup(new Mp2018LungGroup());
+        addGroup(new Mp2018MalignantCNSAndPeripheralNervesGroup());
+        addGroup(new Mp2018NonMalignantCNSTumorsGroup());
+        addGroup(new Mp2018OtherSitesGroup());
+        addGroup(new Mp2018UrinarySitesGroup());
     }
 
     /**

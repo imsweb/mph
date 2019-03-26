@@ -13,6 +13,8 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 
 public class Mp2007BenignBrainGroup extends MphGroup {
 
@@ -177,12 +179,12 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M11");
+        rule = new MpRuleHistology(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M11");
         rule.getNotes().add("Use this rule when none of the histology codes are listed in Chart 1.");
         _rules.add(rule);
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M12");
         rule.getNotes().add("Timing is not used to determine multiple primaries for benign and borderline intracranial and CNS tumors.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and the same laterality as the original tumor are a single primary.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and it is unknown if laterality is the same as the original tumor are a single primary.");

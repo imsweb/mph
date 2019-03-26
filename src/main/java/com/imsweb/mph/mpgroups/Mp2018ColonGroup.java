@@ -3,17 +3,19 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
 
 public class Mp2018ColonGroup extends MphGroup {
 
@@ -120,14 +122,12 @@ public class Mp2018ColonGroup extends MphGroup {
 
     */
 
-
     // Colon, Rectosigmoid, and Rectum Multiple Primary Rules
     // C180-C189, C199, C209
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018ColonGroup() {
         super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189, C199, C209", null, null,
                 "9590-9992, 9140", "2-3,6", "2018-9999");
-
 
         // Rule M3	Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
         //  • There is a clinical diagnosis of familial polyposis (FAP) OR
@@ -136,17 +136,20 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getHistology().equals("8220") && i2.getHistology().equals("8220")) {
+                if ("8220".equals(i1.getHistology()) && "8220".equals(i2.getHistology()))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
                 return result;
             }
         };
         rule.setQuestion("Is there adenocarcinoma in situ and/or invasive in at least one polyp and one tumor a familial polyposis (FAP) or there are greater than 100 polyps (no FAP)?");
-        rule.setReason("If there is an adenocarcinoma in situ and/or invasive in at least one polyp and one tumor is a familial polyposis (FAP) or there are greater than 100 polyps (no FAP), then this is a single primary.");
-        rule.getNotes().add("A diagnosis of familial polyposis (FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
-        rule.getNotes().add("In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in both the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
-        rule.getNotes().add("FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
+        rule.setReason(
+                "If there is an adenocarcinoma in situ and/or invasive in at least one polyp and one tumor is a familial polyposis (FAP) or there are greater than 100 polyps (no FAP), then this is a single primary.");
+        rule.getNotes().add(
+                "A diagnosis of familial polyposis (FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
+        rule.getNotes().add(
+                "In situ /2 and malignant /3 adenocarcinoma in polyps, malignancies with remnants of a polyp, as well as de novo (previously called frank) malignancies may be present in multiple segments of the colon or in both the colon and rectum.  Polyposis may be present in other GI sites such as stomach (a de novo does not have to be present; all adenocarcinoma may be in polyps).");
+        rule.getNotes().add(
+                "FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
         rule.getNotes().add("Multiple polyps in the colorectum is not equivalent to FAP.");
         rule.getNotes().add("Code primary site as follows:");
         rule.getNotes().add("  • Present in more than one segment of colon: C189 colon, NOS");
@@ -156,12 +159,12 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("  • Stomach AND/OR");
         rule.getNotes().add("  • Rectosigmoid AND/OR");
         rule.getNotes().add("  • Rectum");
-        rule.getExamples().add("The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
+        rule.getExamples().add(
+                "The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
         _rules.add(rule);
 
-
         // Rule M4	Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third CxXx character.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_COLON_GROUP_ID, "M4");
+        rule = new MpRulePrimarySite(MphConstants.MP_2018_COLON_GROUP_ID, "M4");
         rule.getNotes().add("Definition of separate/non-contiguous tumors: at least two malignancies which do not overlap/merge.");
         rule.getNotes().add("Differences at either the second or third characters are different primary sites/multiple primaries.");
         rule.getExamples().add("Breast C50x and colon C18x");
@@ -170,16 +173,45 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M5", MphConstants.COLON_2018_TABLE1_SUBTYPES,null, false);
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M5") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                if (!h1.equals(h2) && (MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h1) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd1)) && (
+                        MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h2) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd2)))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add("  • Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add("  • Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add(
+                "  • Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add(
+                "  • Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M6	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M6", MphConstants.COLON_2018_TABLE1_ROWS, false);
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M6") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
+                String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+
+                }
+                else if (!row1.equals(row2))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
@@ -267,17 +299,19 @@ public class Mp2018ColonGroup extends MphGroup {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". One of the sites is C189.");
                 }
-                else if (!i1.getPrimarySite().substring(3, 4).equals(i2.getPrimarySite().substring(3, 4))) {
+                else if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
+
                 return result;
             }
         };
 
         rule.setQuestion("Are there tumors in sites with ICD-O site codes that differ at the fourth character (C18X)?");
         rule.setReason("Tumors in sites with ICD-O site codes that differ at the fourth character (C18X) are multiple primaries.");
-        rule.getNotes().add("Differences at the fourth character include different segments of the colon. Abstract a primary for each separate non-contiguous tumor in a different segment of the colon. This rule is not used for colon NOS C189.  C189 is rarely used other than DCO.");
-        rule.getExamples().add("The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the site code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.");
+        rule.getNotes().add(
+                "Differences at the fourth character include different segments of the colon. Abstract a primary for each separate non-contiguous tumor in a different segment of the colon. This rule is not used for colon NOS C189.  C189 is rarely used other than DCO.");
+        rule.getExamples().add(
+                "The patient has adenocarcinoma in situ in a sigmoid polyp and mucinous adenocarcinoma in a polyp in the descending colon, the site code differs at the fourth character (sigmoid C187 and descending C186). Code two primaries, one for the sigmoid and another for the descending colon.");
         _rules.add(rule);
 
         // Rule M10	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
@@ -300,15 +334,42 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Colonoscopies are NED");
         rule.getNotes().add("  • Scans are NED");
-        rule.getNotes().add("When there is a recurrence less than or equal to one year of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.");
+        rule.getNotes().add(
+                "When there is a recurrence less than or equal to one year of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.");
         rule.getNotes().add("When the first course of treatment was a polypectomy only, this rule means there were no recurrences for greater than one year.");
         rule.getNotes().add("When the first course of treatment was a colectomy or A&P resection, there were no anastomotic recurrences for greater than one year.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
-        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
+        rule.getNotes().add(
+                "The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
         // Rule M11	Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_COLON_GROUP_ID, "M11", MphConstants.COLON_2018_TABLE1_ROWS, null, true, false, true);
+        rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M11") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if ((i1.getBehavior().equals(i2.getBehavior()))) {
+                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
+                    String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
+                    if (row1 == null || row2 == null) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
+
+                    }
+                    else if (row1.equals(row2)) {
+                        int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (-1 == diff) {
+                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        }
+                        else if (0 == diff)
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
+                }
+                return result;
+            }
+        };
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.");
@@ -321,32 +382,35 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M12", false, false);
+        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M12");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M13	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13", false, false);
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
         rule.getNotes().add("Change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
-        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add(
+                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         rule.getNotes().add("See the COC and SEER manuals for instructions on coding data items such as Date of Diagnosis, Accession Year and Sequence Number.");
         _rules.add(rule);
 
         // Rule M14	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14", false);
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add(
+                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M15	Abstract a single primary when tumors do not meet any of the above criteria.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M15");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M15");
         rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
-        rule.getExamples().add("The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.");
+        rule.getExamples().add(
+                "The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.");
         _rules.add(rule);
     }
 }

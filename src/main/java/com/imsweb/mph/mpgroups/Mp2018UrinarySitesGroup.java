@@ -3,17 +3,19 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
 
@@ -148,20 +150,35 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
     */
 
-
     // Renal Pelvis, Ureter, Bladder, and Other Urinary Multiple Primary Rules
     // C659, C669, C670-C679, C680-C689
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018UrinarySitesGroup() {
         super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null,
-                "9590-9992, 9140","2-3,6", "2018-9999");
+                "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3	Abstract multiple primaries when there are:
         // •	Separate/non-contiguous tumors in both the right AND left renal pelvis AND
         // •	No other urinary sites are involved with separate/non-contiguous tumors
-        MphRule rule = new MphRuleLeftAndRight(MphConstants.MP_2018_URINARY_GROUP_ID, "M3", null, MphConstants.RENAL_PELVIS);
-        rule.setQuestion("Are there separate/non-contiguous tumors in both the right renal pelvis and the left renal pelvis and no other urinary sites are involved with separate/non-contiguous tumors?");
-        rule.setReason("When no other urinary sites are involved with separate/non-contiguous tumors, and separate/non-contiguous tumors in in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries.");
+        MphRule rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M3") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion(
+                "Are there separate/non-contiguous tumors in both the right renal pelvis and the left renal pelvis and no other urinary sites are involved with separate/non-contiguous tumors?");
+        rule.setReason(
+                "When no other urinary sites are involved with separate/non-contiguous tumors, and separate/non-contiguous tumors in in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries.");
         rule.getNotes().add("Only abstract a single primary when pathology confirms tumor(s) in the contralateral renal pelvis are metastatic.");
         rule.getNotes().add("This rule is used only when there is no involvement by separate/non-contiguous tumors in the ureter(s), bladder, or urethra.");
         _rules.add(rule);
@@ -169,9 +186,24 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M4	Abstract multiple primaries when there are:
         // •	Separate/non-contiguous tumors in the right AND left ureter AND
         // •	No other urinary sites are involved with separate/non-contiguous tumors
-        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_URINARY_GROUP_ID, "M4", null, MphConstants.URETER);
+        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M4") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
         rule.setQuestion("Are there separate/non-contiguous tumors in both the right ureter and the left ureter and no other urinary sites are involved with separate/non-contiguous tumors?");
-        rule.setReason("When no other urinary sites are involved with separate/non-contiguous tumors, and there are separate/non-contiguous tumors in both the right ureter AND tumor(s) in the left ureter are multiple primaries.");
+        rule.setReason(
+                "When no other urinary sites are involved with separate/non-contiguous tumors, and there are separate/non-contiguous tumors in both the right ureter AND tumor(s) in the left ureter are multiple primaries.");
         rule.getNotes().add("Only abstract a single primary when pathology confirms tumor(s) in contralateral ureter are metastatic.");
         rule.getNotes().add("This rule is used only when there is no involvement by separate/non-contiguous tumors in the renal pelvis, bladder, and urethra.");
         _rules.add(rule);
@@ -183,14 +215,17 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((GroupUtility.isSiteContained("C670-C679", i1.getPrimarySite()) && i2.getPrimarySite().equals("C669")) ||
-                    (GroupUtility.isSiteContained("C670-C679", i2.getPrimarySite()) && i1.getPrimarySite().equals("C669"))) {
-                    if (GroupUtility.areSimultaneousTumors(i1, i2)) {
-                        String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                        if (icd1.equals("8120/2") && icd2.equals("8120/2"))   {
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        }
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                if ("8120/2".equals(icd1) && "8120/2".equals(icd2) && ((s1.startsWith(MphConstants.BLADDER) && "C669".equals(s2)) || (s2.startsWith(MphConstants.BLADDER) && "C669".equals(s1)))) {
+                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == diff) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
+                    else if (0 == diff)
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
                 }
                 return result;
             }
@@ -198,7 +233,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.setQuestion("Are tumors of the bladder (C670-C679) and ureter (C669) in situ utothelial carcinoma (8120/2)?");
         rule.setReason("Tumors of the bladder (C670-C679) and ureter (C669) and are in situ utothelial carcinoma (8120/2) are a single primary.");
         rule.getNotes().add("No other urinary organs are involved.");
-        rule.getNotes().add("Use this rule ONLY for noninvasive in situ urothelial carcinoma (may be called noninvasive urothelial carcinoma or noninvasive flat tumor). For other histologies, continue through the rules.");
+        rule.getNotes().add(
+                "Use this rule ONLY for noninvasive in situ urothelial carcinoma (may be called noninvasive urothelial carcinoma or noninvasive flat tumor). For other histologies, continue through the rules.");
         rule.getNotes().add("Urothelial carcinoma in situ spreads by intramucosal extension and may involve large areas of mucosal surface.  The default for these cases is coding a bladder primary.");
         _rules.add(rule);
 
@@ -207,12 +243,9 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER)) {
-                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    if (icd1.equals("8120/2") && icd2.equals("8120/2")) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
-                }
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && icd1.equals("8120/2") && icd2.equals("8120/2"))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -229,12 +262,10 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER)) {
-                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    if ((icd1.equals("8130/3") && icd2.equals("8130/3")) || (icd1.equals("8120/3") && icd2.equals("8120/3"))) {
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
-                }
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && (icd1.equals("8130/3") && icd2.equals("8130/3")) || (icd1.equals(
+                        "8120/3") && icd2.equals("8120/3")))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -251,16 +282,16 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.areSimultaneousTumors(i1, i2)) {
-                    if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
-                        String hist1 = i1.getHistology();
-                        String hist2 = i2.getHistology();
-                        if (hist1 != null && hist2 != null) {
-                            if (hist1.equals(hist2) && (MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(hist1))) {
-                                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            }
-                        }
+                String h1 = i1.getHistology(), h2 = i2.getHistology();
+                if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && h1.equals(h2) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1)) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
+                    else if (0 == sixtyDaysApart)
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+
                 }
                 return result;
             }
@@ -277,7 +308,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9	Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRuleDiagnosisDateGreaterThan3Years(MphConstants.MP_2018_URINARY_GROUP_ID, "M9");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_URINARY_GROUP_ID, "M9");
         rule.getNotes().add("The rules are hierarchical.  This rule does not apply to urothelial carcinoma of the bladder.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Scans are NED");
@@ -285,25 +316,56 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("  • Scopes are NED");
         rule.getNotes().add("When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
-        rule.getNotes().add("The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
-        rule.getExamples().add("Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
+        rule.getNotes().add(
+                "The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
+        rule.getExamples().add(
+                "Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
         _rules.add(rule);
 
         // Rule M10	Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleTwoOrMoreDifferentSubTypesInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M10", MphConstants.URINARY_2018_TABLE2_SUBTYPES, MphConstants.URINARY_2018_SUBTYPE_NOS, false);
+        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M10") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String subtype1 = MphConstants.URINARY_2018_TABLE2_SUBTYPES.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(h1) : MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(icd1);
+                String subtype2 = MphConstants.URINARY_2018_TABLE2_SUBTYPES.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(h2) : MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(icd2);
+                if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
-        rule.getNotes().add("  • Same NOS: Leiomyosarcoma 8890/3 and liposarcoma 8850/3 are both subtypes of sarcoma NOS 8800/3 but are distinctly different histologies. Abstract multiple primaries.");
-        rule.getNotes().add("  •	 Different NOS: Verrucous carcinoma 8051 is a subtype of squamous cell carcinoma NOS 8070; giant cell urothelial carcinoma 8031 is a subtype of urothelial carcinoma 8120. They are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add(
+                "  • Same NOS: Leiomyosarcoma 8890/3 and liposarcoma 8850/3 are both subtypes of sarcoma NOS 8800/3 but are distinctly different histologies. Abstract multiple primaries.");
+        rule.getNotes().add(
+                "  •	 Different NOS: Verrucous carcinoma 8051 is a subtype of squamous cell carcinoma NOS 8070; giant cell urothelial carcinoma 8031 is a subtype of urothelial carcinoma 8120. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M11	Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRuleDifferentRowsInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M11", MphConstants.URINARY_2018_TABLE2_ROWS, false);
+        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M11") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
+                String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                }
+                else if (!row1.equals(row2))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
-        rule.getExamples().add("Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
+        rule.getExamples().add(
+                "Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
         _rules.add(rule);
 
         // Rule M12	Abstract multiple primaries when the patient has multiple non-synchronous tumors which are:
@@ -313,20 +375,25 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (sixtyDaysApart == 1) {
-                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    if ((icd1.equals("8130/3") && icd2.equals("8131/3")) || (icd1.equals("8131/3") && icd2.equals("8130/3"))) {
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if ((icd1.equals("8130/3") && icd2.equals("8131/3")) || (icd1.equals("8131/3") && icd2.equals("8130/3"))) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
+                    else if (1 == sixtyDaysApart)
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+
                 return result;
             }
         };
         rule.setQuestion("Are tumors non-synchronous Papillary urothelial/transitional cell NOS 8130/3 AND Micropapillary urothelial/transitional cell 8131/3?");
         rule.setReason("Non-synchronous Papillary urothelial/transitional cell NOS 8130/3 AND Micropapillary urothelial/transitional cell 8131/3 are multiple primaries.");
         rule.getNotes().add("This is a new rule for 2019.");
-        rule.getNotes().add("Micropapillary urothelial cell carcinoma is an extremely aggressive neoplasm.  It is important to capture the incidence of micropapillary urothelial carcinoma, therefore it is excluded from the typical “NOS and subtype/variant” rule (same row in table 2).");
+        rule.getNotes().add(
+                "Micropapillary urothelial cell carcinoma is an extremely aggressive neoplasm.  It is important to capture the incidence of micropapillary urothelial carcinoma, therefore it is excluded from the typical “NOS and subtype/variant” rule (same row in table 2).");
         rule.getNotes().add("For synchronous tumors, continue through the rules.  Code the most specific histology.");
         _rules.add(rule);
 
@@ -335,10 +402,14 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (!GroupUtility.areSimultaneousTumors(i1, i2)) {
-                    if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                if (AreTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite())) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (-1 == sixtyDaysApart) {
+                        result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
+                    else if (1 == sixtyDaysApart)
+                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -352,11 +423,36 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add(" - Ureter (original tumor was not in ureter)");
         rule.getNotes().add(" - Bladder (original tumor was not in bladder)");
         rule.getNotes().add(" - Urethra (original tumor was not in urethra)");
-        rule.getExamples().add("The patient was diagnosed 1/1/2018 with squamous cell carcinoma of the renal pelvis 8070/3.  Patient had a nephrectomy.  On routine follow-up six months later, the patient was diagnosed with urothelial carcinoma of the bladder 8120/3.  The patient has two non-synchronous tumors involving different urinary organs. Abstract multiple primaries.");
+        rule.getExamples().add(
+                "The patient was diagnosed 1/1/2018 with squamous cell carcinoma of the renal pelvis 8070/3.  Patient had a nephrectomy.  On routine follow-up six months later, the patient was diagnosed with urothelial carcinoma of the bladder 8120/3.  The patient has two non-synchronous tumors involving different urinary organs. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M14 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
-        rule = new MphRuleSameRowInTable(MphConstants.MP_2018_URINARY_GROUP_ID, "M14", MphConstants.URINARY_2018_TABLE2_ROWS, MphConstants.URINARY_2018_SUBTYPE_NOS, true, false, true);
+        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M14") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                if (i1.getBehavior().equals(i2.getBehavior())) {
+                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
+                    String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
+                    if (row1 == null || row2 == null) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                    }
+                    else if (row1.equals(row2)) {
+                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (-1 == sixtyDaysApart) {
+                            result.setPotentialResult(MpResult.SINGLE_PRIMARY);
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        }
+                        else if (0 == sixtyDaysApart)
+                            result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    }
+                }
+                return result;
+            }
+        };
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
@@ -377,7 +473,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M15	Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
-        rule = new MphRuleInSituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M15", false, false);
+        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M15");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
@@ -388,58 +484,41 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M16	Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
-        rule = new MphRuleInvasiveAfterInSituLess60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M16", false, false);
-        rule.getExamples().add("The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M16");
+        rule.getExamples().add(
+                "The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
-        rule.getNotes().add("The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
+        rule.getNotes().add(
+                "The physician may stage both tumors because staging and determining multiple primaries are done for different reasons. Staging determines which treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         rule.getNotes().add("See the COC and SEER manuals for instructions on coding other data items such as Date of Diagnosis, Accession Year and Sequence Number");
         _rules.add(rule);
 
         // Rule M17	Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor AND tumors:
         // •	Occur in the same urinary site OR
         // •	Are multifocal/multicentric tumors in multiple urinary sites
-        rule = new MphRuleInvasiveAfterInSituGreaterThan60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M17", false);
-        rule.getExamples().add("The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M17");
+        rule.getExamples().add(
+                "The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
-        rule.getNotes().add("This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
+        rule.getNotes().add(
+                "This rule is based on long-term epidemiologic studies of recurrence intervals. The specialty medical experts (SMEs) reviewed and approved these rules.  Many of the SMEs were also authors, co-authors, or editors of the AJCC Staging Manual.");
         _rules.add(rule);
 
         // Rule M18	Abstract a single primary when tumors do not meet any of the above criteria.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_ID, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_ID, "M18");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add("TURB shows invasive urothelial carcinoma 8120/3 and CIS/in situ urothelial carcinoma 8120/2. Abstract a single primary.");
 
         _rules.add(rule);
     }
 
-    private boolean AreTwoDifferentUrinarySites(String primarySite1, String primarySite2) {
-        boolean retval = false;
-
-        if (primarySite1 != null && primarySite2 != null) {
-            if (MphConstants.URINARY_2018_URINARY_SITES.contains(primarySite1) && MphConstants.URINARY_2018_URINARY_SITES.contains(primarySite2)) {
-                String g1 = "";
-                String g2 = "";
-                if (MphConstants.URINARY_2018_RENAL_PELVIS.contains(primarySite1)) g1 = "1";
-                else if (MphConstants.URINARY_2018_URETER.contains(primarySite1)) g1 = "2";
-                else if (MphConstants.URINARY_2018_BLADDER.contains(primarySite1)) g1 = "3";
-                else if (MphConstants.URINARY_2018_URETHRA.contains(primarySite1)) g1 = "4";
-
-                if (MphConstants.URINARY_2018_RENAL_PELVIS.contains(primarySite2)) g2 = "1";
-                else if (MphConstants.URINARY_2018_URETER.contains(primarySite2)) g2 = "2";
-                else if (MphConstants.URINARY_2018_BLADDER.contains(primarySite2)) g2 = "3";
-                else if (MphConstants.URINARY_2018_URETHRA.contains(primarySite2)) g2 = "4";
-
-                if (!g1.equals(g2)) {
-                    retval = true;
-                }
-            }
-        }
-        return retval;
+    private boolean AreTwoDifferentUrinarySites(String s1, String s2) {
+        return MphConstants.URINARY_2018_URINARY_SITES.contains(s1) && MphConstants.URINARY_2018_URINARY_SITES.contains(s2) && !s1.substring(0, 3).equals(s2.substring(0, 3));
     }
 }
 

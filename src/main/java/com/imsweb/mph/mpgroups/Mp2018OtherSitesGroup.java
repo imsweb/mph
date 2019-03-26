@@ -14,6 +14,10 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
 
 public class Mp2018OtherSitesGroup extends MphGroup {
 
@@ -79,7 +83,6 @@ public class Mp2018OtherSitesGroup extends MphGroup {
     Rule M18	Tumors that do not meet any of the above criteria are a single primary. *
         Note: When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.
     */
-
 
     // Other Sites Histology Rules
     // Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
@@ -180,9 +183,23 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRuleLeftAndRight(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8",
-                Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
-                              "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754"), null);
+        rule = new MphRule(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M8") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
+                        "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
+                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    }
+                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
         rule.setQuestion("Are there tumors in both the left and right sides of a paired site (Table 1)?");
         rule.setReason("Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.");
         rule.getNotes().add("See Table 1: Paired Organs and Sites with Laterality");
@@ -227,7 +244,7 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M11");
+        rule = new MpRulePrimarySite(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M11");
         rule.getExamples().add("A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         _rules.add(rule);
@@ -293,7 +310,9 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M15 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MphRuleBehavior(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M15");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M15");
+        rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
+        rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         //M16 -
@@ -325,11 +344,11 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M17- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MphRuleHistologyCode(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M17");
+        rule = new MpRuleHistology(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M17");
         _rules.add(rule);
 
         //M18- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, "M18");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }

@@ -23,7 +23,6 @@ import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2007LungGroup;
 import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
-import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
@@ -510,7 +509,7 @@ public class MphUtilsTest {
         //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Valid and known diagnosis date")); //not sure if they are 60 days apart
+        Assert.assertTrue(output.getReason().contains("There is not enough diagnosis date information.")); //not sure if they are 60 days apart
         i2.setDateOfDiagnosisYear("2007");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -2626,7 +2625,7 @@ public class MphUtilsTest {
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
                 TempRuleResult result = rule.apply(i1, i2, options);
-                Assert.assertTrue(result.getMessage().contains("Valid and known diagnosis date"));
+                Assert.assertTrue(result.getMessage().contains("There is not enough diagnosis date information."));
             }
         }
 

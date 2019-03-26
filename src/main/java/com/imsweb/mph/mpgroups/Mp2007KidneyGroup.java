@@ -13,6 +13,10 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
 
 public class Mp2007KidneyGroup extends MphGroup {
 
@@ -35,7 +39,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M4 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M4");
+        rule = new MpRulePrimarySite(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M4");
         _rules.add(rule);
 
         // M5 - Tumors in both the right kidney and in the left kidney are multiple primaries.
@@ -79,7 +83,9 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M7");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M7");
+        rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
+        rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
@@ -125,11 +131,11 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.  
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M10");
+        rule = new MpRuleHistology(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M10");
         _rules.add(rule);
 
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M11");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }

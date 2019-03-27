@@ -25,26 +25,26 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
     C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
     Rules apply to cases diagnosed 1/1/2007 to 12/31/2018
 
-    Rule M3	Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
+    Rule M3 Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
 
-    Rule M4	Melanomas with different laterality are multiple primaries. **
+    Rule M4 Melanomas with different laterality are multiple primaries. **
         Note:  A midline melanoma is a different laterality than right or left.
         Example 1:  Melanoma of the right side of the chest and melanoma at midline of the chest are different laterality, multiple primaries
         Example 2:  A melanoma of the right side of the chest and a melanoma of the left side of the chest are multiple primaries.
 
-    Rule M5	Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
+    Rule M5 Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
 
-    Rule M6	An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
-        Note 1: 	The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.
-        Note 2: 	Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.
+    Rule M6 An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
+        Note 1:  The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.
+        Note 2:  Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.
 
-    Rule M7	Melanomas diagnosed more than 60 days apart are multiple primaries. **
+    Rule M7 Melanomas diagnosed more than 60 days apart are multiple primaries. **
 
-    Rule M8	Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
-        Note 1: 	Use the data item “Multiplicity Counter” to record the number of melanomas abstracted as a single primary.
-        Note 2:	 When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.
-        Note 3: 	All cases covered by this rule are the same site and histology.
-        Note 4:	The below examples are not exhaustive.
+    Rule M8 Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
+        Note 1:  Use the data item “Multiplicity Counter” to record the number of melanomas abstracted as a single primary.
+        Note 2:  When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.
+        Note 3:  All cases covered by this rule are the same site and histology.
+        Note 4: The below examples are not exhaustive.
         Example 1: Solitary melanoma on the left back and another solitary melanoma on the left chest.
         Example 2: Solitary melanoma on the right thigh and another solitary melanoma on the right ankle.
     */
@@ -57,7 +57,7 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         super(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME, "C440-C449", null,
                 "8720-8780", null, "2-3,6", "2007-2018");
 
-        // Rule M3	Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
+        // Rule M3 Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
         MphRule rule = new MphRule(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -71,7 +71,7 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         rule.setReason("Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.");
         _rules.add(rule);
 
-        // Rule M4	Melanomas with different laterality are multiple primaries. **
+        // Rule M4 Melanomas with different laterality are multiple primaries. **
         rule = new MphRule(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -94,13 +94,13 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         rule.getExamples().add("A melanoma of the right side of the chest and a melanoma of the left side of the chest are multiple primaries.");
         _rules.add(rule);
 
-        // Rule M5	Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
+        // Rule M5 Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
         rule = new MpRuleHistology(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M5");
         rule.setQuestion("Do the melanomas haveICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number?");
         rule.setReason("Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.");
         _rules.add(rule);
 
-        // Rule M6	An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
+        // Rule M6 An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
         rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M6");
         rule.setQuestion("Is there an invasive melanoma following an in situ tumor more than 60 days after diagnosis?");
         rule.setReason("An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.");
@@ -108,7 +108,7 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
-        // Rule M7	Melanomas diagnosed more than 60 days apart are multiple primaries. **
+        // Rule M7 Melanomas diagnosed more than 60 days apart are multiple primaries. **
         rule = new MphRule(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -127,7 +127,7 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
         rule.setReason("Melanomas diagnosed more than 60 days apart are multiple primaries.");
         _rules.add(rule);
 
-        // Rule M8	Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
+        // Rule M8 Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
         rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item “Multiplicity Counter” to record the number of melanomas abstracted as a single primary.");

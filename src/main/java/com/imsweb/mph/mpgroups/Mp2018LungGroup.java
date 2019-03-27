@@ -3,8 +3,6 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.util.Arrays;
-
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -274,7 +272,7 @@ public class Mp2018LungGroup extends MphGroup {
                 //If they are not simultaneous, skip
                 if (1 == sixtyDaysApart)
                     return result;
-                else if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH, MphConstants.ONLY_ONE_SIDE_NS).containsAll(Arrays.asList(lat1, lat2))) {
+                else if (!MphConstants.BOTH.equals(lat1) && !MphConstants.BOTH.equals(lat2) && !GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                     if (-1 == sixtyDaysApart)
                         result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());

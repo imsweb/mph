@@ -55,7 +55,7 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
     // Rules apply to cases diagnosed 1/1/2007 to 12/31/2018
     public Mp2018CutaneousMelanomaGroup() {
         super(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_NAME, "C440-C449", null,
-                "8720-8780", null, "2-3,6", "2007-2018");
+                "8720-8780", null, "2-3,6", "2018-9999");
 
         // Rule M3 Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
         MphRule rule = new MphRule(MphConstants.MP_2018_CUTANEOUS_MELANOMA_GROUP_ID, "M3") {

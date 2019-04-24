@@ -182,19 +182,19 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are multiple tumors present in the following sites:\n" +
-                "Any lobe(s) of the brain C710-C719 AND any other part of CNS\n" +
-                "Cerebral meninges C700 AND spinal meninges C701\n" +
-                "Cerebral meninges C700 AND any other part of CNS\n" +
-                "Any cranial nerve(s) C721-C725 AND any other part of the CNS\n" +
-                "Meninges of cranial nerves C709 AND any other part of the CNS\n" +
-                "Spinal meninges C701 AND any other part of CNS?");
+                " • Any lobe(s) of the brain C710-C719 AND any other part of CNS\n" +
+                " • Cerebral meninges C700 AND spinal meninges C701\n" +
+                " • Cerebral meninges C700 AND any other part of CNS\n" +
+                " • Any cranial nerve(s) C721-C725 AND any other part of the CNS\n" +
+                " • Meninges of cranial nerves C709 AND any other part of the CNS\n" +
+                " • Spinal meninges C701 AND any other part of CNS?");
         rule.setReason("Multiple tumors present in the following sites:\n" +
-                "Any lobe(s) of the brain C710-C719 AND any other part of CNS\n" +
-                "Cerebral meninges C700 AND spinal meninges C701\n" +
-                "Cerebral meninges C700 AND any other part of CNS\n" +
-                "Any cranial nerve(s) C721-C725 AND any other part of the CNS\n" +
-                "Meninges of cranial nerves C709 AND any other part of the CNS\n" +
-                "Spinal meninges C701 AND any other part of CNS\n" +
+                " • Any lobe(s) of the brain C710-C719 AND any other part of CNS\n" +
+                " • Cerebral meninges C700 AND spinal meninges C701\n" +
+                " • Cerebral meninges C700 AND any other part of CNS\n" +
+                " • Any cranial nerve(s) C721-C725 AND any other part of the CNS\n" +
+                " • Meninges of cranial nerves C709 AND any other part of the CNS\n" +
+                " • Spinal meninges C701 AND any other part of CNS\n" +
                 "are multiple primaries.");
         _rules.add(rule);
 

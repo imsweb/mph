@@ -184,45 +184,47 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("The histologies within each breast may be the same or different.");
         _rules.add(rule);
 
-        // Rule M8 Abstract a single primary when the diagnosis is Paget disease with synchronous underlying in situ or invasive carcinoma NST (duct/ductal).
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (Arrays.asList("8541/3", "8543/2", "8543/3").containsAll(Arrays.asList(icd1, icd2))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                    }
-                    else if (0 == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
-        rule.setQuestion("Is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal)?");
-        rule.setReason("Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal) is single primary.");
-        rule.getNotes().add("The underlying tumor may be either in situ or invasive.");
-        _rules.add(rule);
+        //Suzanne Adams confirms that we are skipping M8 and M9
 
-        //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if ((Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd1) || Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd2)) && !Arrays.asList("8541/3", "8543/2", "8543/3")
-                        .containsAll(Arrays.asList(icd1, icd2)))
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
-        rule.setQuestion("Is Paget disease present with synchronous/simultaneous underlying tumor which is NOT duct?");
-        rule.setReason("Paget disease with synchronous/simultaneous underlying tumor which is NOT duct are multiple primaries.");
-        rule.getExamples().add("Paget disease of the nipple with underlying lobular carcinoma are multiple primaries.");
-        _rules.add(rule);
+        //        // Rule M8 Abstract a single primary when the diagnosis is Paget disease with synchronous underlying in situ or invasive carcinoma NST (duct/ductal).
+        //        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M8") {
+        //            @Override
+        //            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+        //                TempRuleResult result = new TempRuleResult();
+        //                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+        //                if (Arrays.asList("8541/3", "8543/2", "8543/3").containsAll(Arrays.asList(icd1, icd2))) {
+        //                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+        //                    if (-1 == sixtyDaysApart) {
+        //                        result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
+        //                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+        //                    }
+        //                    else if (0 == sixtyDaysApart)
+        //                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+        //                }
+        //                return result;
+        //            }
+        //        };
+        //        rule.setQuestion("Is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal)?");
+        //        rule.setReason("Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal) is single primary.");
+        //        rule.getNotes().add("The underlying tumor may be either in situ or invasive.");
+        //        _rules.add(rule);
+        //
+        //        //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
+        //        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M9") {
+        //            @Override
+        //            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+        //                TempRuleResult result = new TempRuleResult();
+        //                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+        //                if ((Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd1) || Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd2)) && !Arrays.asList("8541/3", "8543/2", "8543/3")
+        //                        .containsAll(Arrays.asList(icd1, icd2)))
+        //                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+        //                return result;
+        //            }
+        //        };
+        //        rule.setQuestion("Is Paget disease present with synchronous/simultaneous underlying tumor which is NOT duct?");
+        //        rule.setReason("Paget disease with synchronous/simultaneous underlying tumor which is NOT duct are multiple primaries.");
+        //        rule.getExamples().add("Paget disease of the nipple with underlying lobular carcinoma are multiple primaries.");
+        //        _rules.add(rule);
 
         //Rule M10 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
         //• Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
@@ -383,7 +385,6 @@ public class Mp2018BreastGroup extends MphGroup {
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupId());
-
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

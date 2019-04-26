@@ -144,72 +144,66 @@ public class Mph2018RuleTests {
 
         // Rule M8 Abstract a single primary when the diagnosis is Paget disease with underlying in situ or invasive carcinoma NST (duct/ductal).
         // 8541/3, 8543/2, 8543/3 AND 8541/3, 8543/2, 8543/3
-        ruleStepToTest = "M8";
-        ruleCountToTest = 5;
-        i1.setPrimarySite("C500");
-        i1.setHistologyIcdO3("8543");
-        i1.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
-        i1.setLaterality("1");
-        i2.setPrimarySite("C509");
-        i2.setHistologyIcdO3("8541");
-        i2.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("1");
-        i2.setLaterality("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Paget"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
-        //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
-        // 8541/3, 8543/2, 8543/3 AND 8541/3, 8543/2, 8543/3
-        ruleStepToTest = "M9";
-        ruleCountToTest = 6;
-        i1.setPrimarySite("C500");
-        i1.setHistologyIcdO3("8543");
-        i1.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("1");
-        i1.setLaterality("1");
-        i2.setPrimarySite("C509");
-        i2.setHistologyIcdO3("8520");
-        i2.setBehaviorIcdO3("3");
-        i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("1");
-        i2.setLaterality("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Paget"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
+        //        ruleStepToTest = "M8";
+        //        ruleCountToTest = 5;
+        //        i1.setPrimarySite("C500");
+        //        i1.setHistologyIcdO3("8543");
+        //        i1.setBehaviorIcdO3("2");
+        //        i1.setDateOfDiagnosisYear("2018");
+        //        i1.setDateOfDiagnosisMonth("1");
+        //        i1.setLaterality("1");
+        //        i2.setPrimarySite("C509");
+        //        i2.setHistologyIcdO3("8541");
+        //        i2.setBehaviorIcdO3("3");
+        //        i2.setDateOfDiagnosisYear("2018");
+        //        i2.setDateOfDiagnosisMonth("1");
+        //        i2.setLaterality("1");
+        //        output = _utils.computePrimaries(i1, i2);
+        //        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        //        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //        Assert.assertTrue(output.getReason().contains("Paget"));
+        //        Assert.assertEquals(ruleStepToTest, output.getStep());
+        //
+        //        //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
+        //        // 8541/3, 8543/2, 8543/3 AND 8541/3, 8543/2, 8543/3
+        //        ruleStepToTest = "M9";
+        //        ruleCountToTest = 6;
+        //        i1.setPrimarySite("C500");
+        //        i1.setHistologyIcdO3("8543");
+        //        i1.setBehaviorIcdO3("2");
+        //        i1.setDateOfDiagnosisYear("2018");
+        //        i1.setDateOfDiagnosisMonth("1");
+        //        i1.setLaterality("1");
+        //        i2.setPrimarySite("C509");
+        //        i2.setHistologyIcdO3("8520");
+        //        i2.setBehaviorIcdO3("3");
+        //        i2.setDateOfDiagnosisYear("2018");
+        //        i2.setDateOfDiagnosisMonth("1");
+        //        i2.setLaterality("1");
+        //        output = _utils.computePrimaries(i1, i2);
+        //        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        //        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //        Assert.assertTrue(output.getReason().contains("Paget"));
+        //        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Rule M10 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
         //• Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
         //• One tumor may be duct and another tumor lobular OR
         //• One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
         ruleStepToTest = "M10";
-        ruleCountToTest = 7;
+        ruleCountToTest = 5;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8500");
         i1.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("1");
+        i1.setLaterality("1");
         i2.setPrimarySite("C509");
         i2.setHistologyIcdO3("8520");
         i2.setBehaviorIcdO3("2");
         i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("");
-        // Questionable at M9 with potential unknown specific date.
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertTrue(output.getReason().contains("diagnosis date"));
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        // Within 60 days.
         i2.setDateOfDiagnosisMonth("2");
+        i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -230,7 +224,7 @@ public class Mph2018RuleTests {
         //  Invasive Paget 8541/3 OR
         //  Other invasive carcinoma 8523/3
         ruleStepToTest = "M11";
-        ruleCountToTest = 8;
+        ruleCountToTest = 6;
         i1.setPrimarySite("C504");
         i1.setHistologyIcdO3("8522");
         i1.setBehaviorIcdO3("2");
@@ -288,7 +282,7 @@ public class Mph2018RuleTests {
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M12";
-        ruleCountToTest = 9;
+        ruleCountToTest = 7;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8035");
         i1.setBehaviorIcdO3("2");
@@ -388,7 +382,7 @@ public class Mph2018RuleTests {
 
         // Rule M13 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M13";
-        ruleCountToTest = 10;
+        ruleCountToTest = 8;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8200");
         i1.setBehaviorIcdO3("2");
@@ -490,7 +484,7 @@ public class Mph2018RuleTests {
 
         // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M14";
-        ruleCountToTest = 11;
+        ruleCountToTest = 9;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8315");
         i1.setBehaviorIcdO3("2");
@@ -553,7 +547,7 @@ public class Mph2018RuleTests {
 
         // Rule M15 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
         ruleStepToTest = "M15";
-        ruleCountToTest = 12;
+        ruleCountToTest = 10;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8401");
         i1.setBehaviorIcdO3("3");
@@ -585,7 +579,7 @@ public class Mph2018RuleTests {
 
         // Rule M16 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
         ruleStepToTest = "M16";
-        ruleCountToTest = 13;
+        ruleCountToTest = 11;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8523");
         i1.setBehaviorIcdO3("2");
@@ -606,7 +600,7 @@ public class Mph2018RuleTests {
 
         // Rule M17 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
         ruleStepToTest = "M17";
-        ruleCountToTest = 14;
+        ruleCountToTest = 12;
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8401");
         i1.setBehaviorIcdO3("2");

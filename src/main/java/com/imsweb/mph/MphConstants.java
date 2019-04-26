@@ -379,7 +379,7 @@ public class MphConstants {
         BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> BREAST_2018_TABLE2 = Arrays.asList("8500", "8520", "8540", "8519/2", "8523", "8524", "8543", "8541/3", "8255/3");
+    public static final List<String> BREAST_2018_TABLE2 = Arrays.asList("8500", "8520", "8522", "8540", "8519/2", "8523", "8524", "8543", "8541/3", "8255/3");
 
     public static final Map<String, String> BREAST_2018_TABLE3_ROWS;
 

@@ -2562,13 +2562,16 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        // Does not apply.
-        i2.setHistologyIcdO3("9443");
+        //9440/3 followed by 9440/3 should not apply
+        i1.setHistologyIcdO3("9440");
+        i2.setHistologyIcdO3("9440");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+
         // Does not apply.
-        i1.setDateOfDiagnosisYear("2018");
+        i1.setHistologyIcdO3("9385");
         i2.setHistologyIcdO3("9440");
+        i1.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisYear("2017");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());

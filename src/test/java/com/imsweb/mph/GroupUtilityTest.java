@@ -217,6 +217,9 @@ public class GroupUtilityTest {
         Assert.assertTrue(GroupUtility.differentCategory("8000", "8010", Collections.singletonList("8000"), GroupUtility.expandList("8001-8750")));
         Assert.assertTrue(GroupUtility.differentCategory("8225", "9010", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("9001-9750")));
         Assert.assertTrue(GroupUtility.differentCategory("9001", "8750", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("9001-9750")));
+        Assert.assertFalse(GroupUtility.differentCategory("8750", "8750", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("8750-9750")));
+        Assert.assertTrue(GroupUtility.differentCategory("8750", "8751", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("8750-9750")));
+        Assert.assertTrue(GroupUtility.differentCategory("8749", "8751", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("8750-9750")));
     }
 
     @Test

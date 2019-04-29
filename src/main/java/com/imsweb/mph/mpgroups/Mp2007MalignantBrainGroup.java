@@ -44,15 +44,16 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
+                String h1 = i1.getHistology(), h2 = i2.getHistology();
+                if (!h1.equals(h2) && GroupUtility.differentCategory(h1, h2, MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
+                    else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h1))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i2.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i1.getHistology()))
+                    else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h2))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;

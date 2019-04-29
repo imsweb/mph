@@ -150,8 +150,7 @@ public class GroupUtility {
      * checks if one property belongs to some category and the other to different category
      */
     public static boolean differentCategory(String prop1, String prop2, List<String> cat1, List<String> cat2) {
-        return !(cat1 == null || cat2 == null || cat1.isEmpty() || cat2.isEmpty() || prop1 == null || prop2 == null || prop1.equals(prop2)) && ((cat1.contains(prop1) && cat2.contains(prop2)) || (
-                cat1.contains(prop2) && cat2.contains(prop1)));
+        return !(cat1 == null || cat2 == null || cat1.isEmpty() || cat2.isEmpty()) && ((cat1.contains(prop1) && cat2.contains(prop2)) || (cat1.contains(prop2) && cat2.contains(prop1)));
     }
 
     /**

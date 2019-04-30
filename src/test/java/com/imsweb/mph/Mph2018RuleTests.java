@@ -3754,13 +3754,13 @@ public class Mph2018RuleTests {
         ruleStepToTest = "M14";
         ruleCountToTest = 12;
         i1.setPrimarySite("C670");
-        i1.setHistologyIcdO3("8130");
+        i1.setHistologyIcdO3("8051");
         i1.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2016");
         i2.setPrimarySite("C669");
-        i2.setHistologyIcdO3("8131");
-        i2.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8070");
+        i2.setBehaviorIcdO3("2");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);

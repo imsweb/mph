@@ -103,8 +103,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors of the bladder (C670-C679) and ureter (C669) in situ utothelial carcinoma (8120/2)?");
-        rule.setReason("Tumors of the bladder (C670-C679) and ureter (C669) and are in situ utothelial carcinoma (8120/2) are a single primary.");
+        rule.setQuestion("Are tumors of the bladder (C670-C679) and ureter (C669) in situ urothelial carcinoma (8120/2)?");
+        rule.setReason("Tumors of the bladder (C670-C679) and ureter (C669) and are in situ urothelial carcinoma (8120/2) are a single primary.");
         rule.getNotes().add("No other urinary organs are involved.");
         rule.getNotes().add(
                 "Use this rule ONLY for noninvasive in situ urothelial carcinoma (may be called noninvasive urothelial carcinoma or noninvasive flat tumor). For other histologies, continue through the rules.");
@@ -203,7 +203,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology();
-                if (areTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && h1.equals(h2) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1))
+                if (areTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1)
+                        && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h2))
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }
@@ -211,7 +212,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.setQuestion("Are there urothelial carcinomas in multiple urinary organs?");
         rule.setReason("Urothelial carcinomas in multiple urinary organs is a single primary.");
         rule.getNotes().add("This rule is ONLY for urothelial carcinoma 8120 and all subtypes/variants of urothelial carcinoma. This rule does not apply to any other carcinomas or sarcomas.");
-        rule.getNotes().add("The histology for all tumors must be identical. The behavior is irrelevant.");
+        rule.getNotes().add("The behavior is irrelevant.");
         rule.getNotes().add("This rule applies to multifocal/multicentric carcinoma which involves two or more of the following urinary sites:");
         rule.getNotes().add(" - Renal pelvis");
         rule.getNotes().add(" - Ureter");

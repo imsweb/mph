@@ -50,6 +50,7 @@ import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
  * <a href="http://seer.cancer.gov/archive/manuals/2004Revision1/SPM_2004_maindoc.r1.pdf">SEER 2004 multiple primary rules</a>
  * <br/><br/>
  * <a href="http://www.seer.cancer.gov/tools/mphrules">SEER 2007 multiple primary rules</a>
+ * <a href="https://seer.cancer.gov/tools/solidtumor/">2018 Solid Tumor Rules</a>
  * <br/><br/>
  * This Java implementation is based on the the documentation provided on the above websites.
  * Created in December 2013 by Sewbesew Bekele

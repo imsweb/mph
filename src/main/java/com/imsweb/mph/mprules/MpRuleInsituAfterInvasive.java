@@ -28,11 +28,11 @@ public class MpRuleInsituAfterInvasive extends MphRule {
         String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
         if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
-            if (-1 == latestDx) {
+            if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
             }
-            else if ((1 == latestDx && MphConstants.INSITU.equals(beh1)) || (2 == latestDx && MphConstants.INSITU.equals(beh2)))
+            else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.INSITU.equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && MphConstants.INSITU.equals(beh2)))
                 result.setFinalResult(MpResult.SINGLE_PRIMARY);
         }
         return result;

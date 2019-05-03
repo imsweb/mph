@@ -221,70 +221,69 @@ public class GroupUtilityTest {
 
     @Test
     public void testVerifyDaysApart() {
-        int unknown = -1, apart = 1, within = 0;
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         //if one of the diagnosis year is unknown or invalid or future year, unknown
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
         i1.setDateOfDiagnosisYear("Invalid");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
         i1.setDateOfDiagnosisYear(String.valueOf(LocalDate.now().getYear() + 1));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2000");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("10");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("11");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -292,10 +291,10 @@ public class GroupUtilityTest {
         i1.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisYear("2002");
         i2.setDateOfDiagnosisMonth("01");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -304,20 +303,20 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2002");
         i2.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2001");
         i1.setDateOfDiagnosisMonth("08");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -325,10 +324,10 @@ public class GroupUtilityTest {
         i1.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -337,10 +336,10 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("15");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -349,10 +348,10 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -361,10 +360,10 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("03");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -373,10 +372,10 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("29");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -385,10 +384,10 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("31");
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         i1 = new MphInput();
         i2 = new MphInput();
@@ -397,16 +396,16 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i1.setDateOfDiagnosisDay("08"); // If one is December 8 and the other is December unknown, may not be within 21 days
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 21));
         i1.setDateOfDiagnosisMonth("02");
         i2.setDateOfDiagnosisMonth("02");// If one is February 8 and the other is February unknown, definitely within 21 days
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 60));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i1, i2, 21));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(within, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i1, i2, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyDaysApart(i2, i1, 21));
 
         //Invalid month
         i1 = new MphInput();
@@ -417,7 +416,7 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisDay("08");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
 
         //Invalid day
         i1 = new MphInput();
@@ -428,47 +427,46 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisDay("08");
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 60));
         i1.setDateOfDiagnosisMonth("10");
-        Assert.assertEquals(unknown, GroupUtility.verifyDaysApart(i2, i1, 60));
-        Assert.assertEquals(apart, GroupUtility.verifyDaysApart(i2, i1, 21));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyDaysApart(i2, i1, 60));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyDaysApart(i2, i1, 21));
 
     }
 
     @Test
     public void testVerifyYearsApart() {
-        int unknown = -1, yes = 1, no = 0;
+
         MphInput i1 = new MphInput(), i2 = new MphInput();
         //if one of the diagnosis year is unknown or invalid or future year, unknown
-        Assert.assertEquals(unknown, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisYear("Invalid");
         i2.setDateOfDiagnosisYear("2002");
-        Assert.assertEquals(unknown, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisYear(String.valueOf(LocalDate.now().getYear() + 1));
-        Assert.assertEquals(unknown, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisYear("2000");
-        Assert.assertEquals(no, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisYear("2006");
-        Assert.assertEquals(yes, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisYear("2005");
-        Assert.assertEquals(unknown, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisMonth("8");
         i2.setDateOfDiagnosisMonth("9");
-        Assert.assertEquals(no, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i2.setDateOfDiagnosisMonth("7");
-        Assert.assertEquals(yes, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyYearsApart(i1, i2, 3));
         i2.setDateOfDiagnosisMonth("8");
-        Assert.assertEquals(unknown, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_UNKNOWN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i1.setDateOfDiagnosisDay("3");
         i2.setDateOfDiagnosisDay("4");
-        Assert.assertEquals(no, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_WITHIN, GroupUtility.verifyYearsApart(i1, i2, 3));
         i2.setDateOfDiagnosisDay("1");
-        Assert.assertEquals(yes, GroupUtility.verifyYearsApart(i1, i2, 3));
+        Assert.assertEquals(MphConstants.DATE_VERIFY_APART, GroupUtility.verifyYearsApart(i1, i2, 3));
     }
 
     @Test
     public void testCompareDxDate() {
-        int tumor1 = 1, tumor2 = 2, sameDay = 0, unknown = -1;
         MphInput i1 = new MphInput(), i2 = new MphInput();
         i1.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("01");
@@ -476,48 +474,48 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisYear("2006");
         i2.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(sameDay, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_EQUAL, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisDay("02");
-        Assert.assertEquals(tumor1, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_FIRST_LATEST, GroupUtility.compareDxDate(i1, i2));
         i2.setDateOfDiagnosisMonth("02");
-        Assert.assertEquals(tumor2, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_SECOND_LATEST, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2007");
-        Assert.assertEquals(tumor1, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_FIRST_LATEST, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2007");
         i2.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("xx");
         i1.setDateOfDiagnosisDay("33");
         i2.setDateOfDiagnosisMonth("18");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(tumor1, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_FIRST_LATEST, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2006");
         i2.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("01");
         i1.setDateOfDiagnosisDay("xx");
         i2.setDateOfDiagnosisMonth("02");
         i2.setDateOfDiagnosisDay("30");
-        Assert.assertEquals(tumor2, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_SECOND_LATEST, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2006");
         i2.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("02");
         i1.setDateOfDiagnosisDay("01");
         i2.setDateOfDiagnosisMonth("02");
         i2.setDateOfDiagnosisDay("30"); //invalid day for February
-        Assert.assertEquals(unknown, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_UNKNOWN, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2006");
         i2.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("13"); //invalid month
         i1.setDateOfDiagnosisDay("01");
         i2.setDateOfDiagnosisMonth("12");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(unknown, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_UNKNOWN, GroupUtility.compareDxDate(i1, i2));
         i1.setDateOfDiagnosisYear("2006");
         i2.setDateOfDiagnosisYear("2006");
         i1.setDateOfDiagnosisMonth("xx"); //invalid month
         i1.setDateOfDiagnosisDay("cc");
         i2.setDateOfDiagnosisMonth("99");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(unknown, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_UNKNOWN, GroupUtility.compareDxDate(i1, i2));
         //one is future year, return unknown
         i1.setDateOfDiagnosisYear(String.valueOf(LocalDate.now().getYear()));
         i2.setDateOfDiagnosisYear(String.valueOf(LocalDate.now().getYear() + 1));
@@ -525,6 +523,6 @@ public class GroupUtilityTest {
         i1.setDateOfDiagnosisDay("01");
         i2.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisDay("01");
-        Assert.assertEquals(unknown, GroupUtility.compareDxDate(i1, i2));
+        Assert.assertEquals(MphConstants.COMPARE_DX_UNKNOWN, GroupUtility.compareDxDate(i1, i2));
     }
 }

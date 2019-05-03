@@ -81,12 +81,12 @@ public class Mp2018CutaneousMelanomaGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (-1 == diff) {
+                int sixtyDayApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDayApart) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
-                else if (1 == diff)
+                else if (MphConstants.DATE_VERIFY_APART == sixtyDayApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

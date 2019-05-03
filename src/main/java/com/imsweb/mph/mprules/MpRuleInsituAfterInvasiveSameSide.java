@@ -30,20 +30,20 @@ public class MpRuleInsituAfterInvasiveSameSide extends MphRule {
                 Collections.singletonList(MphConstants.MALIGNANT))) {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
             //if invasive is after insitu, skip
-            if ((1 == latestDx && MphConstants.MALIGNANT.equals(beh1)) || (2 == latestDx && MphConstants.MALIGNANT.equals(beh2)))
+            if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.MALIGNANT.equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && MphConstants.MALIGNANT.equals(beh2)))
                 return result;
             if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                if (latestDx == -1)
+                if (MphConstants.COMPARE_DX_UNKNOWN == latestDx)
                     result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                 else
                     result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
             }
-            else if (-1 == latestDx) {
+            else if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                 result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                 result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
             }
-            else if ((1 == latestDx && MphConstants.INSITU.equals(beh1)) || (2 == latestDx && MphConstants.INSITU.equals(beh2)))
+            else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.INSITU.equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && MphConstants.INSITU.equals(beh2)))
                 result.setFinalResult(MpResult.SINGLE_PRIMARY);
         }
         return result;

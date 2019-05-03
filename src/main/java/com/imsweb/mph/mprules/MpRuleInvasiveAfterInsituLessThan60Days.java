@@ -29,15 +29,15 @@ public class MpRuleInvasiveAfterInsituLessThan60Days extends MphRule {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
             int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
             //If they are diagnosed after 60 days or invasive is not following insitu
-            if (1 == sixtyDaysApart || (1 == latestDx && !"3".equals(beh1)) || (2 == latestDx && !"3".equals(beh2)))
+            if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart || (MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && !"3".equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx
+                    && !"3".equals(beh2)))
                 return result;
             else {
-
-                if (-1 == sixtyDaysApart) {
+                if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
-                else if (0 == sixtyDaysApart)
+                else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);
             }
         }

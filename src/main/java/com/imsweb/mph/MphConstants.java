@@ -13,6 +13,17 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MphConstants {
 
+    //Compare dx date constants
+    public static final int COMPARE_DX_UNKNOWN = -1;
+    public static final int COMPARE_DX_EQUAL = 0;
+    public static final int COMPARE_DX_FIRST_LATEST = 1;
+    public static final int COMPARE_DX_SECOND_LATEST = 2;
+
+    //Verify days/years apart constants
+    public static final int DATE_VERIFY_UNKNOWN = -1;
+    public static final int DATE_VERIFY_WITHIN = 0;
+    public static final int DATE_VERIFY_APART = 1;
+
     //Group Ids for the set of rules
     public static final String MP_1998_HEMATO_GROUP_ID = "mp_1998_hemato";
     public static final String MP_2001_HEMATO_GROUP_ID = "mp_2001_hemato";

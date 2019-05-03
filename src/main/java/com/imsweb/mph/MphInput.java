@@ -29,8 +29,6 @@ public class MphInput {
 
     private String _txStatus;
 
-    private String _surgeryOfPrimarySite;
-
     public String getPrimarySite() {
         return _primarySite;
     }
@@ -105,14 +103,5 @@ public class MphInput {
     public void setTxStatus(String txStatus) {
         _txStatus = txStatus;
     }
-
-    public String getSurgeryOfPrimarySite() {
-        return _surgeryOfPrimarySite;
-    }
-
-    public void setSurgeryOfPrimarySite(String surgeryOfPrimarySite) {
-        _surgeryOfPrimarySite = surgeryOfPrimarySite;
-    }
-
 
 }

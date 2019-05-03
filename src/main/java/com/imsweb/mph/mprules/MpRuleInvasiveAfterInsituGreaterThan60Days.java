@@ -28,15 +28,16 @@ public class MpRuleInvasiveAfterInsituGreaterThan60Days extends MphRule {
         if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
             //If they are diagnosed at same date or invasive is not following insitu
-            if (0 == latestDx || (1 == latestDx && !"3".equals(beh1)) || (2 == latestDx && !"3".equals(beh2)))
+            if (MphConstants.COMPARE_DX_EQUAL == latestDx || (MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && !"3".equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && !"3"
+                    .equals(beh2)))
                 return result;
             else {
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (-1 == sixtyDaysApart) {
+                if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
-                else if (1 == sixtyDaysApart)
+                else if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             }
         }

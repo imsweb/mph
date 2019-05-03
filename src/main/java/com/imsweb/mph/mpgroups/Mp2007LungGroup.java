@@ -16,6 +16,7 @@ import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
 public class Mp2007LungGroup extends MphGroup {
 
@@ -92,23 +93,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than three (3) years apart?");
-        rule.setReason("Tumors diagnosed more than three (3) years apart are multiple primaries.");
+        rule = rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_LUNG_GROUP_ID, "M8");
         _rules.add(rule);
 
         // M9- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.

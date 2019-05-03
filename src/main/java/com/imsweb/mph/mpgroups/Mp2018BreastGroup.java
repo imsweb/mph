@@ -141,11 +141,11 @@ public class Mp2018BreastGroup extends MphGroup {
                         (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
                         (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                     }
-                    else if (0 == sixtyDaysApart)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -184,11 +184,12 @@ public class Mp2018BreastGroup extends MphGroup {
                 if (GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/2"), Arrays.asList("8522/2", "8543/2", "8543/3", "8500/2", "8523/2"))
                         || GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/3"), Arrays.asList("8522/3", "8541/3", "8523/3"))) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    if (-1 == latestDx) { //If impossible to decide which tumor is diagnosed later
+                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == latestDx || (1 == latestDx && "8500".equals(i1.getHistology())) || (2 == latestDx && "8500".equals(i2.getHistology())))
+                    else if (MphConstants.COMPARE_DX_EQUAL == latestDx || (MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && "8500".equals(i1.getHistology())) || (
+                            MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && "8500".equals(i2.getHistology())))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 }
@@ -248,12 +249,12 @@ public class Mp2018BreastGroup extends MphGroup {
                 String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
                 String row2 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd2);
                 if (row1 != null && row1.equals(row2)) {
-                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == diff) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == diff)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;

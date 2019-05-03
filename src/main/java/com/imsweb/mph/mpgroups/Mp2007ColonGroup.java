@@ -59,11 +59,11 @@ public class Mp2007ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (-1 == diff) {
+                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
-                else if (1 == diff)
+                else if (MphConstants.DATE_VERIFY_APART == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

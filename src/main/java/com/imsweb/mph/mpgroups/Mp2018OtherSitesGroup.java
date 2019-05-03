@@ -82,12 +82,12 @@ public class Mp2018OtherSitesGroup extends MphGroup {
                 follicularAndPapillary.addAll(MphConstants.PAPILLARY);
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(hist1, hist2))) {
-                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == diff) {
+                    int sixtyDayApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDayApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     }
-                    else if (0 == diff)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDayApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -104,12 +104,12 @@ public class Mp2018OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
-                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == diff) {
+                    int sixtyDayApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDayApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                     }
-                    else if (0 == diff)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDayApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -167,11 +167,11 @@ public class Mp2018OtherSitesGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (-1 == diff) {
+                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is no enough diagnosis date information.");
                 }
-                else if (1 == diff)
+                else if (MphConstants.DATE_VERIFY_APART == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

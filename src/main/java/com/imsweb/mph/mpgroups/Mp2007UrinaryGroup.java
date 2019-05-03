@@ -18,6 +18,7 @@ import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
 public class Mp2007UrinaryGroup extends MphGroup {
 
@@ -96,23 +97,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M7") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than three (3) years apart?");
-        rule.setReason("Tumors diagnosed more than three (3) years apart are multiple primaries.");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_URINARY_GROUP_ID, "M7");
         _rules.add(rule);
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)

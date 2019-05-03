@@ -217,11 +217,11 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (-1 == diff) {
+                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
-                else if (1 == diff)
+                else if (MphConstants.DATE_VERIFY_APART == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
@@ -256,11 +256,11 @@ public class Mp2018ColonGroup extends MphGroup {
                     }
                     else if (row1.equals(row2)) {
                         int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                        if (-1 == diff) {
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         }
-                        else if (0 == diff)
+                        else if (MphConstants.DATE_VERIFY_WITHIN == diff)
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
                 }

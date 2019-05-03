@@ -91,12 +91,12 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
                 if ("8120/2".equals(icd1) && "8120/2".equals(icd2) && ((s1.startsWith(MphConstants.BLADDER) && "C669".equals(s2)) || (s2.startsWith(MphConstants.BLADDER) && "C669".equals(s1)))) {
-                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == diff) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == diff)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 }
@@ -284,11 +284,11 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 }
                 else if (row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (-1 == sixtyDaysApart) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == sixtyDaysApart)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
                 return result;

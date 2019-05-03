@@ -4,6 +4,7 @@
 package com.imsweb.mph.mprules;
 
 import com.imsweb.mph.MphComputeOptions;
+import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
@@ -22,11 +23,11 @@ public class MpRuleFiveYearsApart extends MphRule {
     public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
         TempRuleResult result = new TempRuleResult();
         int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
-        if (-1 == diff) {
+        if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
         }
-        else if (1 == diff)
+        else if (MphConstants.DATE_VERIFY_APART == diff)
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
         return result;

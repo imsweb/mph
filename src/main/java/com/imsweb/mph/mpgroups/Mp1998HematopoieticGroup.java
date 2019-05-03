@@ -33,15 +33,17 @@ public class Mp1998HematopoieticGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
-                if (laterDx == -1) {
+                if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
                     result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     return result;
                 }
-                String firstDx = laterDx == 1 ? i2.getHistology() : i1.getHistology(), secondDx = laterDx == 1 ? i1.getHistology() : i2.getHistology();
+                String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i2.getHistology() : i1.getHistology(), secondDx =
+                        MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i1.getHistology() : i2.getHistology();
                 for (String[] row : _1998_HEMATOPOIETIC)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
-                            (laterDx == 0 && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(row[3]) <= 0))) {
+                            (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(
+                                    row[3]) <= 0))) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         return result;
                     }

@@ -60,15 +60,15 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                         MphConstants.MYELOID_SARCOMA, MphConstants.MYELOID_LEUKEMIA)) && MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior())) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (laterDx == -1 && simultaneouslyPresent == -1) {
+                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDx && MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (simultaneouslyPresent == 0)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (laterDx == 1 && (MphConstants.MAST_CELL_SARCOMA.contains(hist1) || MphConstants.MYELOID_SARCOMA.contains(hist1)))
+                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDx && (MphConstants.MAST_CELL_SARCOMA.contains(hist1) || MphConstants.MYELOID_SARCOMA.contains(hist1)))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (laterDx == 2 && (MphConstants.MAST_CELL_SARCOMA.contains(hist2) || MphConstants.MYELOID_SARCOMA.contains(hist2)))
+                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDx && (MphConstants.MAST_CELL_SARCOMA.contains(hist2) || MphConstants.MYELOID_SARCOMA.contains(hist2)))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -97,11 +97,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
                 if (!hist1.equals(hist2) && MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (simultaneouslyPresent == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == simultaneouslyPresent)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -136,11 +136,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
                 if (GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (simultaneouslyPresent == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (0 == simultaneouslyPresent)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
 
@@ -198,12 +198,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.valueOf(i1.getDateOfDiagnosisYear()), year2 = Integer.valueOf(i2.getDateOfDiagnosisYear());
                 if (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
                         || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2)
-                        && latestDx != 0) {
-                    if (latestDx == -1) {
+                        && MphConstants.COMPARE_DX_EQUAL != latestDx) {
+                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if ((latestDx == 1 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (latestDx == 2 && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
+                    else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx
+                            && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -274,11 +275,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (daysApart == -1 || latestDx == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart || MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (daysApart == 1 && latestDx > 0 && isChronicToAcuteTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2))
+                    else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && isChronicToAcuteTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
@@ -323,12 +326,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    if (latestDx == -1) {
+                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2) &&
-                            !MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                    else if (latestDx > 0 && isAcuteToChronicTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2) && !MphConstants.TREATMENT_GIVEN.equals(
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? i2.getTxStatus() : i1.getTxStatus()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -357,12 +362,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    if (latestDx == -1) {
+                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(latestDx == 1 ? morph2 : morph1, latestDx == 1 ? morph1 : morph2, latestDx == 1 ? year2 : year1, latestDx == 1 ? year1 : year2) &&
-                            MphConstants.TREATMENT_GIVEN.equals(latestDx == 1 ? i2.getTxStatus() : i1.getTxStatus()))
+                    else if (latestDx > 0 && isAcuteToChronicTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2) && MphConstants.TREATMENT_GIVEN.equals(
+                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? i2.getTxStatus() : i1.getTxStatus()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
@@ -392,11 +399,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 combined.addAll(MphConstants.PLASMACYTOMA);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PTLD, combined)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (daysApart == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (daysApart == 0)
+                    else if (MphConstants.DATE_VERIFY_WITHIN == daysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;

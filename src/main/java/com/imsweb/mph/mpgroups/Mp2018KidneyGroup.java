@@ -117,17 +117,17 @@ public class Mp2018KidneyGroup extends MphGroup {
                     }
                     else if (row1.equals(row2)) {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                        if (1 == sixtyDaysApart)
+                        if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                             return result;
                         if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                            if (-1 == sixtyDaysApart)
+                            if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
                                 result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                             else
                                 result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
 
                         }
-                        else if (-1 == sixtyDaysApart) {
+                        else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                             result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                             result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         }

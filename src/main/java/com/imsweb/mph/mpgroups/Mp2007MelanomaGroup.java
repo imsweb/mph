@@ -77,12 +77,12 @@ public class Mp2007MelanomaGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (-1 == diff) {
+                int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
-                else if (1 == diff)
+                else if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

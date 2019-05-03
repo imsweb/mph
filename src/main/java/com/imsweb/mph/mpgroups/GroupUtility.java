@@ -221,7 +221,6 @@ public class GroupUtility {
      * 0 (if the diagnosis takes at the same day) or -1 (if there is insufficient information e.g if both year is 2007, but month and day is unknown)
      */
     public static int compareDxDate(MphInput input1, MphInput input2) {
-        int tumor1 = 1, tumor2 = 2, sameDay = 0, unknown = -1;
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
         int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
@@ -231,11 +230,11 @@ public class GroupUtility {
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
         if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
+            return MphConstants.COMPARE_DX_UNKNOWN;
         else if (year1 > year2)
-            return tumor1;
+            return MphConstants.COMPARE_DX_FIRST_LATEST;
         else if (year2 > year1)
-            return tumor2;
+            return MphConstants.COMPARE_DX_SECOND_LATEST;
 
         if (month1 == 99)
             day1 = 99;
@@ -261,26 +260,25 @@ public class GroupUtility {
         }
 
         if (month1 == 99 || month2 == 99)
-            return unknown;
+            return MphConstants.COMPARE_DX_UNKNOWN;
         else if (month1 > month2)
-            return tumor1;
+            return MphConstants.COMPARE_DX_FIRST_LATEST;
         else if (month2 > month1)
-            return tumor2;
+            return MphConstants.COMPARE_DX_SECOND_LATEST;
         else if (day1 == 99 || day2 == 99)
-            return unknown;
+            return MphConstants.COMPARE_DX_UNKNOWN;
         else if (day1 > day2)
-            return tumor1;
+            return MphConstants.COMPARE_DX_FIRST_LATEST;
         else if (day2 > day1)
-            return tumor2;
+            return MphConstants.COMPARE_DX_SECOND_LATEST;
         else
-            return sameDay;
+            return MphConstants.COMPARE_DX_EQUAL;
     }
 
     /**
      * checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
      */
     public static int verifyYearsApart(MphInput input1, MphInput input2, int yearsApart) {
-        int yes = 1, no = 0, unknown = -1;
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
         int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
@@ -290,11 +288,11 @@ public class GroupUtility {
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
         if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
+            return MphConstants.DATE_VERIFY_UNKNOWN;
         else if (Math.abs(year1 - year2) > yearsApart)
-            return yes;
+            return MphConstants.DATE_VERIFY_APART;
         else if (Math.abs(year1 - year2) < yearsApart)
-            return no;
+            return MphConstants.DATE_VERIFY_WITHIN;
         else {
             //if month is missing, set day to 99
             if (month1 == 99)
@@ -321,15 +319,16 @@ public class GroupUtility {
             }
 
             if (month1 == 99 || month2 == 99)
-                return unknown;
+                return MphConstants.DATE_VERIFY_UNKNOWN;
             else if ((year1 > year2 && month1 > month2) || (year2 > year1 && month2 > month1))
-                return yes;
+                return MphConstants.DATE_VERIFY_APART;
             else if ((year1 > year2 && month1 < month2) || (year2 > year1 && month2 < month1))
-                return no;
+                return MphConstants.DATE_VERIFY_WITHIN;
             else if (day1 == 99 || day2 == 99)
-                return unknown;
+                return MphConstants.DATE_VERIFY_UNKNOWN;
             else
-                return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(year1, month1, day1), LocalDate.of(year2, month2, day2))) >= yearsApart ? yes : no;
+                return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(year1, month1, day1), LocalDate.of(year2, month2, day2)))
+                        >= yearsApart ? MphConstants.DATE_VERIFY_APART : MphConstants.DATE_VERIFY_WITHIN;
         }
     }
 
@@ -337,17 +336,17 @@ public class GroupUtility {
      * checks if the two tumors are diagnosed "x" days apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
      */
     public static int verifyDaysApart(MphInput input1, MphInput input2, int days) {
-        int unknown = -1, apart = 1, within = 0;
+
         int latestDx = compareDxDate(input1, input2);
-        if (latestDx == 0)
-            return within;
+        if (latestDx == MphConstants.COMPARE_DX_EQUAL)
+            return MphConstants.DATE_VERIFY_WITHIN;
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
         if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
-            return unknown;
+            return MphConstants.DATE_VERIFY_UNKNOWN;
         int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
         int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
         int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
@@ -379,20 +378,19 @@ public class GroupUtility {
 
         int minDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, true);
         int maxDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, false);
-        if (latestDx == -1) {
-            return Math.max(Math.abs(minDaysInBetween), Math.abs(maxDaysInBetween)) <= days ? within : unknown;
-        }
-        else if (latestDx == 2) {
+        if (MphConstants.COMPARE_DX_UNKNOWN == latestDx)
+            return Math.max(Math.abs(minDaysInBetween), Math.abs(maxDaysInBetween)) <= days ? MphConstants.DATE_VERIFY_WITHIN : MphConstants.DATE_VERIFY_UNKNOWN;
+        else if (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx) {
             minDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, true);
             maxDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, false);
         }
 
         if (minDaysInBetween > days)
-            return apart;
+            return MphConstants.DATE_VERIFY_APART;
         else if (maxDaysInBetween <= days)
-            return within;
+            return MphConstants.DATE_VERIFY_WITHIN;
         else
-            return unknown;
+            return MphConstants.DATE_VERIFY_UNKNOWN;
     }
 
     //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum

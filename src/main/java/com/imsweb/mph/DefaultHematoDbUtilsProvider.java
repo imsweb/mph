@@ -3,10 +3,16 @@
  */
 package com.imsweb.mph;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +106,6 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return confirmTransformTo(fromCode, toCode, fromYear) || confirmTransformFrom(toCode, fromCode, toYear);
     }
 
-
     private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
@@ -112,7 +117,6 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return false;
     }
 
-
     private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
@@ -122,5 +126,19 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                     return true;
         }
         return false;
+    }
+
+    @Override
+    public Date getDataLastUpdated() {
+
+        File lastUpdatedDateFile = new File(System.getProperty("user.dir").replace(".idea\\modules", "") + "/src/main/resources/hemato_last_update_date.txt");
+        try {
+            String lastUpdateDate = new String(Files.readAllBytes(lastUpdatedDateFile.toPath()), StandardCharsets.UTF_8);
+            return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
+        }
+        catch (IOException | ParseException e) {
+            //This should not happen
+            return null;
+        }
     }
 }

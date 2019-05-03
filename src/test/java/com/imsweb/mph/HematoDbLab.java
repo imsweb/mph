@@ -5,8 +5,8 @@ package com.imsweb.mph;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.opencsv.CSVWriter;
 
@@ -32,12 +33,12 @@ public class HematoDbLab {
 
     @SuppressWarnings("ConstantConditions")
     private static void createHematoDbCsvFiles() throws IOException {
-        File lastUpdatedDateFile = new File(getWorkingDirectory() + "/src/main/resources/hemato_last_update_date.txt");
+        File hematoDataInfoFile = new File(getWorkingDirectory() + "/src/main/resources/hemato_data_info.properties");
         File samePrimaryFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
         File transformToFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");
         File transformFromFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformFromPairs.csv");
 
-        try (FileWriter lastUpdatedDateWriter = new FileWriter(lastUpdatedDateFile, false);
+        try (OutputStream hematoDataInfoOutput = new FileOutputStream(hematoDataInfoFile);
              CSVWriter samePrimaryWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(samePrimaryFile), StandardCharsets.UTF_8));
              CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformToFile), StandardCharsets.UTF_8));
              CSVWriter transformFromWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformFromFile), StandardCharsets.UTF_8))) {
@@ -139,8 +140,9 @@ public class HematoDbLab {
                 transformToWriter.writeAll(transformTo);
                 transformFromWriter.writeAll(transformFrom);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYYMMddkkmm");
-                lastUpdatedDateWriter.write(LocalDateTime.now().format(formatter));
-
+                Properties prop = new Properties();
+                prop.setProperty("last_updated", LocalDateTime.now().format(formatter));
+                prop.store(hematoDataInfoOutput, null);
             }
             else
                 System.out.println("Something wasn't right. The total number of diseases you got is different from what the API returns. Please try again.");

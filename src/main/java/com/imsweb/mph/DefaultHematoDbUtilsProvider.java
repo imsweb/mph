@@ -3,12 +3,9 @@
  */
 package com.imsweb.mph;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
@@ -131,9 +129,10 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     @Override
     public Date getDataLastUpdated() {
 
-        File lastUpdatedDateFile = new File(System.getProperty("user.dir").replace(".idea\\modules", "") + "/src/main/resources/hemato_last_update_date.txt");
-        try {
-            String lastUpdateDate = new String(Files.readAllBytes(lastUpdatedDateFile.toPath()), StandardCharsets.UTF_8);
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
+            Properties prop = new Properties();
+            prop.load(is);
+            String lastUpdateDate = prop.getProperty("last_updated");
             return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
         }
         catch (IOException | ParseException e) {

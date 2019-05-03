@@ -14,11 +14,16 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
 public class Mp2007UrinaryGroup extends MphGroup {
 
     public Mp2007UrinaryGroup() {
-        super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-9999");
+        super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
 
         // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659) 
         MphRule rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M3") {
@@ -63,7 +68,9 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MphRuleBehavior(MphConstants.MP_2007_URINARY_GROUP_ID, "M5");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_URINARY_GROUP_ID, "M5");
+        rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
+        rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         // M6 - Bladder tumors with any combination of the following histologies: papillary carcinoma (8050), transitional cell carcinoma (8120-8124), 
@@ -90,23 +97,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M7") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                if (-1 == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                }
-                else if (1 == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than three (3) years apart?");
-        rule.setReason("Tumors diagnosed more than three (3) years apart are multiple primaries.");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_URINARY_GROUP_ID, "M7");
         _rules.add(rule);
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)
@@ -136,15 +127,15 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_URINARY_GROUP_ID, "M9");
+        rule = new MpRuleHistology(MphConstants.MP_2007_URINARY_GROUP_ID, "M9");
         _rules.add(rule);
 
         // M10- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_URINARY_GROUP_ID, "M10");
+        rule = new MpRulePrimarySite(MphConstants.MP_2007_URINARY_GROUP_ID, "M10");
         _rules.add(rule);
 
         // M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_URINARY_GROUP_ID, "M11");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_URINARY_GROUP_ID, "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);
     }

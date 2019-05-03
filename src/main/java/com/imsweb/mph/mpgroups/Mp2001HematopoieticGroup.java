@@ -6,6 +6,7 @@ package com.imsweb.mph.mpgroups;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,14 +47,14 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                 //If we found both groups, let's check if they are same primaries
                 if (group1 != null && group2 != null) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
-                    if (laterDx == -1) {
+                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
                         result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                         return result;
                     }
-                    String firstDx = laterDx == 1 ? group2 : group1, secondDx = laterDx == 1 ? group1 : group2;
+                    String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group2 : group1, secondDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group1 : group2;
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
-                        if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (laterDx == 0 && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
+                        if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (MphConstants.COMPARE_DX_EQUAL == laterDx && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             return result;
                         }
@@ -68,13 +69,13 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     private static synchronized void initializeLookups() {
         if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv")) {
-                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll());
+                _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
-                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll());
+                _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (IOException e) {
                 throw new RuntimeException(e);

@@ -13,12 +13,15 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRulePrimarySite;
 
 public class Mp2007MalignantBrainGroup extends MphGroup {
 
     public Mp2007MalignantBrainGroup() {
         super(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9989,9140", "3",
-                "2007-9999");
+                "2007-2017");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
         MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M4") {
@@ -33,7 +36,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MphRulePrimarySiteCode(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M5");
+        rule = new MpRulePrimarySite(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M5");
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
@@ -41,15 +44,16 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
+                String h1 = i1.getHistology(), h2 = i2.getHistology();
+                if (!h1.equals(h2) && GroupUtility.differentCategory(h1, h2, MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                    if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
+                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (1 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i1.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i2.getHistology()))
+                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h1))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (2 == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(i2.getHistology()) && MphConstants.GLIAL_TUMOR.contains(i1.getHistology()))
+                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h2))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -106,11 +110,11 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M9");
+        rule = new MpRuleHistology(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M9");
         _rules.add(rule);
 
         // M10- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M10");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M10");
         rule.getNotes().add("Multicentric brain tumors which involve different lobes of the brain that do not meet any of the above criteria are the same disease process.");
         rule.getNotes().add("Neither timing nor laterality is used to determine multiple primaries for malignant intracranial and CNS tumors.");
         rule.getExamples().add(

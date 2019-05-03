@@ -13,11 +13,13 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 
 public class Mp2007BenignBrainGroup extends MphGroup {
 
     public Mp2007BenignBrainGroup() {
-        super(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9989,9140", "0-1", "2007-9999");
+        super(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9989,9140", "0-1", "2007-2017");
 
         // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.        
         MphRule rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M3") {
@@ -74,13 +76,13 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 if (MphConstants.PAPILLOMA.equals(i1.getHistology()) && MphConstants.PAPILLOMA.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN
                         .equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                    if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
+                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
+                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
+                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -99,13 +101,13 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                 if (MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) && MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior())
                         && MphConstants.BENIGN.equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                    if (-1 == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
+                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (1 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
+                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (2 == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
+                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
@@ -177,12 +179,12 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MphRuleHistologyCode(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M11");
+        rule = new MpRuleHistology(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M11");
         rule.getNotes().add("Use this rule when none of the histology codes are listed in Chart 1.");
         _rules.add(rule);
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MphRuleNoCriteriaSatisfied(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, "M12");
         rule.getNotes().add("Timing is not used to determine multiple primaries for benign and borderline intracranial and CNS tumors.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and the same laterality as the original tumor are a single primary.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and it is unknown if laterality is the same as the original tumor are a single primary.");

@@ -103,4 +103,5 @@ public class MphInput {
     public void setTxStatus(String txStatus) {
         _txStatus = txStatus;
     }
+
 }

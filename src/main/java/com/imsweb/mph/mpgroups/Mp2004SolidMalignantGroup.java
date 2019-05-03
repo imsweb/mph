@@ -55,21 +55,21 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != 1) {
+                if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != MphConstants.DATE_VERIFY_APART) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
                         //Each side of a paired organ is considered a separate site.
                         if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                             return result;
                         else if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            if (daysApart == -1)
+                            if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
                                 result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                             else
                                 result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                             return result;
                         }
                     }
-                    if (daysApart == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
@@ -95,20 +95,20 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != 1) {
+                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != MphConstants.DATE_VERIFY_APART) {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
                                 (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        if (daysApart == -1)
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
                             result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                         else
                             result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2)) {
-                        if (daysApart == -1) {
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                             //Exceptions
                             if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
@@ -145,8 +145,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
                         i2.getBehavior();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != 0) {
-                    if (daysApart == -1) {
+                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
@@ -212,7 +212,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1) {
+                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_APART) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
                         //only single paired
                         if (GroupUtility.areOppositeSides(lat1, lat2))
@@ -247,14 +247,14 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                         MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
                                     result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             }
-                            if (daysApart == -1)
+                            if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
                                 result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                             else
                                 result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                             return result;
                         }
                     }
-                    if (daysApart == -1) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         //Exceptions
                         if (GroupUtility.differentCategory(hist1, hist2, MphConstants.CARCINOMA_NOS, MphConstants.CARCINOMA_SPECIFIC))
@@ -349,15 +349,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 1 && isPairedSite(site1) && isPairedSite(site2)) {
+                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_APART && isPairedSite(site1) && isPairedSite(site2)) {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        if (daysApart == -1)
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
                             result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
                         else
                             result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
                     }
-                    else if (daysApart == -1) {
+                    else if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
@@ -379,8 +379,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != 0) {
-                    if (daysApart == -1) {
+                if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }

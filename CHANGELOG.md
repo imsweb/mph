@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.13**
+
+ - Added 2018 Solid Tumor rules through January 2019 revision. 
+
 **Changes in version 1.12**
 
  - Changed Hemato data provider to use two years instead of one to calculate same primary.

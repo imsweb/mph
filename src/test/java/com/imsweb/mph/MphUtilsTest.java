@@ -23,10 +23,20 @@ import com.imsweb.mph.mpgroups.Mp2007HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2007KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2007LungGroup;
 import com.imsweb.mph.mpgroups.Mp2007MalignantBrainGroup;
-import com.imsweb.mph.mpgroups.Mp2007MelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2007OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
+import com.imsweb.mph.mpgroups.Mp2018BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2018ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2018CutaneousMelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2018HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2018LungGroup;
+import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
+import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
+import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
+import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
+
 
 public class MphUtilsTest {
 
@@ -66,8 +76,8 @@ public class MphUtilsTest {
         //2007 Lung
         Assert.assertEquals(new Mp2007LungGroup(), _utils.findCancerGroup("C340", "8100", "3", 2009));
 
-        //2007 Melanoma
-        Assert.assertEquals(new Mp2007MelanomaGroup(), _utils.findCancerGroup("C440", "8725", "3", 2010));
+        //2007 Melanoma - Removed, only use 2018 rule now.
+        //Assert.assertEquals(new Mp2007MelanomaGroup(), _utils.findCancerGroup("C440", "8725", "3", 2010));
 
         //2007 Breast
         Assert.assertEquals(new Mp2007BreastGroup(), _utils.findCancerGroup("C500", "8100", "3", 2011));
@@ -76,7 +86,7 @@ public class MphUtilsTest {
         Assert.assertEquals(new Mp2007KidneyGroup(), _utils.findCancerGroup("C649", "8100", "3", 2012));
 
         //2007 Urinary
-        Assert.assertEquals(new Mp2007UrinaryGroup(), _utils.findCancerGroup("C672", "8100", "3", LocalDate.now().getYear()));
+        Assert.assertEquals(new Mp2007UrinaryGroup(), _utils.findCancerGroup("C672", "8100", "3", 2017));
 
         //2007 Benign Brain 
         Assert.assertEquals(new Mp2007BenignBrainGroup(), _utils.findCancerGroup("C751", "8100", "0", 2007));
@@ -103,7 +113,7 @@ public class MphUtilsTest {
         //2010 Hematopoietic
         Assert.assertEquals(new Mp2010HematopoieticGroup(), _utils.findCancerGroup("C445", "9590", "3", 2010));
         Assert.assertEquals(new Mp2010HematopoieticGroup(), _utils.findCancerGroup("C009", "9989", "2", 2015));
-        Assert.assertEquals(new Mp2010HematopoieticGroup(), _utils.findCancerGroup("C709", "9700", "2", LocalDate.now().getYear()));
+        Assert.assertEquals(new Mp2010HematopoieticGroup(), _utils.findCancerGroup("C709", "9700", "2", 2017));
 
         //2004 Benign Brain
         Assert.assertEquals(new Mp2004BenignBrainGroup(), _utils.findCancerGroup("C700", "8000", "0", 2000));
@@ -115,6 +125,40 @@ public class MphUtilsTest {
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C718", "8700", "3", 2006));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C752", "9000", "3", 1980));
         Assert.assertEquals(new Mp2004SolidMalignantGroup(), _utils.findCancerGroup("C009", "9000", "3", 2000));
+
+        //2018 Breast
+        Assert.assertEquals(new Mp2018BreastGroup(), _utils.findCancerGroup("C500", "8100", "3", 2018));
+
+        //2018 Colon
+        Assert.assertEquals(new Mp2018ColonGroup(), _utils.findCancerGroup("C180", "8100", "3", 2018));
+
+        //2018 Cutaneous Melanoma
+        Assert.assertEquals(new Mp2018CutaneousMelanomaGroup(), _utils.findCancerGroup("C440", "8725", "3", 2018));
+
+        //2018 Head and Neck
+        Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C005", "8100", "3", 2018));
+
+        //2018 Kidney
+        Assert.assertEquals(new Mp2018KidneyGroup(), _utils.findCancerGroup("C649", "8100", "3", 2018));
+
+        //2018 Lung
+        Assert.assertEquals(new Mp2018LungGroup(), _utils.findCancerGroup("C340", "8100", "3", 2018));
+
+        //2018 Malignant CNS And Peripheral Nerves
+        Assert.assertEquals(new Mp2018MalignantCNSAndPeripheralNervesGroup(), _utils.findCancerGroup("C751", "8100", "3", 2018));
+
+        //2018 Non-Malignant CNS Tumor
+        Assert.assertEquals(new Mp2018NonMalignantCNSTumorsGroup(), _utils.findCancerGroup("C751", "8100", "0", 2018));
+
+        //2018 Other Sites
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C887", "8200", "3", 2018)); //primary site not in groups
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C445", "8800", "3", 2018)); //melanoma with excluded histology
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C180", "9140", "3", 2018)); //Kaposi sarcoma
+        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C751", "8100", "2", 2018)); //Brain which is neither malignant nor benign
+
+        //2018 Urinary Sites
+        Assert.assertEquals(new Mp2018UrinarySitesGroup(), _utils.findCancerGroup("C672", "8100", "3", 2018));
+
     }
 
     @Test
@@ -465,7 +509,7 @@ public class MphUtilsTest {
         //Questionable at M8 with potential multiple, and ended up as Single at M13 -- QUESTIONABLE
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Valid and known diagnosis date")); //not sure if they are 60 days apart
+        Assert.assertTrue(output.getReason().contains("There is not enough diagnosis date information.")); //not sure if they are 60 days apart
         i2.setDateOfDiagnosisYear("2007");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -1222,6 +1266,7 @@ public class MphUtilsTest {
     @Test
     public void test2007Melanoma() {
 
+        /*
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -1319,6 +1364,7 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
+        */
     }
 
     @Test
@@ -2579,7 +2625,7 @@ public class MphUtilsTest {
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
                 TempRuleResult result = rule.apply(i1, i2, options);
-                Assert.assertTrue(result.getMessage().contains("Valid and known diagnosis date"));
+                Assert.assertTrue(result.getMessage().contains("There is not enough diagnosis date information."));
             }
         }
 

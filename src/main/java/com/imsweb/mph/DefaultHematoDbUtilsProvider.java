@@ -6,10 +6,14 @@ package com.imsweb.mph;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
@@ -100,7 +104,6 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return confirmTransformTo(fromCode, toCode, fromYear) || confirmTransformFrom(toCode, fromCode, toYear);
     }
 
-
     private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
@@ -112,7 +115,6 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
         return false;
     }
 
-
     private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
@@ -122,5 +124,20 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                     return true;
         }
         return false;
+    }
+
+    @Override
+    public Date getDataLastUpdated() {
+
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
+            Properties prop = new Properties();
+            prop.load(is);
+            String lastUpdateDate = prop.getProperty("last_updated");
+            return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
+        }
+        catch (IOException | ParseException e) {
+            //This should not happen
+            return null;
+        }
     }
 }

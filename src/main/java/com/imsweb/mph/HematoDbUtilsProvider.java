@@ -3,6 +3,8 @@
  */
 package com.imsweb.mph;
 
+import java.util.Date;
+
 public interface HematoDbUtilsProvider {
 
     /**
@@ -33,4 +35,9 @@ public interface HematoDbUtilsProvider {
      * @return true if the the second disease is in 'transform to' list of the first disease or the first disease is in 'transform from' list of the second.
      */
     boolean canTransformTo(String fromCode, String toCode, int fromYear, int toYear);
+
+    /**
+     * @return the date when the hemato data is last updated
+     */
+    Date getDataLastUpdated();
 }

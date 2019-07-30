@@ -136,6 +136,12 @@ public class MphConstants {
     public static final List<String> ETHMOID_SINUS = Collections.unmodifiableList(Collections.singletonList("C311"));
     public static final List<String> FRONTAL_SINUS = Collections.unmodifiableList(Collections.singletonList("C312"));
     public static final List<String> SPHENOID_SINUS = Collections.unmodifiableList(Collections.singletonList("C313"));
+    public static final List<String> GLOTTIS_AND_LARYNGEAL_SITES = Collections.unmodifiableList(Arrays.asList("C320", "C321", "C322", "C323"));
+    public static final List<String> MAXILLA = Collections.unmodifiableList(Collections.singletonList("C410"));
+    public static final List<String> MANDIBLE = Collections.unmodifiableList(Collections.singletonList("C411"));
+    public static final List<String> POSTCRICOID = Collections.unmodifiableList(Collections.singletonList("C130"));
+    public static final List<String> HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD = Collections.unmodifiableList(Collections.singletonList("C131"));
+    public static final List<String> POSTERIOR_WALL_OF_HYPOPHARYNX = Collections.unmodifiableList(Collections.singletonList("C132"));
 
     public static final String ALL_PAIRED_SITES =
             "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";
@@ -374,10 +380,12 @@ public class MphConstants {
         content.put("8571", "8571"); // Metaplastic carcinoma with chondroid differentiation/with osseous differentiation
         content.put("8982", "8982"); // Myoepithelial carcinoma
         content.put("8033", "8033"); // Sarcomatoid carcinoma
+        content.put("8070", "8070"); // Squamous cell carcinoma
         content.put("8504", "8504"); // Encapsulated papillary carcinoma
         content.put("8507", "8507"); // Micropapillary carcinoma
         content.put("8509", "8509"); // Solid papillary carcinoma
         content.put("9120/3", "9120/3"); // Angiosarcoma
+        content.put("9170/3", "9120/3"); // Lymphangiosarcoma
         content.put("8850/3", "8850/3"); // Liposarcoma
         content.put("8890/3", "8890/3"); // Leiomyosarcoma
         content.put("9180/3", "9180/3"); // Osteosarcoma
@@ -538,9 +546,9 @@ public class MphConstants {
     static {
         Map<String, String> content = new HashMap<>();
         content.put("8960", "8960"); // Nephroblastoma 8960
-        content.put("8041", "8041"); // Small cell neuroendocrine tumor 8041
-        content.put("8013", "8041"); // Small cell neuroendocrine tumor 8041
-        content.put("8240", "8041"); // Small cell neuroendocrine tumor 8041
+        content.put("8041", "8240"); // Neuroendocrine tumor (NET) 8240
+        content.put("8013", "8240"); // Neuroendocrine tumor (NET) 8240
+        content.put("8240", "8240"); // Neuroendocrine tumor (NET) 8240
         content.put("8312", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8316", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8317", "8312"); // Renal cell carcinoma NOS 8312
@@ -652,6 +660,8 @@ public class MphConstants {
 
     public static final List<String> LUNG_2018_8041_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList("8041", "8249", "8045", "8013", "8240"));
 
+    public static final List<String> LUNG_2018_TABLE2 = Arrays.asList("8560", "8033", "8562", "8254/3", "8045", "8072", "8073", "8070", "8074", "8255/3");
+
     public static final Map<String, String> LUNG_2018_TABLE3_SUBTYPES;
 
     static {
@@ -749,7 +759,6 @@ public class MphConstants {
     public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
     public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
     public static final String CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA = "C722-C725";
-    public static final String CNS_2018_CRANIAL_NERVES_SITES_ALL = "C721-C725";
     public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
 
     public static final List<String> CNS_2018_MENINGIOMAS = Collections.unmodifiableList(Arrays.asList(
@@ -761,7 +770,7 @@ public class MphConstants {
     // See Non-Malignant CNS 2019 AS OF date at top of this file.
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "9390/1", "9351/1", "9352/1", "9493/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
+            "9390/1", "9351/1", "9352/1", "9493/0", "9121/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
             "8825/1", "9550/0", "9560/1", "8815/1"));
 
     public static final Map<String, String> NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
@@ -940,7 +949,7 @@ public class MphConstants {
     // See Head and Neck 2018 AS OF date at top of this file.
 
     //Changes made to this list per Sewbesew's request and Suzanne's approval
-    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C301", "C310,C312"));
+    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C301", "C310,C312", "C442"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE1_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319"));

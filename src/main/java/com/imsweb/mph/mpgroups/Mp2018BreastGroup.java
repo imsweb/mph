@@ -123,7 +123,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getExamples().add("Paget disease of the nipple with underlying lobular carcinoma are multiple primaries.");
         _rules.add(rule); */
 
-        //Rule M10 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
+        //Rule M10 Abstract a single primary when multiple tumors are carcinoma NST/duct and lobular.
         //• Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
         //• One tumor may be duct and another tumor lobular OR
         //• One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
@@ -139,15 +139,8 @@ public class Mp2018BreastGroup extends MphGroup {
                         (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
                         (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
                         (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
-                        (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
-                    }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
+                        (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -268,7 +261,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {

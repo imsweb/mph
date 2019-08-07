@@ -451,6 +451,25 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        i1.setPrimarySite("C504");
+        i1.setHistologyIcdO3("8800");
+        i1.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("10");
+        i1.setDateOfDiagnosisDay("28");
+        i1.setLaterality("2");
+        i2.setPrimarySite("C504");
+        i2.setHistologyIcdO3("9170");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("09");
+        i2.setDateOfDiagnosisDay("14");
+        i2.setLaterality("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
         // Does not apply
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8550");

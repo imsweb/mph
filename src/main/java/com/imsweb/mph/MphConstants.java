@@ -442,6 +442,7 @@ public class MphConstants {
         content.put("8525", "8525"); // Polymorphous carcinoma 8525
         content.put("8800/3", "8800/3"); // Sarcoma NOS 8800
         content.put("9120/3", "8800/3"); // Sarcoma NOS 8800
+        content.put("9170/3", "8800/3"); // Sarcoma NOS 8800
         content.put("8850/3", "8800/3"); // Sarcoma NOS 8800
         content.put("8890/3", "8800/3"); // Sarcoma NOS 8800
         content.put("9180/3", "8800/3"); // Sarcoma NOS 8800

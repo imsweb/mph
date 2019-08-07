@@ -518,7 +518,7 @@ public class MphConstants {
     static {
         Map<String, String> content = new HashMap<>();
         content.put("8013", "8013"); //Large cell neuroendocrine carcinoma/tumor
-        content.put("8240", "8240"); //Well-differentiated neuroendocrine tumor
+        content.put("8041", "8041"); //Small cell neuroendocrine carcinoma
         content.put("8316", "8316"); //Acquired cystic disease-associated renal cell carcinoma/tubulocystic renal cell carcinoma
         content.put("8317", "8317"); //Chromophobe renal cell carcinoma (ChRCC)
         content.put("8323/3", "8323/3"); //Clear cell papillary renal cell carcinoma
@@ -795,6 +795,7 @@ public class MphConstants {
         content.put("9505/1", "9505/1"); // Ganglioglioma 9505/1
         content.put("9582/0", "9582/0"); // Granular cell tumor of the sellar region 9582/0
         content.put("9161/1", "9161/1"); // Hemangioblastoma 9161/1
+        content.put("9121/0", "9120/0"); // Hemangioma 9120/0
         content.put("9120/0", "9120/0"); // Hemangioma 9120/0
         content.put("8890/0", "8890/0"); // Leiomyoma 8890/0
         content.put("8850/0", "8850/0"); // Lipoma 8860/0

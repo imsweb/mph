@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '1.6.5'
+    id 'com.github.spotbugs' version '2.0.0'
     id 'com.bmuschko.nexus' version '2.3.1'
     id 'io.codearte.nexus-staging' version '0.8.0'
 }
@@ -41,7 +41,7 @@ tasks.withType(Javadoc) {
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
-                'Implementation-Version': version,
+                'Implementation-Version': project.version,
                 'Implementation-Vendor': 'Information Management Services Inc.',
                 'Created-By': System.properties['java.vm.version'] + ' (' + System.properties['java.vm.vendor'] + ')',
                 'Built-By': System.getProperty('user.name'),
@@ -104,7 +104,7 @@ if (version.endsWith('-SNAPSHOT'))
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '5.1'
+    gradleVersion = '5.5.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 

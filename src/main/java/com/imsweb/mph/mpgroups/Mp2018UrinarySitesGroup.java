@@ -184,7 +184,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_URINARY_GROUP_ID, "M10");
-        rule.getNotes().add("The rules are hierarchical.  This rule does not apply to urothelial carcinoma of the bladder.");
+        rule.getNotes().add("This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  • Scans are NED");
         rule.getNotes().add("  • Urine cytology is NED");

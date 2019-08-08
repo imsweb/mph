@@ -92,34 +92,36 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getBehavior().equals(i2.getBehavior())) {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                    String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
-                    String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
-                    if (row1 == null || row2 == null) {
-                        result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
+                if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
+                    row1 = "table2";
+                String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
+                if (row2 == null && (MphConstants.LUNG_2018_TABLE2.contains(h2) || MphConstants.LUNG_2018_TABLE2.contains(icd2)))
+                    row2 = "table2";
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+
+                }
+                else if (row1.equals(row2) && !"table2".equals(row1)) {
+                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
+                        return result;
+                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                        else
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
 
                     }
-                    else if (row1.equals(row2)) {
-                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                        if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
-                            return result;
-                        if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                            result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                            if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
-                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
-                            else
-                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
-
-                        }
-                        else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                            result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                        }
-                        else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                            result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
+                    else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
 
                 return result;
@@ -128,21 +130,24 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("Tumors must be in the same lung.");
-        rule.getNotes().add("The tumors must be the same behavior.  When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
         rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
+                if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
+                    row1 = "table2";
                 String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
+                if (row2 == null && (MphConstants.LUNG_2018_TABLE2.contains(h2) || MphConstants.LUNG_2018_TABLE2.contains(icd2)))
+                    row2 = "table2";
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupId());
@@ -153,8 +158,9 @@ public class Mp2018LungGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions is multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3?");
+        rule.setReason(
+                "Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3 are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 

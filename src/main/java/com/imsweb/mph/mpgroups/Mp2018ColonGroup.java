@@ -245,31 +245,30 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if ((i1.getBehavior().equals(i2.getBehavior()))) {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                    String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
-                    String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
-                    if (row1 == null || row2 == null) {
-                        result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
 
-                    }
-                    else if (row1.equals(row2)) {
-                        int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                        if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                        }
-                        else if (MphConstants.DATE_VERIFY_WITHIN == diff)
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
+                String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+
                 }
+                else if (row1.equals(row2)) {
+                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
+                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    }
+                    else if (MphConstants.DATE_VERIFY_WITHIN == diff)
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
+
                 return result;
             }
         };
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
-        rule.getNotes().add("The tumors must be the same behavior. When one tumor is in situ and the other invasive, continue through the rules.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");

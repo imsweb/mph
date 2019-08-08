@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.15**
+
+- Implemented July 2019 updates of multiple primary rules.
+
 **Changes in version 1.14**
 
 - Updated HematoDB data with latest data from SEER API.

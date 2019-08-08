@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import com.imsweb.mph.MphComputeOptions;
@@ -40,45 +41,54 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                //   • Upper lip C000 or C003 AND lower lip C001 or C004
-                if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
+                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    //   • Upper gum C030 AND lower gum C031
-                else if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
+                else if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    //   • Nasal cavity C300 AND middle ear C301
-                else if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
+                else if (GroupUtility.differentCategory(s1, s2, MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    //   • Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
-                else if ((GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.HARD_PALATE, MphConstants.SOFT_PALATE)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.HARD_PALATE, MphConstants.UVULA)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.SOFT_PALATE, MphConstants.UVULA)))
+                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.SOFT_PALATE)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.UVULA)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.SOFT_PALATE, MphConstants.UVULA)))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    //   • Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
-                else if ((GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.MAXILLARY_SINUS, MphConstants.FRONTAL_SINUS)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.MAXILLARY_SINUS, MphConstants.SPHENOID_SINUS)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS)) ||
-                        (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)))
+                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.FRONTAL_SINUS)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.SPHENOID_SINUS)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    //   • Submandibular gland C080 AND sublingual gland C081
-                else if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.SUBMANDIBULAR_GLAND, MphConstants.SUBLINGUAL_GLAND))
+                else if (GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND, MphConstants.SUBLINGUAL_GLAND))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else if (MphConstants.GLOTTIS_AND_LARYNGEAL_SITES.containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else if (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLA, MphConstants.MANDIBLE))
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
         rule.setQuestion("Are there tumors on:\n" +
+                "Glottis C320 AND/OR supraglottis C321 AND/OR subglottis C322 AND/OR laryngeal cartilage C323, \n" +
                 "Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052, \n" +
+                "Maxilla C410 AND Mandible C411, \n" +
                 "Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313, \n" +
                 "Nasal cavity C300 AND middle ear C301, \n" +
+                "Postcricoid C130 AND/OR hypopharyngeal aspect of aryepiglottic fold C131 AND/OR posterior wall of hypopharynx C132, \n" +
                 "Submandibular gland C080 AND sublingual gland C081, \n" +
                 "Upper gum C030 AND lower gum C031, \n" +
                 "Upper lip C000 or C003 AND lower lip C001 or C004?");
         rule.setReason("Tumors on:\n" +
+                "Glottis C320 AND/OR supraglottis C321 AND/OR subglottis C322 AND/OR laryngeal cartilage C323, \n" +
                 "Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052, \n" +
+                "Maxilla C410 AND Mandible C411, \n" +
                 "Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313, \n" +
                 "Nasal cavity C300 AND middle ear C301, \n" +
+                "Postcricoid C130 AND/OR hypopharyngeal aspect of aryepiglottic fold C131 AND/OR posterior wall of hypopharynx C132, \n" +
                 "Submandibular gland C080 AND sublingual gland C081, \n" +
                 "Upper gum C030 AND lower gum C031, \n" +
                 "Upper lip C000 or C003 AND lower lip C001 or C004, are multiple primaries.");

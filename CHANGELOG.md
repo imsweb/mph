@@ -1,6 +1,6 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
-**Changes in version 1.15**
+**Changes in version 1.16**
 
 - Added generic reason messages for 1998 and 2001 Hematopoietic rules.
 

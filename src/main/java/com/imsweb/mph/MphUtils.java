@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.imsweb.mph.internal.TempRuleResult;
@@ -254,7 +255,7 @@ public final class MphUtils {
                         output.setResult(result.getFinalResult());
                         output.setGroupId(rule.getGroupId());
                         output.setStep(rule.getStep());
-                        output.setReason(MpResult.QUESTIONABLE.equals(result.getFinalResult()) ? result.getMessage() : rule.getReason());
+                        output.setReason(StringUtils.isNotBlank(result.getMessage()) ? result.getMessage() : rule.getReason());
                         if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
                             output.getAppliedRules().addAll(rulesAppliedAfterQuestionable);
                     }

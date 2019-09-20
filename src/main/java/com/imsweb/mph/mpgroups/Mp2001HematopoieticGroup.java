@@ -29,7 +29,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
         super(MphConstants.MP_2001_HEMATO_GROUP_ID, MphConstants.MP_2001_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2001-2009");
         initializeLookups();
 
-        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -56,10 +56,12 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
                         if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (MphConstants.COMPARE_DX_EQUAL == laterDx && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            result.setMessage("Single primary based on SEER 2001 multiple primary rules for hematopoietic cancer.");
                             return result;
                         }
                 }
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setMessage("Multiple primaries based on SEER 2001 multiple primary rules for hematopoietic cancer.");
                 return result;
             }
         };

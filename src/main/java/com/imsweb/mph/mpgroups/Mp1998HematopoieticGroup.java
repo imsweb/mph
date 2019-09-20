@@ -28,7 +28,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
         initializeLookup();
 
-        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -45,11 +45,13 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                             (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(
                                     row[3]) <= 0))) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setMessage("Single primary based on SEER 1998 multiple primary rules for hematopoietic cancer.");
                         return result;
                     }
 
                 //if they don't match
                 result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setMessage("Multiple primaries based on SEER 1998 multiple primary rules for hematopoietic cancer.");
                 return result;
             }
         };

@@ -29,6 +29,10 @@ public class MphInput {
 
     private String _txStatus;
 
+    private boolean _dco;
+
+    private String _sequence;
+
     public String getPrimarySite() {
         return _primarySite;
     }
@@ -104,4 +108,15 @@ public class MphInput {
         _txStatus = txStatus;
     }
 
+    public String getCtc() {
+        return _sequence + (_dco ? "(DCO)" : "");
+    }
+
+    public void setDco(boolean dco) {
+        _dco = dco;
+    }
+
+    public void setSequence(String sequence) {
+        _sequence = sequence;
+    }
 }

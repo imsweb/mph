@@ -1864,7 +1864,32 @@ public class MphUtilsTest {
 
         //M1 TODO
 
-        //M2 TODO
+        //M2
+        i1.setPrimarySite("C779");
+        i2.setPrimarySite("C189");
+        i1.setHistologyIcdO3("9740");
+        i2.setHistologyIcdO3("9740");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2015");
+        i2.setDateOfDiagnosisYear("2010");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("single histology"));
+        //Exception
+        i1.setHistologyIcdO3("9699");
+        i2.setHistologyIcdO3("9699");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("single histology"));
+        i1.setPrimarySite("C779");
+        i2.setPrimarySite("C770");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(2, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("single histology"));
 
         //M3 Abstract a single primary* when a sarcoma is diagnosed simultaneously or after a leukemia of the same lineage
         i1.setPrimarySite("C408");
@@ -1910,7 +1935,7 @@ public class MphUtilsTest {
         i1.setPrimarySite("C771");
         i2.setPrimarySite("C771");
         i1.setHistologyIcdO3("9590");
-        i2.setHistologyIcdO3("9729");
+        i2.setHistologyIcdO3("9738");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2010");
@@ -1923,19 +1948,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("non-Hodgkin"));
-        i2.setDateOfDiagnosisDay(null);
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(15, output.getAppliedRules().size());
-        i1.setPrimarySite("C771");
-        i2.setPrimarySite("C772"); //not same location
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(4, output.getAppliedRules().size());
-        i1.setPrimarySite("C181");
-        i2.setPrimarySite("C182"); //same location
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(15, output.getAppliedRules().size());
         i2.setDateOfDiagnosisYear("2011"); //not simultaneous
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(4, output.getAppliedRules().size());
@@ -1947,7 +1959,7 @@ public class MphUtilsTest {
         i1.setPrimarySite("C771");
         i2.setPrimarySite("C771");
         i1.setHistologyIcdO3("9653");
-        i2.setHistologyIcdO3("9700");
+        i2.setHistologyIcdO3("9738");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2010");
@@ -2007,10 +2019,6 @@ public class MphUtilsTest {
         i1.setHistologyIcdO3("9702");
         i2.setHistologyIcdO3("9705"); //Nos vs specific, same primaries according to Hemato DB
         output = _utils.computePrimaries(i1, i2);
-        //Questionable at M7 with potential single and ended up as single at M15 -- SINGLE
-        Assert.assertEquals(15, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals("M15", output.getStep());
         i1.setDateOfDiagnosisYear("2011");
         i2.setDateOfDiagnosisYear("2010"); //More specific was before Nos, not M7
         output = _utils.computePrimaries(i1, i2);
@@ -2042,7 +2050,7 @@ public class MphUtilsTest {
         i1.setHistologyIcdO3("9875");
         i2.setHistologyIcdO3("9867");//9875 (chronic) transforms to 9867(acute)
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         i1.setDateOfDiagnosisYear("2015");
         i2.setDateOfDiagnosisYear("2010"); // acute was diagnosed before chronic
@@ -2104,7 +2112,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        i2.setHistologyIcdO3("9596"); //Hodgkin
+        i2.setHistologyIcdO3("9653"); //Hodgkin
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());

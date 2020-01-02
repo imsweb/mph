@@ -198,9 +198,9 @@ public class MphConstants {
     public static final List<String> INTRADUCTAL_CARCINOMA = GroupUtility.expandList("8201,8230,8401,8500-8501,8503-8504,8507");
     public static final List<String> DUCT_CARCINOMA = GroupUtility.expandList("8022,8035,8500-8503,8508");
     public static final List<String> LOBULAR_CARCINOMA = GroupUtility.expandList("8520,8522,8524");
-    public static final List<String> LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA = GroupUtility.expandList("9590-9591,9670-9729");
+    public static final List<String> LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA = GroupUtility.expandList("9590-9591,9673,9678,9679,9687,9735-9738,9823,9827");
     public static final List<String> NON_HODGKIN_LYMPHOMA = GroupUtility.expandList("9591,9670-9729");
-    public static final List<String> HODGKIN_LYMPHOMA = GroupUtility.expandList("9596,9650-9667");
+    public static final List<String> HODGKIN_LYMPHOMA = GroupUtility.expandList("9650-9653,9655,9659,9663");
     public static final List<String> HEMATOPOIETIC_NOS_HISTOLOGIES = GroupUtility.expandList("9591,9670,9702,9729,9760,9800,9808,9809,9811,9820,9832,9835,9860,9861,9863,9960,9964,9987");
     public static final List<String> POLYP = GroupUtility.expandList("8210-8211,8213,8220-8221,8261-8263");
     public static final List<String> FAMILLIAL_POLYPOSIS = GroupUtility.expandList("8220-8221");
@@ -222,6 +222,7 @@ public class MphConstants {
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
     public static final List<String> GLIAL_TUMOR_2018 = GroupUtility.expandList("9385,9391,9392,9393,9396,9400,9401,9411,9424,9430,9440,9441,9442,9445,9450,9451");
+    public static final String MALT = "9699/3";
 
     //Histology Charts
     public static final Map<String, List<String>> NOS_VS_SPECIFIC;

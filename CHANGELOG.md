@@ -1,4 +1,7 @@
 ## Multiple Primary and Histology Coding Rules Version History
+**Changes in version 1.17**
+
+- Implemented January 2019 updates to the 2010 hematopoietic rules.
 
 **Changes in version 1.16**
 

@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.17**
+
+- Updated Commons Lang library from version 3.7 to version 3.9.
+- Updated CSV library from version 4.2 to version 5.0.
+
 **Changes in version 1.16**
 
 - Added generic reason messages for 1998 and 2001 Hematopoietic rules.

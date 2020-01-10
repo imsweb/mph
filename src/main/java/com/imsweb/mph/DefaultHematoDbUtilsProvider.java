@@ -6,6 +6,7 @@ package com.imsweb.mph;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import com.imsweb.mph.internal.HematoDbDTO;
 
@@ -34,7 +36,9 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     public DefaultHematoDbUtilsProvider() {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
-            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
+            if (is == null)
+                throw new RuntimeException("Unable to get Hematopoietic2010SamePrimaryPairs.csv");
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_samePrimaryDto.containsKey(row[0]))
                     _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -44,12 +48,14 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
         _transformToDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
-            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
+            if (is == null)
+                throw new RuntimeException("Unable to get Hematopoietic2010TransformToPairs.csv");
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformToDto.containsKey(row[0]))
                     _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -59,12 +65,14 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
         _transformFromDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
-            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, "US-ASCII")).withSkipLines(1).build().readAll()) {
+            if (is == null)
+                throw new RuntimeException("Unable to get Hematopoietic2010TransformFromPairs.csv");
+            for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformFromDto.containsKey(row[0]))
                     _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
@@ -74,7 +82,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -105,38 +113,47 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
-        if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
+        if (invalidCodes(leftCode, rightCode))
             return false;
-        else if (_transformToDto.containsKey(leftCode)) {
+
+        if (_transformToDto.containsKey(leftCode)) {
             for (HematoDbDTO dto : _transformToDto.get(leftCode))
                 if (dto.matches(rightCode, year))
                     return true;
         }
+
         return false;
     }
 
     private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
-        if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
+        if (invalidCodes(leftCode, rightCode))
             return false;
-        else if (_transformFromDto.containsKey(leftCode)) {
+
+        if (_transformFromDto.containsKey(leftCode)) {
             for (HematoDbDTO dto : _transformFromDto.get(leftCode))
                 if (dto.matches(rightCode, year))
                     return true;
         }
+
         return false;
+    }
+
+    private boolean invalidCodes(String leftCode, String rightCode) {
+        return leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches();
     }
 
     @Override
     public Date getDataLastUpdated() {
 
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
+            if (is == null)
+                throw new RuntimeException("Unable to get info properties");
             Properties prop = new Properties();
             prop.load(is);
             String lastUpdateDate = prop.getProperty("last_updated");
             return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
         }
         catch (IOException | ParseException e) {
-            //This should not happen
             return null;
         }
     }

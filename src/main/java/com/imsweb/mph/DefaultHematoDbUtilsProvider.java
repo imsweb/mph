@@ -81,19 +81,19 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     @Override
-    public boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
+    public boolean isSamePrimary(String leftCode, String rightCode, int year) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (leftCode.equals(rightCode))
             return true;
-        if (_samePrimaryDto.containsKey(leftCode)) {
+        else if (_samePrimaryDto.containsKey(leftCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(leftCode))
-                if (dto.matches(rightCode, leftYear))
+                if (dto.matches(rightCode, year))
                     return true;
         }
         if (_samePrimaryDto.containsKey(rightCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(rightCode))
-                if (dto.matches(leftCode, rightYear))
+                if (dto.matches(leftCode, year))
                     return true;
         }
         return false;

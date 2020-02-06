@@ -16,11 +16,10 @@ public interface HematoDbUtilsProvider {
      * <p/>
      * @param leftCode left code to compare
      * @param rightCode right code to compare
-     * @param leftYear dx year of left disease
-     * @param rightYear dx year of right disease
+     * @param year The requested DX year, cannot be null
      * @return true if the codes are same primary, false otherwise
      */
-    boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear);
+    boolean isSamePrimary(String leftCode, String rightCode, int year);
 
     /**
      * Checks if the second disease is in 'transform to' list of the first disease.

@@ -2,6 +2,7 @@
 **Changes in version 1.17**
 
 - Implemented January 2019 updates to the 2010 hematopoietic rules.
+- Changed the 2010 hematopoietic rules to use the latest year only for the Heme DB Multiple Primaries Calculator.
 
 **Changes in version 1.16**
 

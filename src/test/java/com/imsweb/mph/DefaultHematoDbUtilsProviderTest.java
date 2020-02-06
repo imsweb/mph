@@ -13,19 +13,18 @@ public class DefaultHematoDbUtilsProviderTest {
     @Test
     public void testIsSamePrimary() {
 
-        Assert.assertFalse(_provider.isSamePrimary(null, null, 2010, 2010));
-        Assert.assertFalse(_provider.isSamePrimary("", "", 2010, 2010));
-        Assert.assertFalse(_provider.isSamePrimary("TEST", "TEST", 2010, 2010));
-        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2000, 2010));
-        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2010, 2000));
+        Assert.assertFalse(_provider.isSamePrimary(null, null, 2000));
+        Assert.assertFalse(_provider.isSamePrimary("", "", 2000));
+        Assert.assertFalse(_provider.isSamePrimary("TEST", "TEST", 2000));
+        Assert.assertTrue(_provider.isSamePrimary("9861/3", "9861/3", 2000));
 
-        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9590/3", 2016, 2011));
-        Assert.assertTrue(_provider.isSamePrimary("9590/3", "9870/3", 2009, 2016));
-        Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 1990, 1998));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9590/3", 2016));
+        Assert.assertTrue(_provider.isSamePrimary("9590/3", "9870/3", 2016));
+        Assert.assertFalse(_provider.isSamePrimary("9590/3", "9870/3", 1990));
 
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2016, 2016));
-        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2010, 2010));
-        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9805/3", 2001, 2001));
+        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2016));
+        Assert.assertFalse(_provider.isSamePrimary("9870/3", "9805/3", 2010));
+        Assert.assertTrue(_provider.isSamePrimary("9870/3", "9805/3", 2001));
     }
 
     @Test

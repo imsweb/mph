@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.18**
+
+- Changed Hemato data provider to use the latest diagnosis year instead of two years to calculate same primary.
+
 **Changes in version 1.17**
 
 - Updated Commons Lang library from version 3.7 to version 3.9.

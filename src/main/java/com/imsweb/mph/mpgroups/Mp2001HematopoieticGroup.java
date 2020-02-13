@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
 
 import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
@@ -76,7 +75,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     throw new RuntimeException("Unable to read Hematopoietic2001HistologyGroups.csv");
                 _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
-            catch (CsvException | IOException e) {
+            catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
@@ -84,7 +83,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     throw new RuntimeException("Unable to read Hematopoietic2001HistologyGroupPairs.csv");
                 _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
-            catch (CsvException | IOException e) {
+            catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }

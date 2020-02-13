@@ -18,7 +18,6 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
 
 import com.imsweb.mph.internal.HematoDbDTO;
 
@@ -48,7 +47,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (CsvException | IOException e) {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         _transformToDto = new HashMap<>();
@@ -65,7 +64,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (CsvException | IOException e) {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         _transformFromDto = new HashMap<>();
@@ -82,7 +81,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (CsvException | IOException e) {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -90,18 +89,19 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
 
     @Override
     public boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
+        int year = Math.max(leftYear, rightYear);
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
             return false;
         else if (leftCode.equals(rightCode))
             return true;
-        if (_samePrimaryDto.containsKey(leftCode)) {
+        else if (_samePrimaryDto.containsKey(leftCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(leftCode))
-                if (dto.matches(rightCode, leftYear))
+                if (dto.matches(rightCode, year))
                     return true;
         }
-        if (_samePrimaryDto.containsKey(rightCode)) {
+        else if (_samePrimaryDto.containsKey(rightCode)) {
             for (HematoDbDTO dto : _samePrimaryDto.get(rightCode))
-                if (dto.matches(leftCode, rightYear))
+                if (dto.matches(leftCode, year))
                     return true;
         }
         return false;

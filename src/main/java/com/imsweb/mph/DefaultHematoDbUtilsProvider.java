@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import com.imsweb.mph.internal.HematoDbDTO;
 
@@ -47,7 +48,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
         _transformToDto = new HashMap<>();
@@ -64,7 +65,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
         _transformFromDto = new HashMap<>();
@@ -81,7 +82,7 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
                 }
             }
         }
-        catch (IOException e) {
+        catch (CsvException | IOException e) {
             throw new RuntimeException(e);
         }
 

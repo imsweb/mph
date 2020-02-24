@@ -204,9 +204,9 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 String morph1 = hist1 + "/" + i1.getBehavior(), morph2 = hist2 + "/" + i2.getBehavior();
                 int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 if (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
-                        || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear)
+                        || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2)
                         && MphConstants.COMPARE_DX_EQUAL != latestDx) {
                     if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -477,10 +477,9 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int latestYear = latestDx == 1 ? Integer.valueOf(i1.getDateOfDiagnosisYear()) : Integer.valueOf(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 result.setFinalResult(
-                        MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, latestYear) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

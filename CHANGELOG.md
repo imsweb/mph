@@ -4,6 +4,12 @@
 - Implemented January 2019 updates to the 2010 hematopoietic rules.
 - Changed the 2010 hematopoietic rules to use the latest year only for the Heme DB Multiple Primaries Calculator.
 
+**Changes in version 1.17**
+
+- Changed Hemato data provider to use the latest diagnosis year instead of two years to calculate same primary.
+- Updated Commons Lang library from version 3.7 to version 3.9.
+- Updated CSV library from version 4.2 to version 5.0.
+
 **Changes in version 1.16**
 
 - Added generic reason messages for 1998 and 2001 Hematopoietic rules.

@@ -1881,7 +1881,7 @@ public class MphUtilsTest {
         i1.setHistologyIcdO3("9699");
         i2.setHistologyIcdO3("9699");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("single histology"));
         i1.setPrimarySite("C779");

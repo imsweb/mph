@@ -42,13 +42,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (h1.equals(h2)) {
                     boolean nodalAndExtraNodalMalt = MphConstants.MALT.equals(i1.getMorphology()) && MphConstants.MALT.equals(i2.getMorphology()) && ((s1.startsWith("C77") && !s2.startsWith("C77"))
                             || (s2.startsWith("C77") && !s1.startsWith("C77")));
-                    result.setFinalResult(nodalAndExtraNodalMalt ? MpResult.MULTIPLE_PRIMARIES : MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(nodalAndExtraNodalMalt ? MpResult.QUESTIONABLE : MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
         };
         rule.setReason(
-                "Abstract a single primary when there is a single histology. Exception: Abstract multiple primaries when a nodal MALT (C770-779, 9699/3) occurs before or after an extranodal MALT (all other sites, 9699/3). These are two distinct lymphomas that have the same histology code.");
+                "Abstract a single primary when there is a single histology. Exception: manually review when a nodal MALT (C770-779, 9699/3) occurs before or after an extranodal MALT (all other sites, 9699/3). These are two distinct lymphomas that have the same histology code.");
         rule.getNotes().add("Bilateral involvement of lymph nodes and/or organs with a single histology is a single primary.");
         rule.getNotes().add("Recurrence of the same histology is always the same primary (timing is not relevant).");
         rule.getNotes().add("A single histology is diagnosed by the definitive diagnostic method as defined in the Heme DB. For example, the patient had several provisional diagnoses "

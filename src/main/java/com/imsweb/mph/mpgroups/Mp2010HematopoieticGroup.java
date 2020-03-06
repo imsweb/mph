@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.imsweb.mph.MphComputeOptions;
@@ -310,6 +311,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
+                    if (GroupUtility.differentCategory(morph1, morph2, Collections.singletonList("9732/3"), Arrays.asList("9731/3", "9734/3"))) {
+                        result.setMessage("For plasmacytoma (9731, 9734) and plasma cell myeloma (9732): This rule would only apply if the initial workup was completed and a single plasmacytoma was diagnosed. If plasma cell myeloma is diagnosed after the initial workup and treatment, then this rule would be applicable and the multiple myeloma would be a second primary.");
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        return result;
+                    }
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart || MphConstants.COMPARE_DX_UNKNOWN == latestDx) {

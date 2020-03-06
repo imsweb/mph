@@ -2061,6 +2061,12 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        //Exception for plasmacytoma (9731, 9734) and plasma cell myeloma (9732)
+        i1.setHistologyIcdO3("9731");
+        i2.setHistologyIcdO3("9732");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(10, output.getAppliedRules().size());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         //M11 TODO
 

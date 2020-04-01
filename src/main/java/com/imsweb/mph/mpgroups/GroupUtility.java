@@ -418,4 +418,11 @@ public class GroupUtility {
 
         return minimum ? (int)ChronoUnit.DAYS.between(startDateMax, endDateMin) : (int)ChronoUnit.DAYS.between(startDateMin, endDateMax);
     }
+
+    /**
+     * Returns the site, hist/beh information of the input
+     */
+    public static String getSiteHistInfo(String site, String hist, String beh) {
+        return (StringUtils.isBlank(site) ? "Unknown Site" : site) + ", " + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/" + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh);
+    }
 }

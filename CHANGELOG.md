@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.18**
+
+- Added site, histology and behavior information to general messages.
+
 **Changes in version 1.17**
 
 - Changed Hemato data provider to use the latest diagnosis year instead of two years to calculate same primary.

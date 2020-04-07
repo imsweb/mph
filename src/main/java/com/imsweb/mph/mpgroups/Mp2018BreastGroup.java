@@ -159,22 +159,23 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getExamples().add("Two tumors right breast. One tumor is invasive mixed duct and lobular 8522/3 and the second tumor is tubular 8211/3. Abstract two primaries: 8522/3 and 8211/3.");
         _rules.add(rule);
 
-        // Rule M11 Abstract a single primary when any of the following conditions are met in the same breast:
-        // • DCIS subsequent to a diagnosis of mixed DCIS AND:
-        //  Lobular carcinoma in situ 8522/2 OR
-        //  In situ Paget 8543/2 OR
-        //  Invasive Paget 8543/3 OR
-        //  Other in situ 8500/2 (prior to 2018, DCIS and other in situ was coded 8523/2)
-        //  Invasive carcinoma NST/duct subsequent to a diagnosis of mixed invasive carcinoma NST/duct AND:
-        //  Invasive lobular 8522/3 OR
-        //  Invasive Paget 8541/3 OR
-        //  Other invasive carcinoma 8523/3
+        //Rule M11        Abstract a single primaryi when a ductal carcinoma occurs after a combination code in the same breast. See the
+        //        following list:
+        //• DCIS following a diagnosis of:
+        //        ο DCIS + lobular carcinoma in situ 8522/2 OR
+        //        ο DCIS + in situ Paget 8543/2 OR
+        //        ο DCIS + Invasive Paget 8543/3 OR
+        //        ο DCIS mixed with other in situ 8523/2 (code used for cases diagnosed prior to 1/1/2018)
+        //• Invasive carcinoma NST/duct following a diagnosis of:
+        //        ο Invasive duct + invasive lobular 8522/3 OR
+        //        ο Invasive duct + invasive Paget 8541/3 OR
+        //        ο Invasive duct + other invasive carcinoma 8523/3
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/2"), Arrays.asList("8522/2", "8543/2", "8543/3", "8500/2", "8523/2"))
+                if (GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/2"), Arrays.asList("8522/2", "8543/2", "8543/3", "8523/2"))
                         || GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/3"), Arrays.asList("8522/3", "8541/3", "8523/3"))) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) { //If impossible to decide which tumor is diagnosed later
@@ -190,25 +191,25 @@ public class Mp2018BreastGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are there tumors where:\n" +
-                "DCIS subsequent to a diagnosis of mixed DCIS AND: \n" +
-                "Lobular carcinoma in situ 8522/2 OR\n" +
-                "In situ Paget 8543/2 OR\n" +
-                "Invasive Paget 8543/3 OR\n" +
-                "Other in situ 8500/2 (prior to 2018, DCIS and other in situ was coded 8523/2)\n" +
-                "Invasive carcinoma NST/duct subsequent to a diagnosis of mixed invasive carcinoma NST/duct AND:\n" +
-                "Invasive lobular 8522/3 OR\n" +
-                "Invasive Paget 8541/3 OR\n" +
-                "Other invasive carcinoma 8523/3?");
+                "• DCIS following a diagnosis of: \n" +
+                "       ο DCIS + lobular carcinoma in situ 8522/2 OR\n" +
+                "       ο DCIS + in situ Paget 8543/2 OR\n" +
+                "       ο DCIS + Invasive Paget 8543/3 OR\n" +
+                "       ο DCIS mixed with other in situ 8523/2 (code used for cases diagnosed prior to 1/1/2018)\n" +
+                "• Invasive carcinoma NST/duct following a diagnosis of:\n" +
+                "       ο Invasive duct + invasive lobular 8522/3 OR\n" +
+                "       ο Invasive duct + invasive Paget 8541/3 OR\n" +
+                "       ο Invasive duct + other invasive carcinoma 8523/3?");
         rule.setReason("The following conditions are single primary:\n" +
-                "DCIS subsequent to a diagnosis of mixed DCIS AND: \n" +
-                "Lobular carcinoma in situ 8522/2 OR\n" +
-                "In situ Paget 8543/2 OR\n" +
-                "Invasive Paget 8543/3 OR\n" +
-                "Other in situ 8500/2 (prior to 2018, DCIS and other in situ was coded 8523/2)\n" +
-                "Invasive carcinoma NST/duct subsequent to a diagnosis of mixed invasive carcinoma NST/duct AND:\n" +
-                "Invasive lobular 8522/3 OR\n" +
-                "Invasive Paget 8541/3 OR\n" +
-                "Other invasive carcinoma 8523/3.");
+                "• DCIS following a diagnosis of: \n" +
+                "       ο DCIS + lobular carcinoma in situ 8522/2 OR\n" +
+                "       ο DCIS + in situ Paget 8543/2 OR\n" +
+                "       ο DCIS + Invasive Paget 8543/3 OR\n" +
+                "       ο DCIS mixed with other in situ 8523/2 (code used for cases diagnosed prior to 1/1/2018)\n" +
+                "• Invasive carcinoma NST/duct following a diagnosis of:\n" +
+                "       ο Invasive duct + invasive lobular 8522/3 OR\n" +
+                "       ο Invasive duct + invasive Paget 8541/3 OR\n" +
+                "       ο Invasive duct + other invasive carcinoma 8523/3");
         _rules.add(rule);
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.

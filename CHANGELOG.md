@@ -3,6 +3,7 @@
 **Changes in version 1.18**
 
 - Added site, histology and behavior information to general messages.
+- Updated M11 of 2018 breast rule to match the documentation.
 
 **Changes in version 1.17**
 

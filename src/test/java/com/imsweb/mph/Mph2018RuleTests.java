@@ -91,8 +91,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M6 Abstract a single primary when there is inflammatory carcinoma in:
-        // • Multiple quadrants of same breast OR
-        // • Bilateral breasts
+        // - Multiple quadrants of same breast OR
+        // - Bilateral breasts
         ruleStepToTest = "M6";
         ruleCountToTest = 3;
         i1.setPrimarySite("C500");
@@ -187,9 +187,9 @@ public class Mph2018RuleTests {
         //        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Rule M10 Abstract a single primary when simultaneous multiple tumors are carcinoma NST/duct and lobular.
-        //• Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
-        //• One tumor may be duct and another tumor lobular OR
-        //• One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
+        //- Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
+        //- One tumor may be duct and another tumor lobular OR
+        //- One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
         ruleStepToTest = "M10";
         ruleCountToTest = 5;
         i1.setPrimarySite("C500");
@@ -216,7 +216,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M11 Abstract a single primary when any of the following conditions are met in the same breast:
-        // • DCIS subsequent to a diagnosis of mixed DCIS AND:
+        // - DCIS subsequent to a diagnosis of mixed DCIS AND:
         //  Lobular carcinoma in situ 8522/2 OR
         //  In situ Paget 8543/2 OR
         //  Invasive Paget 8543/3 OR
@@ -694,8 +694,8 @@ public class Mph2018RuleTests {
         int ruleCountToTest;
 
         // Rule M3 Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
-        //  • There is a clinical diagnosis of familial polyposis (FAP) OR
-        //  • Greater than 100 polyps are documented (no diagnosis of FAP)
+        //  - There is a clinical diagnosis of familial polyposis (FAP) OR
+        //  - Greater than 100 polyps are documented (no diagnosis of FAP)
         ruleStepToTest = "M3";
         ruleCountToTest = 1;
         i1.setPrimarySite("C180");
@@ -923,9 +923,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M7 Abstract multiple primaries when a subsequent tumor arises at the anastomotic site AND:
-        // •  One tumor is a NOS and the other is a subtype/variant of that NOS OR
-        // •  The subsequent tumor occurs greater than 24 months after original tumor resection OR
-        // • The subsequent tumor arises in the mucosa
+        // -  One tumor is a NOS and the other is a subtype/variant of that NOS OR
+        // -  The subsequent tumor occurs greater than 24 months after original tumor resection OR
+        // - The subsequent tumor arises in the mucosa
         // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
         // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
         // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
@@ -950,9 +950,9 @@ public class Mph2018RuleTests {
         */
 
         // Rule M8 Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
-        // •  The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
-        // •  The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
-        // •  The pathologist or clinician documents an anastomotic recurrence
+        // -  The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
+        // -  The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
+        // -  The pathologist or clinician documents an anastomotic recurrence
         // ABH 9/14/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
         /*
         ruleStepToTest = "M8";
@@ -1335,16 +1335,16 @@ public class Mph2018RuleTests {
         int ruleCountToTest;
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
-        //   • Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
-        //   • Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
-        //   • Nasal cavity C300 AND middle ear C301
-        //   • Submandibular gland C080 AND sublingual gland C081
-        //   • Upper gum C030 AND lower gum C031
-        //   • Upper lip C000 or C003 AND lower lip C001 or C004
+        //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
+        //   - Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
+        //   - Nasal cavity C300 AND middle ear C301
+        //   - Submandibular gland C080 AND sublingual gland C081
+        //   - Upper gum C030 AND lower gum C031
+        //   - Upper lip C000 or C003 AND lower lip C001 or C004
 
         ruleStepToTest = "M3";
         ruleCountToTest = 1;
-        //   • Upper lip C000 or C003 AND lower lip C001 or C004
+        //   - Upper lip C000 or C003 AND lower lip C001 or C004
         i1.setPrimarySite("C000");
         i1.setHistologyIcdO3("8000");
         i1.setBehaviorIcdO3("3");
@@ -1358,7 +1358,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("lip"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        //   • Upper gum C030 AND lower gum C031
+        //   - Upper gum C030 AND lower gum C031
         i1.setPrimarySite("C030");
         i2.setPrimarySite("C031");
         output = _utils.computePrimaries(i1, i2);
@@ -1366,7 +1366,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("gum"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        //   • Nasal cavity C300 AND middle ear C301
+        //   - Nasal cavity C300 AND middle ear C301
         i1.setPrimarySite("C300");
         i2.setPrimarySite("C301");
         output = _utils.computePrimaries(i1, i2);
@@ -1374,7 +1374,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Nasal"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        //   • Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
+        //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
         i1.setPrimarySite("C050");
         i2.setPrimarySite("C051");
         output = _utils.computePrimaries(i1, i2);
@@ -1389,7 +1389,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("palate"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        //   • Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
+        //   - Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
         i1.setPrimarySite("C310");
         i2.setPrimarySite("C311");
         output = _utils.computePrimaries(i1, i2);
@@ -1411,7 +1411,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ethmoid"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        //   • Submandibular gland C080 AND sublingual gland C081
+        //   - Submandibular gland C080 AND sublingual gland C081
         i1.setPrimarySite("C080");
         i2.setPrimarySite("C081");
         output = _utils.computePrimaries(i1, i2);
@@ -2327,9 +2327,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M9 Abstract a single primaryi when there are simultaneous multiple tumors:
-        //• In both lungs (multiple in right and multiple in left) OR
-        //• In the same lung OR
-        //• Single tumor in one lung; multiple tumors in contralateral lung
+        //- In both lungs (multiple in right and multiple in left) OR
+        //- In the same lung OR
+        //- Single tumor in one lung; multiple tumors in contralateral lung
         ruleStepToTest = "M9";
         ruleCountToTest = 7;
         i1.setPrimarySite("C342");
@@ -2551,10 +2551,10 @@ public class Mph2018RuleTests {
         int ruleCountToTest;
 
         // Rule M5 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
-        // • Original non-malignant tumor followed by malignant tumor
+        // - Original non-malignant tumor followed by malignant tumor
         //      Patient had a resection of the non-malignant tumor (not the same tumor) OR
         //      It is unknown/not documented if the patient had a resection
-        // • Simultaneous non-malignant and malignant tumors
+        // - Simultaneous non-malignant and malignant tumors
         //      Abstract both the malignant and the non-malignant tumors
 
         // NOTE: This may not be testable. If one tumor is malignant, and the other is not, you get two different rule sets:
@@ -2641,9 +2641,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M7 Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
-        // • In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
-        // • Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
-        // • In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        // - In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        // - In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         ruleStepToTest = "M7";
         ruleCountToTest = 3;
         i1.setPrimarySite("C712");
@@ -2677,16 +2677,16 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M8 Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
-        // • Any lobe of the brain C710-C719 AND any other part of CNS
-        // • Cauda equina C721 AND any other part of CNS
-        // • Cerebral meninges C700 AND spinal meninges C701
-        // • Cerebral meninges C700 AND any other part of CNS
-        // • Any one of the cranial nerves C722-C725 AND any other part of the CNS
-        // • Any two or more of the cranial nerves
+        // - Any lobe of the brain C710-C719 AND any other part of CNS
+        // - Cauda equina C721 AND any other part of CNS
+        // - Cerebral meninges C700 AND spinal meninges C701
+        // - Cerebral meninges C700 AND any other part of CNS
+        // - Any one of the cranial nerves C722-C725 AND any other part of the CNS
+        // - Any two or more of the cranial nerves
         //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
-        // • Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-        // • Spinal cord C720 AND any other part of CNS
-        // • Spinal meninges C701 AND any other part of CNS
+        // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
+        // - Spinal cord C720 AND any other part of CNS
+        // - Spinal meninges C701 AND any other part of CNS
         ruleStepToTest = "M8";
         ruleCountToTest = 4;
         i1.setPrimarySite("C710");
@@ -2924,8 +2924,8 @@ public class Mph2018RuleTests {
         int ruleCountToTest;
 
         // Rule M5 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
-        // • The patient had a resection of the non-malignant tumor OR
-        // • It is unknown/not documented whether a resection was done
+        // - The patient had a resection of the non-malignant tumor OR
+        // - It is unknown/not documented whether a resection was done
 
         // NOTE: This may not be testable. If one tumor is malignant, and the other is not, you get two different rule sets:
         // Mp2018NonMalignantCNSTumorsGroup and Mp2018MalignantCNSAndPeripheralNervesGroup. Two different rule sets are automatically
@@ -2974,8 +2974,8 @@ public class Mph2018RuleTests {
         */
 
         // Rule M6 Abstract a single primary when the patient has bilateral:
-        // • Acoustic neuromas/ vestibular schwannomas 9560/0, OR
-        // • Optic gliomas/pilocytic astrocytomas 9421/1
+        // - Acoustic neuromas/ vestibular schwannomas 9560/0, OR
+        // - Optic gliomas/pilocytic astrocytomas 9421/1
         ruleStepToTest = "M6";
         ruleCountToTest = 2;
         i1.setPrimarySite("C701");
@@ -3013,12 +3013,12 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M7 Abstract multiple primaries when multiple tumors are present in any of the following sites:
-        // • Any lobe(s) of the brain C710-C719 AND any other part of CNS
-        // • Cerebral meninges C700 AND spinal meninges C701
-        // • Cerebral meninges C700 AND any other part of CNS
-        // • Any cranial nerve(s) C721-C725 AND any other part of the CNS
-        // • Meninges of cranial nerves C709 AND any other part of the CNS
-        // • Spinal meninges C701 AND any other part of CNS
+        // - Any lobe(s) of the brain C710-C719 AND any other part of CNS
+        // - Cerebral meninges C700 AND spinal meninges C701
+        // - Cerebral meninges C700 AND any other part of CNS
+        // - Any cranial nerve(s) C721-C725 AND any other part of the CNS
+        // - Meninges of cranial nerves C709 AND any other part of the CNS
+        // - Spinal meninges C701 AND any other part of CNS
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
         //  other site in the header besides C700 (C701, C709, C710-C719, C721-C725, C728, C729, C751-C753))
         ruleStepToTest = "M7";
@@ -3124,9 +3124,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M9 Abstract a single primary when two or more separate/non-contiguous meningiomas arise in the cranial meninges.  Laterality is irrelevant and may be any of the following combinations:
-        // • The same laterality (left or right) of the cranial meninges
-        // • Bilateral (both left and right) cranial meninges
-        // • The midline AND in either the right or left cranial meninges
+        // - The same laterality (left or right) of the cranial meninges
+        // - Bilateral (both left and right) cranial meninges
+        // - The midline AND in either the right or left cranial meninges
         ruleStepToTest = "M9";
         ruleCountToTest = 5;
         i1.setPrimarySite("C700");
@@ -3154,9 +3154,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M10 Abstract a single primary when there are separate/non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be in any of the following locations and/or lateralities:
-        // • Same laterality: In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
-        // • Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
-        // • Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
+        // - Same laterality: In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
+        // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
+        // - Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         ruleStepToTest = "M10";
         ruleCountToTest = 6;
         i1.setPrimarySite("C712");
@@ -3533,8 +3533,8 @@ public class Mph2018RuleTests {
         int ruleCountToTest;
 
         // Rule M3 Abstract multiple primaries when there are:
-        // • Separate/non-contiguous tumors in both the right AND left renal pelvis AND
-        // • No other urinary sites are involved with separate/non-contiguous tumors
+        // - Separate/non-contiguous tumors in both the right AND left renal pelvis AND
+        // - No other urinary sites are involved with separate/non-contiguous tumors
         ruleStepToTest = "M3";
         ruleCountToTest = 1;
         i1.setPrimarySite("C659");
@@ -3558,8 +3558,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M4 Abstract multiple primaries when there are:
-        // • Separate/non-contiguous tumors in the right AND left ureter AND
-        // • No other urinary sites are involved with separate/non-contiguous tumors
+        // - Separate/non-contiguous tumors in the right AND left ureter AND
+        // - No other urinary sites are involved with separate/non-contiguous tumors
         ruleStepToTest = "M4";
         ruleCountToTest = 2;
         i1.setPrimarySite("C669");
@@ -3576,8 +3576,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M5 Abstract a single primary when tumors are noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2 in the following sites:
-        //• Bladder C67_ AND
-        //• One or both ureter(s) C669
+        //- Bladder C67_ AND
+        //- One or both ureter(s) C669
         ruleStepToTest = "M5";
         ruleCountToTest = 3;
         i1.setPrimarySite("C670");
@@ -3635,8 +3635,8 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M7 Abstract a single primary when the patient has multiple occurrences of /2 urothelial carcinoma in the bladder. Tumors may be any combination of:
-        //•In situ urothelial carcinoma 8120/2 AND/OR
-        //•Papillary urothelial carcinoma noninvasive 8130/2 (does not include micropapillary subtype)
+        //-In situ urothelial carcinoma 8120/2 AND/OR
+        //-Papillary urothelial carcinoma noninvasive 8130/2 (does not include micropapillary subtype)
         ruleStepToTest = "M7";
         ruleCountToTest = 5;
         i1.setPrimarySite("C670");
@@ -3692,8 +3692,8 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Rule M9 Abstract a single primary when the patient has multiple invasive urothelial cell carcinomas in the bladder. All tumors are either:
-        //•Multiple occurrences of urothelial or urothelial subtypes (with exception of micropapillary) OR
-        //•Multiple occurrences of micropapillary
+        //-Multiple occurrences of urothelial or urothelial subtypes (with exception of micropapillary) OR
+        //-Multiple occurrences of micropapillary
         ruleStepToTest = "M9";
         ruleCountToTest = 7;
         i1.setPrimarySite("C670");
@@ -3881,8 +3881,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M16 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
-        // • Occur in the same urinary site OR
-        // • The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
+        // - Occur in the same urinary site OR
+        // - The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
         ruleStepToTest = "M16";
         ruleCountToTest = 14;
         i1.setPrimarySite("C670");
@@ -3915,8 +3915,8 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
         // Rule M17 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
-        // • Occur in the same urinary site OR
-        // • Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
+        // - Occur in the same urinary site OR
+        // - Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
         //This rule will never hit
 
         // Rule M18 Abstract a single primary when tumors do not meet any of the above criteria.

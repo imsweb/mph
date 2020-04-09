@@ -31,12 +31,12 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
-        //   • Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
-        //   • Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
-        //   • Nasal cavity C300 AND middle ear C301
-        //   • Submandibular gland C080 AND sublingual gland C081
-        //   • Upper gum C030 AND lower gum C031
-        //   • Upper lip C000 or C003 AND lower lip C001 or C004
+        //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
+        //   - Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
+        //   - Nasal cavity C300 AND middle ear C301
+        //   - Submandibular gland C080 AND sublingual gland C081
+        //   - Upper gum C030 AND lower gum C031
+        //   - Upper lip C000 or C003 AND lower lip C001 or C004
         MphRule rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -132,9 +132,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
         rule = new MpRuleFiveYearsApart(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M6");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
-        rule.getNotes().add("  • Scopes are NED");
-        rule.getNotes().add("  • Scans are NED");
-        rule.getNotes().add("  • Biomarkers are NED");
+        rule.getNotes().add("  - Scopes are NED");
+        rule.getNotes().add("  - Scans are NED");
+        rule.getNotes().add("  - Biomarkers are NED");
         rule.getNotes().add(
                 "When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
@@ -171,9 +171,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 "Separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
-                "  • Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
+                "  - Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add(
-                "  • Different NOS: Colloid-type adenocarcinoma 8144 is a subtype of adenocarcinoma NOS 8140; Sarcomatoid carcinoma 8074 is a subtype of squamous cell carcinoma 8070. They are distinctly different histologies. Abstract multiple primaries.");
+                "  - Different NOS: Colloid-type adenocarcinoma 8144 is a subtype of adenocarcinoma NOS 8140; Sarcomatoid carcinoma 8074 is a subtype of squamous cell carcinoma 8070. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
@@ -264,9 +264,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.setReason(
                 "Separate, non-contiguous tumors in the same primary site and on the same row in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
-        rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
-        rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
-        rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
+        rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
+        rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
+        rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary  when none of the previous rules apply.

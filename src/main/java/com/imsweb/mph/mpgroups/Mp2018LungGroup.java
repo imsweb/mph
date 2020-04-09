@@ -36,8 +36,8 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M4 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_LUNG_GROUP_ID, "M4");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence in the same lung on follow-up.");
-        rule.getNotes().add("  • Scans are NED");
-        rule.getNotes().add("  •  Tumor biomarkers are NED");
+        rule.getNotes().add("  - Scans are NED");
+        rule.getNotes().add("  -  Tumor biomarkers are NED");
         rule.getNotes().add(
                 "When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.");
@@ -60,8 +60,8 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setReason("One tumor that is small cell carcinoma 8041 (or any small cell subtypes/variants), and another tumor that is non-small cell carcinoma 8046 (or any non-small cell " +
                 "carcinoma subtypes/variants), is multiple primaries.");
         rule.getNotes().add("Small cell carcinoma and non-small cell carcinoma are the two major classifications/divisions for lung cancer.");
-        rule.getNotes().add("  • See Table 3 in Equivalent Terms and Definitions for terms and codes for small cell carcinoma and all of the subtypes/variants");
-        rule.getNotes().add("  • With the exception of small cell/neuroendocrine carcinoma, all other histologies listed in Table 3 in Equivalent Terms and Definitions are non-small cell carcinoma");
+        rule.getNotes().add("  - See Table 3 in Equivalent Terms and Definitions for terms and codes for small cell carcinoma and all of the subtypes/variants");
+        rule.getNotes().add("  - With the exception of small cell/neuroendocrine carcinoma, all other histologies listed in Table 3 in Equivalent Terms and Definitions are non-small cell carcinoma");
         rule.getNotes().add("It is irrelevant whether the tumors are in the ipsilateral (same) lung or are bilateral (both lungs).");
         _rules.add(rule);
 
@@ -82,9 +82,9 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
-                "  •  Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
+                "  -  Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add(
-                "  • Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Lepidic adenocarcinoma 8520/3 is a subtype of adenocarcinoma 8140/3. They are distinctly different histologies. Abstract multiple primaries.");
+                "  - Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Lepidic adenocarcinoma 8520/3 is a subtype of adenocarcinoma 8140/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
@@ -131,9 +131,9 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setReason("Synchronous separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions is a single primary.");
         rule.getNotes().add("Tumors must be in the same lung.");
         rule.getNotes().add("The same row means the tumors are:");
-        rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
-        rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
-        rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
+        rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
+        rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
+        rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
@@ -165,9 +165,9 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract a single primary when there are simultaneous multiple tumors:
-        // • In both lungs (multiple in right and multiple in left) OR
-        // • In the same lung OR
-        // • Single tumor in one lung; multiple tumors in contralateral lung
+        // - In both lungs (multiple in right and multiple in left) OR
+        // - In the same lung OR
+        // - Single tumor in one lung; multiple tumors in contralateral lung
         // Real requirements (1/25/2019):
         // For records within 60 days of each other, return SINGLE PRIMARY if:
         // 1. both records have laterality=1 OR both records have laterality=2
@@ -210,15 +210,15 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setQuestion("Are there simultaneous multiple tumors in both lungs, the same lung, or opposite lungs?");
         rule.setReason("Simultaneous multiple tumors in both lungs, the same lung, or opposite lungs is a single primary.");
         rule.getNotes().add("Tumors may be combinations of:");
-        rule.getNotes().add("  • In situ and invasive OR");
-        rule.getNotes().add("  • NOS and subtype/variant (See Table 3 in the Equivalent Terms and Definitions)");
+        rule.getNotes().add("  - In situ and invasive OR");
+        rule.getNotes().add("  - NOS and subtype/variant (See Table 3 in the Equivalent Terms and Definitions)");
         rule.getNotes().add("Examples of NOS and subtypes/variants include:");
-        rule.getNotes().add("  • Adenocarcinoma 8140 and a subtype/variant of adenocarcinoma");
-        rule.getNotes().add("  • Squamous cell carcinoma 8070 and a subtype/variant of squamous cell carcinoma");
-        rule.getNotes().add("  • NSCLC 8046 and a subtype/variant of NSCLC");
+        rule.getNotes().add("  - Adenocarcinoma 8140 and a subtype/variant of adenocarcinoma");
+        rule.getNotes().add("  - Squamous cell carcinoma 8070 and a subtype/variant of squamous cell carcinoma");
+        rule.getNotes().add("  - NSCLC 8046 and a subtype/variant of NSCLC");
         rule.getNotes().add("Code multiple primaries only when there is proof that one of the tumors is a different histology. Proof is any one of the following:");
-        rule.getNotes().add("  • Pathology from a biopsy or resection proves tumors are different histologies");
-        rule.getNotes().add("  • Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries");
+        rule.getNotes().add("  - Pathology from a biopsy or resection proves tumors are different histologies");
+        rule.getNotes().add("  - Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries");
         rule.getNotes().add(
                 "     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove different primaries.");
         rule.getNotes().add(
@@ -239,8 +239,8 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setQuestion("Is there a single tumor in each lung?");
         rule.setReason("A single tumor in each lung is multiple primaries.");
         rule.getNotes().add("The only exception is when there is proof that one tumor is metastatic. Proof is any one of the following:");
-        rule.getNotes().add("  • Tissue from both tumors is compared and the pathologic diagnoses definitively says one tumor is metastatic");
-        rule.getNotes().add("  • Attending physician, oncologist, or pulmonologist state unequivocally that the tumor in the contralateral lung is metastatic");
+        rule.getNotes().add("  - Tissue from both tumors is compared and the pathologic diagnoses definitively says one tumor is metastatic");
+        rule.getNotes().add("  - Attending physician, oncologist, or pulmonologist state unequivocally that the tumor in the contralateral lung is metastatic");
         rule.getNotes().add(
                 "     Unequivocal means that no words such as “probably possibly, most likely, etc.” are used in the statement. Terms which are on the “ambiguous terms” list make the statement equivocal (cannot be used to prove metastases)");
         rule.getNotes().add("Lung metastases usually present as multiple tumors/masses. A single tumor in each lung is unlikely to be a single primary (e.g. metastatic to the contralateral lung).");

@@ -202,26 +202,12 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                String morph1 = hist1 + "/" + i1.getBehavior(), morph2 = hist2 + "/" + i2.getBehavior();
-                int latestDx = GroupUtility.compareDxDate(i1, i2);
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
-                if (!MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && (MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)
-                        || MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) && MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2)
-                        && MphConstants.COMPARE_DX_EQUAL != latestDx) {
-                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                    }
-                    else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist2)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx
-                            && MphConstants.HEMATOPOIETIC_NOS_HISTOLOGIES.contains(hist1)))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
+                //This rule is skipped by the automated process
                 return result;
             }
         };
         rule.setReason("Abstract as a single primary when a more specific histology is diagnosed after an NOS ONLY when the Heme DB Multiple Primaries Calculator "
-                + "confirms that the NOS and the more specific histology are the same primary.");
+                + "confirms that the NOS and the more specific histology are the same primary. Rule M7 skipped by automated rules. The Multiple Primaries Calculator will be checked for all applicable cases at Rule M15.");
         rule.getNotes().add("The more specific histology confirmation does not have to occur in the same anatomic location. ");
         rule.getNotes().add("There are no time restrictions on these diagnoses; the interval between the NOS and the more specific histology does not affect this rule.");
         rule.getNotes().add("The Heme DB Multiple Primaries Calculator will identify these histologies as a single primary");
@@ -383,16 +369,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
-                    int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                    }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2) && !MphConstants.TREATMENT_GIVEN.equals(
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? i2.getTxStatus() : i1.getTxStatus()))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
                 return result;
             }
@@ -419,16 +397,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
-                    int latestDx = GroupUtility.compareDxDate(i1, i2);
-                    if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
-                    }
-                    else if (latestDx > 0 && isAcuteToChronicTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2) && MphConstants.TREATMENT_GIVEN.equals(
-                            MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? i2.getTxStatus() : i1.getTxStatus()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
                 return result;
             }

@@ -7,6 +7,7 @@
 
 - Added site, histology and behavior information to general messages.
 - Updated M11 of 2018 breast rule to match the documentation.
+- Implemented 2018 update of Hematopoietic rules.
 
 **Changes in version 1.17**
 

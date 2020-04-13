@@ -1996,38 +1996,8 @@ public class MphUtilsTest {
 
         //M7 Abstract as a single primary* when a more specific histology is diagnosed after an NOS ONLY when the Heme DB Multiple Primaries Calculator
         //confirms that the NOS and the more specific histology are the same primary.
-        i1 = new MphInput();
-        i2 = new MphInput();
-        i1.setPrimarySite("C001");
-        i2.setPrimarySite("C772");
-        i1.setHistologyIcdO3("9591");
-        i2.setHistologyIcdO3("9861"); //Both Nos histologies
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2010");
-        i2.setDateOfDiagnosisYear("2010");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(7, output.getAppliedRules().size());
-        i1.setHistologyIcdO3("9671");
-        i2.setHistologyIcdO3("9672"); //Both Specific histologies
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(7, output.getAppliedRules().size());
-        i1.setHistologyIcdO3("9702");
-        i2.setHistologyIcdO3("9706"); //Nos vs specific, but not same primaries according to Hemato DB
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(7, output.getAppliedRules().size());
-        i1.setHistologyIcdO3("9702");
-        i2.setHistologyIcdO3("9705"); //Nos vs specific, same primaries according to Hemato DB
-        output = _utils.computePrimaries(i1, i2);
-        i1.setDateOfDiagnosisYear("2011");
-        i2.setDateOfDiagnosisYear("2010"); //More specific was before Nos, not M7
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(7, output.getAppliedRules().size());
-        i1.setDateOfDiagnosisYear("2009");
-        i2.setDateOfDiagnosisYear("2010"); //More specific is after Nos, single at M7
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        //This is Skipped on the automated process
+
 
         //M8 TODO
 
@@ -2072,6 +2042,7 @@ public class MphUtilsTest {
 
         //M12 Abstract a single primary* when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm AND there is no confirmation
         //available that the patient has been treated for the acute neoplasm.
+        //M12 and M13 are returning manual review
         i1 = new MphInput();
         i2 = new MphInput();
         i1.setPrimarySite("C001");
@@ -2084,17 +2055,13 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2015"); //acute before chrnoic
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(12, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        i2.setTxStatus("1"); //treatment was done for chronic, it doesn't matter
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(12, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         //M13 Abstract multiple primaries** when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm after treatment
-        i1.setTxStatus("1"); //treatment was done for acute
+        i1.setTxStatus("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(13, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(12, output.getAppliedRules().size());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         //M14 Abstract a single primary* when post-transplant lymphoproliferative disorder is diagnosed simultaneously with any B-cell lymphoma, T-cell
         //lymphoma, Hodgkin lymphoma or plasmacytoma/myeloma

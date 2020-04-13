@@ -27,8 +27,8 @@ public class Mp2018ColonGroup extends MphGroup {
                 "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
-        //  • There is a clinical diagnosis of familial polyposis (FAP) OR
-        //  • Greater than 100 polyps are documented (no diagnosis of FAP)
+        //  - There is a clinical diagnosis of familial polyposis (FAP) OR
+        //  - Greater than 100 polyps are documented (no diagnosis of FAP)
         MphRule rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
@@ -49,13 +49,13 @@ public class Mp2018ColonGroup extends MphGroup {
                 "FAP is a genetic disease. The characteristics of FAP are numerous precancerous polyps in the colon and rectum when the patient reaches puberty. If not treated, the polyps typically become malignant. Patients often have total colectomies.");
         rule.getNotes().add("Multiple polyps in the colorectum is not equivalent to FAP.");
         rule.getNotes().add("Code primary site as follows:");
-        rule.getNotes().add("  • Present in more than one segment of colon: C189 colon, NOS");
-        rule.getNotes().add("  • Present in colon and rectosigmoid OR colon and rectum: C199 rectosigmoid junction");
-        rule.getNotes().add("  • Present in colon and small intestine: C260 intestinal tract, NOS (there is no code for large and small bowel)");
+        rule.getNotes().add("  - Present in more than one segment of colon: C189 colon, NOS");
+        rule.getNotes().add("  - Present in colon and rectosigmoid OR colon and rectum: C199 rectosigmoid junction");
+        rule.getNotes().add("  - Present in colon and small intestine: C260 intestinal tract, NOS (there is no code for large and small bowel)");
         rule.getNotes().add("In addition to the colon and small intestine, FAP may also be present in the:");
-        rule.getNotes().add("  • Stomach AND/OR");
-        rule.getNotes().add("  • Rectosigmoid AND/OR");
-        rule.getNotes().add("  • Rectum");
+        rule.getNotes().add("  - Stomach AND/OR");
+        rule.getNotes().add("  - Rectosigmoid AND/OR");
+        rule.getNotes().add("  - Rectum");
         rule.getExamples().add(
                 "The patient has a diagnosis of FAP.  The operative report and physician’s documentation say that polyps with adenocarcinoma were present in specimens removed from the ascending colon and the sigmoid colon. The ascending and sigmoid colon are part of the large bowel. Code the primary site C189 colon NOS.");
         _rules.add(rule);
@@ -86,9 +86,9 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
-                "  • Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
+                "  - Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add(
-                "  • Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
+                "  - Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
@@ -115,9 +115,9 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when a subsequent tumor arises at the anastomotic site AND:
-        // •  One tumor is a NOS and the other is a subtype/variant of that NOS OR
-        // •  The subsequent tumor occurs greater than 24 months after original tumor resection OR
-        // • The subsequent tumor arises in the mucosa
+        // -  One tumor is a NOS and the other is a subtype/variant of that NOS OR
+        // -  The subsequent tumor occurs greater than 24 months after original tumor resection OR
+        // - The subsequent tumor arises in the mucosa
         // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
         // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
         // There is a previous diagnosis of a tumor in a different segment of colon/rectum/rectosigmoid,
@@ -160,9 +160,9 @@ public class Mp2018ColonGroup extends MphGroup {
         */
 
         // Rule M8 Abstract a single primary when a subsequent tumor arises at the anastomotic site AND:
-        // •  The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
-        // •  The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
-        // •  The pathologist or clinician documents an anastomotic recurrence
+        // -  The subsequent tumor occurs less than or equal to 24 months after original tumor resection OR
+        // -  The tumor arises in colon/rectal wall and/or surrounding tissue; there is no involvement of the mucosa OR
+        // -  The pathologist or clinician documents an anastomotic recurrence
         // ABH 9/14/18 - Disabled now per https://www.squishlist.com/ims/seerdms_dev/81114/
         /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
@@ -229,8 +229,8 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
         rule.setReason("Tumors diagnosed more than one (1) year apart are multiple primaries.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
-        rule.getNotes().add("  • Colonoscopies are NED");
-        rule.getNotes().add("  • Scans are NED");
+        rule.getNotes().add("  - Colonoscopies are NED");
+        rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add(
                 "When there is a recurrence less than or equal to one year of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.");
         rule.getNotes().add("When the first course of treatment was a polypectomy only, this rule means there were no recurrences for greater than one year.");
@@ -270,9 +270,9 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The same row means the tumors are:");
-        rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
-        rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
-        rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
+        rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
+        rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
+        rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         rule.getNotes().add("The tumors may be de novo (formerly called frank) and carcinoma in a polyp.");
         rule.getNotes().add("The tumors may be adenocarcinoma in multiple polyps 8221.");
         _rules.add(rule);

@@ -3,6 +3,11 @@
 
 - Implemented January 2019 updates to the 2010 hematopoietic rules.
 
+**Changes in version 1.18**
+
+- Added site, histology and behavior information to general messages.
+- Updated M11 of 2018 breast rule to match the documentation.
+
 **Changes in version 1.17**
 
 - Changed Hemato data provider to use the latest diagnosis year instead of two years to calculate same primary.

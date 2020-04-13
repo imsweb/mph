@@ -198,18 +198,18 @@ public final class MphUtils {
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Unable to identify cancer group for first set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Unable to identify cancer group for first set of parameters (" + GroupUtility.getSiteHistInfo(site1, hist1, beh1) + "). Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
         else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Unable to identify cancer group for second set of parameters. Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Unable to identify cancer group for second set of parameters (" + GroupUtility.getSiteHistInfo(site2, hist2, beh2) + ").Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
 
         //calculate cancer group based on latest year
-        int latestYear = year1 > year2 ? year1 : year2;
+        int latestYear = Math.max(year1, year2);
         MphGroup group1 = findCancerGroup(site1, hist1, beh1, latestYear);
         MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
@@ -220,11 +220,11 @@ public final class MphUtils {
         }
         else if (group1 == null) {
             output.setResult(MpResult.QUESTIONABLE);
-            output.setReason("The first tumor provided does not belong to any of the cancer groups.");
+            output.setReason("The first tumor provided does not belong to any of the cancer groups (" + GroupUtility.getSiteHistInfo(site1, hist1, beh1) + ").");
         }
         else if (group2 == null) {
             output.setResult(MpResult.QUESTIONABLE);
-            output.setReason("The second tumor provided does not belong to any of the cancer groups.");
+            output.setReason("The second tumor provided does not belong to any of the cancer groups (" + GroupUtility.getSiteHistInfo(site2, hist2, beh2) + ").");
         }
         else if (!group1.getId().equals(group2.getId())) {
             output.setResult(MpResult.MULTIPLE_PRIMARIES);

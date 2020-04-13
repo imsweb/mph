@@ -525,4 +525,13 @@ public class GroupUtilityTest {
         i2.setDateOfDiagnosisDay("01");
         Assert.assertEquals(MphConstants.COMPARE_DX_UNKNOWN, GroupUtility.compareDxDate(i1, i2));
     }
+
+    @Test
+    public void testGetSiteHistInfo() {
+        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo(null, null, null));
+        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo("", " ", "  "));
+        Assert.assertEquals("C809, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo("C809", " ", "  "));
+        Assert.assertEquals("C249, 8000/Unknown Behavior", GroupUtility.getSiteHistInfo("C249", "8000", "  "));
+        Assert.assertEquals("C249, 8000/3", GroupUtility.getSiteHistInfo("C249", "8000", "3"));
+    }
 }

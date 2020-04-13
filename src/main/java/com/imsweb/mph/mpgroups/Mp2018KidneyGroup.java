@@ -67,9 +67,9 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M6");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
-        rule.getNotes().add("  • Scans are NED");
-        rule.getNotes().add("  • Urine cytology is negative");
-        rule.getNotes().add("  • All other work-up is NED");
+        rule.getNotes().add("  - Scans are NED");
+        rule.getNotes().add("  - Urine cytology is negative");
+        rule.getNotes().add("  - All other work-up is NED");
         rule.getNotes().add(
                 "When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
@@ -97,9 +97,9 @@ public class Mp2018KidneyGroup extends MphGroup {
                 "Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Note: The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
-                "• Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
+                "- Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
         rule.getNotes().add(
-                "• Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
+                "- Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
         // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
@@ -142,9 +142,9 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.setReason(
                 "Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("The same row means the tumors are:");
-        rule.getNotes().add("  • The same histology (same four-digit ICD-O code) OR");
-        rule.getNotes().add("  • One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
-        rule.getNotes().add("  • A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
+        rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
+        rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
+        rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.

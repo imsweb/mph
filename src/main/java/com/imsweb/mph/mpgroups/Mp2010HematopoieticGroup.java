@@ -459,7 +459,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setReason("Use the Heme DB Multiple Primaries Calculator to determine the number of primaries for all cases that do not meet the criteria of M1-M14.");
+        rule.setReason("Use the Heme DB Multiple Primaries Calculator to determine the number of primaries for all cases that do not meet the criteria of M1-M14 (Rule M7 executed by automated rules at this step).");
         rule.getExamples().add("Polycythemia vera (PV) diagnosed in 2001, receiving anagrelide. Increasing leukocytosis seen, bone marrow biopsy done in 2013 showing primary "
                 + "myelofibrosis (PMF) with myeloid metaplasia. No rule in M1-M14 applies. Abstract multiple primaries because the Multiple Primaries Calculator shows that PV "
                 + "(9950/3) and PMF (9961/3) are separate primaries.");

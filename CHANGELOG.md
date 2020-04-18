@@ -1,9 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
-
 **Changes in version 1.18**
 
 - Added site, histology and behavior information to general messages.
 - Updated M11 of 2018 breast rule to match the documentation.
+- Implemented January 2019 updates to the 2010 hematopoietic rules.
 
 **Changes in version 1.17**
 

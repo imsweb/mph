@@ -104,4 +104,8 @@ public class MphInput {
         _txStatus = txStatus;
     }
 
+    public String getMorphology() {
+        return getHistology() + "/" + getBehavior();
+    }
+
 }

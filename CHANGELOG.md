@@ -1,4 +1,7 @@
 ## Multiple Primary and Histology Coding Rules Version History
+**Changes in version 1.18**
+
+- Updated M7 of 2007 Other Sites rules not to apply it if histology is different.
 
 **Changes in version 1.18**
 

@@ -96,12 +96,13 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
+        //Exception: Per SINQ20100010, this rule does not apply to tumors of different histologies.
         rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
+                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && hist1.equals(hist2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -113,8 +114,8 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are there bilateral epithelial tumors (8000-8799) of the ovary within 60 days of diagnosis?");
-        rule.setReason("Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary.");
+        rule.setQuestion("Are there bilateral epithelial tumors (8000-8799) of the ovary within 60 days of diagnosis? Exception: Per SINQ20100010, this rule does not apply to tumors of different histologies.");
+        rule.setReason("Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Exception: Per SINQ20100010, this rule does not apply to tumors of different histologies.");
         _rules.add(rule);
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.

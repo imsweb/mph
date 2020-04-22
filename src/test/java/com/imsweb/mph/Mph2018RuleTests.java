@@ -3344,20 +3344,24 @@ public class Mph2018RuleTests {
         Assert.assertTrue(output.getReason().contains("thyroid"));
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
+        //Exception: Per SINQ20100010, this rule does not apply to tumors of different histologies.
         i1.setPrimarySite("C569");
         i2.setPrimarySite("C569");
         i1.setHistologyIcdO3("8001");
-        i2.setHistologyIcdO3("8799");
+        i2.setHistologyIcdO3("8001");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ovary"));
+        i2.setHistologyIcdO3("8002");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(5, output.getAppliedRules().size());
 
         // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
         i1.setPrimarySite("C622");
         i2.setPrimarySite("C629");
         i1.setHistologyIcdO3("8001");
-        i2.setHistologyIcdO3("8799");
+        i2.setHistologyIcdO3("8001");
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M8 with potential multiple and ended up as multiple at M17 -- Multiple
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());

@@ -3286,8 +3286,8 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2000");
-        i2.setDateOfDiagnosisYear("2015");
+        i1.setDateOfDiagnosisYear("2017");
+        i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(1, output.getAppliedRules().size());
@@ -3320,22 +3320,22 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8340");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2011");
-        i2.setDateOfDiagnosisYear("2011"); // same year month unknown
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018"); // same year month unknown
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M6 and M7 with potential single and ended up as single at M18 -- SINGLE
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(16, output.getAppliedRules().size());
         Assert.assertEquals("M18", output.getStep());
         //Questionable at M6 and M7 with potential single and questionable at M10 with potential multiple -- Questionable
-        i2.setDateOfDiagnosisYear("2010");
+        i2.setDateOfDiagnosisYear("2019");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertEquals("M6", output.getStep());
 
-        i1.setDateOfDiagnosisYear("2011");
-        i2.setDateOfDiagnosisYear("2011");
+        i1.setDateOfDiagnosisYear("2019");
+        i2.setDateOfDiagnosisYear("2019");
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("02"); // within 60 days definitely
         output = _utils.computePrimaries(i1, i2);
@@ -3361,7 +3361,7 @@ public class Mph2018RuleTests {
         i1.setPrimarySite("C622");
         i2.setPrimarySite("C629");
         i1.setHistologyIcdO3("8001");
-        i2.setHistologyIcdO3("8001");
+        i2.setHistologyIcdO3("8799");
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M8 with potential multiple and ended up as multiple at M17 -- Multiple
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -3387,60 +3387,61 @@ public class Mph2018RuleTests {
         Assert.assertTrue(output.getReason().contains("both sides"));
 
         //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        i1.setPrimarySite("C199");
-        i2.setPrimarySite("C209");
-        i1.setHistologyIcdO3("8220");
-        i2.setHistologyIcdO3("8262");
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("2");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("adenomatous"));
-        i1.setBehaviorIcdO3("2"); // Both are insitu, continue to next step
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(7, output.getAppliedRules().size());
+        //This is not going to hit anymore (in the 2018+) cases because all the sites here are moved to colon
+//        i1.setPrimarySite("C199");
+//        i2.setPrimarySite("C209");
+//        i1.setHistologyIcdO3("8220");
+//        i2.setHistologyIcdO3("8262");
+//        i1.setBehaviorIcdO3("3");
+//        i2.setBehaviorIcdO3("2");
+//        output = _utils.computePrimaries(i1, i2);
+//        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+//        Assert.assertEquals(7, output.getAppliedRules().size());
+//        Assert.assertTrue(output.getReason().contains("adenomatous"));
+//        i1.setBehaviorIcdO3("2"); // Both are insitu, continue to next step
+//        output = _utils.computePrimaries(i1, i2);
+//        Assert.assertNotEquals(7, output.getAppliedRules().size());
 
         //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-        i1.setPrimarySite("C199");
-        i2.setPrimarySite("C209");
+        i1.setPrimarySite("C471");
+        i2.setPrimarySite("C569");
         i1.setHistologyIcdO3("8220");
         i2.setHistologyIcdO3("8262");
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("2");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisYear("2013");
+        i1.setDateOfDiagnosisYear("2020");
+        i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("one"));
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
-        i2.setDateOfDiagnosisYear("2014"); //not enough information
+        i2.setDateOfDiagnosisYear("2019"); //not enough information
         output = _utils.computePrimaries(i1, i2);
         //Questionable at M10 with potential multiple and ended up as multiple at M11 -- Multiple
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertEquals("M11", output.getStep());
-        i2.setDateOfDiagnosisYear("2015"); //less than a year, continue to the next step
+        i2.setDateOfDiagnosisYear("2020"); //less than a year, continue to the next step
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertEquals("M11", output.getStep());
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        i1.setPrimarySite("C199");
-        i2.setPrimarySite("C209");
+        i1.setPrimarySite("C471");
+        i2.setPrimarySite("C569");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
 
         //M12 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Peripheral nerves and autonomic nervous system (C47_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
-        i1.setPrimarySite("C471");
-        i2.setPrimarySite("C472");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisYear("2015");
+        i1.setPrimarySite("C219");
+        i2.setPrimarySite("C218");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         i1.setHistologyIcdO3("8140");
         i2.setHistologyIcdO3("8140");
         i1.setBehaviorIcdO3("3");
@@ -3449,7 +3450,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
-        i2.setPrimarySite("C471"); // not differ at the 4th character
+        i2.setPrimarySite("C219"); // not differ at the 4th character
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(10, output.getAppliedRules().size());
         i1.setPrimarySite("C461");
@@ -3475,10 +3476,10 @@ public class Mph2018RuleTests {
         Assert.assertTrue(output.getReason().contains("polyps"));
 
         //M15 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        i1.setPrimarySite("C199");
-        i2.setPrimarySite("C197");
-        i1.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisYear("2015");
+        i1.setPrimarySite("C211");
+        i2.setPrimarySite("C211");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("07");
         i2.setDateOfDiagnosisMonth("01");
         i1.setHistologyIcdO3("8140");

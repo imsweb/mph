@@ -128,7 +128,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i2.getHistology());
-                if (branch1 != null && branch2 != null && branch1.equals(branch2))
+                if (branch1 != null && branch1.equals(branch2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;

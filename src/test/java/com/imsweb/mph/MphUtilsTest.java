@@ -1190,8 +1190,8 @@ public class MphUtilsTest {
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
         i1.setPrimarySite("C710");
         i2.setPrimarySite("C714");
-        i1.setHistologyIcdO3("9508");
-        i2.setHistologyIcdO3("9490");
+        i1.setHistologyIcdO3("9380");
+        i2.setHistologyIcdO3("9411");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
@@ -1208,13 +1208,12 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 2"));
-        // Check Histology pairs 9392, 9501 and 9392, 9393. Both pairs are supposed to return a single primary.
         i1.setHistologyIcdO3("9392");
         i2.setHistologyIcdO3("9501");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertNotEquals(4, output.getAppliedRules().size());
         i1.setHistologyIcdO3("9392");
-        i2.setHistologyIcdO3("9393");
+        i2.setHistologyIcdO3("9391");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
 
@@ -1225,8 +1224,8 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Chart 1"));
-        i1.setHistologyIcdO3("9539");
-        i2.setHistologyIcdO3("9540");
+        i1.setHistologyIcdO3("9420");
+        i2.setHistologyIcdO3("9421");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());

@@ -56,9 +56,10 @@ If histology is in the range 9590-9989, one of the Hematopoietic set of rules wi
 
 If histology is not in the range 9590-9989, one of the following solid tumors sets will be used:
 
-1. If DX year is 2007 or later, the "2007 MPH" set of rules will be used.
-2. If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Solid Malignant" rules will be used.
-3. If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Benign Brain" rules will be used.
+1. If DX year is 2018 or later, the "2018 Solid Tumor" set of rules will be used.
+2. If DX year is 2007 or later, the "2007 MPH" set of rules will be used.
+3. If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Solid Malignant" rules will be used.
+4. If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Benign Brain" rules will be used.
 
 ## About SEER
 

@@ -438,7 +438,7 @@ public class MphConstants {
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         //content.put("8982", "8982"); // Myoepithelial carcinoma 8982
         content.put("8290", "8290"); // Oncocytic carcinoma 8290
-        content.put("8540/3", "8540/3"); // Paget disease of the nipple with no underlying tumor 8540/3
+        content.put("8540", "8540"); // Paget disease of the nipple with no underlying tumor 8540
         content.put("8503", "8503"); // Papillary carcinoma 8503/3
         content.put("8504", "8503"); // Papillary carcinoma 8503/3
         content.put("8507", "8503"); // Papillary carcinoma 8503/3
@@ -678,26 +678,26 @@ public class MphConstants {
         content.put("8480", "8480");
         content.put("8333", "8333");
         content.put("8250/3", "8250/3");
+        content.put("8253/2", "8253/2");
         content.put("8253/3", "8253/3");
-        content.put("8253/2", "8253/3");
-        content.put("8257/3", "8253/3");
+        content.put("8257/3", "8257/3");
         content.put("8265", "8265");
         content.put("8254", "8254");
         content.put("8256/3", "8256/3");
-        content.put("8250/2", "8256/3");
+        content.put("8250/2", "8250/2");
         content.put("8260", "8260");
         content.put("8144", "8144");
         content.put("8230", "8230");
-        content.put("8249", "8249");
-        content.put("8045", "8045");
-        content.put("8013", "8013");
-        content.put("8240", "8240");
         content.put("9043/3", "9043/3");
         content.put("9042/3", "9042/3");
-        content.put("9173/3", "9173/3");
+        content.put("9137/3", "9137/3");
         content.put("8842/3", "8842/3");
         content.put("9041/3", "9041/3");
         content.put("9040/3", "9040/3");
+        content.put("8249/3", "8249/3");
+        content.put("8045/3", "8045/3");
+        content.put("8013/3", "8013/3");
+        content.put("8240/3", "8240/3");
         content.put("8083", "8083");
         content.put("8071", "8071");
         content.put("8072", "8072");

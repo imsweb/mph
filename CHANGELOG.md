@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.21**
+
+- Updated hematopoietic and lymphoid data.
+
 **Changes in version 1.20**
 
 - Fixed a bug in 2018 breast and lung rules.

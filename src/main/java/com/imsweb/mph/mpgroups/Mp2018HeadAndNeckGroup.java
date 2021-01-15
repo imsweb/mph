@@ -147,28 +147,56 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
-                Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
-                if (map1 == null || map2 == null) {
+                //Check if the two tumors are in the tables first
+                Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i1.getPrimarySite());
+                Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i2.getPrimarySite());
+
+                //If there is no table for the primary site
+                if (map1 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessage("Two separate lesions of lip is rare; no histology tables exist for lip in Terms and Definitions.");
+                    result.setMessage("No histology table exists for " + i1.getPrimarySite() + " in Terms and Definitions.");
+                    return result;
                 }
+                else if (map2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("No histology table exists for " + i2.getPrimarySite() + " in Terms and Definitions.");
+                    return result;
+                }
+                //If the two sites have two different tables, use the next rule
                 else if (!map1.equals(map2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    return result;
                 else {
+                    //If there is a table for the site, lets check if the histology is in that table
+                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
+                    String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
+                    if (row1 == null || row2 == null) {
+                        //if the two histologies are same, skip this rule even if the histology is not in the table
+                        if (!h1.equals(h2)) {
+                            result.setFinalResult(MpResult.QUESTIONABLE);
+                            result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                        }
+                        return result;
+                    }
+                }
+
+                map1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
+                map2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
+                if (map1.equals(map2)) {
                     String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                     String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
+
                 return result;
             }
         };
         rule.setQuestion(
-                "Are separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions?");
+                "Are separate, non-contiguous tumors different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions?");
         rule.setReason(
-                "Separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are multiple primaries.");
+                "Separate, non-contiguous tumors are different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "  - Same NOS: Alveolar rhabdomyosarcoma 8920/3 and embryonal rhabdomyosarcoma 8910/3 are both subtypes of rhabdomyosarcoma 8900/3 but are distinctly different histologies. Abstract multiple primaries.");
@@ -183,21 +211,13 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i2.getPrimarySite());
-                if (map1 == null || map2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessage("Two separate lesions of lip is rare; no histology tables exist for lip in Terms and Definitions.");
-                }
-                else if (!map1.equals(map2))
+                if (!map1.equals(map2))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
                     String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (row1 == null || row2 == null) {
-                        result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
-                    }
-                    else if (!row1.equals(row2))
+                    if (row1 != null && row2 != null && !row1.equals(row2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;

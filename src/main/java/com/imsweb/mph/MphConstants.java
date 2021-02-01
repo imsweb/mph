@@ -1415,7 +1415,6 @@ public class MphConstants {
 
         HEAD_AND_NECK_2018_TABLE_FOR_SITE = Collections.unmodifiableMap(content);
 
-
         content = new HashMap<>();
 
         // Table 1 ----------------------------------------------------------------------------------------------------------------------
@@ -1598,7 +1597,29 @@ public class MphConstants {
         HEAD_AND_NECK_2021_TABLE_FOR_SITE = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Arrays.asList("8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8780/3", "8761/3", "8741/3", "8723/3", "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8780/3", "8761/3", "8741/3", "8723/3", "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
+    public static final Map<String, String> CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES;
+
+    static {
+        Map<String, String> content = new HashMap<>();
+        content.put("8744/3", "8744/3");
+        content.put("8730/3", "8730/3");
+        content.put("8722/3", "8722/3");
+        content.put("8745/3", "8745/3");
+        content.put("8771/3", "8771/3");
+        content.put("8742", "8742");
+        content.put("8780/3", "8780/3");
+        content.put("8761/3", "8761/3");
+        content.put("8741/3", "8741/3");
+        content.put("8723/3", "8723/3");
+        content.put("8770/3", "8770/3");
+        content.put("8721/3", "8721/3");
+        content.put("8772/3", "8772/3");
+        content.put("8773/3", "8773/3");
+        content.put("8774/3", "8774/3");
+        CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Collections.unmodifiableMap(content);
+    }
+
+    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8780/3", "8761/3", "8741/3", "8723/3",
+            "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
 
 }

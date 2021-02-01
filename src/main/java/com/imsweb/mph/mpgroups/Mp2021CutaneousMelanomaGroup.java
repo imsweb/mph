@@ -73,11 +73,9 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                boolean icd1IsSubtype = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.contains(i1.getHistology()) || MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.contains(
-                        i1.getIcdCode());
-                boolean icd2IsSubtype = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.contains(i2.getHistology()) || MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.contains(
-                        i2.getIcdCode());
-                if (icd1IsSubtype && icd2IsSubtype)
+                String subtype1 = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.containsKey(i1.getHistology()) ?  MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i1.getHistology()) : MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i1.getIcdCode());
+                String subtype2 = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.containsKey(i2.getHistology()) ? MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i2.getHistology()) : MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i2.getIcdCode());
+                if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
 
                 return result;

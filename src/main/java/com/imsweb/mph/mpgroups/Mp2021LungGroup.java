@@ -8,7 +8,6 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasiveSameSide;
@@ -19,22 +18,22 @@ import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
-public class Mp2018LungGroup extends MphGroup {
+public class Mp2021LungGroup extends MphGroup {
 
     // Lung Multiple Primary Rules
     // C340-C343, C348, C349
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
-    public Mp2018LungGroup() {
-        super(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME, "C340-C343, C348, C349", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-2020");
+    public Mp2021LungGroup() {
+        super(MphConstants.MP_2021_LUNG_GROUP_ID, MphConstants.MP_2021_LUNG_GROUP_NAME, "C340-C343, C348, C349", null, null,
+                "9590-9992, 9140", "2-3,6", "2021-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third character CxXx.
-        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_LUNG_GROUP_ID, "M3");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2021_LUNG_GROUP_ID, "M3");
         rule.getNotes().add("When codes differ at the second or third characters, the tumors are in different primary sites.");
         _rules.add(rule);
 
         // Rule M4 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_LUNG_GROUP_ID, "M4");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2021_LUNG_GROUP_ID, "M4");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence in the same lung on follow-up.");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  -  Tumor biomarkers are NED");
@@ -46,7 +45,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5 Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2021_LUNG_GROUP_ID, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -66,15 +65,15 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2021_LUNG_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String subtype1 = MphConstants.LUNG_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(icd1);
-                String subtype2 = MphConstants.LUNG_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(h2) : MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(icd2);
+                String subtype1 = MphConstants.LUNG_2021_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.LUNG_2021_TABLE3_SUBTYPES.get(h1) : MphConstants.LUNG_2021_TABLE3_SUBTYPES.get(icd1);
+                String subtype2 = MphConstants.LUNG_2021_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.LUNG_2021_TABLE3_SUBTYPES.get(h2) : MphConstants.LUNG_2021_TABLE3_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -88,16 +87,16 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2021_LUNG_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
-                if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
+                String row1 = MphConstants.LUNG_2021_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2021_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2021_TABLE3_ROWS.get(icd1);
+                if (row1 == null && (MphConstants.LUNG_2021_TABLE2.contains(h1) || MphConstants.LUNG_2021_TABLE2.contains(icd1)))
                     row1 = "table2";
-                String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
-                if (row2 == null && (MphConstants.LUNG_2018_TABLE2.contains(h2) || MphConstants.LUNG_2018_TABLE2.contains(icd2)))
+                String row2 = MphConstants.LUNG_2021_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2021_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2021_TABLE3_ROWS.get(icd2);
+                if (row2 == null && (MphConstants.LUNG_2021_TABLE2.contains(h2) || MphConstants.LUNG_2021_TABLE2.contains(icd2)))
                     row2 = "table2";
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
@@ -137,16 +136,16 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2021_LUNG_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
-                if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
+                String row1 = MphConstants.LUNG_2021_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2021_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2021_TABLE3_ROWS.get(icd1);
+                if (row1 == null && (MphConstants.LUNG_2021_TABLE2.contains(h1) || MphConstants.LUNG_2021_TABLE2.contains(icd1)))
                     row1 = "table2";
-                String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
-                if (row2 == null && (MphConstants.LUNG_2018_TABLE2.contains(h2) || MphConstants.LUNG_2018_TABLE2.contains(icd2)))
+                String row2 = MphConstants.LUNG_2021_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2021_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2021_TABLE3_ROWS.get(icd2);
+                if (row2 == null && (MphConstants.LUNG_2021_TABLE2.contains(h2) || MphConstants.LUNG_2021_TABLE2.contains(icd2)))
                     row2 = "table2";
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
@@ -177,7 +176,7 @@ public class Mp2018LungGroup extends MphGroup {
         // If Two tumors are within 60 days, proceed, otherwise skip this rule.
         //   If both are laterality=1 or both are laterality=2 return SINGLE_PRIMARY,
         //   otherwise return QUESTIONABLE.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2021_LUNG_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
@@ -198,9 +197,9 @@ public class Mp2018LungGroup extends MphGroup {
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                 }
                 else if (MphConstants.BOTH.equals(lat1) || MphConstants.BOTH.equals(lat2) || GroupUtility.areSameSide(lat1, lat2))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 else {
-                    result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
+                    result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Unknown if multiple tumors exist.");
                 }
 
@@ -226,7 +225,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
-        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_LUNG_GROUP_ID, "M10");
+        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2021_LUNG_GROUP_ID, "M10");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor in the same lung?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -235,7 +234,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
-        rule = new MpRuleLaterality(MphConstants.MP_2018_LUNG_GROUP_ID, "M11");
+        rule = new MpRuleLaterality(MphConstants.MP_2021_LUNG_GROUP_ID, "M11");
         rule.setQuestion("Is there a single tumor in each lung?");
         rule.setReason("A single tumor in each lung is multiple primaries.");
         rule.getNotes().add("The only exception is when there is proof that one tumor is metastatic. Proof is any one of the following:");
@@ -251,7 +250,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
-        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2021_LUNG_GROUP_ID, "M12");
         rule.setQuestion("Is there an invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung?");
         rule.setReason("An invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -265,7 +264,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M13");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2021_LUNG_GROUP_ID, "M13");
         rule.setQuestion("Is there an invasive tumor following an in situ tumor in the same lung more than 60 days after diagnosis?");
         rule.setReason("An invasive tumor following an in situ tumor in the same lung more than 60 days after diagnosis are multiple primaries.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -276,7 +275,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14 Abstract a single primary when none of the previous rules apply.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_LUNG_GROUP_ID, "M14");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

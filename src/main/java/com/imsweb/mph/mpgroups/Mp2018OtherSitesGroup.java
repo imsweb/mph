@@ -299,13 +299,18 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         List<MphGroup> specificGroups = new ArrayList<>();
         specificGroups.add(new Mp2018BreastGroup());
         specificGroups.add(new Mp2018ColonGroup());
-        specificGroups.add(new Mp2018CutaneousMelanomaGroup());
+        specificGroups.add(new Mp2007MelanomaGroup());
         specificGroups.add(new Mp2018HeadAndNeckGroup());
         specificGroups.add(new Mp2018KidneyGroup());
         specificGroups.add(new Mp2018LungGroup());
         specificGroups.add(new Mp2018MalignantCNSAndPeripheralNervesGroup());
         specificGroups.add(new Mp2018NonMalignantCNSTumorsGroup());
         specificGroups.add(new Mp2018UrinarySitesGroup());
+
+        specificGroups.add(new Mp2021LungGroup());
+        specificGroups.add(new Mp2021BreastGroup());
+        specificGroups.add(new Mp2021HeadAndNeckGroup());
+        specificGroups.add(new Mp2021CutaneousMelanomaGroup());
 
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))

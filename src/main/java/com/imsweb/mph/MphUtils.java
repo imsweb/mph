@@ -31,7 +31,6 @@ import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2018BreastGroup;
 import com.imsweb.mph.mpgroups.Mp2018ColonGroup;
-import com.imsweb.mph.mpgroups.Mp2018CutaneousMelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2018HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2018LungGroup;
@@ -39,6 +38,10 @@ import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
 import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
 import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
+import com.imsweb.mph.mpgroups.Mp2021BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2021CutaneousMelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2021HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2021LungGroup;
 
 /**
  * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
@@ -150,7 +153,6 @@ public final class MphUtils {
         // 2018 solid tumor rules
         addGroup(new Mp2018BreastGroup());
         addGroup(new Mp2018ColonGroup());
-        addGroup(new Mp2018CutaneousMelanomaGroup());
         addGroup(new Mp2018HeadAndNeckGroup());
         addGroup(new Mp2018KidneyGroup());
         addGroup(new Mp2018LungGroup());
@@ -158,6 +160,12 @@ public final class MphUtils {
         addGroup(new Mp2018NonMalignantCNSTumorsGroup());
         addGroup(new Mp2018OtherSitesGroup());
         addGroup(new Mp2018UrinarySitesGroup());
+
+        //2021 solid tumor rules
+        addGroup(new Mp2021BreastGroup());
+        addGroup(new Mp2021HeadAndNeckGroup());
+        addGroup(new Mp2021LungGroup());
+        addGroup(new Mp2021CutaneousMelanomaGroup());
     }
 
     /**

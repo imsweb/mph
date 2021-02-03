@@ -115,9 +115,9 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
             }
 
         };
-        rule.setQuestion("Are tumors synchronous, on the same row in Table 2 and have same laterality?");
+        rule.setQuestion("Are tumors synchronous, on the same row in Table 2 and have same site and laterality?");
         rule.setReason(
-                "Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. And they have same laterality.");
+                "Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. And they have same site and laterality.");
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 

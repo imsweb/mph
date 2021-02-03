@@ -34,7 +34,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are there melanomas in sites withICD-O-3 topography codes that are different at the second (C?xx) , third (Cx?x) and/or fourth (C18?) character?");
+        rule.setQuestion("Are there melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx) , third (Cx?x) and/or fourth (C44?) character?");
         rule.setReason("Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.");
         _rules.add(rule);
 

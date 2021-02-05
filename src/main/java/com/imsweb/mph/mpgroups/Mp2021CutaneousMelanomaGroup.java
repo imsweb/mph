@@ -29,8 +29,13 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
+                if (i1.getPrimarySite().equals("C449") || i2.getPrimarySite().equals("C449")) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". One of the sites is C449.");
+                }
+                else if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+
                 return result;
             }
         };

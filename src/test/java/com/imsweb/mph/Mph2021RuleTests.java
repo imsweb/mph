@@ -905,6 +905,19 @@ public class Mph2021RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //C449 is treated as unknown
+        i2.setPrimarySite("C449");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setLaterality("1");
+        i2.setLaterality("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, output.getGroupId());
+        Assert.assertEquals("M4", output.getStep());
 
         // Rule M4 Melanomas with different laterality are multiple primaries. **
         ruleStepToTest = "M4";

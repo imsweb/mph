@@ -851,6 +851,11 @@ public class Mph2021RuleTests {
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setHistologyIcdO3("8692");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2021_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
 
         i1.setPrimarySite("C479");

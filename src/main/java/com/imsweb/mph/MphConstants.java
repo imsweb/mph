@@ -1008,7 +1008,7 @@ public class MphConstants {
             "C410", "C411"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE8_SITES = Collections.unmodifiableList(Arrays.asList(
             "C301", "C442"));
-    private static final List<String> HEAD_AND_NECK_2018_TABLE9_SITES = Collections.singletonList("C479");
+    public static final List<String> HEAD_AND_NECK_2018_TABLE9_SITES = Collections.singletonList("C479");
     private static final List<String> HEAD_AND_NECK_2018_TABLEC111_SITES = Collections.singletonList("C111");
 
     public static final Map<String, Map<String, String>> HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE;

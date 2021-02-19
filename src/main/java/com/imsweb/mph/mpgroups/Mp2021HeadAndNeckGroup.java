@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import com.imsweb.mph.MphComputeOptions;
@@ -259,6 +260,11 @@ public class Mp2021HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                //Special case
+                if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.contains(s1) && s1.equals(s2) && GroupUtility.differentCategory(h1, h2, Collections.singletonList("8692"), Collections.singletonList("8693")))
+                    return result;
                 Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2021_TABLE_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2021_TABLE_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 == null || map2 == null) {
@@ -266,7 +272,7 @@ public class Mp2021HeadAndNeckGroup extends MphGroup {
                     result.setMessage("Two separate lesions of lip is rare; no histology tables exist for lip in Terms and Definitions.");
                 }
                 else if (map1.equals(map2)) {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 == null || row2 == null) {

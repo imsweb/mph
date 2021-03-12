@@ -52,7 +52,7 @@ public class TempRuleResult {
         _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known laterality should be provided.";
     }
 
-    public void setMessageNotInTable(String step, String groupId) {
-        _message = "Unable to apply Rule " + step + " of " + groupId + ". One or both of the histologies are not in the table.";
+    public void setMessageNotInTable(String step, String groupId, String histologyNotInTable, boolean bothHistologiesNotInTable) {
+        _message = "Unable to apply Rule " + step + " of " + groupId + ". " + histologyNotInTable + (bothHistologiesNotInTable ? " are " : " is ") + "not in the table.";
     }
 }

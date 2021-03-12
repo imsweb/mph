@@ -1289,6 +1289,7 @@ public class MphConstants {
         content.put("8745/3", "8745/3");
         content.put("8771/3", "8771/3");
         content.put("8742", "8742");
+        content.put("8743/3", "8743/3");
         content.put("8780/3", "8780/3");
         content.put("8761/3", "8761/3");
         content.put("8741/3", "8741/3");
@@ -1301,7 +1302,7 @@ public class MphConstants {
         CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8780/3", "8761/3", "8741/3", "8723/3",
+    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3", "8723/3",
             "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
 
 }

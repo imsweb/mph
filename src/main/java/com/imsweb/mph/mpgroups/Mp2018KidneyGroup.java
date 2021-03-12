@@ -113,7 +113,16 @@ public class Mp2018KidneyGroup extends MphGroup {
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (row1 == null && row2 == null) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
                 else if (row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -157,7 +166,16 @@ public class Mp2018KidneyGroup extends MphGroup {
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (row1 == null && row2 == null) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

@@ -240,7 +240,16 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (row1 == null && row2 == null) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
                 else if (row1.equals(row2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -266,7 +275,16 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (row1 == null && row2 == null) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

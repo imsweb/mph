@@ -307,9 +307,6 @@ public class Mp2018OtherSitesGroup extends MphGroup {
         specificGroups.add(new Mp2018NonMalignantCNSTumorsGroup());
         specificGroups.add(new Mp2018UrinarySitesGroup());
 
-        specificGroups.add(new Mp2021LungGroup());
-        specificGroups.add(new Mp2021BreastGroup());
-        specificGroups.add(new Mp2021HeadAndNeckGroup());
         specificGroups.add(new Mp2021CutaneousMelanomaGroup());
 
         for (MphGroup group : specificGroups) {

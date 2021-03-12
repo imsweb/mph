@@ -29,7 +29,7 @@ public class Mp2018BreastGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018BreastGroup() {
         super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
-                "9590-9992, 9140", "2-4,6", "2018-2020");
+                "9590-9992, 9140", "2-4,6", "2018-9999");
 
         // Rule M4 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
         MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_BREAST_GROUP_ID, "M4");
@@ -131,16 +131,18 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
-                // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
-                // -One tumor= 8522; other tumor = 8522
-                if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
-                        (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
-                        (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
-                        (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
-                        (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if (i1.getBehavior().equals(i2.getBehavior())) {
+                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                    // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
+                    // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
+                    // -One tumor= 8522; other tumor = 8522
+                    if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
+                            (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
+                            (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
+                            (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
+                            (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
                 return result;
             }
         };
@@ -220,7 +222,7 @@ public class Mp2018BreastGroup extends MphGroup {
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String subtype1 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h2) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd2);
-                if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
+                if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

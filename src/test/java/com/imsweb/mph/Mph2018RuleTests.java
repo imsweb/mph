@@ -1005,7 +1005,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertTrue(output.getReason().contains("One or both of the histologies are not in the table."));
+        Assert.assertTrue(output.getReason().contains("not in the table."));
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setPrimarySite("C180");
@@ -1043,7 +1043,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertTrue(output.getReason().contains("One or both of the histologies are not in the table."));
+        Assert.assertTrue(output.getReason().contains("not in the table."));
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply

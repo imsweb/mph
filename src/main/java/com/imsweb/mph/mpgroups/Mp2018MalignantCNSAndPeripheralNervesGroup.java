@@ -216,7 +216,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                         h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(
                         h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(icd2);
-                if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
+                if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }

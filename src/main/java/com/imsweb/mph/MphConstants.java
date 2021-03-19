@@ -991,7 +991,7 @@ public class MphConstants {
         thisTableSubTypes.put("9133/3", "9133/3");
         thisTableSubTypes.put("8810/3", "8810/3");
         thisTableSubTypes.put("8890/3", "8890/3");
-        thisTableSubTypes.put("8900/3", "8920/3,8910/3,8901/3");
+        thisTableSubTypes.put("8900/3", "8920/3,8910/3,8901/3,8912/3");
         thisTableSubTypes.put("8920/3", "8920/3");
         thisTableSubTypes.put("8910/3", "8910/3");
         thisTableSubTypes.put("8901/3", "8901/3");

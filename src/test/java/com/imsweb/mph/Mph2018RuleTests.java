@@ -1907,6 +1907,64 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
+        i1.setHistologyIcdO3("8680");
+        i2.setHistologyIcdO3("8690");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8692");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8692");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8690");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8692");
+        i2.setHistologyIcdO3("8692");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
+        i1.setHistologyIcdO3("8693");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
+        i1.setHistologyIcdO3("8680");
+        i2.setHistologyIcdO3("8680");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
         // Rule M9 Abstract a single primary (the invasive)when an in situ tumor is diagnosed after an invasive tumor.
         ruleStepToTest = "M9";
         ruleCountToTest = 7;
@@ -2080,50 +2138,10 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Same Row - 1
-        i1.setPrimarySite("C100");
-        i1.setHistologyIcdO3("8070");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C100");
-        i2.setHistologyIcdO3("8071");
-        i2.setBehaviorIcdO3("3");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
         i1.setPrimarySite("C479");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("11");
-        i1.setHistologyIcdO3("8690");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C479");
-        i2.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisMonth("11");
-        i2.setHistologyIcdO3("8693");
-        i2.setBehaviorIcdO3("3");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        i1.setDateOfDiagnosisYear("2021");
-        i2.setDateOfDiagnosisYear("2021");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setHistologyIcdO3("8692");
-        i2.setHistologyIcdO3("8693");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
-        Assert.assertTrue(output.getAppliedRules().size() != ruleCountToTest);
-
-
-        i1.setPrimarySite("C479");
-        i1.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("11");
-        i1.setHistologyIcdO3("8690");
         i1.setBehaviorIcdO3("3");
         i2.setPrimarySite("C479");
         i2.setDateOfDiagnosisYear("2018");

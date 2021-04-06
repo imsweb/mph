@@ -1254,7 +1254,7 @@ public class MphConstants {
 
         // Table 9 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
-        thisTableRows.put("8690", "8692,8693"); // Carotid body paraganglioma 8690
+        thisTableRows.put("8690", "8690");
         thisTableRows.put("8692", "8692");
         thisTableRows.put("8693", "8693");
         thisTableRows.put("8680", "8680");

@@ -2,10 +2,12 @@
 
 **Changes in version 1.22**
 
-- Updated hematopoietic and lymphoid data.
-- Fixed a bug in 2018 head and neck rules.
 - Implemented 2021 updates of solid tumor rules.
 - Removed lenient mode of computing.
+- Updated HematoDB data with latest data from SEER API.
+- Fixed a mistake in 2018 head and neck rules.
+- Updated Commons Lang library from version 3.9 to version 3.11.
+- Updated CSV library from version 5.0 to version 5.4.
 
 **Changes in version 1.21**
 

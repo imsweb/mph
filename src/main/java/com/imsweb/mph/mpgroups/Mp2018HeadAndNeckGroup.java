@@ -136,7 +136,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  - Biomarkers are NED");
         rule.getNotes().add(
-                "When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
+                "When there is a recurrence less than or equal to five years of diagnosis, the \"clock\" starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
         rule.getNotes().add(
                 "The physician may state this is a recurrence, meaning the patient had a previous head and neck tumor and now has another head and neck tumor. Follow the rules; do not attempt to interpret the physician’s statement.");

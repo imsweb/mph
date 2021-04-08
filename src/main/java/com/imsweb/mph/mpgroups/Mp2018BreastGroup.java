@@ -47,7 +47,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  - Tumor biomarkers are NED");
         rule.getNotes().add(
-                "When there is a recurrence less than or equal to five years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
+                "When there is a recurrence less than or equal to five years of diagnosis, the \"clock\" starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than five years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.");
         rule.getNotes().add(
                 "The physician may state this is a recurrence, meaning the patient had a previous breast tumor and now has another breast tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
@@ -75,7 +75,7 @@ public class Mp2018BreastGroup extends MphGroup {
         rule.setQuestion("Is there a tumor(s) in each breast?");
         rule.setReason("Tumors on both sides (right and left breast) are multiple primaries.");
         rule.getNotes().add(
-                "Physician statement “bilateral breast cancer” should not be interpreted as meaning a single primary. The term is descriptive and not used consistently.  The literal definition of bilateral is “cancer in both breasts”.");
+                "Physician statement \"bilateral breast cancer\" should not be interpreted as meaning a single primary. The term is descriptive and not used consistently.  The literal definition of bilateral is \"cancer in both breasts\".");
         rule.getNotes().add("It is irrelevant how many tumors are in each breast. Abstract as separate primaries.");
         rule.getNotes().add("The histologies within each breast may be the same or different.");
         _rules.add(rule);

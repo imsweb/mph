@@ -239,7 +239,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("  - Colonoscopies are NED");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add(
-                "When there is a recurrence less than or equal to one year of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.");
+                "When there is a recurrence less than or equal to one year of diagnosis, the \"clock\" starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than one year from the date of the last recurrence.");
         rule.getNotes().add("When the first course of treatment was a polypectomy only, this rule means there were no recurrences for greater than one year.");
         rule.getNotes().add("When the first course of treatment was a colectomy or A&P resection, there were no anastomotic recurrences for greater than one year.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");

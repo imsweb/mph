@@ -38,7 +38,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  -  Tumor biomarkers are NED");
         rule.getNotes().add(
-                "When there is a recurrence less than or equal to three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
+                "When there is a recurrence less than or equal to three years of diagnosis, the \"clock\" starts over. The time interval is calculated from the date of last recurrence. In other words, the patient must have been disease-free for greater than three years from the date of the last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, use date of diagnosis to compute the time interval.");
         rule.getNotes().add(
                 "The physician may state this is a recurrence, meaning the patient had a previous lung tumor and now has another lung site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
@@ -237,7 +237,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  - Pathology from a biopsy or resection proves tumors are different histologies");
         rule.getNotes().add("  - Attending, oncologist, or pulmonologist state unequivocally that the tumors are different primaries");
         rule.getNotes().add(
-                "     Unequivocal means that no words such as “probable” are used in the statement. Terms which are on the “ambiguous terms” list such as “probable” cannot be used to prove different primaries.");
+                "     Unequivocal means that no words such as \"probable\" are used in the statement. Terms which are on the \"ambiguous terms\" list such as \"probable\" cannot be used to prove different primaries.");
         rule.getNotes().add(
                 "When there are multiple tumors in one or both lungs, the physician usually biopsies only one mass/tumor. They treat the patient based on that single biopsy, assuming all of the masses/tumors are the same histology.");
         _rules.add(rule);
@@ -259,9 +259,9 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  - Tissue from both tumors is compared and the pathologic diagnoses definitively says one tumor is metastatic");
         rule.getNotes().add("  - Attending physician, oncologist, or pulmonologist state unequivocally that the tumor in the contralateral lung is metastatic");
         rule.getNotes().add(
-                "     Unequivocal means that no words such as “probably possibly, most likely, etc.” are used in the statement. Terms which are on the “ambiguous terms” list make the statement equivocal (cannot be used to prove metastases)");
+                "    Unequivocal means that no words such as \"probably possibly, most likely, etc.\" are used in the statement. Terms which are on the \"ambiguous terms\" list make the statement equivocal (cannot be used to prove metastases)");
         rule.getNotes().add("Lung metastases usually present as multiple tumors/masses. A single tumor in each lung is unlikely to be a single primary (e.g. metastatic to the contralateral lung).");
-        rule.getNotes().add("The term “bilateral” is not a synonym for a single primary. It is simply a statement that there are tumors in both lungs.");
+        rule.getNotes().add("The term \"bilateral\" is not a synonym for a single primary. It is simply a statement that there are tumors in both lungs.");
         rule.getNotes().add(
                 "This rule is based on long-term epidemiologic studies of multiple primaries. The specialty medical experts (SME) and the CoC site physician teams reviewed and approved these rules.  Many of the CoC site team physicians were also authors, co-authors, or editors of the AJCC Staging Manual.");
         rule.getNotes().add("Lymph node involvement is recorded in staging criteria.");

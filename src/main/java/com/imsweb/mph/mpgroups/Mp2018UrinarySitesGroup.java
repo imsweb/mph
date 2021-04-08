@@ -157,7 +157,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.setReason("Micropapillary urothelial carcinoma 8131/3 of the bladder AND a urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder are multiple primaries.");
         rule.getNotes().add("This is a new rule for 2018.");
         rule.getNotes().add(
-                "Micropapillary urothelial cell carcinoma is an extremely aggressive neoplasm. It is important to abstract a new primary to capture the incidence of micropapillary urothelial carcinoma. Micropapillary is excluded from the typical “NOS and subtype/variant” rule (same row in Table 2).");
+                "Micropapillary urothelial cell carcinoma is an extremely aggressive neoplasm. It is important to abstract a new primary to capture the incidence of micropapillary urothelial carcinoma. Micropapillary is excluded from the typical \"NOS and subtype/variant\" rule (same row in Table 2).");
         _rules.add(rule);
 
         // Rule M9 Abstract a single primary when the patient has multiple invasive urothelial cell carcinomas in the bladder. All tumors are either:
@@ -188,7 +188,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  - Urine cytology is NED");
         rule.getNotes().add("  - Scopes are NED");
-        rule.getNotes().add("When there is a recurrence within three years of diagnosis, the “clock” starts over. The time interval is calculated from the date of last recurrence.");
+        rule.getNotes().add("When there is a recurrence within three years of diagnosis, the \"clock\" starts over. The time interval is calculated from the date of last recurrence.");
         rule.getNotes().add("When it is unknown/not documented whether the patient had a recurrence, default to date of diagnosis to compute the time interval.");
         rule.getNotes().add(
                 "The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");

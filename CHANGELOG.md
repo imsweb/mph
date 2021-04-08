@@ -2,8 +2,8 @@
 
 **Changes in version 1.22**
 
+- Updated hematopoietic and lymphoid data.
 - Fixed a bug in 2018 head and neck rules.
-
 - Implemented 2021 updates of solid tumor rules.
 
 **Changes in version 1.21**

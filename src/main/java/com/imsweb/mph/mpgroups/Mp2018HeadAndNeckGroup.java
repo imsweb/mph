@@ -229,7 +229,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
                             Collections.singletonList("8690"), Arrays.asList("8690", "8693"))) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("Manual review is required for 8690 and 8693 of Table 9.");
+                        result.setMessage("Manual review is required for " + h1 + " and " + h2 + " of Table 9.");
                         return result;
                     }
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);

@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -31,7 +30,7 @@ public class Mp2018ColonGroup extends MphGroup {
         //  - Greater than 100 polyps are documented (no diagnosis of FAP)
         MphRule rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if ("8220".equals(i1.getHistology()) && "8220".equals(i2.getHistology()))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -72,7 +71,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M5 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 if (!h1.equals(h2) && (MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h1) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd1)) && (
@@ -94,7 +93,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
@@ -134,7 +133,7 @@ public class Mp2018ColonGroup extends MphGroup {
         /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> surgerySites = Arrays.asList("30", "31", "32", "40");
                 // Different segments
@@ -175,7 +174,7 @@ public class Mp2018ColonGroup extends MphGroup {
         /*
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 //result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
@@ -198,7 +197,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M9 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the fourth characters C18X.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().equals("C189") || i2.getPrimarySite().equals("C189")) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -222,7 +221,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
@@ -251,7 +250,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M11 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
         rule = new MphRule(MphConstants.MP_2018_COLON_GROUP_ID, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();

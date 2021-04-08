@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mprules;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
@@ -17,7 +16,7 @@ public class MpRuleLaterality extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+    public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
         if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

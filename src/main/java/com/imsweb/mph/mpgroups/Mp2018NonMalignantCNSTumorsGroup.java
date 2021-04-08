@@ -5,7 +5,6 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -30,7 +29,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - It is unknown/not documented whether a resection was done
         MphRule rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer group.
                 return new TempRuleResult();
             }
@@ -44,7 +43,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Optic gliomas/pilocytic astrocytomas 9421/1
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
@@ -74,7 +73,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         //  other site in the header besides C700 (C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753))
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
 
@@ -137,7 +136,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if (!i1.getHistology().equals(i2.getHistology()) && MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES.containsAll(Arrays.asList(icd1, icd2)))
@@ -160,7 +159,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - The midline AND in either the right or left cranial meninges
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if (MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES.equals(i1.getPrimarySite()) && i2.getPrimarySite().equals(i1.getPrimarySite()) && MphConstants.CNS_2018_MENINGIOMAS.containsAll(
@@ -180,7 +179,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getHistology().equals(i2.getHistology()) && GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i1.getPrimarySite()) && GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_BRAIN_SITES, i2.getPrimarySite()))
@@ -201,7 +200,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // Rule M11 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
@@ -248,7 +247,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(

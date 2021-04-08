@@ -6,7 +6,6 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.Collections;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -35,7 +34,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - No other urinary sites are involved with separate/non-contiguous tumors
         MphRule rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
@@ -61,7 +60,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - No other urinary sites are involved with separate/non-contiguous tumors
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
@@ -86,7 +85,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - One or both ureter(s) C669
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
@@ -124,7 +123,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         //        - Papillary urothelial carcinoma noninvasive 8130/2 (does not include micropapillary subtype)
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && Arrays.asList("8120/2", "8130/2").containsAll(
@@ -145,7 +144,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         //urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder.
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
                 if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && GroupUtility.differentCategory(icd1, icd2,
@@ -166,7 +165,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - Multiple occurrences of micropapillary
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite()
@@ -200,7 +199,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M11 Abstract a single primary when there are urothelial carcinomas in multiple urinary organs.
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology();
                 if (areTwoDifferentUrinarySites(i1.getPrimarySite(), i2.getPrimarySite()) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS.contains(h1)
@@ -223,7 +222,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String subtype1 = MphConstants.URINARY_2018_TABLE2_SUBTYPES.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(h1) : MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(icd1);
@@ -245,7 +244,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M13") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
@@ -282,7 +281,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
         rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M15") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);

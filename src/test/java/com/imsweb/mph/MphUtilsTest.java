@@ -2527,42 +2527,6 @@ public class MphUtilsTest {
     }
 
     @Test
-    public void testLenientMode() {
-        MphInput i1 = new MphInput();
-        MphInput i2 = new MphInput();
-        i1.setPrimarySite("C502");
-        i1.setHistologyIcdO3("8500");
-        i1.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2015");
-        i1.setDateOfDiagnosisMonth("08");
-        i1.setDateOfDiagnosisDay("17");
-
-        i2.setPrimarySite("C502");
-        i2.setHistologyIcdO3("8000");
-        i2.setBehaviorIcdO3("3");
-        i2.setLaterality("1");
-        i2.setDateOfDiagnosisYear("2015");
-        i2.setDateOfDiagnosisMonth("10");
-        i2.setDateOfDiagnosisDay("28");
-        MphOutput output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(9, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals("M12", output.getStep());
-
-        MphComputeOptions options = new MphComputeOptions();
-        options.setHistologyMatchingMode(MphComputeOptions.MpHistologyMatching.LENIENT);
-        output = _utils.computePrimaries(i1, i2, options);
-        Assert.assertEquals(10, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals("M13", output.getStep());
-
-        options.setHistologyMatchingMode(MphComputeOptions.MpHistologyMatching.STRICT);
-        output = _utils.computePrimaries(i1, i2, options);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-    }
-
-    @Test
     public void testUnableToApplyRule() {
 
         // Unknown Laterality
@@ -2602,11 +2566,10 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisMonth("10");
 
         Mp2007UrinaryGroup group = new Mp2007UrinaryGroup();
-        MphComputeOptions options = new MphComputeOptions();
 
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
-                TempRuleResult result = rule.apply(i1, i2, options);
+                TempRuleResult result = rule.apply(i1, i2);
                 Assert.assertTrue(result.getMessage().contains("There is not enough diagnosis date information."));
             }
         }
@@ -2626,11 +2589,10 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2004");
 
         Mp2004SolidMalignantGroup malgroup = new Mp2004SolidMalignantGroup();
-        options = new MphComputeOptions();
 
         for (MphRule rule : malgroup.getRules()) {
             if (rule.getStep().equals("M3")) {
-                TempRuleResult result = rule.apply(i1, i2, options);
+                TempRuleResult result = rule.apply(i1, i2);
                 Assert.assertTrue(result.getMessage().contains("Valid and known laterality and diagnosis date"));
             }
         }

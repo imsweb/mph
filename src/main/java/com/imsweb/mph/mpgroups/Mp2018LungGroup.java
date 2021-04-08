@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -48,7 +47,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M5 Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.LUNG_2018_8041_AND_SUBTYPES, MphConstants.LUNG_2018_8046_AND_SUBTYPES))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -68,7 +67,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String subtype1 = MphConstants.LUNG_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(icd1);
@@ -90,7 +89,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
@@ -148,7 +147,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
@@ -197,7 +196,7 @@ public class Mp2018LungGroup extends MphGroup {
         //   otherwise return QUESTIONABLE.
         rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);

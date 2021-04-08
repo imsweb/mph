@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mprules;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -20,7 +19,7 @@ public class MpRuleThreeYearsApart extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+    public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
         int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
         if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {

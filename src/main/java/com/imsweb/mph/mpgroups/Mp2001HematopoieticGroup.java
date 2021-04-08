@@ -13,7 +13,6 @@ import java.util.List;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -32,7 +31,7 @@ public class Mp2001HematopoieticGroup extends MphGroup {
 
         MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_ID, "") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 //find the group for both histologies

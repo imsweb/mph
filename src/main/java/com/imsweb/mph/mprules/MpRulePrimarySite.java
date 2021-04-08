@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mprules;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
@@ -18,7 +17,7 @@ public class MpRulePrimarySite extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+    public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
         if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

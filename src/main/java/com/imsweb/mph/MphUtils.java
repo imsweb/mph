@@ -184,13 +184,10 @@ public final class MphUtils {
      * <br/><br/>
      * @param input1 an input dto which has a list of parameters used in the calculation.
      * @param input2 an input dto which has a list of parameters used in the calculation.
-     * @param options set of options to compute the results, histologyMatchingMode option for example is used to consider 8000 a match to 8nnn histologies or not.
      * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
      */
-    public MphOutput computePrimaries(MphInput input1, MphInput input2, MphComputeOptions options) {
+    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
         MphOutput output = new MphOutput();
-        if (options == null)
-            options = new MphComputeOptions();
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
@@ -240,7 +237,7 @@ public final class MphUtils {
                     output.getAppliedRules().add(rule);
                 else
                     rulesAppliedAfterQuestionable.add(rule);
-                TempRuleResult result = rule.apply(input1, input2, options);
+                TempRuleResult result = rule.apply(input1, input2);
                 if (result.getPotentialResult() != null) {
                     if (potentialResult == null)
                         potentialResult = result;
@@ -273,35 +270,6 @@ public final class MphUtils {
         }
 
         return output;
-    }
-
-    /**
-     * Determines whether two input objects of solid tumors are single or multiple primary. It returns "questionable" if there is no enough information to decide.
-     * <br/><br/>
-     * <br/><br/>
-     * The provided record dto has the following parameters:
-     * <ul>
-     * <li>primarySite (#400)</li>
-     * <li>histologyIcdO3 (#522)</li>
-     * <li>behaviorIcdO3 (#523)</li>
-     * <li>histologyIcdO2 (#420)</li>
-     * <li>behaviorIcdO2 (#430)</li>
-     * <li>laterality (#410)</li>
-     * <li>dateOfDiagnosisYear (#390)</li>
-     * <li>dateOfDiagnosisMonth (#390)</li>
-     * <li>dateOfDiagnosisDay (#390)</li>
-     * <li>rxSummTreatmentStatus (#1285)</li>
-     * </ul>
-     * <br/><br/>
-     * All those properties are defined as constants in this class.
-     * <br/><br/>
-     * @param input1 an input dto which has a list of parameters used in the calculation.
-     * @param input2 an input dto which has a list of parameters used in the calculation.
-     * default option is used
-     * @return the computed output which is an object which has result (Single Primary, Multiple Primaries or Questionable), reason and rules applied to make a decision.
-     */
-    public MphOutput computePrimaries(MphInput input1, MphInput input2) {
-        return computePrimaries(input1, input2, null);
     }
 
     /**

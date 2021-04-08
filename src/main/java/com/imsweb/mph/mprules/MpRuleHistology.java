@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mprules;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
@@ -18,14 +17,9 @@ public class MpRuleHistology extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+    public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
-        String hist1 = i1.getHistology(), hist2 = i2.getHistology();
-        //If lenient mode is on 8000 is considered as same histology as 8nnn histologies
-        if (MphComputeOptions.MpHistologyMatching.LENIENT.equals(options.getHistologyMatchingMode()) && (("8000".equals(hist1) && hist2.startsWith("8")) || ("8000".equals(hist2) && hist1
-                .startsWith("8"))))
-            return result;
-        if (!hist1.substring(0, 3).equals(hist2.substring(0, 3)))
+        if (!i1.getHistology().substring(0, 3).equals(i2.getHistology().substring(0, 3)))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
         return result;
     }

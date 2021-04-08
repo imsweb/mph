@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -25,7 +24,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M1 
         MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M1") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 //TODO
                 return result;
@@ -37,7 +36,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M2 
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M2") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology(), s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
                 if (h1.equals(h2)) {
@@ -63,7 +62,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M3
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if ((GroupUtility.differentCategory(hist1, hist2, MphConstants.MAST_CELL_SARCOMA, MphConstants.MAST_CELL_LEUKEMIA) || GroupUtility.differentCategory(hist1, hist2,
@@ -101,7 +100,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M4
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
@@ -140,7 +139,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M5
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
@@ -178,7 +177,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M6
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 boolean differentLocation = (!site1.equals(site2) && MphConstants.LYMPH_NODE.equals(site1.substring(0, 3))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
@@ -200,7 +199,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M7
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 //This rule is skipped by the automated process
                 return result;
@@ -225,7 +224,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M8
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -258,7 +257,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M9
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -290,7 +289,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M10
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -330,7 +329,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M11
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -362,7 +361,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M12
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -389,7 +388,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M13
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M13") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior();
                 String morph2 = i2.getHistology() + "/" + i2.getBehavior();
@@ -419,7 +418,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M14
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M14") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> combined = new ArrayList<>(MphConstants.BCELL);
                 combined.addAll(MphConstants.TCELL);
@@ -450,7 +449,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M15
         rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M15") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());

@@ -6,7 +6,6 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.List;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -27,7 +26,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
         MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
@@ -48,7 +47,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M4- Tumors on the upper lip (C000 or C003) and the lower lip (C001 or C004) are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -62,7 +61,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M5- Tumors on the upper gum (C030) and the lower gum (C031) are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -76,7 +75,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M6- Tumors in the nasal cavity (C300) and the middle ear (C301) are multiple primaries.
         rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -104,7 +103,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M10 - 
         rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8070", "8720", "8800");

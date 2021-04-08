@@ -3,7 +3,6 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import com.imsweb.mph.MphComputeOptions;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -30,7 +29,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M3 Abstract multiple primaries when multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX).
         MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -43,7 +42,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M4 Abstract a single primary when there are bilateral nephroblastomas (previously called Wilms tumors).
         rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) &&
                         MphConstants.WILMS.equals(i1.getHistology()) && MphConstants.WILMS.equals(i2.getHistology()))
@@ -81,7 +80,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M7 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String subtype1 = MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(h1) : MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(icd1);
@@ -105,7 +104,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
         rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
@@ -159,7 +158,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
         rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);

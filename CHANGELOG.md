@@ -5,6 +5,7 @@
 - Updated hematopoietic and lymphoid data.
 - Fixed a bug in 2018 head and neck rules.
 - Implemented 2021 updates of solid tumor rules.
+- Removed lenient mode of computing.
 
 **Changes in version 1.21**
 

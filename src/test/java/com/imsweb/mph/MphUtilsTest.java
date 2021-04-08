@@ -28,7 +28,6 @@ import com.imsweb.mph.mpgroups.Mp2007UrinaryGroup;
 import com.imsweb.mph.mpgroups.Mp2010HematopoieticGroup;
 import com.imsweb.mph.mpgroups.Mp2018BreastGroup;
 import com.imsweb.mph.mpgroups.Mp2018ColonGroup;
-import com.imsweb.mph.mpgroups.Mp2018CutaneousMelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2018HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2018LungGroup;
@@ -132,8 +131,6 @@ public class MphUtilsTest {
         //2018 Colon
         Assert.assertEquals(new Mp2018ColonGroup(), _utils.findCancerGroup("C180", "8100", "3", 2018));
 
-        //2018 Cutaneous Melanoma
-        Assert.assertEquals(new Mp2018CutaneousMelanomaGroup(), _utils.findCancerGroup("C440", "8725", "3", 2018));
 
         //2018 Head and Neck
         Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C005", "8100", "3", 2018));

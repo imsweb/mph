@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import com.imsweb.mph.MphComputeOptions;
@@ -27,7 +28,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     // C000-C148, C300-C339, C410, C411, C442, C479
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
-        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C339, C410, C411, C442, C479", null, null,
+        super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C339, C410, C411, C479", null, null,
                 "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
@@ -174,7 +175,16 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                         //if the two histologies are same, skip this rule even if the histology is not in the table
                         if (!h1.equals(h2)) {
                             result.setFinalResult(MpResult.QUESTIONABLE);
-                            result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                            String histologyNotInTable;
+                            boolean bothNotInTable = false;
+                            if (row1 == null && row2 == null) {
+                                bothNotInTable = true;
+                                histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                            }
+                            else
+                                histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                            result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                         }
                         return result;
                     }
@@ -182,11 +192,11 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
                 map1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
                 map2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
-                if (map1.equals(map2)) {
+                if (map1 != null && map1.equals(map2)) {
                     String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                     String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
+                    if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
 
@@ -215,9 +225,16 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
                     String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    //Special case for 8690 and 8693 of Table 9
+                    if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
+                            Collections.singletonList("8690"), Arrays.asList("8690", "8693"))) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Manual review is required for " + h1 + " and " + h2 + " of Table 9.");
+                        return result;
+                    }
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (row1 != null && row2 != null && !row1.equals(row2))
+                    if (row1 != null && row2 != null && !row1.contains(row2) && !row2.contains(row1))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
@@ -260,6 +277,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, MphComputeOptions options) {
                 TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                 Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 == null || map2 == null) {
@@ -267,14 +285,26 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     result.setMessage("Two separate lesions of lip is rare; no histology tables exist for lip in Terms and Definitions.");
                 }
                 else if (map1.equals(map2)) {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 == null || row2 == null) {
-                        result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessageNotInTable(this.getStep(), this.getGroupId());
+                        if (icd1.equals(icd2))
+                            result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                        else {
+                            result.setFinalResult(MpResult.QUESTIONABLE);
+                            String histologyNotInTable;
+                            boolean bothNotInTable = false;
+                            if (row1 == null && row2 == null) {
+                                bothNotInTable = true;
+                                histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                            }
+                            else
+                                histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                            result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                        }
                     }
-                    else if (row1.equals(row2))
+                    else if (row1.contains(row2) || row2.contains(row1))
                         result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
                 return result;

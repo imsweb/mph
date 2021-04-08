@@ -214,6 +214,28 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8500");
+        i1.setBehaviorIcdO3("2");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("1");
+        i1.setLaterality("1");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8520");
+        i2.setBehaviorIcdO3("3");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("2");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+        i1.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M11 Abstract a single primary when any of the following conditions are met in the same breast:
         // - DCIS subsequent to a diagnosis of mixed DCIS AND:
@@ -395,6 +417,62 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
+        //8512 is added to the table in the 2021 update
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8519");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8512");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("1");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        //9130/3 added to the table in the 2021 update
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setHistologyIcdO3("9130");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8850");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setPrimarySite("C509");
+        i2.setPrimarySite("C509");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setHistologyIcdO3("9130");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("9170");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+
         // Rule M13 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M13";
         ruleCountToTest = 8;
@@ -515,6 +593,55 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisMonth("");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //8512 is added to the row of 8510 in the 2021 update
+        i1.setPrimarySite("C500");
+        i1.setHistologyIcdO3("8512");
+        i1.setBehaviorIcdO3("2");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("2");
+        i2.setPrimarySite("C509");
+        i2.setHistologyIcdO3("8510");
+        i2.setBehaviorIcdO3("2");
+        i2.setLaterality("1");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+
+        //9130/3 is added for 8800 row in the 2021 update
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
+        i1.setHistologyIcdO3("9130");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8800");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
 
         // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M14";
@@ -878,7 +1005,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertTrue(output.getReason().contains("One or both of the histologies are not in the table."));
+        Assert.assertTrue(output.getReason().contains("not in the table."));
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setPrimarySite("C180");
@@ -916,7 +1043,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertTrue(output.getReason().contains("One or both of the histologies are not in the table."));
+        Assert.assertTrue(output.getReason().contains("not in the table."));
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply
@@ -1197,142 +1324,6 @@ public class Mph2018RuleTests {
     }
 
     @Test
-    public void test2018CutaneousMelanoma() {
-        // Cutaneous Melanoma Histology Rules
-        // C440-C449 with Histology 8720-8780 (Excludes melanoma of any other site)
-        // Rules apply to cases diagnosed 1/1/2007 to 12/31/2018
-
-        MphInput i1 = new MphInput(), i2 = new MphInput();
-        MphOutput output;
-        String ruleStepToTest;
-        int ruleCountToTest;
-
-        // Rule M3 Melanomas in sites with ICD-O-3 topography codes that are different at the second (Cxxx), third (Cxxx) or fourth (C44x) character are multiple primaries. **
-        ruleStepToTest = "M3";
-        ruleCountToTest = 1;
-        i1.setPrimarySite("C442");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C447");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("topography"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
-        // Rule M4 Melanomas with different laterality are multiple primaries. **
-        ruleStepToTest = "M4";
-        ruleCountToTest = 2;
-        i1.setPrimarySite("C442");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C442");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisYear("2018");
-        i1.setLaterality("1");
-        i2.setLaterality("2");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("laterality"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        //melanoma mid-line laterality is considered as different laterality of right or left
-        i2.setLaterality("5");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("laterality"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        i2.setLaterality("4");
-        //Questionable at M4 with potential Multiple and ended up as multiple at M5 -- MULTIPLE
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(3, output.getAppliedRules().size());
-        Assert.assertEquals("M5", output.getStep());
-
-        // Rule M5 Melanomas with ICD-O-3 histology codes that are different at the first (Xxxx), second (xXxx) or third number (xxXx) are multiple primaries. **
-        ruleStepToTest = "M5";
-        ruleCountToTest = 3;
-        i1.setPrimarySite("C442");
-        i1.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C442");
-        i2.setHistologyIcdO3("8780");
-        i2.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i2.setLaterality("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("histology"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
-        // Rule M6 An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary. **
-        ruleStepToTest = "M6";
-        ruleCountToTest = 4;
-        i1.setPrimarySite("C442");
-        i2.setPrimarySite("C442");
-        i1.setHistologyIcdO3("8725");
-        i2.setHistologyIcdO3("8720");
-        i1.setBehaviorIcdO3("2");
-        i2.setBehaviorIcdO3("3");
-        i1.setLaterality("1");
-        i2.setLaterality("1");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisYear("2018"); // same year no month information
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        i1.setDateOfDiagnosisMonth("1"); // invasive on 1/2018, insitu on 5/2018
-        i2.setDateOfDiagnosisMonth("5");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("60 days after an in situ melanoma"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        i1.setDateOfDiagnosisMonth("1"); // invasive on 1/2018, insitu on 5/2018
-        i2.setDateOfDiagnosisMonth("2");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(6, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("criteria"));
-        Assert.assertEquals("M8", output.getStep());
-
-        // Rule M7 Melanomas diagnosed more than 60 days apart are multiple primaries. **
-        ruleStepToTest = "M7";
-        ruleCountToTest = 5;
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisMonth("1");
-        i2.setDateOfDiagnosisMonth("5");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Melanomas diagnosed more than 60 days apart are multiple primaries."));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
-        // Rule M8 Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
-        ruleStepToTest = "M8";
-        ruleCountToTest = 6;
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisYear("2018");
-        i1.setDateOfDiagnosisMonth("01");
-        i2.setDateOfDiagnosisMonth("01");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("criteria"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-    }
-
-    @Test
     public void test2018HeadAndNeck() {
         // Head and Neck Multiple Primary Rules
         // C000-C148, C300-C339, C410, C411, C442, C479
@@ -1342,6 +1333,20 @@ public class Mph2018RuleTests {
         MphOutput output;
         String ruleStepToTest;
         int ruleCountToTest;
+
+        //C442 removed from the group
+        i1.setPrimarySite("C442");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C442");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8000");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, output.getGroupId());
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
         //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
@@ -1507,13 +1512,6 @@ public class Mph2018RuleTests {
         i1.setPrimarySite("C400");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
-        i1.setPrimarySite("C442");
-        i2.setPrimarySite("C442");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("paired"));
-        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
         ruleStepToTest = "M6";
@@ -1589,6 +1587,103 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
+        //Table 1: 8072 row:  New subtype/variant in column 3: Schneiderian carcinoma/cylindrical cell carcinoma 8121
+        // Rule M7 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
+
+        i1.setPrimarySite("C312");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8121");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C319");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8144");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setPrimarySite("C312");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8121");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C319");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8144");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        //Table 3: 8070 row: New subtype/variant in column 3: Keratinizing squamous cell carcinoma 8071; Non-keratinizing squamous cell carcinoma 8072
+        i1.setPrimarySite("C130");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8071");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C139");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8072");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //Table 4: 8070 row: New subtype/variant in column 3: Keratinizing squamous cell carcinoma 8071; Non-keratinizing squamous cell carcinoma 8072
+        i1.setPrimarySite("C021");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8071");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C024");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8072");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M8";
         ruleCountToTest = 6;
@@ -1623,6 +1718,251 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8075");
         i2.setHistologyIcdO3("8075");
         output = _utils.computePrimaries(i1, i2);
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+        //Table 1: 8072 row:  New subtype/variant in column 3: Schneiderian carcinoma/cylindrical cell carcinoma 8121
+        i1.setPrimarySite("C312");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8121");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C319");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8082");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //Table 3: 8070 row: New subtype/variant in column 3: Keratinizing squamous cell carcinoma 8071; Non-keratinizing squamous cell carcinoma 8072
+        i1.setPrimarySite("C130");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8850");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C139");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8071");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setPrimarySite("C130");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8850");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C139");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8072");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //Table 4: 8070 row: New subtype/variant in column 3: Keratinizing squamous cell carcinoma 8071; Non-keratinizing squamous cell carcinoma 8072
+        i1.setPrimarySite("C021");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8825");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C024");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8071");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setPrimarySite("C021");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8825");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C024");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8072");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //Table 8: Ceruminous adenocarcinoma 8420 row deleted
+        i1.setPrimarySite("C301");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8140");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i2.setPrimarySite("C301");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8420");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M7", output.getStep());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M7", output.getStep());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+
+        //Table 9: Histologies are given in each row for pre-2021 and post-2021.
+        // Treat them as if they are the same row. For example, 8690/3 in 2020 and a 8692/3 in 2021 should be considered same row.
+        // Hopefully there will be an edit to enforce the histologies by year. (Don’t hard code the /3 behavior in the rules).
+        i1.setPrimarySite("C479");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8680");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C479");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8693");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setPrimarySite("C479");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8680");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C479");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8692");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8680");
+        i2.setHistologyIcdO3("8690");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8692");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8692");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8690");
+        i2.setHistologyIcdO3("8690");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+
+        i1.setHistologyIcdO3("8692");
+        i2.setHistologyIcdO3("8692");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
+        i1.setHistologyIcdO3("8693");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
+        i1.setHistologyIcdO3("8680");
+        i2.setHistologyIcdO3("8680");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         // Rule M9 Abstract a single primary (the invasive)when an in situ tumor is diagnosed after an invasive tumor.
@@ -1798,16 +2138,28 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Same Row - 1
-        i1.setPrimarySite("C100");
-        i1.setHistologyIcdO3("8070");
+        i1.setPrimarySite("C479");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8692");
         i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C100");
-        i2.setHistologyIcdO3("8071");
+        i2.setPrimarySite("C479");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("8692");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
         // Rule M13 Abstract a single primary  when none of the previous rules apply.
         //No case will reach here
@@ -2271,6 +2623,26 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
+        //8013 is removed from sarcoma row and added to its own row
+        i1.setPrimarySite("C342");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i1.setHistologyIcdO3("8013");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C342");
+        i2.setDateOfDiagnosisYear("2016");
+        i2.setDateOfDiagnosisMonth("08");
+        i2.setHistologyIcdO3("8045");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2019");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         ruleStepToTest = "M7";
         ruleCountToTest = 5;
@@ -2308,6 +2680,27 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8083");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //8013 is moved to its row
+        i1.setPrimarySite("C342");
+        i1.setHistologyIcdO3("8041");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("2");
+        i1.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisMonth("09");
+        i2.setPrimarySite("C349");
+        i2.setHistologyIcdO3("8013");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisMonth("08");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+        i1.setDateOfDiagnosisYear("2021");
+        i2.setDateOfDiagnosisYear("2021");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupId());
+        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3. Timing is irrelevant.
         ruleStepToTest = "M8";
@@ -3453,6 +3846,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(9, output.getAppliedRules().size());
         Assert.assertEquals("M11", output.getStep());
+
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         i1.setPrimarySite("C471");

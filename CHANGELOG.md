@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.23**
+ 
+- Updated Commons Lang library from version 3.11 to version 3.12.0.
+- Updated CSV library from version 5.4 to version 5.5.1.
+
 **Changes in version 1.22**
 
 - Implemented 2021 updates of solid tumor rules.

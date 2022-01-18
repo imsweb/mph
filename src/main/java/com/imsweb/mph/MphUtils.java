@@ -39,6 +39,11 @@ import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
 import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
 import com.imsweb.mph.mpgroups.Mp2021CutaneousMelanomaGroup;
+import com.imsweb.mph.mpgroups.Mp2022BreastGroup;
+import com.imsweb.mph.mpgroups.Mp2022ColonGroup;
+import com.imsweb.mph.mpgroups.Mp2022HeadAndNeckGroup;
+import com.imsweb.mph.mpgroups.Mp2022KidneyGroup;
+import com.imsweb.mph.mpgroups.Mp2022MalignantCNSAndPeripheralNervesGroup;
 
 /**
  * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
@@ -160,6 +165,13 @@ public final class MphUtils {
 
         //2021 solid tumor rules
         addGroup(new Mp2021CutaneousMelanomaGroup());
+
+        //2022 solid tumor rules
+        addGroup(new Mp2022BreastGroup());
+        addGroup(new Mp2022ColonGroup());
+        addGroup(new Mp2022HeadAndNeckGroup());
+        addGroup(new Mp2022KidneyGroup());
+        addGroup(new Mp2022MalignantCNSAndPeripheralNervesGroup());
     }
 
     /**

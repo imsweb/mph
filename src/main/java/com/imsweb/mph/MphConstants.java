@@ -1626,6 +1626,7 @@ public class MphConstants {
         thisTableSubTypes.put("8072", "8072");
         thisTableSubTypes.put("8086", "8086");
         thisTableSubTypes.put("8085", "8085");
+        thisTableSubTypes.put("8082", "8082");
         for (String site : HEAD_AND_NECK_2018_TABLEC111_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1813,6 +1814,7 @@ public class MphConstants {
         thisTableRows.put("8072", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8086", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8085", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8082", "8070"); // Squamous cell carcinoma NOS 8070
         for (String site : HEAD_AND_NECK_2018_TABLEC111_SITES)
             content.put(site, thisTableRows);
 

@@ -3,7 +3,7 @@
 **Changes in version 1.23**
  
 - Updated Commons Lang library from version 3.11 to version 3.12.0.
-- Updated CSV library from version 5.4 to version 5.5.1.
+- Updated CSV library from version 5.4 to version 5.5.2.
 
 **Changes in version 1.22**
 

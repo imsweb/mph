@@ -2266,7 +2266,8 @@ public class Mph2018RuleTests {
 
         ruleStepToTest = "M7";
 
-        i1.setHistologyIcdO3("8920"); i2.setHistologyIcdO3("9180");
+        i1.setHistologyIcdO3("8920");
+        i2.setHistologyIcdO3("9180");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 

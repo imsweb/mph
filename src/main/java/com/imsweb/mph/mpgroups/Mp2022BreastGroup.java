@@ -10,7 +10,6 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
@@ -21,17 +20,17 @@ import com.imsweb.mph.mprules.MpRuleLaterality;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 
-public class Mp2018BreastGroup extends MphGroup {
+public class Mp2022BreastGroup extends MphGroup {
 
     // Breast Multiple Primary Rules - Text
     // C500-C506, C508-C509
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
-    public Mp2018BreastGroup() {
-        super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
-                "9590-9992, 9140", "2-4,6", "2018-2021");
+    public Mp2022BreastGroup() {
+        super(MphConstants.MP_2022_BREAST_GROUP_ID, MphConstants.MP_2022_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
+                "9590-9992, 9140", "2-4,6", "2022-9999");
 
         // Rule M4 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
-        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_BREAST_GROUP_ID, "M4");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2022_BREAST_GROUP_ID, "M4");
         rule.getNotes().add(
                 "Tumors with site codes that differ at the second or third character are in different primary sites; for example, a breast tumor C50x and a colon tumor C18x differ at the second and third character.");
         rule.getNotes().add(
@@ -40,7 +39,7 @@ public class Mp2018BreastGroup extends MphGroup {
 
         // Rule M5 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
         // original diagnosis or last recurrence.
-        rule = new MpRuleFiveYearsApart(MphConstants.MP_2018_BREAST_GROUP_ID, "M5");
+        rule = new MpRuleFiveYearsApart(MphConstants.MP_2022_BREAST_GROUP_ID, "M5");
         rule.getNotes().add("The rules are hierarchical. This rule only applies when there is a subsequent breast tumor.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Mammograms are NED");
@@ -56,13 +55,13 @@ public class Mp2018BreastGroup extends MphGroup {
         // Rule M6 Abstract a single primary when there is inflammatory carcinoma in:
         // - Multiple quadrants of same breast OR
         // - Bilateral breasts
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology())
                         && MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -71,7 +70,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
-        rule = new MpRuleLaterality(MphConstants.MP_2018_BREAST_GROUP_ID, "M7");
+        rule = new MpRuleLaterality(MphConstants.MP_2022_BREAST_GROUP_ID, "M7");
         rule.setQuestion("Is there a tumor(s) in each breast?");
         rule.setReason("Tumors on both sides (right and left breast) are multiple primaries.");
         rule.getNotes().add(
@@ -83,7 +82,7 @@ public class Mp2018BreastGroup extends MphGroup {
         /*Suzanne Adams confirms that we are skipping M8 and M9
 
         // Rule M8 Abstract a single primary when the diagnosis is Paget disease with synchronous underlying in situ or invasive carcinoma NST (duct/ductal).
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -106,7 +105,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -126,7 +125,7 @@ public class Mp2018BreastGroup extends MphGroup {
         //- Both/all tumors may be a mixture of carcinoma NST/duct and lobular 8522 OR
         //- One tumor may be duct and another tumor lobular OR
         //- One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -140,7 +139,7 @@ public class Mp2018BreastGroup extends MphGroup {
                             (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
                             (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
                             (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -171,7 +170,7 @@ public class Mp2018BreastGroup extends MphGroup {
         //        - Invasive duct + invasive lobular 8522/3 OR
         //        - Invasive duct + invasive Paget 8541/3 OR
         //        - Invasive duct + other invasive carcinoma 8523/3
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -180,12 +179,12 @@ public class Mp2018BreastGroup extends MphGroup {
                         || GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/3"), Arrays.asList("8522/3", "8541/3", "8523/3"))) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) { //If impossible to decide which tumor is diagnosed later
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (MphConstants.COMPARE_DX_EQUAL == latestDx || (MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && "8500".equals(i1.getHistology())) || (
                             MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && "8500".equals(i2.getHistology())))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
 
                 }
                 return result;
@@ -214,15 +213,15 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M12") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String subtype1 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd1);
-                String subtype2 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h2) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd2);
+                String subtype1 = MphConstants.BREAST_2022_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.BREAST_2022_TABLE3_SUBTYPES.get(h1) : MphConstants.BREAST_2022_TABLE3_SUBTYPES.get(icd1);
+                String subtype2 = MphConstants.BREAST_2022_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.BREAST_2022_TABLE3_SUBTYPES.get(h2) : MphConstants.BREAST_2022_TABLE3_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -236,21 +235,21 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M13") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
-                String row2 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd2);
+                String row1 = MphConstants.BREAST_2022_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2022_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2022_TABLE3_ROWS.get(icd1);
+                String row2 = MphConstants.BREAST_2022_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2022_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2022_TABLE3_ROWS.get(icd2);
                 if (row1 != null && row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }
@@ -264,15 +263,15 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
-        rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_ID, "M14") {
+        rule = new MphRule(MphConstants.MP_2022_BREAST_GROUP_ID, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
+                String row1 = MphConstants.BREAST_2022_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2022_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2022_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.BREAST_2018_TABLE2.contains(h1) || MphConstants.BREAST_2018_TABLE2.contains(icd1)))
                     row1 = "table2";
-                String row2 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd2);
+                String row2 = MphConstants.BREAST_2022_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2022_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2022_TABLE3_ROWS.get(icd2);
                 if (row2 == null && (MphConstants.BREAST_2018_TABLE2.contains(h2) || MphConstants.BREAST_2018_TABLE2.contains(icd2)))
                     row2 = "table2";
                 if (row1 == null || row2 == null) {
@@ -302,14 +301,14 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_BREAST_GROUP_ID, "M15");
+        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2022_BREAST_GROUP_ID, "M15");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         _rules.add(rule);
 
         // Rule M16 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.MP_2018_BREAST_GROUP_ID, "M16");
+        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.MP_2022_BREAST_GROUP_ID, "M16");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3.");
@@ -321,7 +320,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M17 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M17");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2022_BREAST_GROUP_ID, "M17");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
@@ -330,7 +329,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M18 Abstract a single primary when none of the previous rules apply.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2022_BREAST_GROUP_ID, "M18");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add(
                 "One tumor is invasive carcinoma NST/ductal 8500/3 and a separate non-contiguous tumor in the same breast is DCIS 8500/2.  Abstract a single primary: invasive carcinoma NST/ductal 8500/3.");

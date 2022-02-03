@@ -9,20 +9,19 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 
-public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
+public class Mp2022MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
     // Malignant CNS and Peripheral Nerves Histology Rules
     // C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
-    public Mp2018MalignantCNSAndPeripheralNervesGroup() {
-        super(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
+    public Mp2022MalignantCNSAndPeripheralNervesGroup() {
+        super(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME,
                 "C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null,
-                null, "9590-9992, 9140", "3", "2018-2021");
+                null, "9590-9992, 9140", "3", "2022-9999");
 
         // Rule M5 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
         // - Original non-malignant tumor followed by malignant tumor
@@ -30,7 +29,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         //      It is unknown/not documented if the patient had a resection
         // - Simultaneous non-malignant and malignant tumors
         //      Abstract both the malignant and the non-malignant tumors
-        MphRule rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M5") {
+        MphRule rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer groups.
@@ -44,7 +43,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -56,9 +55,9 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h1))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h2))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
@@ -93,13 +92,13 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getHistology().equals(i2.getHistology()) && GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i1.getPrimarySite()) && GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_BRAIN_SITES, i2.getPrimarySite()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -134,7 +133,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // - Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -143,42 +142,42 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 // - Any lobe of the brain C710-C719 AND any other part of CNS
                 if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     // - Cauda equina C721 AND any other part of CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     // - Cerebral meninges C700 AND spinal meninges C701, Cerebral meninges C700 AND any other part of CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
 
                     // - Any one of the cranial nerves C722-C725 AND any other part of the CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     // - Any two or more of the cranial nerves
                     //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
                 else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2) && !s1.equals(s2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
 
                     // - Spinal cord C720 AND any other part of CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                     // - Spinal meninges C701 AND any other part of CNS
                 else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -206,17 +205,17 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String subtype1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(
-                        h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(icd1);
-                String subtype2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(
-                        h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(icd2);
+                String subtype1 = MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.get(
+                        h1) : MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.get(icd1);
+                String subtype2 = MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.get(
+                        h2) : MphConstants.MALIGNANT_CNS_2022_TABLE3_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -230,13 +229,13 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
-                String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
+                String row1 = MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(icd1);
+                String row2 = MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;
@@ -251,7 +250,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
                 else if (row1.equals(row2))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
 
                 return result;
             }
@@ -265,13 +264,13 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
-                String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
+                String row1 = MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(icd1);
+                String row2 = MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2022_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;
@@ -297,7 +296,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary when multiple tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2022_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M12");
         rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

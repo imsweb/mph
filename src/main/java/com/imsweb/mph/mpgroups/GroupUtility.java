@@ -426,6 +426,6 @@ public class GroupUtility {
         return (StringUtils.isBlank(site) ? "Unknown Site" : site) + ", "
                 + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/"
                 + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh) + " "
-                + (validateYear(year) ? (" with year of diagnosis " + year) : " with unknown year of diagnosis");
+                + (validateYear(year) ? ("with year of diagnosis " + year) : "with unknown year of diagnosis");
     }
 }

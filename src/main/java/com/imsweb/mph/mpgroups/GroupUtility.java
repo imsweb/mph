@@ -422,7 +422,10 @@ public class GroupUtility {
     /**
      * Returns the site, hist/beh information of the input
      */
-    public static String getSiteHistInfo(String site, String hist, String beh) {
-        return (StringUtils.isBlank(site) ? "Unknown Site" : site) + ", " + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/" + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh);
+    public static String getSiteHistInfo(String site, String hist, String beh, int year) {
+        return (StringUtils.isBlank(site) ? "Unknown Site" : site) + ", "
+                + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/"
+                + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh) + " "
+                + (validateYear(year) ? (" with year of diagnosis " + year) : " with unknown year of diagnosis");
     }
 }

@@ -209,13 +209,13 @@ public final class MphUtils {
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Unable to identify cancer group for first set of parameters (" + GroupUtility.getSiteHistInfo(site1, hist1, beh1) + "). Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site1, hist1, beh1, year1) + ". Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
         else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Unable to identify cancer group for second set of parameters (" + GroupUtility.getSiteHistInfo(site2, hist2, beh2) + ").Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site2, hist2, beh2, year2) + ".Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
 
@@ -231,11 +231,11 @@ public final class MphUtils {
         }
         else if (group1 == null) {
             output.setResult(MpResult.QUESTIONABLE);
-            output.setReason("The first tumor provided does not belong to any of the cancer groups (" + GroupUtility.getSiteHistInfo(site1, hist1, beh1) + ").");
+            output.setReason("Could not find rule sets for " + GroupUtility.getSiteHistInfo(site1, hist1, beh1, year1) + ".");
         }
         else if (group2 == null) {
             output.setResult(MpResult.QUESTIONABLE);
-            output.setReason("The second tumor provided does not belong to any of the cancer groups (" + GroupUtility.getSiteHistInfo(site2, hist2, beh2) + ").");
+            output.setReason("Could not find rule sets for " + GroupUtility.getSiteHistInfo(site2, hist2, beh2, year2) + ".");
         }
         else if (!group1.getId().equals(group2.getId())) {
             output.setResult(MpResult.MULTIPLE_PRIMARIES);

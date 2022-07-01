@@ -528,10 +528,10 @@ public class GroupUtilityTest {
 
     @Test
     public void testGetSiteHistInfo() {
-        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo(null, null, null));
-        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo("", " ", "  "));
-        Assert.assertEquals("C809, Unknown Histology/Unknown Behavior", GroupUtility.getSiteHistInfo("C809", " ", "  "));
-        Assert.assertEquals("C249, 8000/Unknown Behavior", GroupUtility.getSiteHistInfo("C249", "8000", "  "));
-        Assert.assertEquals("C249, 8000/3", GroupUtility.getSiteHistInfo("C249", "8000", "3"));
+        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior with unknown year of diagnosis", GroupUtility.getSiteHistInfo(null, null, null, 9999));
+        Assert.assertEquals("Unknown Site, Unknown Histology/Unknown Behavior with year of diagnosis 2020", GroupUtility.getSiteHistInfo("", " ", "  ", 2020));
+        Assert.assertEquals("C809, Unknown Histology/Unknown Behavior with unknown year of diagnosis", GroupUtility.getSiteHistInfo("C809", " ", "  ", -1));
+        Assert.assertEquals("C249, 8000/Unknown Behavior with year of diagnosis 2020", GroupUtility.getSiteHistInfo("C249", "8000", "  ", 2020));
+        Assert.assertEquals("C249, 8000/3 with year of diagnosis 2000", GroupUtility.getSiteHistInfo("C249", "8000", "3", 2000));
     }
 }

@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.24**
+
+- Improved message for invalid inputs
+
 **Changes in version 1.23**
 
 - Implemented 2022 updates of solid tumor rules.

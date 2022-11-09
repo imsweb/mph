@@ -27,8 +27,6 @@ public class MphInput {
 
     private String _dateOfDiagnosisDay;
 
-    private String _txStatus;
-
     public String getPrimarySite() {
         return _primarySite;
     }
@@ -98,14 +96,6 @@ public class MphInput {
 
     public void setDateOfDiagnosisDay(String dateOfDiagnosisDay) {
         _dateOfDiagnosisDay = dateOfDiagnosisDay;
-    }
-
-    public String getTxStatus() {
-        return _txStatus;
-    }
-
-    public void setTxStatus(String txStatus) {
-        _txStatus = txStatus;
     }
 
     public String getMorphology() {

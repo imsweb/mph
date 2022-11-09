@@ -3,6 +3,7 @@
 **Changes in version 1.25**
 
 - Fixed wrong messages for rules.
+- Removed unused property.
 
 **Changes in version 1.24**
 

@@ -34,6 +34,11 @@ public class Mp2001HematopoieticGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                if (hist1.equals(hist2)) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setMessage("Single primary based on SEER 2001 multiple primary rules for hematopoietic cancer.");
+                    return result;
+                }
                 //find the group for both histologies
                 String group1 = null, group2 = null;
                 for (String[] row : _2001_HEMATOPOIETIC_GROUPS) {

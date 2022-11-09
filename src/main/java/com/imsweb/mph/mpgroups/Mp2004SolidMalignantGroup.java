@@ -144,44 +144,26 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
                         i2.getBehavior();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
+                //Exceptions
+                List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
+                adenoCarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
+                List<String> carcinoma = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
+                carcinoma.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
+                if (MphConstants.PROSTATE.equals(site1) && site1.equals(site2) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && adenoCarcinoma.containsAll(
+                        Arrays.asList(hist1, hist2)))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && carcinoma.containsAll(
+                        Arrays.asList(hist1, hist2)))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        //Exceptions
-                        List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
-                        adenoCarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
-                        if (MphConstants.PROSTATE.equals(site1) && site1.equals(site2) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && adenoCarcinoma.containsAll(
-                                Arrays.asList(hist1, hist2)))
-                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                        List<String> carcinoma = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
-                        carcinoma.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
-                        if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && carcinoma.containsAll(
-                                Arrays.asList(hist1, hist2)))
-                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                        if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
-                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else {
+                    else
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        //Exceptions
-                        List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
-                        adenoCarcinoma.addAll(MphConstants.ADENOCARCINOMA_NOS);
-                        if (MphConstants.PROSTATE.equals(site1) && site1.equals(site2) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && adenoCarcinoma.containsAll(
-                                Arrays.asList(hist1, hist2)))
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                        List<String> carcinoma = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
-                        carcinoma.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
-                        if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && MphConstants.MALIGNANT.equals(beh1) && beh1.equals(beh2) && carcinoma.containsAll(
-                                Arrays.asList(hist1, hist2)))
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                        if (MphConstants.KAPOSI_SARCOMA.equals(hist1) && hist1.equals(hist2))
-                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    }
                 }
                 return result;
             }

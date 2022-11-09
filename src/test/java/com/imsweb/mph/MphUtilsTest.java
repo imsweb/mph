@@ -1760,6 +1760,10 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisYear("2000");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9754");
+        i2.setHistologyIcdO3("9754");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         //if year is before 2001, if icd02 is valid, use it
         i1.setHistologyIcdO2("9594");
         i2.setHistologyIcdO2("9900");
@@ -1822,12 +1826,16 @@ public class MphUtilsTest {
         MphOutput output;
         i1.setPrimarySite("C001");
         i2.setPrimarySite("C425");
-        i1.setHistologyIcdO3("9590");
-        i2.setHistologyIcdO3("9940"); //9940 after 9590 is single
+        i1.setHistologyIcdO3("9754");
+        i2.setHistologyIcdO3("9754");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2001");
         i2.setDateOfDiagnosisYear("2009");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("9590");
+        i2.setHistologyIcdO3("9940"); //9940 after 9590 is single
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         i1.setDateOfDiagnosisYear("2001");
@@ -2462,7 +2470,8 @@ public class MphUtilsTest {
         i1.setPrimarySite("C671");
         i2.setPrimarySite("C679"); //bladder
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(6, output.getAppliedRules().size());
+        //This is caught by M5 now
+        Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         i1.setHistologyIcdO3("8035");
         i2.setHistologyIcdO3("8522"); //duct and lobular

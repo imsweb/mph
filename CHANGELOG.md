@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.25**
+
+- Fixed wrong messages for rules.
+
 **Changes in version 1.24**
 
 - Improved message for invalid inputs

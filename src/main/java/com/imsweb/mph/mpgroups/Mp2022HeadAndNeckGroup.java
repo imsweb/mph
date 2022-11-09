@@ -239,7 +239,7 @@ public class Mp2022HeadAndNeckGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions is multiple primaries.");
+        rule.setReason("Separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 

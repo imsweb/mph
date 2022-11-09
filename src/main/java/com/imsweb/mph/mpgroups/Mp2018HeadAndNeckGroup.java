@@ -240,7 +240,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions is multiple primaries.");
+        rule.setReason("Separate, non-contiguous tumors on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
@@ -311,7 +311,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         };
         rule.setQuestion("Are separate, non-contiguous tumors in the same primary site and on the same row in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions?");
         rule.setReason(
-                "Separate, non-contiguous tumors in the same primary site and on the same row in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions is a single primary.");
+                "Separate, non-contiguous tumors in the same primary site and on the same row in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions are single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");

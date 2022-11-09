@@ -2059,7 +2059,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         //M13 Abstract multiple primaries** when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm after treatment
-        i1.setTxStatus("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(12, output.getAppliedRules().size());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());

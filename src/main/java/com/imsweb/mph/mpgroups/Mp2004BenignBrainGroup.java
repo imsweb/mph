@@ -81,7 +81,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setReason("Multiple non-malignant tumors of different histologies are separate (multiple) primaries)");
+        rule.setReason("Multiple non-malignant tumors of different histologies are separate (multiple) primaries). Same histologies are single primary.");
         _rules.add(rule);
     }
 

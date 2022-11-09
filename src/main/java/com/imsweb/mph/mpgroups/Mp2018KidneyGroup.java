@@ -36,6 +36,8 @@ public class Mp2018KidneyGroup extends MphGroup {
                 return result;
             }
         };
+        rule.setQuestion("Are there multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX)?");
+        rule.setReason("When multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX), abstract multiple primaries.");
         rule.getNotes().add("When codes differ at the second, third, or fourth characters, the tumors are in different primary sites.");
         _rules.add(rule);
 
@@ -148,7 +150,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         };
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason(
-                "Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+                "Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");

@@ -419,7 +419,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setReason("Multiple lesions of the same histologic type occurring in different sites are separate primaries unless stated to be metastatic.");
+        rule.setReason("Multiple lesions of the same histologic type occurring in different sites are separate primaries unless stated to be metastatic. Otherwise tumors that do not meet any of the criteria are abstracted as a single primary.");
         _rules.add(rule);
     }
 

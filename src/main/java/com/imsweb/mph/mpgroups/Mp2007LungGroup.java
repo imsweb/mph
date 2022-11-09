@@ -92,7 +92,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_LUNG_GROUP_ID, "M8");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_LUNG_GROUP_ID, "M8");
         _rules.add(rule);
 
         // M9- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.

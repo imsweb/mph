@@ -32,6 +32,12 @@ public class Mp1998HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
+                if (i1.getHistology().equals(i2.getHistology())) {
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setMessage("Single primary based on SEER 1998 multiple primary rules for hematopoietic cancer.");
+                    return result;
+                }
+
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
                     result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);

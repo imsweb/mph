@@ -4,6 +4,9 @@
 
 - Fixed wrong messages for rules.
 - Removed unused input TX status.
+- Updated 1998 and 2001 hematopoietic rules to return same primary if histologies are the same.
+- Fixed a bug in 2004 solid malignant rules.
+- Updated HematoDB data with latest data from SEER API.
 
 **Changes in version 1.24**
 

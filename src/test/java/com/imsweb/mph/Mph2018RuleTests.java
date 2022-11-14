@@ -265,7 +265,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertTrue(output.getReason().contains("conditions are single primary"));
+        Assert.assertTrue(output.getReason().contains("conditions are a single primary"));
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8541");
         i1.setBehaviorIcdO3("3");
@@ -282,7 +282,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertTrue(output.getReason().contains("conditions are single primary"));
+        Assert.assertTrue(output.getReason().contains("conditions are a single primary"));
         // Does not apply
         i1.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisYear("2016");

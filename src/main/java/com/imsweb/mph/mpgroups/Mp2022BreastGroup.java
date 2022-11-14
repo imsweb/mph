@@ -200,7 +200,7 @@ public class Mp2022BreastGroup extends MphGroup {
                 "       - Invasive duct + invasive lobular 8522/3 OR\n" +
                 "       - Invasive duct + invasive Paget 8541/3 OR\n" +
                 "       - Invasive duct + other invasive carcinoma 8523/3?");
-        rule.setReason("The following conditions are single primary:\n" +
+        rule.setReason("The following conditions are a single primary:\n" +
                 "- DCIS following a diagnosis of: \n" +
                 "       - DCIS + lobular carcinoma in situ 8522/2 OR\n" +
                 "       - DCIS + in situ Paget 8543/2 OR\n" +

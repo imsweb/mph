@@ -376,7 +376,7 @@ public class MphConstants {
     static {
         Map<String, String> content = new HashMap<>();
         content.put("8035", "8035"); // Carcinoma with osteoclastic-like stromal giant cells
-        content.put("8201/3", "8201/3"); // Cribriform carcinoma
+        content.put("8201", "8201"); // Cribriform carcinoma
         content.put("8022/3", "8022/3"); // Pleomorphic carcinoma
         content.put("8310", "8310"); // Clear cell carcinoma
         content.put("8519/2", "8519/2"); // Pleomorphic lobular carcinoma in situ
@@ -421,7 +421,7 @@ public class MphConstants {
         content.put("8401", "8401"); // Apocrine carcinoma 8401
         content.put("8500", "8500"); // Carcinoma NST 8500
         content.put("8035", "8500"); // Carcinoma NST 8500
-        content.put("8201/3", "8500"); // Carcinoma NST 8500
+        content.put("8201", "8500"); // Carcinoma NST 8500
         content.put("8022/3", "8500"); // Carcinoma NST 8500
         content.put("8315", "8315"); // Glycogen-rich clear cell carcinoma 8315
         content.put("8310", "8315"); // Glycogen-rich clear cell carcinoma 8315
@@ -479,7 +479,7 @@ public class MphConstants {
     static {
         Map<String, String> content = new HashMap<>();
         content.put("8035", "8035"); // Carcinoma with osteoclastic-like stromal giant cells
-        content.put("8201/3", "8201/3"); // Cribriform carcinoma
+        content.put("8201", "8201"); // Cribriform carcinoma
         content.put("8022/3", "8022/3"); // Pleomorphic carcinoma
         content.put("8230/2", "8230/2"); // Ductal carcinoma in situ, solid type/intraductal carcinoma, solid type
         content.put("8230/3", "8230/3"); // Solid carcinoma/solid adenocarcinoma
@@ -524,7 +524,7 @@ public class MphConstants {
         content.put("8401", "8401"); // Apocrine carcinoma 8401
         content.put("8500", "8500"); // Carcinoma NST 8500
         content.put("8035", "8500"); // Carcinoma NST 8500
-        content.put("8201/3", "8500"); // Carcinoma NST 8500
+        content.put("8201", "8500"); // Carcinoma NST 8500
         content.put("8022/3", "8500"); // Carcinoma NST 8500
         content.put("8230/2", "8500"); // Carcinoma NST 8500
         content.put("8230/3", "8500"); // Carcinoma NST 8500
@@ -612,6 +612,7 @@ public class MphConstants {
         content.put("8936/3", "8936/3"); // Gastrointestinal stromal tumor classified as malignant 8936
         content.put("8244", "8244"); // Mixed adenoneuroendocrine carcinoma 8244
         content.put("8243", "8244"); // Mixed adenoneuroendocrine carcinoma 8244
+        content.put("8154", "8154"); // MiNEN
         content.put("8246", "8246"); // Neuroendocrine carcinoma 8246
         content.put("8013", "8246"); // Neuroendocrine carcinoma 8246
         content.put("8041", "8246"); // Neuroendocrine carcinoma 8246
@@ -704,6 +705,8 @@ public class MphConstants {
             Arrays.asList("C659", "C669", "C670", "C671", "C672", "C673", "C674", "C675", "C676", "C677", "C678", "C679", "C680"));
 
     public static final List<String> URINARY_2018_UROTHELIAL_CARCINOMAS = Collections.unmodifiableList(Arrays.asList("8120", "8031", "8082", "8130", "8131", "8020", "8122"));
+
+    public static final List<String> URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY = Collections.unmodifiableList(Arrays.asList("8120", "8031", "8082", "8130", "8020", "8122"));
 
     public static final Map<String, String> URINARY_2018_TABLE2_SUBTYPES;
 

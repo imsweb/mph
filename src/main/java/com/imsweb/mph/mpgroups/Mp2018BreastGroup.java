@@ -130,18 +130,16 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getBehavior().equals(i2.getBehavior())) {
-                    String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                    // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
-                    // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
-                    // -One tumor= 8522; other tumor = 8522
-                    if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
-                            (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
-                            (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
-                            (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
-                            (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
+                // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
+                // -One tumor= 8522; other tumor = 8522
+                if ((MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd2)) ||
+                        (MphConstants.BREAST_NST_DUCT_CARCINOMA_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_CARCINOMA_2018.contains(icd1)) ||
+                        (MphConstants.BREAST_DUCT_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)) ||
+                        (MphConstants.BREAST_DUCT_2018.contains(icd2) && MphConstants.BREAST_LOBULAR_2018.contains(icd1)) ||
+                        (MphConstants.BREAST_LOBULAR_2018.contains(icd1) && MphConstants.BREAST_LOBULAR_2018.contains(icd2)))
+                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };

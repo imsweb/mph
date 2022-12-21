@@ -125,10 +125,9 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && Arrays.asList("8120/2", "8130/2").containsAll(
-                        Arrays.asList(icd1, icd2)))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                if (MphConstants.INSITU.equals(i1.getBehavior()) && MphConstants.INSITU.equals(i2.getBehavior()) && i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite()
+                        .startsWith(MphConstants.BLADDER) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -146,9 +145,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && GroupUtility.differentCategory(icd1, icd2,
-                        Collections.singletonList("8131/3"), Arrays.asList("8120/3", "8130/3")))
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(),
+                        Collections.singletonList("8131"), MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
@@ -194,6 +192,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 "The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         rule.getExamples().add(
                 "Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
+        rule.setReason("Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence. This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.");
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary when there are urothelial carcinomas in multiple urinary organs.

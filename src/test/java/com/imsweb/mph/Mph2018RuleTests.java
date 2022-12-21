@@ -227,8 +227,11 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisMonth("2");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
+        //2023 update behavior restriction removed
         Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupId());
-        Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
@@ -1180,6 +1183,13 @@ public class Mph2018RuleTests {
         i2.setPrimarySite("C180");
         i2.setHistologyIcdO3("8243");
         i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertTrue(output.getReason().contains("are on the same row in Table 1"));
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8154");
+        i2.setHistologyIcdO3("8154");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertTrue(output.getReason().contains("are on the same row in Table 1"));
@@ -4115,6 +4125,12 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Micropapillary urothelial carcinoma"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i2.setHistologyIcdO3("8082");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Micropapillary urothelial carcinoma"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Rule M9 Abstract a single primary when the patient has multiple invasive urothelial cell carcinomas in the bladder. All tumors are either:
         //-Multiple occurrences of urothelial or urothelial subtypes (with exception of micropapillary) OR
@@ -4153,7 +4169,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("greater than three (3) years apart"));
+        Assert.assertTrue(output.getReason().contains("clinically disease-free for greater than three years"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setDateOfDiagnosisYear("2016");

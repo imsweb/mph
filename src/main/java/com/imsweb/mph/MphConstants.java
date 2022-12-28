@@ -812,6 +812,7 @@ public class MphConstants {
         content.put("9040/3", "9040/3");
         content.put("8249/3", "8249/3");
         content.put("8045/3", "8045/3");
+        content.put("8246/3", "8246/3");
         content.put("8240/3", "8240/3");
         content.put("8083", "8083");
         content.put("8071", "8071");
@@ -827,6 +828,7 @@ public class MphConstants {
         content.put("8551", "8140"); //Adenocarcinoma 8140
         content.put("8200", "8140"); //Adenocarcinoma 8140
         content.put("8480", "8140"); //Adenocarcinoma 8140
+        content.put("8144", "8140"); //Adenocarcinoma 8140
         content.put("8333", "8140"); //Adenocarcinoma 8140
         content.put("8250/3", "8140"); //Adenocarcinoma 8140
         content.put("8253/2", "8140"); //Adenocarcinoma 8140
@@ -837,40 +839,45 @@ public class MphConstants {
         content.put("8250/2", "8140"); //Adenocarcinoma 8140
         content.put("8256/3", "8140"); //Adenocarcinoma 8140
         content.put("8260", "8140"); //Adenocarcinoma 8140
-        content.put("8144", "8140"); //Adenocarcinoma 8140
         content.put("8230", "8140"); //Adenocarcinoma 8140
         content.put("8560", "8560"); // Adenosquamous carcinoma 8560
+        content.put("8980/3", "8980/3"); // Carcinosarcoma 8980/3
+        content.put("9170/3", "9170/3"); // Diffuse pulmonary lymphangiomatosis
         content.put("8562", "8562"); // Epithelial-myoepithelial carcinoma 8562
         content.put("9133", "9133"); // Epithelioid hemangioepithelioma 9133
         content.put("8031", "8031"); // Giant cell carcinoma 8031
+        content.put("8310", "8310"); //Hyalinizing clear cell carcinoma 8310
         content.put("8580/3", "8580/3"); // Intrapulmonary thymoma (arising within lung) 8580/3
         content.put("8012", "8012"); // Large cell carcinoma 8012
+        content.put("9174/3", "9174/3"); // Lymphoangioleiomyomatosis 9174/3
+        content.put("8013", "8013"); // Large cell neuroendocrine carcinoma 8013
         content.put("8082", "8082"); // Lymphoepithelioma-like carcinoma 8082
         content.put("8720", "8720"); // Melanoma 8720
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         content.put("8982", "8982"); // Myoepithelial carcinoma 8982
-        content.put("8041", "8041"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8249", "8041"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8045", "8041"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8013", "8041"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8240", "8041"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8023/3", "8023/3"); // NUT carcinoma 8023/3*
+        content.put("8023/3", "8023/3"); // NUT carcinoma 8023/3
         content.put("8714/3", "8714/3"); // PEComa malignant 8714/3
         content.put("8022", "8022"); // Pleomorphic carcinoma 8022
+        content.put("8973/3", "8973/3"); // Pleuropulmonary blastoma 8973/3
+        content.put("8972/3", "8972/3"); // Pulmonary blastoma 8972/3
         content.put("8800/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9043/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9042/3", "8800/3"); // Sarcoma NOS 8800/3
-        content.put("9173/3", "8800/3"); // Sarcoma NOS 8800/3
+        content.put("9137/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("8842/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9041/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9040/3", "8800/3"); // Sarcoma NOS 8800/3
+        content.put("8041/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8249/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8045/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8246/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
+        content.put("8240/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
         content.put("8032", "8032"); // Spindle cell carcinoma 8032
         content.put("8070", "8070"); // Squamous carcinoma 8070
         content.put("8083", "8070"); // Squamous carcinoma 8070
         content.put("8071", "8070"); // Squamous carcinoma 8070
         content.put("8072", "8070"); // Squamous carcinoma 8070
-        content.remove("8013");
-        content.put("8013", "8013");
+        content.put("8044/3", "8044/3"); // Thoracic SMARCA4-deficient undifferentiated tumor 8044/3
         LUNG_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 

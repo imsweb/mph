@@ -2618,6 +2618,15 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("two or more different subtypes/variants in Column 3, Table 3"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8246");
+        i2.setHistologyIcdO3("8249");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("two or more different subtypes/variants in Column 3, Table 3"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         //
         i1.setHistologyIcdO3("8250");
         i1.setBehaviorIcdO3("2");
@@ -2766,8 +2775,8 @@ public class Mph2018RuleTests {
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("09");
         i2.setPrimarySite("C341");
-        i2.setHistologyIcdO3("8041");
-        i2.setBehaviorIcdO3("2");
+        i2.setHistologyIcdO3("8246");
+        i2.setBehaviorIcdO3("3");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("08");

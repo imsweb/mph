@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -203,10 +204,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h1) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd1);
-                String row2 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h2) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h2) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd2);
+                Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
+                String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;
@@ -250,10 +251,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h1) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd1);
-                String row2 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h2) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h2) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd2);
+                Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
+                String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;

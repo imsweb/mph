@@ -260,5 +260,17 @@ public class Mph2022RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        i1.setDateOfDiagnosisYear("2023");
+        i2.setDateOfDiagnosisYear("2022");
+        i1.setHistologyIcdO3("9445");
+        i2.setHistologyIcdO3("9440");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9445");
+        i2.setHistologyIcdO3("9400");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
     }
 }

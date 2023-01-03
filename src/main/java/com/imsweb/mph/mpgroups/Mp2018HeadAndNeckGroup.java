@@ -323,5 +323,12 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.getNotes().add("Use caution when applying this default rule. Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }
+
+    @Override
+    public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
+        if (super.isApplicable(primarySite, histology, behavior, year))
+            return true;
+        return year >= 2019 && year < 2022 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8692", "9693").contains(histology) && "3".equals(behavior);
+    }
 }
 

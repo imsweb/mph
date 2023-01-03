@@ -249,7 +249,7 @@ public class Mp2022MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
                     result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
-                else if (row1.equals(row2))
+                else if (row1.equals(row2) || row1.contains(row2) || row2.contains(row1))
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);
 
                 return result;
@@ -284,7 +284,7 @@ public class Mp2022MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
                     result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
                 }
-                else if (!row1.equals(row2))
+                else if (!row1.equals(row2) && !row1.contains(row2) && !row2.contains(row1))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
 
                 return result;

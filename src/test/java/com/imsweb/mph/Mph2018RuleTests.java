@@ -1894,13 +1894,13 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
-        i1.setPrimarySite("C479");
-        i1.setDateOfDiagnosisYear("2018");
+        i1.setPrimarySite("C754");
+        i1.setDateOfDiagnosisYear("2019");
         i1.setDateOfDiagnosisMonth("11");
         i1.setHistologyIcdO3("8680");
         i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C479");
-        i2.setDateOfDiagnosisYear("2018");
+        i2.setPrimarySite("C754");
+        i2.setDateOfDiagnosisYear("2019");
         i2.setDateOfDiagnosisMonth("11");
         i2.setHistologyIcdO3("8692");
         i2.setBehaviorIcdO3("3");
@@ -1917,7 +1917,9 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
+        i1.setPrimarySite("C479");
         i1.setHistologyIcdO3("8680");
+        i2.setPrimarySite("C479");
         i2.setHistologyIcdO3("8690");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupId());

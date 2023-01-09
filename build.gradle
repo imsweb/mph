@@ -8,7 +8,7 @@ plugins {
     id 'io.github.gradle-nexus.publish-plugin' version '1.1.0' // publish to Maven Central
     id "com.github.ben-manes.versions" version '0.43.0' // check for out-of-date dependencies (run manually)
     id 'org.sonatype.gradle.plugins.scan' version '2.4.1' // scan for vulnerabilities
-    id "org.sonarqube" version "3.3" // sonarQube analysis
+    id "org.sonarqube" version "3.5.0.2730" // sonarQube analysis
 }
 
 group = 'com.imsweb'

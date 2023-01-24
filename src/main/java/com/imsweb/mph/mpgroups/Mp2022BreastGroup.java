@@ -142,18 +142,21 @@ public class Mp2022BreastGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Is this a simultaneous carcinoma NST/duct and lobular carcinoma?");
-        rule.setReason("Simultaneous carcinoma NST/duct and lobular carcinoma is a single primary.");
+        rule.setQuestion("Is this a carcinoma NST/duct and lobular carcinoma?");
+        rule.setReason("Carcinoma NST/duct and lobular carcinoma is a single primary.");
         rule.getNotes().add("Tumors must be in the same breast.");
-        rule.getNotes().add("Carcinoma NST/duct includes:");
-        rule.getNotes().add("  - DCIS 8500/2");
-        rule.getNotes().add("  - Carcinoma NST 8500/3");
-        rule.getNotes().add("  - Carcinoma with osteoclastic-like stromal giant cells 8035/3 (subtype/variant of carcinoma NST)");
-        rule.getNotes().add("Lobular carcinoma includes:");
-        rule.getNotes().add("  - In situ lobular carcinoma 8520/2");
-        rule.getNotes().add("  - In situ pleomorphic lobular carcinoma 8519/2");
-        rule.getNotes().add("  - Invasive lobular carcinoma 8520/3");
-        rule.getNotes().add("One or more tumors with combination duct and lobular histology 8522 AND a separate tumor with any other histology in Table 3 are multiple primaries.");
+        rule.getNotes().add("Carcinoma NST/duct includes:\n"
+                + "- DCIS 8500/2\n"
+                + "- Carcinoma NST 8500/3\n"
+                + "- Carcinoma with osteoclastic-like stromal giant cells 8035/3 (subtype/variant of carcinoma NST)\n"
+                + "- Cribriform carcinoma 8201/3\n"
+                + "- Pleomorphic carcinoma 8022/3");
+        rule.getNotes().add("Lobular carcinoma includes:\n"
+                + "- In situ lobular carcinoma 8520/2\n"
+                + "- In situ pleomorphic lobular carcinoma 8519/2\n"
+                + "- Invasive lobular carcinoma 8520/3\n"
+                + "- Invasive pleomorphic lobular carcinoma 8520/3");
+        rule.getNotes().add("When a mixture of behaviors is present in carcinoma, NST and lobular carcinoma, follow the H rules to determine the correct histology code.");
         rule.getExamples().add("Two tumors right breast. One tumor is invasive mixed duct and lobular 8522/3 and the second tumor is tubular 8211/3. Abstract two primaries: 8522/3 and 8211/3.");
         _rules.add(rule);
 

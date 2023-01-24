@@ -1373,6 +1373,23 @@ public class MphUtilsTest {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
+        i1.setPrimarySite("C739");
+        i2.setPrimarySite("C739");
+        i1.setHistologyIcdO3("8260");
+        i2.setHistologyIcdO3("8290");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setLaterality("0");
+        i2.setLaterality("0");
+        i1.setDateOfDiagnosisYear("2012");
+        i2.setDateOfDiagnosisYear("2012"); // same year month unknown
+        i1.setDateOfDiagnosisMonth("7");
+        i2.setDateOfDiagnosisMonth("7"); // same year month unknown
+        i1.setDateOfDiagnosisDay("3");
+        i2.setDateOfDiagnosisDay("3"); // same year month unknown
+        output = _utils.computePrimaries(i1, i2);
+        System.out.println(output);
+
         //M3- Adenocarcinoma of the prostate is always a single primary. (8140)
         i1.setPrimarySite("C619");
         i2.setPrimarySite("C619");

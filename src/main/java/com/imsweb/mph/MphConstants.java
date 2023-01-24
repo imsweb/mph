@@ -366,7 +366,7 @@ public class MphConstants {
     //--------------------------------------------------------------------------------------------------------------------------------------
     // See Breast 2019 AS OF date at top of this file.
 
-    public static final List<String> BREAST_NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3");
+    public static final List<String> BREAST_NST_DUCT_CARCINOMA_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3,8201/3,8022/3");
     public static final List<String> BREAST_LOBULAR_CARCINOMA_2018 = GroupUtility.expandList("8520/2,8519/2,8520/3");
     public static final List<String> BREAST_DUCT_2018 = GroupUtility.expandList("8500/2,8500/3,8035/3,8520/2,8519/2,8520/3");
     public static final List<String> BREAST_LOBULAR_2018 = GroupUtility.expandList("8522/3,8522/2");

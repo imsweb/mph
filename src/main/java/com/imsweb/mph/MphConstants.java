@@ -47,7 +47,7 @@ public class MphConstants {
     public static final String MP_2018_LUNG_GROUP_ID = "mp_2018_lung";
     public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID = "mp_2018_malignant_cns_and_peripheral_nerves";
     public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID = "mp_2018_non_malignant_cns_tumors";
-    public static final String MP_2018_OTHER_SITES_GROUP_ID = "mp_2018_other_sites";
+    public static final String MP_2023_OTHER_SITES_GROUP_ID = "mp_2023_other_sites";
     public static final String MP_2018_URINARY_GROUP_ID = "mp_2018_urinary";
 
     public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2021_cutaneous_melanoma";
@@ -83,7 +83,7 @@ public class MphConstants {
     public static final String MP_2018_LUNG_GROUP_NAME = "2018 Lung";
     public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME = "2018 Malignant CNS And Peripheral Nerves";
     public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME = "2018 Non Malignant CNS Tumors";
-    public static final String MP_2018_OTHER_SITES_GROUP_NAME = "2018 Other Sites";
+    public static final String MP_2023_OTHER_SITES_GROUP_NAME = "2023 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
     public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME = "2021 Cutaneous Melanoma";
 

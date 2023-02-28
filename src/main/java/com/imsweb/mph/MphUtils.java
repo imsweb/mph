@@ -43,6 +43,7 @@ import com.imsweb.mph.mpgroups.Mp2022ColonGroup;
 import com.imsweb.mph.mpgroups.Mp2022HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2022KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2022MalignantCNSAndPeripheralNervesGroup;
+import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 /**
  * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
@@ -170,6 +171,9 @@ public final class MphUtils {
         addGroup(new Mp2022HeadAndNeckGroup());
         addGroup(new Mp2022KidneyGroup());
         addGroup(new Mp2022MalignantCNSAndPeripheralNervesGroup());
+
+        //2023
+        addGroup(new Mp2023OtherSitesGroup());
     }
 
     /**

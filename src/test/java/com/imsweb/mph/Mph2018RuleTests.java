@@ -1356,7 +1356,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8000");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, output.getGroupId());
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
         //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052

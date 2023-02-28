@@ -36,7 +36,6 @@ import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2018LungGroup;
 import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
 import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
-import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
 import com.imsweb.mph.mpgroups.Mp2021CutaneousMelanomaGroup;
 import com.imsweb.mph.mpgroups.Mp2022BreastGroup;
@@ -160,7 +159,6 @@ public final class MphUtils {
         addGroup(new Mp2018LungGroup());
         addGroup(new Mp2018MalignantCNSAndPeripheralNervesGroup());
         addGroup(new Mp2018NonMalignantCNSTumorsGroup());
-        addGroup(new Mp2018OtherSitesGroup());
         addGroup(new Mp2018UrinarySitesGroup());
 
         //2021 solid tumor rules

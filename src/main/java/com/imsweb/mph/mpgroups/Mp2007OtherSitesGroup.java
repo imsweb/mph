@@ -22,7 +22,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
     public Mp2007OtherSitesGroup() {
-        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-2022");
 
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3") {
@@ -305,6 +305,23 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         specificGroups.add(new Mp2007UrinaryGroup());
         specificGroups.add(new Mp2007BenignBrainGroup());
         specificGroups.add(new Mp2007MalignantBrainGroup());
+
+        specificGroups.add(new Mp2018BreastGroup());
+        specificGroups.add(new Mp2018ColonGroup());
+        specificGroups.add(new Mp2018HeadAndNeckGroup());
+        specificGroups.add(new Mp2018KidneyGroup());
+        specificGroups.add(new Mp2018LungGroup());
+        specificGroups.add(new Mp2018MalignantCNSAndPeripheralNervesGroup());
+        specificGroups.add(new Mp2018NonMalignantCNSTumorsGroup());
+        specificGroups.add(new Mp2018UrinarySitesGroup());
+
+        specificGroups.add(new Mp2021CutaneousMelanomaGroup());
+
+        specificGroups.add(new Mp2022BreastGroup());
+        specificGroups.add(new Mp2022ColonGroup());
+        specificGroups.add(new Mp2022HeadAndNeckGroup());
+        specificGroups.add(new Mp2022KidneyGroup());
+        specificGroups.add(new Mp2022MalignantCNSAndPeripheralNervesGroup());
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;

@@ -98,8 +98,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setReason("Kaposi sarcoma (any site or sites) is always a single primary.");
         _rules.add(rule);
 
-        //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M6") {
+        //M7- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -119,11 +119,31 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are there follicular and papillary tumors of the thyroid within 60 days of diagnosis?");
-        rule.setReason("Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.");
+        rule.setReason("Abstract a single primary when follicular and papillary tumors in the thyroid are diagnosed within 60 days and tumors are: \n"
+        + "Papillary thyroid carcinoma, NOS and follicular carcinoma, NOS OR\n"
+        + "Papillary carcinoma, follicular variant and papillary thyroid carcinoma OR\n"
+        + "Papillary carcinoma, follicular variant and follicular carcinoma OR\n"
+        + "Any papillary thyroid carcinoma subtype/variant and any follicular subtype/variant listed in Column 3, Table 12.");
         _rules.add(rule);
 
-        //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M7") {
+        //M8- Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M8") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && GroupUtility.differentCategory(icd1, icd2, MphConstants.ANAPLASTIC_CARCINOMA, MphConstants.OTHER_THYROID_HISTOLOGIES))
+                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
+        rule.setQuestion("Are separate/non-contigous tumors anaplastic carcinoma and any other histologies in the thyroid?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.");
+        _rules.add(rule);
+
+        //M9- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -144,8 +164,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setReason("Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary.");
         _rules.add(rule);
 
-        // M8 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M8") {
+        // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -169,8 +189,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("Table 1 – Paired Organs and Sites with Laterality.");
         _rules.add(rule);
 
-        //M9 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M9") {
+        //M11 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -186,10 +206,11 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         };
         rule.setQuestion("Is the diagnosis adenocarcinoma in adenomatous polyposis coli (familialpolyposis ) with one or more malignant polyps?");
         rule.setReason("Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.");
+        rule.getNotes().add("Tumors may be present in a single or multiple segments of small bowel, colon, rectosigmoid, rectum. ");
         _rules.add(rule);
 
-        //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M10") {
+        //M12 - Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or recurrence.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -204,7 +225,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             }
         };
         rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
-        rule.setReason("Tumors diagnosed more than one (1) year apart are multiple primaries.");
+        rule.setReason("Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or recurrence.");
         _rules.add(rule);
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.

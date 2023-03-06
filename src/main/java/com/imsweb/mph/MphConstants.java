@@ -168,6 +168,9 @@ public class MphConstants {
     public static final String PAIRED_NO_INFORMATION = "9";
 
     //Histologies
+    public static final List<String> ANAPLASTIC_CARCINOMA = Collections.singletonList("8021/3");
+
+    public static final List<String> OTHER_THYROID_HISTOLOGIES = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3", "8345/3", "8290/3", "8260/3", "8344/3", "8350/3", "8343/3", "8340/3", "8343/2", "8337/3");
     public static final List<String> CARCINOMA_NOS = GroupUtility.expandList("8010");
     public static final List<String> CARCINOMA_SPECIFIC = GroupUtility.expandList(
             "8000-8005,8011-8015,8020-8022,8030-8035,8041-8046,8050-8052,8070-8078,8080-8084,8090-8098,8102,8110,8120-8124,8130-8131,8140-8148,8150-8157,8160-8162,8170-8175,"

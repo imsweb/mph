@@ -1886,4 +1886,130 @@ public class MphConstants {
     public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3", "8723/3",
             "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
 
+    public static final Map<String, Map<String, String>>  OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
+
+    static {
+        Map<String, Map<String, String>> content = new HashMap<>();
+        //Table 3 Prostate
+        Map<String, String> prostateRows = new HashMap<>();
+
+        prostateRows.put("8140","8140");
+        prostateRows.put("8201/3","8140");
+        prostateRows.put("8260/3","8140");
+        prostateRows.put("8230/3","8140");
+        prostateRows.put("8500","8140");
+        prostateRows.put("8572/3","8140");
+        prostateRows.put("8574/3","8140");
+        prostateRows.put("8480/3","8140");
+        prostateRows.put("8490/3","8140");
+
+        //TODO Ask
+        //prostateRows.put("8574/3","8574/3");
+
+        prostateRows.put("8560/3","8560/3");
+
+        prostateRows.put("8147/3","8147/3");
+
+        prostateRows.put("8552/3","8552/3");
+
+        prostateRows.put("8240/3","8240/3");
+        prostateRows.put("8013/3","8240/3");
+        prostateRows.put("8041/3","8240/3");
+
+        prostateRows.put("8800/3","8800/3");
+        prostateRows.put("8935/3","8800/3");
+        prostateRows.put("8890/3","8800/3");
+        prostateRows.put("8900/3","8800/3");
+        prostateRows.put("9120/3","8800/3");
+        prostateRows.put("9040/3","8800/3");
+        prostateRows.put("9180/3","8800/3");
+        prostateRows.put("8802/3","8800/3");
+        prostateRows.put("8815/3","8800/3");
+
+        prostateRows.put("8070/3","8070/3");
+
+        prostateRows.put("8120/3","8120/3");
+
+        content.put(PROSTATE, prostateRows);
+
+        //Table 4 Testis
+        List<String> testisSites = Arrays.asList("C620", "C621", "C629");
+        Map<String, String> testisRows = new HashMap<>();
+        testisRows.put("9064","9064/3");
+        testisRows.put("9100/3","9064/3");
+        testisRows.put("9070/3","9064/3");
+        testisRows.put("9063/3","9064/3");
+        testisRows.put("9071/3","9064/3");
+        testisRows.put("9084/3","9064/3");
+
+        testisRows.put("8650/3", "8650/3");
+
+        testisRows.put("8640/3", "8640/3");
+
+        for (String site : testisSites)
+            content.put(site, testisRows);
+
+        //Table 5 esophagus
+        List<String> esophagusSites = Arrays.asList("C150", "C151", "C152", "C153", "C154", "C155", "C158", "C159");
+        Map<String, String> esophagusRows = new HashMap<>();
+        esophagusRows.put("8140", "8140");
+        esophagusRows.put("8200/3", "8200/3");
+        esophagusRows.put("8560/3", "8560/3");
+        esophagusRows.put("8430/3", "8430/3");
+
+        esophagusRows.put("8070", "8070");
+        esophagusRows.put("8083/3", "8070");
+        esophagusRows.put("8074/3", "8070");
+        esophagusRows.put("8051/3", "8070");
+        esophagusRows.put("8020/3", "8020/3");
+
+        esophagusRows.put("8240/3", "8240/3");
+        esophagusRows.put("8246/3", "8240/3");
+        esophagusRows.put("8013/3", "8240/3");
+        esophagusRows.put("8041/3", "8240/3");
+
+        esophagusRows.put("8154/3", "8154/3");
+
+        for (String site : esophagusSites)
+            content.put(site, esophagusRows);
+
+        //Table 21
+//        content.put("9261/3", "9261/3");
+//
+//        content.put("9120/3", "9120/3");
+//
+//        content.put("9220/3", "9220/3");
+//        content.put("9222/3", "9220/3");
+//        content.put("9242/3", "9220/3");
+//        content.put("9243/3", "9220/3");
+//        content.put("9240/3", "9220/3");
+//        content.put("9221/3", "9220/3");
+//
+//        content.put("9370/3", "9370/3");
+//        content.put("9372/3", "9370/3");
+//
+//        content.put("9133/3", "9133/3");
+//
+//        content.put("8810/3", "8810/3");
+//
+//        content.put("9250/3", "9250/3");
+//
+//        content.put("8890/3", "8890/3");
+//
+//        content.put("9180/3", "9180/3");
+//        content.put("9194/3", "9180/3");
+//        content.put("9192/3", "9180/3");
+//        content.put("9193/3", "9180/3");
+//        content.put("9184/3", "9180/3");
+//
+//        content.put("8800/3", "8800/3");
+//        content.put("9367/3", "8800/3");
+//        content.put("9364/3", "8800/3");
+//        content.put("9366/3", "8800/3");
+//        content.put("9368/3", "8800/3");
+//
+//        content.put("8802/3", "8802/3");
+        OTHER_SITES_2023_TABLE_ROWS_FOR_SITE = Collections.unmodifiableMap(content);
+    }
+
 }

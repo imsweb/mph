@@ -1973,6 +1973,79 @@ public class MphConstants {
         for (String site : esophagusSites)
             content.put(site, esophagusRows);
 
+        //Table 6 stomach
+        List<String> stomachSites = Arrays.asList("C160", "C161", "C162", "C163", "C164", "C165", "C166", "C168", "C169");
+        Map<String, String> stomachRows = new HashMap<>();
+        stomachRows.put("8140", "8140");
+        stomachRows.put("8144/3", "8140");
+        stomachRows.put("8576/3", "8140");
+        stomachRows.put("8512/3", "8140");
+        stomachRows.put("8265/3", "8140");
+        stomachRows.put("8480/3", "8140");
+        stomachRows.put("8430/3", "8140");
+        stomachRows.put("8260/3", "8140");
+        stomachRows.put("8214/3", "8140");
+        stomachRows.put("8490/3", "8140");
+        stomachRows.put("8211/3", "8140");
+
+        stomachRows.put("8210/2", "8210/2");
+        stomachRows.put("8560/3", "8560/3");
+        stomachRows.put("8976/3", "8976/3");
+        stomachRows.put("8148/2", "8148/2");
+        stomachRows.put("8144/2", "8144/2");
+        stomachRows.put("8244/3", "8244/3");
+        stomachRows.put("8154/3", "8154/3");
+
+        stomachRows.put("8246/3", "8246/3");
+        stomachRows.put("8013/3", "8246/3");
+        stomachRows.put("8041/3", "8246/3");
+
+        stomachRows.put("8240/3", "8240/3");
+        stomachRows.put("8242/3", "8240/3");
+        stomachRows.put("8241/3", "8240/3");
+        stomachRows.put("8153/3", "8240/3");
+        stomachRows.put("8249/3", "8240/3");
+
+        stomachRows.put("8213/2", "8213/2");
+
+        stomachRows.put("8070/3", "8070/3");
+
+        stomachRows.put("8020/3", "8020/3");
+        stomachRows.put("8035/3", "8020/3");
+        stomachRows.put("8014/3", "8020/3");
+        stomachRows.put("8022/3", "8020/3");
+        stomachRows.put("8033/3", "8020/3");
+
+        for (String site : stomachSites)
+            content.put(site, stomachRows);
+
+        //Table 7 intestine
+        List<String> intestineSites = Arrays.asList("C170", "C171", "C172", "C173", "C178", "C179", "C241");
+        Map<String, String> intestineRows = new HashMap<>();
+        intestineRows.put("8140", "8140");
+        intestineRows.put("8144/3", "8140");
+        intestineRows.put("8510/3", "8140");
+        intestineRows.put("8480/3", "8140");
+        intestineRows.put("8163", "8140");
+        intestineRows.put("8490/3", "8140");
+        intestineRows.put("8211/3", "8140");
+
+        intestineRows.put("8210/2", " 8210/2");
+        intestineRows.put("8144/2", "8144/2");
+        intestineRows.put("8154/3", "8154/3");
+
+        intestineRows.put("8246/3", "8246/3");
+        intestineRows.put("8013/3", "8246/3");
+        intestineRows.put("8041/3", "8246/3");
+
+        intestineRows.put("8240/3", "8240/3");
+        intestineRows.put("8249/3", "8240/3");
+
+        intestineRows.put("8213/2", " 8213/2");
+
+        for (String site : intestineSites)
+            content.put(site, intestineRows);
+
         //Table 21
 //        content.put("9261/3", "9261/3");
 //

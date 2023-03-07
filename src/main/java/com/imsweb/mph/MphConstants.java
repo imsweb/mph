@@ -2046,6 +2046,60 @@ public class MphConstants {
         for (String site : intestineSites)
             content.put(site, intestineRows);
 
+        //Table 8 ANUS
+        List<String> anusSites = Arrays.asList("C210", "C211", "C212", "C218");
+        Map<String, String> anusRows = new HashMap<>();
+        anusRows.put("8140", "8140");
+        anusRows.put("8154/3", "8154/3");
+
+        anusRows.put("8246/3", "8246/3");
+        anusRows.put("8013/3", "8246/3");
+        anusRows.put("8041/3", "8246/3");
+
+        anusRows.put("8240/3", "8240/3");
+        anusRows.put("8249/3", "8240/3");
+
+        anusRows.put("8070/3", "8070/3");
+        anusRows.put("8086/3", "8070/3");
+        anusRows.put("8085/3", "8070/3");
+        anusRows.put("8051/3", "8070/3");
+
+        anusRows.put("8077/2", "8077/2");
+
+        for (String site : anusSites)
+            content.put(site, anusRows);
+
+        //Table 9 Liver
+        List<String> liverSites = Arrays.asList("C220", "C221");
+        Map<String, String> liverRows = new HashMap<>();
+        liverRows.put("8020/3", "8020/3");
+        liverRows.put("8160/3", "8160/3");
+        liverRows.put("8180/3", "8180/3");
+        liverRows.put("8970/3", "8970/3");
+
+        liverRows.put("8170/3", "8170/3");
+        liverRows.put("8171/3", "8170/3");
+        liverRows.put("8172/3", "8170/3");
+        liverRows.put("8174/3", "8170/3");
+
+        liverRows.put("8503", "8503");
+        liverRows.put("8154/3", "8154/3");
+
+        liverRows.put("8470/2", "8470/2");
+        liverRows.put("8470/3", "8470/3");
+
+        liverRows.put("8246/3", "8246/3");
+        liverRows.put("8013/3", "8246/3");
+        liverRows.put("8041/3", "8246/3");
+
+        liverRows.put("8240/3", "8240/3");
+        liverRows.put("8249/3", "8240/3");
+
+        for (String site : liverSites)
+            content.put(site, liverRows);
+
+
+
         //Table 21
 //        content.put("9261/3", "9261/3");
 //

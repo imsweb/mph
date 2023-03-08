@@ -2177,7 +2177,7 @@ public class MphConstants {
         for (String site : pancreasSites)
             content.put(site, pancreasRows);
 
-        //Table 11 Thyroid
+        //Table 12 Thyroid
         Map<String, String> thyroidRows = new HashMap<>();
         thyroidRows.put("8021/3", "8021/3");
 
@@ -2199,6 +2199,48 @@ public class MphConstants {
         thyroidRows.put("8337/3", "8337/3");
 
         content.put(THYROID, thyroidRows);
+
+        //Table 13 Ovary
+        Map<String, String> ovaryRows = new HashMap<>();
+        ovaryRows.put("9110/3", "9110/3");
+        ovaryRows.put("8933/3", "8933/3");
+        ovaryRows.put("8620/3", "8620/3");
+        ovaryRows.put("8980/3", "8980/3");
+        ovaryRows.put("9100/3", "9100/3");
+        ovaryRows.put("8310/3", "8310/3");
+        ovaryRows.put("8380/3", "8380/3");
+
+        //TODO ask 9064/3
+        ovaryRows.put("9064/3", "9064/3");
+        ovaryRows.put("9080/3", "9064/3");
+        ovaryRows.put("9060/3", "9064/3");
+        ovaryRows.put("9071/3", "9064/3");
+        ovaryRows.put("9070/3", "9064/3");
+        ovaryRows.put("9085/3", "9064/3");
+
+        ovaryRows.put("9000/3", "9000/3");
+        ovaryRows.put("9111/3", "9111/3");
+        ovaryRows.put("8480/3", "8480/3");
+
+        ovaryRows.put("8800/3", "8800/3");
+        ovaryRows.put("8930/3", "8800/3");
+        ovaryRows.put("8931/3", "8800/3");
+        ovaryRows.put("8890/3", "8800/3");
+        ovaryRows.put("8810/3", "8800/3");
+
+        ovaryRows.put("8441", "8441");
+        ovaryRows.put("8461/3", "8441");
+        ovaryRows.put("8460/3", "8441");
+
+        ovaryRows.put("8044/3", "8044/3");
+        ovaryRows.put("8670/3", "8670/3");
+        ovaryRows.put("9090/3", "9090/3");
+        ovaryRows.put("9084/3", "9084/3");
+        ovaryRows.put("8020/3", "8020/3");
+
+        content.put(OVARY, ovaryRows);
+
+
 
         //Table 21
 //        content.put("9261/3", "9261/3");

@@ -2098,7 +2098,107 @@ public class MphConstants {
         for (String site : liverSites)
             content.put(site, liverRows);
 
+        //Table 10 gallbladder
+        List<String> bladderSites = Arrays.asList("C239", "C240", "C248", "C249");
+        Map<String, String> bladderRows = new HashMap<>();
+        bladderRows.put("8140/3", "8140/3");
+        bladderRows.put("8144/3", "8140/3");
+        bladderRows.put("8310/3", "8140/3");
+        bladderRows.put("8480/3", "8140/3");
+        bladderRows.put("8490/3", "8140/3");
 
+        bladderRows.put("8560/3", "8560/3");
+
+        bladderRows.put("8160/3", "8160/3");
+        bladderRows.put("8161/3", "8160/3");
+        bladderRows.put("8162/3", "8160/3");
+
+        bladderRows.put("8148/2", "8148/2");
+
+        bladderRows.put("8010/3", "8010/3");
+        bladderRows.put("8020/3", "8010/3");
+
+        bladderRows.put("8503/2", "8503/2");
+        bladderRows.put("8503/3", "8503/3");
+        bladderRows.put("8154/3", "8154/3");
+        bladderRows.put("8470/3", "8470/3");
+
+        bladderRows.put("8246/3", "8246/3");
+        bladderRows.put("8013/3", "8246/3");
+        bladderRows.put("8041/3", "8246/3");
+
+        bladderRows.put("8240/3", "8240/3");
+        bladderRows.put("8249/3", "8240/3");
+
+        bladderRows.put("8070/3", "8070/3");
+
+        for (String site : bladderSites)
+            content.put(site, bladderRows);
+
+        //Table 11 Pancreas
+        List<String> pancreasSites = Arrays.asList("C250", "C251", "C252", "C253", "C254", "C257", "C258", "C259");
+        Map<String, String> pancreasRows = new HashMap<>();
+        pancreasRows.put("8140/3", "8140/3");
+        pancreasRows.put("8550/3", "8140/3");
+        pancreasRows.put("8480/3", "8140/3");
+        pancreasRows.put("8500/3", "8140/3");
+        pancreasRows.put("8576/3", "8140/3");
+        pancreasRows.put("8265/3", "8140/3");
+        pancreasRows.put("8510/3", "8140/3");
+        pancreasRows.put("8552/3", "8140/3");
+        pancreasRows.put("8154/3", "8140/3");
+        pancreasRows.put("8490/3", "8140/3");
+
+        pancreasRows.put("8560/3", "8560/3");
+
+        pancreasRows.put("8148/2", "8148/2");
+
+        pancreasRows.put("8455", "8455");
+
+        pancreasRows.put("8453/2", "8453/2");
+        pancreasRows.put("8453/3", "8453/3");
+
+        pancreasRows.put("8503/2", "8503/2");
+        pancreasRows.put("8503/3", "8503/3");
+
+        pancreasRows.put("8470/2", "8470/2");
+        pancreasRows.put("8470/3", "8470/3");
+
+        pancreasRows.put("8971/3", "8971/3");
+
+        pancreasRows.put("8452/3", "8452/3");
+
+        pancreasRows.put("8070/3", "8070/3");
+
+        pancreasRows.put("8020/3", "8020/3");
+        pancreasRows.put("8035/3", "8020/3");
+        pancreasRows.put("8014/3", "8020/3");
+
+        for (String site : pancreasSites)
+            content.put(site, pancreasRows);
+
+        //Table 11 Thyroid
+        Map<String, String> thyroidRows = new HashMap<>();
+        thyroidRows.put("8021/3", "8021/3");
+
+        thyroidRows.put("8330/3", "8330/3");
+        thyroidRows.put("8339/3", "8330/3");
+        thyroidRows.put("8335/3", "8330/3");
+        thyroidRows.put("8331/3", "8330/3");
+        thyroidRows.put("8332/3", "8330/3");
+
+        thyroidRows.put("8345", "8345");
+        thyroidRows.put("8290/3", "8290/3");
+
+        thyroidRows.put("8260/3", "8260/3");
+        thyroidRows.put("8344/3", "8260/3");
+        thyroidRows.put("8350/3", "8260/3");
+        thyroidRows.put("8343", "8260/3");
+        thyroidRows.put("8340/3", "8260/3");
+
+        thyroidRows.put("8337/3", "8337/3");
+
+        content.put(THYROID, thyroidRows);
 
         //Table 21
 //        content.put("9261/3", "9261/3");

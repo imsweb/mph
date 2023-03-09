@@ -111,6 +111,8 @@ public class MphConstants {
 
     public static final String FALLOPIAN = "C570";
 
+    public static final String VAGINA = "C529";
+
     public static final List<String> EXACT_MATCH_SITES = Collections.unmodifiableList(Arrays.asList("C18", "C21", "C38", "C40", "C41", "C44", "C47", "C49"));
     public static final List<String> TONGUE = Collections.unmodifiableList(Arrays.asList("C01", "C02"));
     public static final List<String> MOUTH = Collections.unmodifiableList(Arrays.asList("C05", "C06"));
@@ -174,7 +176,8 @@ public class MphConstants {
     //Histologies
     public static final List<String> ANAPLASTIC_CARCINOMA = Collections.singletonList("8021/3");
 
-    public static final List<String> OTHER_THYROID_HISTOLOGIES = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3", "8345/3", "8290/3", "8260/3", "8344/3", "8350/3", "8343/3", "8340/3", "8343/2", "8337/3");
+    public static final List<String> OTHER_THYROID_HISTOLOGIES = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3", "8345/3", "8290/3", "8260/3", "8344/3", "8350/3", "8343/3", "8340/3",
+            "8343/2", "8337/3");
     public static final List<String> CARCINOMA_NOS = GroupUtility.expandList("8010");
     public static final List<String> CARCINOMA_SPECIFIC = GroupUtility.expandList(
             "8000-8005,8011-8015,8020-8022,8030-8035,8041-8046,8050-8052,8070-8078,8080-8084,8090-8098,8102,8110,8120-8124,8130-8131,8140-8148,8150-8157,8160-8162,8170-8175,"
@@ -701,7 +704,6 @@ public class MphConstants {
         content.put("9040/3", "8800/3"); // Sarcoma 8800/3
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }
-
 
     //--------------------------------------------------------------------------------------------------------------------------------------
     // Urinary
@@ -1887,64 +1889,65 @@ public class MphConstants {
         CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3", "8723/3",
+    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3",
+            "8723/3",
             "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
 
-    public static final Map<String, Map<String, String>>  OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
+    public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
 
     static {
         Map<String, Map<String, String>> content = new HashMap<>();
         //Table 3 Prostate
         Map<String, String> prostateRows = new HashMap<>();
 
-        prostateRows.put("8140","8140");
-        prostateRows.put("8201/3","8140");
-        prostateRows.put("8260/3","8140");
-        prostateRows.put("8230/3","8140");
-        prostateRows.put("8500","8140");
-        prostateRows.put("8572/3","8140");
-        prostateRows.put("8574/3","8140");
-        prostateRows.put("8480/3","8140");
-        prostateRows.put("8490/3","8140");
+        prostateRows.put("8140", "8140");
+        prostateRows.put("8201/3", "8140");
+        prostateRows.put("8260/3", "8140");
+        prostateRows.put("8230/3", "8140");
+        prostateRows.put("8500", "8140");
+        prostateRows.put("8572/3", "8140");
+        prostateRows.put("8574/3", "8140");
+        prostateRows.put("8480/3", "8140");
+        prostateRows.put("8490/3", "8140");
 
         //TODO Ask
         //prostateRows.put("8574/3","8574/3");
 
-        prostateRows.put("8560/3","8560/3");
+        prostateRows.put("8560/3", "8560/3");
 
-        prostateRows.put("8147/3","8147/3");
+        prostateRows.put("8147/3", "8147/3");
 
-        prostateRows.put("8552/3","8552/3");
+        prostateRows.put("8552/3", "8552/3");
 
-        prostateRows.put("8240/3","8240/3");
-        prostateRows.put("8013/3","8240/3");
-        prostateRows.put("8041/3","8240/3");
+        prostateRows.put("8240/3", "8240/3");
+        prostateRows.put("8013/3", "8240/3");
+        prostateRows.put("8041/3", "8240/3");
 
-        prostateRows.put("8800/3","8800/3");
-        prostateRows.put("8935/3","8800/3");
-        prostateRows.put("8890/3","8800/3");
-        prostateRows.put("8900/3","8800/3");
-        prostateRows.put("9120/3","8800/3");
-        prostateRows.put("9040/3","8800/3");
-        prostateRows.put("9180/3","8800/3");
-        prostateRows.put("8802/3","8800/3");
-        prostateRows.put("8815/3","8800/3");
+        prostateRows.put("8800/3", "8800/3");
+        prostateRows.put("8935/3", "8800/3");
+        prostateRows.put("8890/3", "8800/3");
+        prostateRows.put("8900/3", "8800/3");
+        prostateRows.put("9120/3", "8800/3");
+        prostateRows.put("9040/3", "8800/3");
+        prostateRows.put("9180/3", "8800/3");
+        prostateRows.put("8802/3", "8800/3");
+        prostateRows.put("8815/3", "8800/3");
 
-        prostateRows.put("8070/3","8070/3");
+        prostateRows.put("8070/3", "8070/3");
 
-        prostateRows.put("8120/3","8120/3");
+        prostateRows.put("8120/3", "8120/3");
 
         content.put(PROSTATE, prostateRows);
 
         //Table 4 Testis
         List<String> testisSites = Arrays.asList("C620", "C621", "C629");
         Map<String, String> testisRows = new HashMap<>();
-        testisRows.put("9064","9064/3");
-        testisRows.put("9100/3","9064/3");
-        testisRows.put("9070/3","9064/3");
-        testisRows.put("9063/3","9064/3");
-        testisRows.put("9071/3","9064/3");
-        testisRows.put("9084/3","9064/3");
+        testisRows.put("9064", "9064/3");
+        testisRows.put("9100/3", "9064/3");
+        testisRows.put("9070/3", "9064/3");
+        testisRows.put("9063/3", "9064/3");
+        testisRows.put("9071/3", "9064/3");
+        testisRows.put("9084/3", "9064/3");
 
         testisRows.put("8650/3", "8650/3");
 
@@ -2278,85 +2281,260 @@ public class MphConstants {
         content.put(FALLOPIAN, fallopianRows);
 
         //Table 16: Uterine Corpus Histologies
-        List<String> uterineSites = Arrays.asList("C540", "C541", "C542", "C543", "C548", "C549", "C559");
-        Map<String, String> uterineRows = new HashMap<>();
-        uterineRows.put("8933/3", "8933/3");
-        uterineRows.put("8020/3", "8020/3");
-        uterineRows.put("8980/3", "8980/3");
-        uterineRows.put("8310/3", "8310/3");
+        List<String> uterineCorpusSites = Arrays.asList("C540", "C541", "C542", "C543", "C548", "C549", "C559");
+        Map<String, String> uterineCorpusRows = new HashMap<>();
+        uterineCorpusRows.put("8933/3", "8933/3");
+        uterineCorpusRows.put("8020/3", "8020/3");
+        uterineCorpusRows.put("8980/3", "8980/3");
+        uterineCorpusRows.put("8310/3", "8310/3");
 
-        uterineRows.put("8380/3", "8380/3");
-        uterineRows.put("8570/3", "8380/3");
+        uterineCorpusRows.put("8380/3", "8380/3");
+        uterineCorpusRows.put("8570/3", "8380/3");
 
-        uterineRows.put("9110/3", "9110/3");
-        uterineRows.put("9111/3", "9110/3");
+        uterineCorpusRows.put("9110/3", "9110/3");
+        uterineCorpusRows.put("9111/3", "9110/3");
 
-        uterineRows.put("8323/3", "8323/3");
+        uterineCorpusRows.put("8323/3", "8323/3");
 
-        uterineRows.put("8480", "8480");
-        uterineRows.put("8144/3", "8480");
+        uterineCorpusRows.put("8480", "8480");
+        uterineCorpusRows.put("8144/3", "8480");
 
-        uterineRows.put("8246/3", "8246/3");
-        uterineRows.put("8013/3", "8246/3");
-        uterineRows.put("8154/3", "8246/3");
-        uterineRows.put("8041/3", "8246/3");
+        uterineCorpusRows.put("8246/3", "8246/3");
+        uterineCorpusRows.put("8013/3", "8246/3");
+        uterineCorpusRows.put("8154/3", "8246/3");
+        uterineCorpusRows.put("8041/3", "8246/3");
 
-        uterineRows.put("8714/3", "8714/3");
-        uterineRows.put("9473/3", "9473/3");
+        uterineCorpusRows.put("8714/3", "8714/3");
+        uterineCorpusRows.put("9473/3", "9473/3");
 
-        uterineRows.put("8800/3", "8800/3");
-        uterineRows.put("8930/3", "8800/3");
-        uterineRows.put("8931/3", "8800/3");
-        uterineRows.put("8891/3", "8800/3");
-        uterineRows.put("8890/3", "8800/3");
-        uterineRows.put("8896/3", "8800/3");
-        uterineRows.put("8805/3", "8800/3");
+        uterineCorpusRows.put("8800/3", "8800/3");
+        uterineCorpusRows.put("8930/3", "8800/3");
+        uterineCorpusRows.put("8931/3", "8800/3");
+        uterineCorpusRows.put("8891/3", "8800/3");
+        uterineCorpusRows.put("8890/3", "8800/3");
+        uterineCorpusRows.put("8896/3", "8800/3");
+        uterineCorpusRows.put("8805/3", "8800/3");
 
-        uterineRows.put("8441/3", "8441/3");
-        uterineRows.put("8070/3", "8070/3");
+        uterineCorpusRows.put("8441/3", "8441/3");
+        uterineCorpusRows.put("8070/3", "8070/3");
 
-        for (String site : uterineSites)
-            content.put(site, uterineRows);
+        for (String site : uterineCorpusSites)
+            content.put(site, uterineCorpusRows);
 
+        //Table 17: Uterine Cervix Histologies
+        List<String> uterineCervixSites = Arrays.asList("C530", "C531", "C538", "C539");
+        Map<String, String> uterineCervixRows = new HashMap<>();
+        uterineCervixRows.put("8140/3", "8140/3");
+        uterineCervixRows.put("8483/3", "8140/3");
+        uterineCervixRows.put("8484/3", "8140/3");
+        uterineCervixRows.put("8482/3", "8140/3");
+        uterineCervixRows.put("8310/3", "8140/3");
+        uterineCervixRows.put("9110/3", "8140/3");
 
+        uterineCervixRows.put("8098/3", "8098/3");
+        uterineCervixRows.put("8933/3", "8933/3");
+        uterineCervixRows.put("8560/3", "8560/3");
+        uterineCervixRows.put("8980/3", "8980/3");
+        uterineCervixRows.put("8380/3", "8380/3");
+        uterineCervixRows.put("9064/3", "9064/3");
 
-        //Table 21
-//        content.put("9261/3", "9261/3");
-//
-//        content.put("9120/3", "9120/3");
-//
-//        content.put("9220/3", "9220/3");
-//        content.put("9222/3", "9220/3");
-//        content.put("9242/3", "9220/3");
-//        content.put("9243/3", "9220/3");
-//        content.put("9240/3", "9220/3");
-//        content.put("9221/3", "9220/3");
-//
-//        content.put("9370/3", "9370/3");
-//        content.put("9372/3", "9370/3");
-//
-//        content.put("9133/3", "9133/3");
-//
-//        content.put("8810/3", "8810/3");
-//
-//        content.put("9250/3", "9250/3");
-//
-//        content.put("8890/3", "8890/3");
-//
-//        content.put("9180/3", "9180/3");
-//        content.put("9194/3", "9180/3");
-//        content.put("9192/3", "9180/3");
-//        content.put("9193/3", "9180/3");
-//        content.put("9184/3", "9180/3");
-//
-//        content.put("8800/3", "8800/3");
-//        content.put("9367/3", "8800/3");
-//        content.put("9364/3", "8800/3");
-//        content.put("9366/3", "8800/3");
-//        content.put("9368/3", "8800/3");
-//
-//        content.put("8802/3", "8802/3");
+        uterineCervixRows.put("8430/3", "8430/3");
+        uterineCervixRows.put("9100/3", "8430/3");
+        uterineCervixRows.put("9071/3", "8430/3");
+
+        uterineCervixRows.put("8246/3", "8246/3");
+        uterineCervixRows.put("8013/3", "8246/3");
+        uterineCervixRows.put("8154/3", "8246/3");
+        uterineCervixRows.put("8041/3", "8246/3");
+
+        uterineCervixRows.put("8240/3", "8240/3");
+        uterineCervixRows.put("8249/3", "8240/3");
+
+        uterineCervixRows.put("8714/3", "8714/3");
+
+        uterineCervixRows.put("8800/3", "8800/3");
+        uterineCervixRows.put("8930/3", "8800/3");
+        uterineCervixRows.put("8931/3", "8800/3");
+        uterineCervixRows.put("8891/3", "8800/3");
+        uterineCervixRows.put("8890/3", "8800/3");
+        uterineCervixRows.put("8896/3", "8800/3");
+        uterineCervixRows.put("8805/3", "8800/3");
+
+        uterineCervixRows.put("8070/3", "8070/3");
+        uterineCervixRows.put("8085/3", "8070/3");
+        uterineCervixRows.put("8086/3", "8070/3");
+
+        for (String site : uterineCervixSites)
+            content.put(site, uterineCervixRows);
+
+        //Table 18: Vagina Histologies
+        Map<String, String> vaginaRows = new HashMap<>();
+        vaginaRows.put("8140/3", "8140/3");
+        vaginaRows.put("8483/3", "8140/3");
+
+        vaginaRows.put("8098/3", "8098/3");
+        vaginaRows.put("8933/3", "8933/3");
+        vaginaRows.put("8560/3", "8560/3");
+        vaginaRows.put("8980/3", "8980/3");
+        vaginaRows.put("8310/3", "8310/3");
+        vaginaRows.put("8380/3", "8380/3");
+
+        vaginaRows.put("9064/3", "9064/3");
+        vaginaRows.put("9071/3", "9064/3");
+
+        vaginaRows.put("9110/3", "9110/3");
+
+        vaginaRows.put("8480/3", "8480/3");
+        vaginaRows.put("8482/3", "8480/3");
+        vaginaRows.put("8144/3", "8480/3");
+
+        vaginaRows.put("8246/3", "8246/3");
+        vaginaRows.put("8045/3", "8246/3");
+        vaginaRows.put("8013/3", "8246/3");
+        vaginaRows.put("8041/3", "8246/3");
+
+        vaginaRows.put("8240/3", "8240/3");
+
+        vaginaRows.put("8070", "8070");
+        vaginaRows.put("8077/2", "8070");
+        vaginaRows.put("8085/3", "8070");
+        vaginaRows.put("8086/3", "8070");
+
+        vaginaRows.put("8020/3", "8020/3");
+        content.put(VAGINA, vaginaRows);
+
+        //Table 19: Vulva Histologies
+        List<String> vulvaSites = Arrays.asList("C510", "C511", "C512", "C518", "C519");
+        Map<String, String> vulvaRows = new HashMap<>();
+        vulvaRows.put("8140", "8140");
+        vulvaRows.put("8144/3", "8140");
+
+        vulvaRows.put("8200/3", "8200/3");
+        vulvaRows.put("8560/3", "8560/3");
+        vulvaRows.put("8090", "8090");
+        vulvaRows.put("8020/3", "8020/3");
+        vulvaRows.put("8562/3", "8562/3");
+
+        vulvaRows.put("9064/3", "9064/3");
+        vulvaRows.put("9071/3", "9064/3");
+
+        vulvaRows.put("8982/3", "8982/3");
+
+        vulvaRows.put("8246/3", "8246/3");
+        vulvaRows.put("8045/3", "8246/3");
+        vulvaRows.put("8013/3", "8246/3");
+        vulvaRows.put("8041/3", "8246/3");
+
+        vulvaRows.put("8240/3", "8240/3");
+        vulvaRows.put("8542/3", "8542/3");
+        vulvaRows.put("9020/3", "9020/3");
+
+        vulvaRows.put("8070", "8070");
+        vulvaRows.put("8085/3", "8070");
+        vulvaRows.put("8086/3", "8070");
+
+        vulvaRows.put("8400/3", "8400/3");
+        vulvaRows.put("8200/3", "8400/3");
+        vulvaRows.put("8401/3", "8400/3");
+        vulvaRows.put("8413/3", "8400/3");
+        vulvaRows.put("8409/3", "8400/3");
+
+        for (String site : vulvaSites)
+            content.put(site, vulvaRows);
+
+        //Table 20: Soft Tissue Histologies
+        List<String> softTissueSites = Arrays.asList("C490", "C4901", "C492", "C493", "C494", "C495", "C496", "C498", "C499");
+        Map<String, String> softTissueRows = new HashMap<>();
+        softTissueRows.put("9120/3", "9120/3");
+        softTissueRows.put("9133/3", "9133/3");
+
+        softTissueRows.put("8810/3", "8810/3");
+        softTissueRows.put("8814/3", "8810/3");
+        softTissueRows.put("8840/3", "8810/3");
+        softTissueRows.put("8825/3", "8810/3");
+        softTissueRows.put("8811/3", "8810/3");
+        softTissueRows.put("8815/3", "8810/3");
+
+        softTissueRows.put("8890/3", "8890/3");
+
+        softTissueRows.put("8850/3", "8850/3");
+        softTissueRows.put("8858/3", "8850/3");
+        softTissueRows.put("8854/3", "8850/3");
+        softTissueRows.put("8852/3", "8850/3");
+        softTissueRows.put("8851/3", "8850/3");
+
+        softTissueRows.put("9180/3", "9180/3");
+
+        softTissueRows.put("8900/3", "8900/3");
+        softTissueRows.put("8920/3", "8900/3");
+        softTissueRows.put("8921/3", "8900/3");
+        softTissueRows.put("8910/3", "8900/3");
+        softTissueRows.put("8901/3", "8900/3");
+        softTissueRows.put("8912/3", "8900/3");
+
+        softTissueRows.put("8800/3", "8800/3");
+        softTissueRows.put("9044/3", "8800/3");
+        softTissueRows.put("9043/3", "8800/3");
+        softTissueRows.put("9367/3", "8800/3");
+        softTissueRows.put("8804/3", "8800/3");
+        softTissueRows.put("9364/3", "8800/3");
+        softTissueRows.put("9231/3", "8800/3");
+        softTissueRows.put("8940/3", "8800/3");
+        softTissueRows.put("8982/3", "8800/3");
+        softTissueRows.put("8842/3", "8800/3");
+        softTissueRows.put("8990/3", "8800/3");
+        softTissueRows.put("9366/3", "8800/3");
+        softTissueRows.put("9368/3", "8800/3");
+
+        softTissueRows.put("8805/3", "8805/3");
+        softTissueRows.put("8802/3", "8805/3");
+        softTissueRows.put("8803/3", "8805/3");
+        softTissueRows.put("8801/3", "8805/3");
+
+        for (String site : softTissueSites)
+            content.put(site, softTissueRows);
+
+        //Table 21: Bone Histologies
+        List<String> boneSites = Arrays.asList("C400", "C401", "C402", "C403", "C408", "C409");
+        Map<String, String> boneRows = new HashMap<>();
+        boneRows.put("9261/3", "9261/3");
+        boneRows.put("9120/3", "9120/3");
+
+        boneRows.put("9220/3", "9220/3");
+        boneRows.put("9222/3", "9220/3");
+        boneRows.put("9242/3", "9220/3");
+        boneRows.put("9243/3", "9220/3");
+        boneRows.put("9240/3", "9220/3");
+        boneRows.put("9221/3", "9220/3");
+
+        boneRows.put("9370/3", "9370/3");
+        boneRows.put("9372/3", "9370/3");
+
+        boneRows.put("9133/3", "9133/3");
+        boneRows.put("8810/3", "8810/3");
+        boneRows.put("9250/3", "9250/3");
+        boneRows.put("8890/3", "8890/3");
+
+        boneRows.put("9180/3", "9180/3");
+        boneRows.put("9194/3", "9180/3");
+        boneRows.put("9192/3", "9180/3");
+        boneRows.put("9193/3", "9180/3");
+        boneRows.put("9184/3", "9180/3");
+
+        boneRows.put("8800/3", "8800/3");
+        boneRows.put("9367/3", "8800/3");
+        boneRows.put("9364/3", "8800/3");
+        boneRows.put("9366/3", "8800/3");
+        boneRows.put("9368/3", "8800/3");
+
+        boneRows.put("8802/3", "8802/3");
+
+        for (String site : boneSites)
+            content.put(site, boneRows);
+
         OTHER_SITES_2023_TABLE_ROWS_FOR_SITE = Collections.unmodifiableMap(content);
     }
+
+    public static final List<String> OTHER_SITES_2023_TABLE_2 = Arrays.asList("8045", "8013", "8094", "8154", "8180", "8244", "8255", "8323", "8340", "8346", "8347", "8560", "8855", "8902", "9081", "9085", "9101");
 
 }

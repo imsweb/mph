@@ -6,6 +6,7 @@ package com.imsweb.mph.mpgroups;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -293,6 +294,69 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
         _rules.add(rule);
 
+        //M17 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M17") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
+                Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
+                if (map1 != null && map1.equals(map2)) {
+                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
+                    String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
+                    if (row1 != null && row1.equals(row2))
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are tumors on the same row in Table 3-21?");
+        rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.");
+        _rules.add(rule);
+
+        //M18 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M18") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
+                Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
+                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String row1 = null;
+                if (map1 != null)
+                    row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
+                else if (MphConstants.OTHER_SITES_2023_TABLE_2.contains(h1))
+                    row1 = h1 + " in Table 2";
+
+                String row2 = null;
+                if (map2 != null)
+                    row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
+                else if (MphConstants.OTHER_SITES_2023_TABLE_2.contains(h2))
+                    row2 = h2 + " in Table 2";
+
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (row1 == null && row2 == null) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = row1 == null ? icd1 : icd2;
+
+                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                }
+                else if (!row1.equals(row2))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+
+                return result;
+            }
+        };
+        rule.setQuestion("Are tumors on multiple rows in Table 2-21?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.");
+        _rules.add(rule);
 
         //M19 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
         rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M19");
@@ -300,7 +364,6 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
-
 
         //M20- Tumors that do not meet any of the criteria are abstracted as a single primary.
         rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M20");

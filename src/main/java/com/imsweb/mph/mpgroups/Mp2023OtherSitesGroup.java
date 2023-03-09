@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,21 +50,28 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                if (MphConstants.PROSTATE.equals(i1.getPrimarySite()) && MphConstants.PROSTATE.equals(i2.getPrimarySite()) && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.SMALL_CELL_CARCINOMA, MphConstants.ADENOCARCINOMA_NOS)) {
+                String smallCellCarcinoma = "8041/3";
+                List<String> adenocarcinoma = Arrays.asList("8140/2", "8140/3", "8201/3", "8260/3", "8230/3", "8500/3", "8572/3", "8574/3", "8480/3", "8490/3");
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                if (MphConstants.PROSTATE.equals(site1) && MphConstants.PROSTATE.equals(site2) && GroupUtility.differentCategory(icd1, icd2, Collections.singletonList(smallCellCarcinoma),
+                        adenocarcinoma)) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if ((MphConstants.COMPARE_DX_FIRST_LATEST == laterDx && MphConstants.SMALL_CELL_CARCINOMA.contains(i1.getHistology())) || (
-                            MphConstants.COMPARE_DX_SECOND_LATEST == laterDx && MphConstants.SMALL_CELL_CARCINOMA.contains(i2.getHistology())))
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    else if ((MphConstants.COMPARE_DX_FIRST_LATEST == laterDx && smallCellCarcinoma.equals(icd1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == laterDx && smallCellCarcinoma.equals(
+                            icd2)))
+                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 }
                 return result;
             }
         };
-        rule.setQuestion("Does the patient have a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3)?");
-        rule.setReason("Abstract multiple primaries when the patient has a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3).");
+        rule.setQuestion(
+                "Does the patient have a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3)?");
+        rule.setReason(
+                "Abstract multiple primaries when the patient has a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3).");
         rule.getNotes().add("Small cell carcinoma (SmCC) of the prostate is rare and accounts for less than 1% of prostate cancers.");
         rule.getNotes().add("50% of SmCC of the prostate cases present as a de novo malignancy");
         rule.getNotes().add("SmCC of the prostate often occurs following androgen deprivation treatment (ADVT) and/or radiation therapy for acinar adenocarcinoma");
@@ -120,10 +128,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         };
         rule.setQuestion("Are there follicular and papillary tumors of the thyroid within 60 days of diagnosis?");
         rule.setReason("Abstract a single primary when follicular and papillary tumors in the thyroid are diagnosed within 60 days and tumors are: \n"
-        + "Papillary thyroid carcinoma, NOS and follicular carcinoma, NOS OR\n"
-        + "Papillary carcinoma, follicular variant and papillary thyroid carcinoma OR\n"
-        + "Papillary carcinoma, follicular variant and follicular carcinoma OR\n"
-        + "Any papillary thyroid carcinoma subtype/variant and any follicular subtype/variant listed in Column 3, Table 12.");
+                + "Papillary thyroid carcinoma, NOS and follicular carcinoma, NOS OR\n"
+                + "Papillary carcinoma, follicular variant and papillary thyroid carcinoma OR\n"
+                + "Papillary carcinoma, follicular variant and follicular carcinoma OR\n"
+                + "Any papillary thyroid carcinoma subtype/variant and any follicular subtype/variant listed in Column 3, Table 12.");
         _rules.add(rule);
 
         //M8- Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.
@@ -133,8 +141,9 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
                 String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
-                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && GroupUtility.differentCategory(icd1, icd2, MphConstants.ANAPLASTIC_CARCINOMA, MphConstants.OTHER_THYROID_HISTOLOGIES))
-                        result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && GroupUtility.differentCategory(icd1, icd2, MphConstants.ANAPLASTIC_CARCINOMA,
+                        MphConstants.OTHER_THYROID_HISTOLOGIES))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

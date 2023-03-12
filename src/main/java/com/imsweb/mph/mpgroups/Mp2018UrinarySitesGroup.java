@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -18,7 +19,6 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
 
@@ -180,7 +180,25 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_URINARY_GROUP_ID, "M10");
+        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_ID, "M10") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                if (!new HashSet<>(MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY).containsAll(Arrays.asList(i1.getHistology(), i2.getHistology()))) {
+                    int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
+                    if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
+                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    }
+                    else if (MphConstants.DATE_VERIFY_APART == diff)
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+
+                return result;
+            }
+        };
+        rule.setQuestion("Are there tumors diagnosed greater than three (3) years apart?");
+        rule.setReason("Tumors diagnosed greater than three (3) years apart are multiple primaries.");
         rule.getNotes().add("This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Scans are NED");

@@ -51,7 +51,6 @@ public class MphConstants {
     public static final String MP_2018_URINARY_GROUP_ID = "mp_2018_urinary";
 
     public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2021_cutaneous_melanoma";
-    public static final String MP_2022_HEAD_AND_NECK_GROUP_ID = "mp_2022_head_and_neck";
 
     //Group Names for the set of rules
     public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic (1998)";
@@ -80,7 +79,6 @@ public class MphConstants {
     public static final String MP_2023_OTHER_SITES_GROUP_NAME = "2023 Other Sites";
     public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
     public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME = "2021 Cutaneous Melanoma";
-    public static final String MP_2022_HEAD_AND_NECK_GROUP_NAME = "2022 Head And Neck";
 
     //Topographies
 
@@ -884,8 +882,6 @@ public class MphConstants {
     //--------------------------------------------------------------------------------------------------------------------------------------
     // Malignant CNS
     //--------------------------------------------------------------------------------------------------------------------------------------
-
-    //2022
     public static final Map<String, String> MALIGNANT_CNS_2018_TABLE3_SUBTYPES;
 
     static {

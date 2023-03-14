@@ -138,7 +138,17 @@ public class Mph2023RulesTest {
         Assert.assertTrue(output.getReason().contains("both sides"));
 
         //M11 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        //This will never hit because the sites for this rule are in 2022 colon group after 2022.
+        i1.setPrimarySite("C179");
+        i2.setPrimarySite("C170");
+        i1.setHistologyIcdO3("8220");
+        i2.setHistologyIcdO3("8262");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M11", output.getStep());
+        Assert.assertTrue(output.getReason().contains("polyps"));
 
 
         //M12 - Tumors diagnosed more than one (1) year apart are multiple primaries.

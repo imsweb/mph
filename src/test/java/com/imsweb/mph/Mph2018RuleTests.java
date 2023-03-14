@@ -1675,7 +1675,7 @@ public class Mph2018RuleTests {
         i1.setDateOfDiagnosisMonth("11");
         i1.setHistologyIcdO3("8071");
         i1.setBehaviorIcdO3("3");
-        i2.setPrimarySite("C024");
+        i2.setPrimarySite("C023");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("11");
         i2.setHistologyIcdO3("8072");
@@ -2320,6 +2320,11 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8900"); i2.setHistologyIcdO3("8920");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
+
+        i1.setHistologyIcdO3("8311"); i2.setHistologyIcdO3("8311");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         ruleStepToTest = "M9";
 

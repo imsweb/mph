@@ -203,9 +203,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), s1 = i1.getPrimarySite().substring(0, 3), s2 = i2.getPrimarySite().substring(0, 3);
-                boolean isSiteInRange = (MphConstants.COLON.equals(s1) || MphConstants.RECTOSIGMOID.equals(site1) || MphConstants.RECTUM.equals(site1)) && (MphConstants.COLON.equals(s2)
-                        || MphConstants.RECTOSIGMOID.equals(site2) || MphConstants.RECTUM.equals(site2));
+                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                boolean isSiteInRange = site1.startsWith(MphConstants.SMALL_BOWEL) && site2.startsWith(MphConstants.SMALL_BOWEL);
                 boolean isOneMalignant = MphConstants.MALIGNANT.equals(i1.getBehavior()) || MphConstants.MALIGNANT.equals(i2.getBehavior());
                 if (isSiteInRange && isOneMalignant && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS, MphConstants.POLYP))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -409,11 +408,6 @@ public class Mp2023OtherSitesGroup extends MphGroup {
 
         specificGroups.add(new Mp2021CutaneousMelanomaGroup());
 
-        specificGroups.add(new Mp2022BreastGroup());
-        specificGroups.add(new Mp2022ColonGroup());
-        specificGroups.add(new Mp2022HeadAndNeckGroup());
-        specificGroups.add(new Mp2022KidneyGroup());
-        specificGroups.add(new Mp2022MalignantCNSAndPeripheralNervesGroup());
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;

@@ -24,7 +24,7 @@ public class Mp2018KidneyGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018KidneyGroup() {
         super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-2021");
+                "9590-9992, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX).
         MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M3") {
@@ -141,8 +141,19 @@ public class Mp2018KidneyGroup extends MphGroup {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())) {
+                        if ("8311".equals(h1) && h1.equals(h2)) {
+                            result.setFinalResult(MpResult.QUESTIONABLE);
+                            result.setMessage("8311 can be abstracted as multiple primaries if you have any of the following combinations (all coded 8311):\n"
+                                    + "- MiT family translocation renal cell carcinoma and Hereditary leiomyomatosis\n"
+                                    + "- MiT family translocation renal cell carcinoma and Renal cell carcinoma-associated renal cell carcinoma\n"
+                                    + "- MiT family translocation renal cell carcinoma and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)\n"
+                                    + "- Hereditary leiomyomatosis and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)\n"
+                                    + "- Renal cell carcinoma-associated renal cell carcinoma and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)");
+                        }
+                        else
+                            result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    }
                 }
 
                 return result;

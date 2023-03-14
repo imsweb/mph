@@ -28,7 +28,7 @@ public class Mp2018BreastGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018BreastGroup() {
         super(MphConstants.MP_2018_BREAST_GROUP_ID, MphConstants.MP_2018_BREAST_GROUP_NAME, "C500-C506, C508-C509", null, null,
-                "9590-9992, 9140", "2-4,6", "2018-2021");
+                "9590-9992, 9140", "2-4,6", "2018-9999");
 
         // Rule M4 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
         MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_BREAST_GROUP_ID, "M4");

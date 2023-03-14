@@ -317,11 +317,6 @@ public class Mp2007OtherSitesGroup extends MphGroup {
 
         specificGroups.add(new Mp2021CutaneousMelanomaGroup());
 
-        specificGroups.add(new Mp2022BreastGroup());
-        specificGroups.add(new Mp2022ColonGroup());
-        specificGroups.add(new Mp2022HeadAndNeckGroup());
-        specificGroups.add(new Mp2022KidneyGroup());
-        specificGroups.add(new Mp2022MalignantCNSAndPeripheralNervesGroup());
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;

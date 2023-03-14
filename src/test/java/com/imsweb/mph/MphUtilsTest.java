@@ -34,7 +34,6 @@ import com.imsweb.mph.mpgroups.Mp2018LungGroup;
 import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
 import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
-import com.imsweb.mph.mpgroups.Mp2022HeadAndNeckGroup;
 import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 public class MphUtilsTest {
@@ -156,7 +155,6 @@ public class MphUtilsTest {
 
         Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C754", "8680", "3", 2018));
         Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C754", "8680", "3", 2019));
-        Assert.assertEquals(new Mp2022HeadAndNeckGroup(), _utils.findCancerGroup("C755", "8680", "3", 2023));
         Assert.assertEquals(new Mp2023OtherSitesGroup(), _utils.findCancerGroup("C755", "8670", "3", 2023));
 
     }

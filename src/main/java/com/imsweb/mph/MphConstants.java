@@ -1385,12 +1385,10 @@ public class MphConstants {
         prostateRows.put("8230/3", "8140");
         prostateRows.put("8500", "8140");
         prostateRows.put("8572/3", "8140");
-        prostateRows.put("8574/3", "8140");
         prostateRows.put("8480/3", "8140");
         prostateRows.put("8490/3", "8140");
 
-        //TODO Ask
-        //prostateRows.put("8574/3","8574/3");
+        prostateRows.put("8574/3","8574/3");
 
         prostateRows.put("8560/3", "8560/3");
 
@@ -1431,6 +1429,8 @@ public class MphConstants {
         testisRows.put("8650/3", "8650/3");
 
         testisRows.put("8640/3", "8640/3");
+
+        testisRows.put("9061/3", "9061/3");
 
         for (String site : testisSites)
             content.put(site, testisRows);
@@ -1666,6 +1666,7 @@ public class MphConstants {
         //Table 12 Thyroid
         Map<String, String> thyroidRows = new HashMap<>();
         thyroidRows.put("8021/3", "8021/3");
+        thyroidRows.put("8020/3", "8021/3");
 
         thyroidRows.put("8330/3", "8330/3");
         thyroidRows.put("8339/3", "8330/3");
@@ -1679,7 +1680,7 @@ public class MphConstants {
         thyroidRows.put("8260/3", "8260/3");
         thyroidRows.put("8344/3", "8260/3");
         thyroidRows.put("8350/3", "8260/3");
-        thyroidRows.put("8343", "8260/3");
+        thyroidRows.put("8343/3", "8260/3");
         thyroidRows.put("8340/3", "8260/3");
 
         thyroidRows.put("8337/3", "8337/3");
@@ -1696,7 +1697,6 @@ public class MphConstants {
         ovaryRows.put("8310/3", "8310/3");
         ovaryRows.put("8380/3", "8380/3");
 
-        //TODO ask 9064/3
         ovaryRows.put("9064/3", "9064/3");
         ovaryRows.put("9080/3", "9064/3");
         ovaryRows.put("9060/3", "9064/3");
@@ -1753,6 +1753,7 @@ public class MphConstants {
         fallopianRows.put("8380/3", "8380/3");
 
         fallopianRows.put("8441/3", "8441/3");
+        fallopianRows.put("8460/3", "8441/3");
         fallopianRows.put("8461/3", "8441/3");
 
         fallopianRows.put("9080/3", "9080/3");
@@ -1816,10 +1817,10 @@ public class MphConstants {
         uterineCervixRows.put("8980/3", "8980/3");
         uterineCervixRows.put("8380/3", "8380/3");
         uterineCervixRows.put("9064/3", "9064/3");
+        uterineCervixRows.put("9100/3", "9064/3");
+        uterineCervixRows.put("9071/3", "9064/3");
 
         uterineCervixRows.put("8430/3", "8430/3");
-        uterineCervixRows.put("9100/3", "8430/3");
-        uterineCervixRows.put("9071/3", "8430/3");
 
         uterineCervixRows.put("8246/3", "8246/3");
         uterineCervixRows.put("8013/3", "8246/3");
@@ -1905,6 +1906,8 @@ public class MphConstants {
         vulvaRows.put("8041/3", "8246/3");
 
         vulvaRows.put("8240/3", "8240/3");
+        vulvaRows.put("8249/3", "8240/3");
+
         vulvaRows.put("8542/3", "8542/3");
         vulvaRows.put("9020/3", "9020/3");
 
@@ -1987,6 +1990,7 @@ public class MphConstants {
         boneRows.put("9221/3", "9220/3");
 
         boneRows.put("9370/3", "9370/3");
+        boneRows.put("9371/3", "9370/3");
         boneRows.put("9372/3", "9370/3");
 
         boneRows.put("9133/3", "9133/3");
@@ -2007,6 +2011,8 @@ public class MphConstants {
         boneRows.put("9368/3", "8800/3");
 
         boneRows.put("8802/3", "8802/3");
+
+        boneRows.put("8830/3", "8830/3");
 
         for (String site : boneSites)
             content.put(site, boneRows);

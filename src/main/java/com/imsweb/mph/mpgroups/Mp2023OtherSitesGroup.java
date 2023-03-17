@@ -178,7 +178,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
+                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C444", "C445", "C446", "C447", "C471", "C472", "C491", "C492", "C569",
                         "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
 
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
@@ -313,8 +313,15 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                     String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (row1 != null && row1.equals(row2))
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    if (row1 != null && row1.equals(row2)) {
+                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
+                            result.setPotentialResult(MpResult.SINGLE_PRIMARY);
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        }
+                        else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    }
                 }
                 return result;
             }
@@ -323,8 +330,29 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.");
         _rules.add(rule);
 
-        //M18 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
+        //M18 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M18") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
+                Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
+                if (map1 != null && map2 != null) {
+                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
+                    String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
+                    if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-21?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21.");
+        _rules.add(rule);
+
+        //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M19") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -366,15 +394,15 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.");
         _rules.add(rule);
 
-        //M19 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M19");
+        //M20 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M20");
         rule.getNotes().add("This rule applies to multiple tumors, one in situ and a separate malignant tumor.");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
-        //M20- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M20");
+        //M21- Tumors that do not meet any of the criteria are abstracted as a single primary.
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M21");
         rule.getNotes().add("Use this rule as a last resort. Confirm that you have not overlooked an applicable rule.");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);

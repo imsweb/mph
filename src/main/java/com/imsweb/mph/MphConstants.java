@@ -204,7 +204,6 @@ public class MphConstants {
     public static final List<String> LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA = GroupUtility.expandList("9590-9591,9673,9678,9679,9687,9735-9738,9823,9827");
     public static final List<String> NON_HODGKIN_LYMPHOMA = GroupUtility.expandList("9591,9670-9729");
     public static final List<String> HODGKIN_LYMPHOMA = GroupUtility.expandList("9650-9653,9655,9659,9663");
-    //public static final List<String> HEMATOPOIETIC_NOS_HISTOLOGIES = GroupUtility.expandList("9591,9670,9702,9729,9760,9800,9808,9809,9811,9820,9832,9835,9860,9861,9863,9960,9964,9987");
     public static final List<String> POLYP = GroupUtility.expandList("8210-8211,8213,8220-8221,8261-8263");
     public static final List<String> FAMILLIAL_POLYPOSIS = GroupUtility.expandList("8220-8221");
     public static final List<String> FAMILIAL_ADENOMATOUS_POLYPOSIS = GroupUtility.expandList("8220");
@@ -243,23 +242,26 @@ public class MphConstants {
     }
 
     public static final Map<String, String> BENIGN_BRAIN_2004_HISTOLOGY_GROUPING;
+    private static final String EPENDYMOMAS = "Ependymomas";
+    private static final String NEURONAL = "Neuronal and neuronal-glial neoplasms";
+    private static final String NEUROFIBROMAS = "Neurofibromas";
 
     static {
         Map<String, String> content = new HashMap<>();
         content.put("9390", "Choroid plexus neoplasms");
-        content.put("9383", "Ependymomas");
-        content.put("9394", "Ependymomas");
-        content.put("9444", "Ependymomas");
-        content.put("9384", "Neuronal and neuronal-glial neoplasms");
-        content.put("9412", "Neuronal and neuronal-glial neoplasms");
-        content.put("9413", "Neuronal and neuronal-glial neoplasms");
-        content.put("9442", "Neuronal and neuronal-glial neoplasms");
-        content.put("9505/1", "Neuronal and neuronal-glial neoplasms");
-        content.put("9506", "Neuronal and neuronal-glial neoplasms");
-        content.put("9540", "Neurofibromas");
-        content.put("9541", "Neurofibromas");
-        content.put("9550", "Neurofibromas");
-        content.put("9560/0", "Neurofibromas");
+        content.put("9383", EPENDYMOMAS);
+        content.put("9394", EPENDYMOMAS);
+        content.put("9444", EPENDYMOMAS);
+        content.put("9384", NEURONAL);
+        content.put("9412", NEURONAL);
+        content.put("9413", NEURONAL);
+        content.put("9442", NEURONAL);
+        content.put("9505/1", NEURONAL);
+        content.put("9506", NEURONAL);
+        content.put("9540", NEUROFIBROMAS);
+        content.put("9541", NEUROFIBROMAS);
+        content.put("9550", NEUROFIBROMAS);
+        content.put("9560/0", NEUROFIBROMAS);
         content.put("9560/1", "Neurinomatosis ");
         content.put("9562", "Neurothekeoma");
         content.put("9570", "Neuroma");
@@ -271,20 +273,20 @@ public class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("9383/1", "Ependymomas"); //Subependymoma
-        content.put("9394/1", "Ependymomas"); //Myxopapillary Ependymoma
-        content.put("9444/1", "Ependymomas"); //Choroid glioma
-        content.put("9384/1", "Neuronal and neuronal-glial neoplasms"); //Subependymal giant cell astrocytoma
-        content.put("9412/1", "Neuronal and neuronal-glial neoplasms"); //Desmoplastic infantile astrocytoma
-        content.put("9413/0", "Neuronal and neuronal-glial neoplasms"); //Dysembryoplastic neuroepithelial tumor
-        content.put("9442/1", "Neuronal and neuronal-glial neoplasms"); //Gliofibroma
-        content.put("9505/1", "Neuronal and neuronal-glial neoplasms"); //Ganglioglioma
-        content.put("9506/1", "Neuronal and neuronal-glial neoplasms"); //Central neurocytoma
-        content.put("9540/0", "Neurofibromas"); //Neurofibroma, NOS
-        content.put("9540/1", "Neurofibromas"); //Neurofibromatosis, NOS
-        content.put("9541/0", "Neurofibromas"); //Melanotic neurofibroma
-        content.put("9550/0", "Neurofibromas"); //Plexiform neurofibroma
-        content.put("9560/0", "Neurofibromas"); //Neurilemoma, NOS
+        content.put("9383/1", EPENDYMOMAS); //Subependymoma
+        content.put("9394/1", EPENDYMOMAS); //Myxopapillary Ependymoma
+        content.put("9444/1", EPENDYMOMAS); //Choroid glioma
+        content.put("9384/1", NEURONAL); //Subependymal giant cell astrocytoma
+        content.put("9412/1", NEURONAL); //Desmoplastic infantile astrocytoma
+        content.put("9413/0", NEURONAL); //Dysembryoplastic neuroepithelial tumor
+        content.put("9442/1", NEURONAL); //Gliofibroma
+        content.put("9505/1", NEURONAL); //Ganglioglioma
+        content.put("9506/1", NEURONAL); //Central neurocytoma
+        content.put("9540/0", NEUROFIBROMAS); //Neurofibroma, NOS
+        content.put("9540/1", NEUROFIBROMAS); //Neurofibromatosis, NOS
+        content.put("9541/0", NEUROFIBROMAS); //Melanotic neurofibroma
+        content.put("9550/0", NEUROFIBROMAS); //Plexiform neurofibroma
+        content.put("9560/0", NEUROFIBROMAS); //Neurilemoma, NOS
         content.put("9560/1", "Neurinomatosis"); //Neurinomatosis
         content.put("9562", "Neurothekeoma"); //Neurothekeoma
         content.put("9570", "Neuroma"); //Neuroma
@@ -294,11 +296,25 @@ public class MphConstants {
 
     public static final Map<String, List<String>> MALIGNANT_BRAIN_2007_CHART1;
 
+
     static {
         Map<String, List<String>> content = new HashMap<>();
-        String branch1 = "branch_1", branch2 = "branch_2", branch3 = "branch_3", branch4 = "branch_4", branch5 = "branch_5", branch6 = "branch_6";
-        String branch7 = "branch_7", branch8 = "branch_8", branch9 = "branch_9", branch10 = "branch_10", branch11 = "branch_11", branch12 = "branch_12";
-        String branch13 = "branch_13", branch14 = "branch_14", branch15 = "branch_15", branch16 = "branch_16";
+        String branch1 = "branch_1";
+        String branch2 = "branch_2";
+        String branch3 = "branch_3";
+        String branch4 = "branch_4";
+        String branch5 = "branch_5";
+        String branch6 = "branch_6";
+        String branch7 = "branch_7";
+        String branch8 = "branch_8";
+        String branch9 = "branch_9";
+        String branch10 = "branch_10";
+        String branch11 = "branch_11";
+        String branch12 = "branch_12";
+        String branch13 = "branch_13";
+        String branch14 = "branch_14";
+        String branch15 = "branch_15";
+        String branch16 = "branch_16";
         content.put("9503", Arrays.asList(branch1, branch2, branch3, branch4, branch5, branch6, branch7, branch8, branch9, branch10, branch11, branch12, branch13, branch14,
                 branch15, branch16)); //This is included in all branches
         content.put("9508", Collections.singletonList(branch1)); //Atypical tetratoid/rhabdoid tumor

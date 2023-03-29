@@ -113,7 +113,7 @@ public class GroupUtility {
     public static List<String> expandList(List<String> list) {
         List<String> result = new ArrayList<>();
         if (list == null || list.isEmpty())
-            return Collections.emptyList();
+            return list;
         for (String item : list) {
             String[] ranges = StringUtils.split(item.trim(), ',');
             for (String range : ranges) {

@@ -358,44 +358,44 @@ public class GroupUtility {
 
     static class DateFieldParts {
 
-        private final int year1;
-        private final int month1;
-        private final int day1;
-        private final int year2;
-        private final int month2;
-        private final int day2;
+        private final int _year1;
+        private final int _month1;
+        private final int _day1;
+        private final int _year2;
+        private final int _month2;
+        private final int _day2;
 
         public DateFieldParts(MphInput input1, MphInput input2) {
-            year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-            year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-            month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-            month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-            day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-            day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+            _year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
+            _year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
+            _month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
+            _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
+            _day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
+            _day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
         }
 
         public int getYear1() {
-            return year1;
+            return _year1;
         }
 
         public int getMonth1() {
-            return month1;
+            return _month1;
         }
 
         public int getDay1() {
-            return day1;
+            return _day1;
         }
 
         public int getYear2() {
-            return year2;
+            return _year2;
         }
 
         public int getMonth2() {
-            return month2;
+            return _month2;
         }
 
         public int getDay2() {
-            return day2;
+            return _day2;
         }
 
     }

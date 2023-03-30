@@ -242,26 +242,26 @@ public class MphConstants {
     }
 
     public static final Map<String, String> BENIGN_BRAIN_2004_HISTOLOGY_GROUPING;
-    private static final String EPENDYMOMAS = "Ependymomas";
-    private static final String NEURONAL = "Neuronal and neuronal-glial neoplasms";
-    private static final String NEUROFIBROMAS = "Neurofibromas";
+    private static final String _EPENDYMOMAS = "Ependymomas";
+    private static final String _NEURONAL = "Neuronal and neuronal-glial neoplasms";
+    private static final String _NEUROFIBROMAS = "Neurofibromas";
 
     static {
         Map<String, String> content = new HashMap<>();
         content.put("9390", "Choroid plexus neoplasms");
-        content.put("9383", EPENDYMOMAS);
-        content.put("9394", EPENDYMOMAS);
-        content.put("9444", EPENDYMOMAS);
-        content.put("9384", NEURONAL);
-        content.put("9412", NEURONAL);
-        content.put("9413", NEURONAL);
-        content.put("9442", NEURONAL);
-        content.put("9505/1", NEURONAL);
-        content.put("9506", NEURONAL);
-        content.put("9540", NEUROFIBROMAS);
-        content.put("9541", NEUROFIBROMAS);
-        content.put("9550", NEUROFIBROMAS);
-        content.put("9560/0", NEUROFIBROMAS);
+        content.put("9383", _EPENDYMOMAS);
+        content.put("9394", _EPENDYMOMAS);
+        content.put("9444", _EPENDYMOMAS);
+        content.put("9384", _NEURONAL);
+        content.put("9412", _NEURONAL);
+        content.put("9413", _NEURONAL);
+        content.put("9442", _NEURONAL);
+        content.put("9505/1", _NEURONAL);
+        content.put("9506", _NEURONAL);
+        content.put("9540", _NEUROFIBROMAS);
+        content.put("9541", _NEUROFIBROMAS);
+        content.put("9550", _NEUROFIBROMAS);
+        content.put("9560/0", _NEUROFIBROMAS);
         content.put("9560/1", "Neurinomatosis ");
         content.put("9562", "Neurothekeoma");
         content.put("9570", "Neuroma");
@@ -273,20 +273,20 @@ public class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("9383/1", EPENDYMOMAS); //Subependymoma
-        content.put("9394/1", EPENDYMOMAS); //Myxopapillary Ependymoma
-        content.put("9444/1", EPENDYMOMAS); //Choroid glioma
-        content.put("9384/1", NEURONAL); //Subependymal giant cell astrocytoma
-        content.put("9412/1", NEURONAL); //Desmoplastic infantile astrocytoma
-        content.put("9413/0", NEURONAL); //Dysembryoplastic neuroepithelial tumor
-        content.put("9442/1", NEURONAL); //Gliofibroma
-        content.put("9505/1", NEURONAL); //Ganglioglioma
-        content.put("9506/1", NEURONAL); //Central neurocytoma
-        content.put("9540/0", NEUROFIBROMAS); //Neurofibroma, NOS
-        content.put("9540/1", NEUROFIBROMAS); //Neurofibromatosis, NOS
-        content.put("9541/0", NEUROFIBROMAS); //Melanotic neurofibroma
-        content.put("9550/0", NEUROFIBROMAS); //Plexiform neurofibroma
-        content.put("9560/0", NEUROFIBROMAS); //Neurilemoma, NOS
+        content.put("9383/1", _EPENDYMOMAS); //Subependymoma
+        content.put("9394/1", _EPENDYMOMAS); //Myxopapillary Ependymoma
+        content.put("9444/1", _EPENDYMOMAS); //Choroid glioma
+        content.put("9384/1", _NEURONAL); //Subependymal giant cell astrocytoma
+        content.put("9412/1", _NEURONAL); //Desmoplastic infantile astrocytoma
+        content.put("9413/0", _NEURONAL); //Dysembryoplastic neuroepithelial tumor
+        content.put("9442/1", _NEURONAL); //Gliofibroma
+        content.put("9505/1", _NEURONAL); //Ganglioglioma
+        content.put("9506/1", _NEURONAL); //Central neurocytoma
+        content.put("9540/0", _NEUROFIBROMAS); //Neurofibroma, NOS
+        content.put("9540/1", _NEUROFIBROMAS); //Neurofibromatosis, NOS
+        content.put("9541/0", _NEUROFIBROMAS); //Melanotic neurofibroma
+        content.put("9550/0", _NEUROFIBROMAS); //Plexiform neurofibroma
+        content.put("9560/0", _NEUROFIBROMAS); //Neurilemoma, NOS
         content.put("9560/1", "Neurinomatosis"); //Neurinomatosis
         content.put("9562", "Neurothekeoma"); //Neurothekeoma
         content.put("9570", "Neuroma"); //Neuroma

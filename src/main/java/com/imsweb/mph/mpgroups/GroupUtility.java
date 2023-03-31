@@ -84,7 +84,7 @@ public class GroupUtility {
      */
     public static List<Range<Integer>> computeRange(String rawValue, boolean isSite) {
         if (rawValue == null)
-            return null;
+            return Collections.emptyList();
 
         List<Range<Integer>> result = new ArrayList<>();
 
@@ -113,7 +113,7 @@ public class GroupUtility {
     public static List<String> expandList(List<String> list) {
         List<String> result = new ArrayList<>();
         if (list == null || list.isEmpty())
-            return null;
+            return list;
         for (String item : list) {
             String[] ranges = StringUtils.split(item.trim(), ',');
             for (String range : ranges) {
@@ -121,8 +121,8 @@ public class GroupUtility {
                 if (parts.length <= 1)
                     result.add(range);
                 else {
-                    Integer start = Integer.valueOf(parts[0]);
-                    Integer end = Integer.valueOf(parts[1]);
+                    int start = Integer.parseInt(parts[0]);
+                    int end = Integer.parseInt(parts[1]);
                     while (start <= end) {
                         result.add(String.valueOf(start++));
                     }
@@ -197,22 +197,17 @@ public class GroupUtility {
      * checks if two cases have same and valid site, hist, behavior, date, laterality
      */
     public static boolean sameAndValidMainFields(MphInput i1, MphInput i2) {
-        int year1 = NumberUtils.isDigits(i1.getDateOfDiagnosisYear()) ? Integer.parseInt(i1.getDateOfDiagnosisYear()) : -1;
-        int year2 = NumberUtils.isDigits(i2.getDateOfDiagnosisYear()) ? Integer.parseInt(i2.getDateOfDiagnosisYear()) : -1;
-        int month1 = NumberUtils.isDigits(i1.getDateOfDiagnosisMonth()) ? Integer.parseInt(i1.getDateOfDiagnosisMonth()) : -1;
-        int month2 = NumberUtils.isDigits(i2.getDateOfDiagnosisMonth()) ? Integer.parseInt(i2.getDateOfDiagnosisMonth()) : -1;
-        int day1 = NumberUtils.isDigits(i1.getDateOfDiagnosisDay()) ? Integer.parseInt(i1.getDateOfDiagnosisDay()) : -1;
-        int day2 = NumberUtils.isDigits(i2.getDateOfDiagnosisDay()) ? Integer.parseInt(i2.getDateOfDiagnosisDay()) : -1;
+        DateFieldParts date = new DateFieldParts(i1, i2);
 
         String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
         String beh1 = i1.getBehavior(), beh2 = i2.getBehavior(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
-        return validateProperties(site1, hist1, beh1, year1) &&
-                validateProperties(site2, hist2, beh2, year2) &&
+        return validateProperties(site1, hist1, beh1, date.getYear1()) &&
+                validateProperties(site2, hist2, beh2, date.getYear2()) &&
                 validateLaterality(lat1) && validateLaterality(lat2) &&
                 Objects.equals(site1, site2) &&
                 Objects.equals(hist1, hist2) &&
                 Objects.equals(beh1, beh2) &&
-                sameValidDates(year1, month1, day1, year2, month2, day2) &&
+                sameValidDates(date.getYear1(), date.getMonth1(), date.getDay1(), date.getYear2(), date.getMonth2(), date.getDay2()) &&
                 Objects.equals(lat1, lat2);
     }
 
@@ -221,115 +216,61 @@ public class GroupUtility {
      * 0 (if the diagnosis takes at the same day) or -1 (if there is insufficient information e.g if both year is 2007, but month and day is unknown)
      */
     public static int compareDxDate(MphInput input1, MphInput input2) {
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+        DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
+        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.COMPARE_DX_UNKNOWN;
-        else if (year1 > year2)
+        else if (date.getYear1() > date.getYear2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
-        else if (year2 > year1)
+        else if (date.getYear2() > date.getYear1())
             return MphConstants.COMPARE_DX_SECOND_LATEST;
 
-        if (month1 == 99)
-            day1 = 99;
-        if (month2 == 99)
-            day2 = 99;
-        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-        try {
-            LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-        }
-        catch (Exception e) {
-            day1 = 99;
-            if (month1 < 1 || month1 > 12)
-                month1 = 99;
-        }
-
-        try {
-            LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-        }
-        catch (Exception e) {
-            day2 = 99;
-            if (month2 < 1 || month2 > 12)
-                month2 = 99;
-        }
-
-        if (month1 == 99 || month2 == 99)
+        // if month is missing or invalid, return unknown
+        if (date.getMonth1() < 1 || date.getMonth1() > 12 || date.getMonth2() < 1 || date.getMonth2() > 12)
             return MphConstants.COMPARE_DX_UNKNOWN;
-        else if (month1 > month2)
+        else if (date.getMonth1() > date.getMonth2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
-        else if (month2 > month1)
+        else if (date.getMonth2() > date.getMonth1())
             return MphConstants.COMPARE_DX_SECOND_LATEST;
-        else if (day1 == 99 || day2 == 99)
+
+        // if day is missing or invalid, return unknown
+        if (date.getDay1() < 1 || date.getDay1() > LocalDate.of(date.getYear1(), date.getMonth1(), 1).lengthOfMonth() || date.getDay2() < 1 || date.getDay2() > LocalDate.of(date.getYear2(),
+                date.getMonth2(), 1).lengthOfMonth())
             return MphConstants.COMPARE_DX_UNKNOWN;
-        else if (day1 > day2)
+        else if (date.getDay1() > date.getDay2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
-        else if (day2 > day1)
+        else if (date.getDay2() > date.getDay1())
             return MphConstants.COMPARE_DX_SECOND_LATEST;
-        else
-            return MphConstants.COMPARE_DX_EQUAL;
+
+        return MphConstants.COMPARE_DX_EQUAL;
     }
 
     /**
      * checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
      */
     public static int verifyYearsApart(MphInput input1, MphInput input2, int yearsApart) {
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+
+        DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
+        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.DATE_VERIFY_UNKNOWN;
-        else if (Math.abs(year1 - year2) > yearsApart)
+        else if (Math.abs(date.getYear1() - date.getYear2()) > yearsApart)
             return MphConstants.DATE_VERIFY_APART;
-        else if (Math.abs(year1 - year2) < yearsApart)
+        else if (Math.abs(date.getYear1() - date.getYear2()) < yearsApart)
             return MphConstants.DATE_VERIFY_WITHIN;
-        else {
-            //if month is missing, set day to 99
-            if (month1 == 99)
-                day1 = 99;
-            if (month2 == 99)
-                day2 = 99;
-            //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-            try {
-                LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-            }
-            catch (Exception e) {
-                day1 = 99;
-                if (month1 < 1 || month1 > 12)
-                    month1 = 99;
-            }
-
-            try {
-                LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-            }
-            catch (Exception e) {
-                day2 = 99;
-                if (month2 < 1 || month2 > 12)
-                    month2 = 99;
-            }
-
-            if (month1 == 99 || month2 == 99)
-                return MphConstants.DATE_VERIFY_UNKNOWN;
-            else if ((year1 > year2 && month1 > month2) || (year2 > year1 && month2 > month1))
-                return MphConstants.DATE_VERIFY_APART;
-            else if ((year1 > year2 && month1 < month2) || (year2 > year1 && month2 < month1))
-                return MphConstants.DATE_VERIFY_WITHIN;
-            else if (day1 == 99 || day2 == 99)
-                return MphConstants.DATE_VERIFY_UNKNOWN;
-            else
-                return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(year1, month1, day1), LocalDate.of(year2, month2, day2)))
-                        >= yearsApart ? MphConstants.DATE_VERIFY_APART : MphConstants.DATE_VERIFY_WITHIN;
-        }
+        else if (date.getMonth1() < 1 || date.getMonth1() > 12 || date.getMonth2() < 1 || date.getMonth2() > 12)
+            return MphConstants.DATE_VERIFY_UNKNOWN;
+        else if ((date.getYear1() > date.getYear2() && date.getMonth1() > date.getMonth2()) || (date.getYear2() > date.getYear1() && date.getMonth2() > date.getMonth1()))
+            return MphConstants.DATE_VERIFY_APART;
+        else if ((date.getYear1() > date.getYear2() && date.getMonth1() < date.getMonth2()) || (date.getYear2() > date.getYear1() && date.getMonth2() < date.getMonth1()))
+            return MphConstants.DATE_VERIFY_WITHIN;
+        else if (date.getDay1() < 1 || date.getDay1() > LocalDate.of(date.getYear1(), date.getMonth1(), 1).lengthOfMonth() || date.getDay2() < 1 || date.getDay2() > LocalDate.of(date.getYear2(),
+                date.getMonth2(), 1).lengthOfMonth())
+            return MphConstants.DATE_VERIFY_UNKNOWN;
+        return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(date.getYear1(), date.getMonth1(), date.getDay1()), LocalDate.of(date.getYear2(), date.getMonth2(), date.getDay2())))
+                >= yearsApart ? MphConstants.DATE_VERIFY_APART : MphConstants.DATE_VERIFY_WITHIN;
     }
 
     /**
@@ -341,48 +282,19 @@ public class GroupUtility {
         if (latestDx == MphConstants.COMPARE_DX_EQUAL)
             return MphConstants.DATE_VERIFY_WITHIN;
 
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
+        DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (year1 == 9999 || year2 == 9999 || year1 > currYear || year2 > currYear)
+        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.DATE_VERIFY_UNKNOWN;
-        int month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-        int month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-        int day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-        int day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
 
-        //if month is missing, set day to 99
-        if (month1 == 99)
-            day1 = 99;
-        if (month2 == 99)
-            day2 = 99;
-        //if month and day are invalid set them to 99 (Example: if month is 13 or day is 35)
-        try {
-            LocalDate.of(year1, month1 == 99 ? 1 : month1, day1 == 99 ? 1 : day1);
-        }
-        catch (Exception e) {
-            day1 = 99;
-            if (month1 < 1 || month1 > 12)
-                month1 = 99;
-        }
-
-        try {
-            LocalDate.of(year2, month2 == 99 ? 1 : month2, day2 == 99 ? 1 : day2);
-        }
-        catch (Exception e) {
-            day2 = 99;
-            if (month2 < 1 || month2 > 12)
-                month2 = 99;
-        }
-
-        int minDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, true);
-        int maxDaysInBetween = daysInBetween(year2, month2, day2, year1, month1, day1, false);
+        int minDaysInBetween = daysInBetween(date.getYear2(), date.getMonth2(), date.getDay2(), date.getYear1(), date.getMonth1(), date.getDay1(), true);
+        int maxDaysInBetween = daysInBetween(date.getYear2(), date.getMonth2(), date.getDay2(), date.getYear1(), date.getMonth1(), date.getDay1(), false);
         if (MphConstants.COMPARE_DX_UNKNOWN == latestDx)
             return Math.max(Math.abs(minDaysInBetween), Math.abs(maxDaysInBetween)) <= days ? MphConstants.DATE_VERIFY_WITHIN : MphConstants.DATE_VERIFY_UNKNOWN;
         else if (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx) {
-            minDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, true);
-            maxDaysInBetween = daysInBetween(year1, month1, day1, year2, month2, day2, false);
+            minDaysInBetween = daysInBetween(date.getYear1(), date.getMonth1(), date.getDay1(), date.getYear2(), date.getMonth2(), date.getDay2(), true);
+            maxDaysInBetween = daysInBetween(date.getYear1(), date.getMonth1(), date.getDay1(), date.getYear2(), date.getMonth2(), date.getDay2(), false);
         }
 
         if (minDaysInBetween > days)
@@ -395,6 +307,21 @@ public class GroupUtility {
 
     //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum
     private static int daysInBetween(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay, boolean minimum) {
+
+        if (startMon < 1 || startMon > 12) {
+            startMon = 99;
+            startDay = 99;
+        }
+        else if (startDay < 1 || startDay > LocalDate.of(startYr, startMon, 1).lengthOfMonth())
+            startDay = 99;
+
+        if (endMon < 1 || endMon > 12) {
+            endMon = 99;
+            endDay = 99;
+        }
+        else if (endDay < 1 || endDay > LocalDate.of(endYr, endMon, 1).lengthOfMonth())
+            endDay = 99;
+
         LocalDate startDateMin = LocalDate.of(startYr, 1, 1);
         LocalDate startDateMax = LocalDate.of(startYr, 12, 31);
         LocalDate endDateMin = LocalDate.of(endYr, 1, 1);
@@ -427,5 +354,49 @@ public class GroupUtility {
                 + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/"
                 + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh) + " "
                 + (validateYear(year) ? ("with year of diagnosis " + year) : "with unknown year of diagnosis");
+    }
+
+    static class DateFieldParts {
+
+        private final int _year1;
+        private final int _month1;
+        private final int _day1;
+        private final int _year2;
+        private final int _month2;
+        private final int _day2;
+
+        public DateFieldParts(MphInput input1, MphInput input2) {
+            _year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
+            _year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
+            _month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
+            _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
+            _day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
+            _day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+        }
+
+        public int getYear1() {
+            return _year1;
+        }
+
+        public int getMonth1() {
+            return _month1;
+        }
+
+        public int getDay1() {
+            return _day1;
+        }
+
+        public int getYear2() {
+            return _year2;
+        }
+
+        public int getMonth2() {
+            return _month2;
+        }
+
+        public int getDay2() {
+            return _day2;
+        }
+
     }
 }

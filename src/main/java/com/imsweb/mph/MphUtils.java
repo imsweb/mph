@@ -203,8 +203,12 @@ public final class MphUtils {
 
         int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
         int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
-        String site1 = input1.getPrimarySite(), site2 = input2.getPrimarySite(), hist1 = input1.getHistology(), hist2 = input2.getHistology();
-        String beh1 = input1.getBehavior(), beh2 = input2.getBehavior();
+        String site1 = input1.getPrimarySite();
+        String site2 = input2.getPrimarySite();
+        String hist1 = input1.getHistology();
+        String hist2 = input2.getHistology();
+        String beh1 = input1.getBehavior();
+        String beh2 = input2.getBehavior();
 
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
             output.setResult(MpResult.INVALID_INPUT);

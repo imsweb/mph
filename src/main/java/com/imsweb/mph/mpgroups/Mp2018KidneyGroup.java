@@ -84,7 +84,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(h1) : MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(h2) : MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -109,7 +109,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -173,7 +173,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {

@@ -87,7 +87,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
                 String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
                 if ("8120/2".equals(icd1) && "8120/2".equals(icd2) && ((s1.startsWith(MphConstants.BLADDER) && "C669".equals(s2)) || (s2.startsWith(MphConstants.BLADDER) && "C669".equals(s1)))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -241,7 +241,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.URINARY_2018_TABLE2_SUBTYPES.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(h1) : MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.URINARY_2018_TABLE2_SUBTYPES.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(h2) : MphConstants.URINARY_2018_TABLE2_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
@@ -263,7 +263,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
                 String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -300,7 +300,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
                 String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {

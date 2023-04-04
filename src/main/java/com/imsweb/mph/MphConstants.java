@@ -176,6 +176,8 @@ public class MphConstants {
     public static final List<String> SMALL_CELL_CARCINOMA = GroupUtility.expandList("8041-8045");
     public static final String INFLAMMATORY_CARCINOMA = "8530";
     public static final List<String> ADENOCARCINOMA_NOS = GroupUtility.expandList("8140");
+
+    public static final List<String> ADENOCARCINOMA_PROSTATE_SUBTYPES = Arrays.asList("8140", "8572/3", "8500", "8201/3", "8260/3", "8230/3", "8480/3", "8490/3");
     public static final List<String> ADENOCARCINOMA_SPECIFIC = GroupUtility.expandList("8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,"
             + "8200-8201,8210-8211,8214-8215,8220-8221,8230-8231,8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335,8337,8350,"
             + "8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473,8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,"
@@ -189,6 +191,9 @@ public class MphConstants {
             + "8894-8896,8900-8902,8910,8912,8920-8921,8930-8931,8933,8935-8936,8990-8991,9040-9044,9180-9243,9260-9261");
     public static final List<String> FOLLICULAR = GroupUtility.expandList("8290,8330-8332,8335,8340,8346");
     public static final List<String> PAPILLARY = GroupUtility.expandList("8050,8052,8260,8340-8343,8344,8347");
+
+    public static final List<String> FOLLICULAR_NOS = Collections.singletonList("8330/3");
+    public static final List<String> PAPILLARY_NOS = Collections.singletonList("8260/3");
     public static final String PAPILLARY_CARCINOMA = "8050";
     public static final String KAPOSI_SARCOMA = "9140";
     public static final List<String> TRANSITIONAL_CELL_CARCINOMA = GroupUtility.expandList("8120-8124");

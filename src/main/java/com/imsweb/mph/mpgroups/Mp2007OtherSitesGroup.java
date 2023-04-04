@@ -5,7 +5,9 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -75,10 +77,13 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> follicularAndPapillary = new ArrayList<>(MphConstants.FOLLICULAR);
-                follicularAndPapillary.addAll(MphConstants.PAPILLARY);
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(hist1, hist2))) {
+                Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR_NOS);
+                follicularAndPapillary.addAll(MphConstants.PAPILLARY_NOS);
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
+                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(icd1, icd2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);

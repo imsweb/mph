@@ -1406,8 +1406,8 @@ public class MphUtilsTest {
         //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary. (C739, 8340)
         i1.setPrimarySite("C739");
         i2.setPrimarySite("C739");
-        i1.setHistologyIcdO3("8340");
-        i2.setHistologyIcdO3("8340");
+        i1.setHistologyIcdO3("8330");
+        i2.setHistologyIcdO3("8330");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2011");

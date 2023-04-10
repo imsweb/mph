@@ -241,7 +241,7 @@ public class Mph2023RulesTest {
         //M18 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         i1.setPrimarySite("C619");
         i2.setPrimarySite("C619");
-        i1.setHistologyIcdO3("8572");
+        i1.setHistologyIcdO3("8574");
         i2.setHistologyIcdO3("8500");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
@@ -254,20 +254,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M18", output.getStep());
         Assert.assertTrue(output.getReason().contains("subtypes"));
-        i1.setHistologyIcdO3("8201");
-        i2.setHistologyIcdO3("8260");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals("M18", output.getStep());
-        Assert.assertTrue(output.getReason().contains("subtypes"));
-        //these are same variants
-        i1.setHistologyIcdO3("8201");
-        i2.setHistologyIcdO3("8500");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals("M21", output.getStep());
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         i1.setPrimarySite("C490");

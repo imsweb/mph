@@ -189,8 +189,8 @@ public class MphConstants {
     public static final List<String> SARCOMA_NOS = GroupUtility.expandList("8800");
     public static final List<String> SARCOMA_SPECIFIC = GroupUtility.expandList("8000-8005,8801-8806,8810-8815,8830,8832-8833,8840,8842,8850-8855,8857-8858,8890-8891,"
             + "8894-8896,8900-8902,8910,8912,8920-8921,8930-8931,8933,8935-8936,8990-8991,9040-9044,9180-9243,9260-9261");
-    public static final List<String> FOLLICULAR = GroupUtility.expandList("8290,8330-8332,8335,8340,8346");
-    public static final List<String> PAPILLARY = GroupUtility.expandList("8050,8052,8260,8340-8343,8344,8347");
+    public static final List<String> FOLLICULAR = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3");
+    public static final List<String> PAPILLARY = Arrays.asList("8260/3", "8344/3", "8350/3", "8343/3", "8340/3");
 
     public static final List<String> FOLLICULAR_NOS = Collections.singletonList("8330/3");
     public static final List<String> PAPILLARY_NOS = Collections.singletonList("8260/3");

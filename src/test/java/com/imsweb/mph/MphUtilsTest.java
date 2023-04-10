@@ -2454,7 +2454,7 @@ public class MphUtilsTest {
         Assert.assertNotEquals(6, output.getAppliedRules().size()); //Since histologies are the same, this will be caught earlier at rule 3
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         i1.setHistologyIcdO3("8331");
-        i2.setHistologyIcdO3("8052"); //Follicular and Papillary, not thyroid tho
+        i2.setHistologyIcdO3("8260"); //Follicular and Papillary, not thyroid tho
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());

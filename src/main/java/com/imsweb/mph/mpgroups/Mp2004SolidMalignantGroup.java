@@ -191,7 +191,14 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
+                String lat1 = i1.getLaterality();
+                String lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_APART) {
                     if (isPairedSite(i1.getPrimarySite()) && isPairedSite(i2.getPrimarySite())) {
@@ -212,8 +219,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                             else if ((site1.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site1)) && (site2.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site2))
                                     && MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(hist1) || MphConstants.PAPILLARY.contains(hist1))
-                                    && (MphConstants.FOLLICULAR.contains(hist2) || MphConstants.PAPILLARY.contains(hist2)))
+                            else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(icd1) || MphConstants.PAPILLARY.contains(icd1))
+                                    && (MphConstants.FOLLICULAR.contains(icd2) || MphConstants.PAPILLARY.contains(icd2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && (MphConstants.PAPILLARY_CARCINOMA.equals(hist1)
                                     || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (
@@ -249,8 +256,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         else if ((site1.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site1)) && (site2.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site2))
                                 && MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(hist1) || MphConstants.PAPILLARY.contains(hist1))
-                                && (MphConstants.FOLLICULAR.contains(hist2) || MphConstants.PAPILLARY.contains(hist2)))
+                        else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(icd1) || MphConstants.PAPILLARY.contains(icd1))
+                                && (MphConstants.FOLLICULAR.contains(icd2) || MphConstants.PAPILLARY.contains(icd2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && (MphConstants.PAPILLARY_CARCINOMA.equals(hist1)
                                 || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (
@@ -281,8 +288,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         else if ((site1.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site1)) && (site2.startsWith(MphConstants.COLON) || MphConstants.RECTUM.equals(site2))
                                 && MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS.containsAll(Arrays.asList(hist1, hist2)))
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(hist1) || MphConstants.PAPILLARY.contains(hist1))
-                                && (MphConstants.FOLLICULAR.contains(hist2) || MphConstants.PAPILLARY.contains(hist2)))
+                        else if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && (MphConstants.FOLLICULAR.contains(icd1) || MphConstants.PAPILLARY.contains(icd1))
+                                && (MphConstants.FOLLICULAR.contains(icd2) || MphConstants.PAPILLARY.contains(icd2)))
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         else if (site1.startsWith(MphConstants.BLADDER) && site2.startsWith(MphConstants.BLADDER) && (MphConstants.PAPILLARY_CARCINOMA.equals(hist1)
                                 || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist1) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA.contains(hist1)) && (

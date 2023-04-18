@@ -1442,7 +1442,14 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ovary"));
-        i2.setHistologyIcdO3("8002");
+        i1.setHistologyIcdO3("8441");
+        i2.setHistologyIcdO3("8460");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("ovary"));
+        i1.setHistologyIcdO3("8460");
+        i2.setHistologyIcdO3("8010");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());

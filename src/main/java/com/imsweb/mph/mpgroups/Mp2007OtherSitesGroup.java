@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -100,12 +101,19 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
+        // Same 4 digits
+        // 8000 and any histology in the range (8000-8799)
+        // 8010 and any histology in the range (8000-8799)
+        // 8140 and any histology in the range (8000-8799)
+        // 8441 and any histology in (8460, 8461)
         rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
+                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799 &&
+                        (hist1.equals(hist2) || Arrays.asList("8000", "8010", "8140").contains(hist1) || Arrays.asList("8000", "8010", "8140").contains(hist2) ||
+                        GroupUtility.differentCategory(hist1, hist2, Arrays.asList("8460", "8461"), Collections.singletonList("8441")))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -113,6 +121,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
                 }
                 return result;
             }

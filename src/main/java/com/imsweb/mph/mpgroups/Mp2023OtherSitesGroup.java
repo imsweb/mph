@@ -313,8 +313,29 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
         _rules.add(rule);
 
-        //M17 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
+        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M17") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2) {
+                TempRuleResult result = new TempRuleResult();
+                Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
+                Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
+                if (map1 != null && map2 != null) {
+                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
+                    String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
+                    if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
+                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                }
+                return result;
+            }
+        };
+        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-21?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21.");
+        _rules.add(rule);
+
+        //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M18") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -341,26 +362,6 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.");
         _rules.add(rule);
 
-        //M18 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M18") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
-                Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
-                if (map1 != null && map2 != null) {
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
-                    String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
-                    String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
-        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-21?");
-        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21.");
-        _rules.add(rule);
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M19") {
@@ -373,13 +374,13 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 String row1 = null;
                 if (map1 != null)
                     row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
-                else if (MphConstants.OTHER_SITES_2023_TABLE_2.contains(h1))
+                if (row1 == null && MphConstants.OTHER_SITES_2023_TABLE_2.contains(h1))
                     row1 = h1 + " in Table 2";
 
                 String row2 = null;
                 if (map2 != null)
                     row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                else if (MphConstants.OTHER_SITES_2023_TABLE_2.contains(h2))
+                if (row2 == null && MphConstants.OTHER_SITES_2023_TABLE_2.contains(h2))
                     row2 = h2 + " in Table 2";
 
                 if (row1 == null || row2 == null) {

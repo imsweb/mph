@@ -216,29 +216,7 @@ public class Mph2023RulesTest {
         Assert.assertEquals("M16", output.getStep());
         Assert.assertTrue(output.getReason().contains("polyps"));
 
-        //M17 -Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
-        i1.setPrimarySite("C540");
-        i2.setPrimarySite("C543");
-        i1.setHistologyIcdO3("8380");
-        i2.setHistologyIcdO3("8570");
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("3");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals("M17", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
-        i1.setPrimarySite("C490");
-        i2.setPrimarySite("C490");
-        i1.setHistologyIcdO3("9367");
-        i2.setHistologyIcdO3("8800");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals("M17", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
-
-        //M18 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
+        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         i1.setPrimarySite("C619");
         i2.setPrimarySite("C619");
         i1.setHistologyIcdO3("8574");
@@ -252,8 +230,36 @@ public class Mph2023RulesTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals("M18", output.getStep());
+        Assert.assertEquals("M17", output.getStep());
         Assert.assertTrue(output.getReason().contains("subtypes"));
+
+        //M18 -Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
+        i1.setPrimarySite("C540");
+        i2.setPrimarySite("C543");
+        i1.setHistologyIcdO3("8380");
+        i2.setHistologyIcdO3("8570");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2023");
+        i1.setDateOfDiagnosisYear("2023");
+        i1.setDateOfDiagnosisMonth("3");
+        i1.setDateOfDiagnosisMonth("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M18", output.getStep());
+        Assert.assertTrue(output.getReason().contains("Table 3-21"));
+        i1.setPrimarySite("C490");
+        i2.setPrimarySite("C490");
+        i1.setHistologyIcdO3("9367");
+        i2.setHistologyIcdO3("8800");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M18", output.getStep());
+        Assert.assertTrue(output.getReason().contains("Table 3-21"));
+
+
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         i1.setPrimarySite("C490");

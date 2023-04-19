@@ -168,13 +168,19 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
+                    Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
+                    String row1 = map1.containsKey(hist1) ? map1.get(hist1) : map1.get(i1.getIcdCode());
+                    String row2 = map2.containsKey(hist2) ? map2.get(hist2) : map2.get(i2.getIcdCode());
+                    if (hist1.equals(hist2) || (row1 != null && row1.equals(row2))) {
+                        int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
+                        if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
+                            result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        }
+                        else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
+                            result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }

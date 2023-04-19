@@ -1972,6 +1972,8 @@ public class MphConstants {
         softTissueRows.put("8990/3", "8800/3");
         softTissueRows.put("9366/3", "8800/3");
         softTissueRows.put("9368/3", "8800/3");
+        softTissueRows.put("9040/3", "8800/3");
+        softTissueRows.put("9043/3", "8800/3");
 
         softTissueRows.put("8805/3", "8805/3");
         softTissueRows.put("8802/3", "8805/3");
@@ -2310,8 +2312,9 @@ public class MphConstants {
         softTissueSubtypes.put("8910/3", "8910/3");
         softTissueSubtypes.put("8901/3", "8901/3");
         softTissueSubtypes.put("8912/3", "8912/3");
-        softTissueSubtypes.put("9044/3", "9044/3,9043/3");
         softTissueSubtypes.put("9367/3", "9367/3");
+        softTissueSubtypes.put("9044/3", "9044/3");
+
         softTissueSubtypes.put("8804/3", "8804/3");
         softTissueSubtypes.put("9364/3", "9364/3");
         softTissueSubtypes.put("9231/3", "9231/3");
@@ -2321,9 +2324,14 @@ public class MphConstants {
         softTissueSubtypes.put("8990/3", "8990/3");
         softTissueSubtypes.put("9366/3", "9366/3");
         softTissueSubtypes.put("9368/3", "9368/3");
+        softTissueSubtypes.put("9040/3", "9040/3,9043/3");
+        softTissueSubtypes.put("9043/3", "9043/3");
+
         softTissueSubtypes.put("8802/3", "8802/3");
         softTissueSubtypes.put("8803/3", "8803/3");
         softTissueSubtypes.put("8801/3", "8801/3");
+
+
 
         for (String site : SOFT_TISSUES_SITES)
             content.put(site, softTissueSubtypes);

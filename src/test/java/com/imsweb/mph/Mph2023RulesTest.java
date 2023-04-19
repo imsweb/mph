@@ -109,6 +109,18 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M9", output.getStep());
         Assert.assertTrue(output.getReason().contains("ovary"));
+        i1.setHistologyIcdO3("8441");
+        i2.setHistologyIcdO3("8460");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M9", output.getStep());
+        Assert.assertTrue(output.getReason().contains("ovary"));
+        i1.setHistologyIcdO3("8441");
+        i2.setHistologyIcdO3("8044");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
+        Assert.assertNotEquals("M9", output.getStep());
 
         // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
         i1.setPrimarySite("C622");

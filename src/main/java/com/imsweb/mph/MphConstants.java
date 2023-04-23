@@ -236,7 +236,7 @@ public class MphConstants {
         content.put("8000", GroupUtility.expandList("8001-9999")); //Cancer/malignant neoplasm, NOS
         content.put("8010", GroupUtility.expandList("8011-8015")); //Carcinoma, NOS
         content.put("8140", GroupUtility.expandList("8141-8145,8147-8148")); //Adenocarcinoma, NOS
-        content.put("8070", GroupUtility.expandList("8071-8078,8080-8084,8094,8323")); //Squamous cell carcinoma, NOS
+        content.put("8070", GroupUtility.expandList("8071-8078,8080-8084")); //Squamous cell carcinoma, NOS
         content.put("8720", GroupUtility.expandList("8721-8723,8726,8728,8730,8740,8741-8746,8761,8770-8774,8780")); //Melanoma, NOS
         content.put("8800", GroupUtility.expandList("8801-8806")); //Sarcoma, NOS
         content.put("8312", GroupUtility.expandList("8313-8320")); //Renal cell carcinoma, NOS

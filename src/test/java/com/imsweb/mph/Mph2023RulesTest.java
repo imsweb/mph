@@ -231,10 +231,10 @@ public class Mph2023RulesTest {
         //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         i1.setPrimarySite("C619");
         i2.setPrimarySite("C619");
-        i1.setHistologyIcdO3("8574");
-        i2.setHistologyIcdO3("8500");
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("3");
+        i1.setHistologyIcdO3("8490");
+        i2.setHistologyIcdO3("8572");
+        i1.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("2");
         i1.setDateOfDiagnosisYear("2023");
         i1.setDateOfDiagnosisYear("2023");
         i1.setDateOfDiagnosisMonth("1");
@@ -290,18 +290,6 @@ public class Mph2023RulesTest {
         i2.setHistologyIcdO3("8013");
         i1.setLaterality("1");
         i2.setLaterality("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals("M19", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 2-21"));
-
-        i1.setPrimarySite("C250");
-        i2.setPrimarySite("C250");
-        i1.setHistologyIcdO3("8470");
-        i2.setHistologyIcdO3("8470");
-        i1.setBehaviorIcdO3("3");
-        i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());

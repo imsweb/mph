@@ -104,7 +104,6 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         // Same 4 digits
         // 8000 and any histology in the range (8000-8799)
         // 8010 and any histology in the range (8000-8799)
-        // 8140 and any histology in the range (8000-8799)
         // 8441 and any histology in (8460, 8461)
         rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7") {
             @Override
@@ -112,7 +111,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
                 if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799 &&
-                        (hist1.equals(hist2) || Arrays.asList("8000", "8010", "8140").contains(hist1) || Arrays.asList("8000", "8010", "8140").contains(hist2) ||
+                        (hist1.equals(hist2) || Arrays.asList("8000", "8010").contains(hist1) || Arrays.asList("8000", "8010").contains(hist2) ||
                         GroupUtility.differentCategory(hist1, hist2, Arrays.asList("8460", "8461"), Collections.singletonList("8441")))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {

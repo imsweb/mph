@@ -259,12 +259,12 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         _rules.add(rule);
 
-        //M14 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Peripheral nerves and autonomic nervous system (C47_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
+        //M14 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
         rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> list = Arrays.asList("C21", "C40", "C41", "C47", "C49", "C44");
+                List<String> list = Arrays.asList("C21", "C40", "C41", "C49", "C44");
                 //primary sites should be the same at their 2nd and 3rd digit to pass M11, so if site 1 is in the list site 2 also is.
                 if ((list.contains(i1.getPrimarySite().substring(0, 3)) && i1.getPrimarySite().charAt(3) != i2.getPrimarySite().charAt(3)))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -274,13 +274,11 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.setQuestion("Are there tumors in sites with ICD-O-3 topography codes that differ at only the fourth character (Cxx?) and are in any one of the following primary sites:\n" +
                 "Anus and anal canal (C21_)\n" +
                 "Bones, joints, and articular cartilage (C40_- C41_)\n" +
-                "Peripheral nerves and autonomic nervous system (C47_)\n" +
                 "Connective subcutaneous and other soft tissues (C49_)\n" +
                 "Skin (C44_)");
         rule.setReason("Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries.\n" +
                 "Anus and anal canal (C21_)\n" +
                 "Bones, joints, and articular cartilage (C40_- C41_)\n" +
-                "Peripheral nerves and autonomic nervous system (C47_)\n" +
                 "Connective subcutaneous and other soft tissues (C49_)\n" +
                 "Skin (C44_)");
         _rules.add(rule);
@@ -366,6 +364,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         };
         rule.setQuestion("Are tumors on the same row in Table 3-21?");
         rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.");
+        rule.getNotes().add("The same histology (same four-digit ICD-O code) OR One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR"
+                + "A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3) ");
         _rules.add(rule);
 
 

@@ -2076,8 +2076,7 @@ public class MphConstants {
 
         //Table 6 stomach
         Map<String, String> stomachSubtypes = new HashMap<>();
-        stomachSubtypes.put("8144/3", "8144/3");
-        stomachSubtypes.put("8144/2", "8144/2");
+        stomachSubtypes.put("8144", "8144");
         stomachSubtypes.put("8576", "8576");
         stomachSubtypes.put("8512", "8512");
         stomachSubtypes.put("8265", "8265");
@@ -2103,8 +2102,7 @@ public class MphConstants {
 
         //Table 7 intestine
         Map<String, String> intestineSubtypes = new HashMap<>();
-        intestineSubtypes.put("8144/3", "8144/3");
-        intestineSubtypes.put("8144/2", "8144/2");
+        intestineSubtypes.put("8144", "8144");
         intestineSubtypes.put("8510", "8510");
         intestineSubtypes.put("8480", "8480");
         intestineSubtypes.put("8163", "8163");

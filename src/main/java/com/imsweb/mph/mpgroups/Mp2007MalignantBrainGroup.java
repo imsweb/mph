@@ -19,7 +19,7 @@ import com.imsweb.mph.mprules.MpRulePrimarySite;
 public class Mp2007MalignantBrainGroup extends MphGroup {
 
     public Mp2007MalignantBrainGroup() {
-        super(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9989,9140", "3",
+        super(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9993,9140", "3",
                 "2007-2017");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.

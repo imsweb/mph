@@ -19,7 +19,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2010HematopoieticGroup extends MphGroup {
 
     public Mp2010HematopoieticGroup() {
-        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2010-9999");
+        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "2010-9999");
 
         // M1 
         MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M1") {

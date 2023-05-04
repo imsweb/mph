@@ -43,7 +43,7 @@ public class HematoDbLab {
              CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformToFile), StandardCharsets.UTF_8));
              CSVWriter transformFromWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformFromFile), StandardCharsets.UTF_8))) {
 
-            String key = "ENTER YOUR API KEY HERE";
+            String key = "faeafcc3d88991a457ea08886fcf51dd";
             SeerApi api = new SeerApi.Builder().apiKey(key).connect();
             List<Disease> allDiseases = new ArrayList<>();
             int total, previousTotal = 0, offset = 0;

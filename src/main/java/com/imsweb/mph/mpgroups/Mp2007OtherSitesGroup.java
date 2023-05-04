@@ -25,7 +25,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
     public Mp2007OtherSitesGroup() {
-        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-2022");
+        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9993", "2-3,6", "2007-2022");
 
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3") {

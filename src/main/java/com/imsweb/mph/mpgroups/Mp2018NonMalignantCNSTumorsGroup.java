@@ -23,7 +23,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
     public Mp2018NonMalignantCNSTumorsGroup() {
         super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
-                "9590-9992, 9140", "0-1", "2018-9999");
+                "9590-9993, 9140", "0-1", "2018-9999");
 
         // Rule M5 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR

@@ -21,7 +21,7 @@ import com.imsweb.mph.mprules.MpRulePrimarySite;
 public class Mp2007HeadAndNeckGroup extends MphGroup {
 
     public Mp2007HeadAndNeckGroup() {
-        super(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
         MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {

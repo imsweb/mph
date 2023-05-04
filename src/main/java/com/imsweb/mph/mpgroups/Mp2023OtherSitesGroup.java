@@ -26,7 +26,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
     public Mp2023OtherSitesGroup() {
-        super(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2023-9999");
+        super(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9993", "2-3,6", "2023-9999");
 
         //M3- Acinar Adenocarcinoma (8140) of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M3") {

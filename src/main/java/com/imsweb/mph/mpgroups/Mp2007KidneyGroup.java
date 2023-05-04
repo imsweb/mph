@@ -21,7 +21,7 @@ import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 public class Mp2007KidneyGroup extends MphGroup {
 
     public Mp2007KidneyGroup() {
-        super(MphConstants.MP_2007_KIDNEY_GROUP_ID, MphConstants.MP_2007_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_KIDNEY_GROUP_ID, MphConstants.MP_2007_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Wilms tumors are a single primary. (8960/3)
         MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M3") {

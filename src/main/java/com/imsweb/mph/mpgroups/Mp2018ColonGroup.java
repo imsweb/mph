@@ -22,7 +22,7 @@ public class Mp2018ColonGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018ColonGroup() {
         super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189, C199, C209", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-9999");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
         //  - There is a clinical diagnosis of familial polyposis (FAP) OR

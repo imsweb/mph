@@ -27,7 +27,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018UrinarySitesGroup() {
         super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-9999");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are:
         // - Separate/non-contiguous tumors in both the right AND left renal pelvis AND

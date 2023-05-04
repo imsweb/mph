@@ -25,7 +25,7 @@ public class Mp2018LungGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018LungGroup() {
         super(MphConstants.MP_2018_LUNG_GROUP_ID, MphConstants.MP_2018_LUNG_GROUP_NAME, "C340-C343, C348, C349", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-9999");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third character CxXx.
         MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_LUNG_GROUP_ID, "M3");

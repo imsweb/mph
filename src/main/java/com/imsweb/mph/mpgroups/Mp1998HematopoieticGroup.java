@@ -25,7 +25,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
     private static List<String[]> _1998_HEMATOPOIETIC = new ArrayList<>();
 
     public Mp1998HematopoieticGroup() {
-        super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "0000-2000");
+        super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "0000-2000");
         initializeLookup();
 
         MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "") {

@@ -143,8 +143,8 @@ public class Mp2018BreastGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Is this a simultaneous carcinoma NST/duct and lobular carcinoma?");
-        rule.setReason("Simultaneous carcinoma NST/duct and lobular carcinoma is a single primary.");
+        rule.setQuestion("Is this a carcinoma NST/duct and lobular carcinoma?");
+        rule.setReason("Carcinoma NST/duct and lobular carcinoma is a single primary.");
         rule.getNotes().add("Tumors must be in the same breast.");
         rule.getNotes().add("Carcinoma NST/duct includes:");
         rule.getNotes().add("  - DCIS 8500/2");

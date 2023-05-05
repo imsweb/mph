@@ -111,14 +111,14 @@ public abstract class MphGroup {
         Integer site = Integer.parseInt(primarySite.substring(1)), hist = Integer.parseInt(histology);
 
         // check site
-        if (_siteIncRanges != null)
+        if (_siteIncRanges != null && !_siteIncRanges.isEmpty())
             siteOk = GroupUtility.isContained(_siteIncRanges, site);
         else
             siteOk = !GroupUtility.isContained(_siteExcRanges, site);
 
         // check histology (only if site matched)
         if (siteOk) {
-            if (_histIncRanges != null)
+            if (_histIncRanges != null && !_histIncRanges.isEmpty())
                 histOk = GroupUtility.isContained(_histIncRanges, hist);
             else
                 histOk = !GroupUtility.isContained(_histExcRanges, hist);

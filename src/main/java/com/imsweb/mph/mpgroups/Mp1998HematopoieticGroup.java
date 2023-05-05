@@ -22,7 +22,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp1998HematopoieticGroup extends MphGroup {
 
-    private static List<String[]> _1998_HEMATOPOIETIC = new ArrayList<>();
+    private static List<String[]> _HEMATOPOIETIC_1998 = new ArrayList<>();
 
     public Mp1998HematopoieticGroup() {
         super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "0000-2000");
@@ -46,7 +46,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 }
                 String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i2.getHistology() : i1.getHistology(), secondDx =
                         MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i1.getHistology() : i2.getHistology();
-                for (String[] row : _1998_HEMATOPOIETIC)
+                for (String[] row : _HEMATOPOIETIC_1998)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
                             (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(
                                     row[3]) <= 0))) {
@@ -65,11 +65,11 @@ public class Mp1998HematopoieticGroup extends MphGroup {
     }
 
     private static synchronized void initializeLookup() {
-        if (_1998_HEMATOPOIETIC.isEmpty()) {
+        if (_HEMATOPOIETIC_1998.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {
                 if (is == null)
                     throw new RuntimeException("Unable to read Hematopoietic1998HistologyPairs.csv");
-                _1998_HEMATOPOIETIC.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
+                _HEMATOPOIETIC_1998.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (CsvException | IOException e) {
                 throw new RuntimeException(e);

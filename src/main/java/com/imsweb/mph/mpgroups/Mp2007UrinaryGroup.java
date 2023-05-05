@@ -22,7 +22,7 @@ import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 public class Mp2007UrinaryGroup extends MphGroup {
 
     public Mp2007UrinaryGroup() {
-        super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_URINARY_GROUP_ID, MphConstants.MP_2007_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659) 
         MphRule rule = new MphRule(MphConstants.MP_2007_URINARY_GROUP_ID, "M3") {

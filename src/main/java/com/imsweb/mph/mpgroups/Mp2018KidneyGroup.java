@@ -24,7 +24,7 @@ public class Mp2018KidneyGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018KidneyGroup() {
         super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-2021");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX).
         MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M3") {
@@ -84,7 +84,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(h1) : MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(h2) : MphConstants.KIDNEY_2018_TABLE1_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -109,7 +109,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -141,8 +141,19 @@ public class Mp2018KidneyGroup extends MphGroup {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
-                    else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())) {
+                        if ("8311".equals(h1) && h1.equals(h2)) {
+                            result.setFinalResult(MpResult.QUESTIONABLE);
+                            result.setMessage("8311 can be abstracted as multiple primaries if you have any of the following combinations (all coded 8311):\n"
+                                    + "- MiT family translocation renal cell carcinoma and Hereditary leiomyomatosis\n"
+                                    + "- MiT family translocation renal cell carcinoma and Renal cell carcinoma-associated renal cell carcinoma\n"
+                                    + "- MiT family translocation renal cell carcinoma and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)\n"
+                                    + "- Hereditary leiomyomatosis and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)\n"
+                                    + "- Renal cell carcinoma-associated renal cell carcinoma and Succinate dehydrogenase-deficient renal cell carcinoma (SDHS)");
+                        }
+                        else
+                            result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                    }
                 }
 
                 return result;
@@ -162,7 +173,7 @@ public class Mp2018KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {

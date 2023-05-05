@@ -5,7 +5,10 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -22,7 +25,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia
     public Mp2007OtherSitesGroup() {
-        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9989", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9993", "2-3,6", "2007-2022");
 
         //M3- Adenocarcinoma of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M3") {
@@ -75,10 +78,13 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> follicularAndPapillary = new ArrayList<>(MphConstants.FOLLICULAR);
-                follicularAndPapillary.addAll(MphConstants.PAPILLARY);
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(hist1, hist2))) {
+                Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR_NOS);
+                follicularAndPapillary.addAll(MphConstants.PAPILLARY_NOS);
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
+                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(icd1, icd2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -95,12 +101,18 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
+        // Same 4 digits
+        // 8000 and any histology in the range (8000-8799)
+        // 8010 and any histology in the range (8000-8799)
+        // 8441 and any histology in (8460, 8461)
         rule = new MphRule(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
+                if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799 &&
+                        (hist1.equals(hist2) || Arrays.asList("8000", "8010").contains(hist1) || Arrays.asList("8000", "8010").contains(hist2) ||
+                        GroupUtility.differentCategory(hist1, hist2, Arrays.asList("8460", "8461"), Collections.singletonList("8441")))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -108,6 +120,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+
                 }
                 return result;
             }
@@ -305,6 +318,18 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         specificGroups.add(new Mp2007UrinaryGroup());
         specificGroups.add(new Mp2007BenignBrainGroup());
         specificGroups.add(new Mp2007MalignantBrainGroup());
+
+        specificGroups.add(new Mp2018BreastGroup());
+        specificGroups.add(new Mp2018ColonGroup());
+        specificGroups.add(new Mp2018HeadAndNeckGroup());
+        specificGroups.add(new Mp2018KidneyGroup());
+        specificGroups.add(new Mp2018LungGroup());
+        specificGroups.add(new Mp2018MalignantCNSAndPeripheralNervesGroup());
+        specificGroups.add(new Mp2018NonMalignantCNSTumorsGroup());
+        specificGroups.add(new Mp2018UrinarySitesGroup());
+
+        specificGroups.add(new Mp2021CutaneousMelanomaGroup());
+
         for (MphGroup group : specificGroups) {
             if (group.isApplicable(primarySite, histology, behavior, year))
                 return false;

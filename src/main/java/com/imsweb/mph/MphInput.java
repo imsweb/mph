@@ -62,10 +62,6 @@ public class MphInput {
         return year < 2001 && GroupUtility.validateBehavior(_behaviorIcdO2) ? _behaviorIcdO2 : _behaviorIcdO3;
     }
 
-    public String getIcdCode() {
-        return getHistology() + "/" + getBehavior();
-    }
-
     public String getLaterality() {
         return _laterality;
     }
@@ -98,8 +94,8 @@ public class MphInput {
         _dateOfDiagnosisDay = dateOfDiagnosisDay;
     }
 
-    public String getMorphology() {
+
+    public String getIcdCode() {
         return getHistology() + "/" + getBehavior();
     }
-
 }

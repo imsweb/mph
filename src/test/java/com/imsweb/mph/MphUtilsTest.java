@@ -33,9 +33,8 @@ import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2018LungGroup;
 import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
 import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
-import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
-
+import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 public class MphUtilsTest {
 
@@ -98,6 +97,10 @@ public class MphUtilsTest {
         Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C445", "8800", "3", 2007)); //melanoma with excluded histology
         Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C180", "9140", "3", 2007)); //Kaposi sarcoma
         Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C751", "8100", "2", 2007)); //Brain which is neither malignant nor benign
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C887", "8200", "3", 2018)); //primary site not in groups
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C445", "8800", "3", 2018)); //melanoma with excluded histology
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C180", "9140", "3", 2018)); //Kaposi sarcoma
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C751", "8100", "2", 2018)); //Brain which is neither malignant nor benign
 
         //1998 Hematopoietic
         Assert.assertEquals(new Mp1998HematopoieticGroup(), _utils.findCancerGroup("C445", "9590", "3", 2000));
@@ -147,14 +150,12 @@ public class MphUtilsTest {
         //2018 Non-Malignant CNS Tumor
         Assert.assertEquals(new Mp2018NonMalignantCNSTumorsGroup(), _utils.findCancerGroup("C751", "8100", "0", 2018));
 
-        //2018 Other Sites
-        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C887", "8200", "3", 2018)); //primary site not in groups
-        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C445", "8800", "3", 2018)); //melanoma with excluded histology
-        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C180", "9140", "3", 2018)); //Kaposi sarcoma
-        Assert.assertEquals(new Mp2018OtherSitesGroup(), _utils.findCancerGroup("C751", "8100", "2", 2018)); //Brain which is neither malignant nor benign
-
         //2018 Urinary Sites
         Assert.assertEquals(new Mp2018UrinarySitesGroup(), _utils.findCancerGroup("C672", "8100", "3", 2018));
+
+        Assert.assertEquals(new Mp2007OtherSitesGroup(), _utils.findCancerGroup("C754", "8680", "3", 2018));
+        Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C754", "8680", "3", 2019));
+        Assert.assertEquals(new Mp2023OtherSitesGroup(), _utils.findCancerGroup("C755", "8670", "3", 2023));
 
     }
 
@@ -1405,8 +1406,8 @@ public class MphUtilsTest {
         //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary. (C739, 8340)
         i1.setPrimarySite("C739");
         i2.setPrimarySite("C739");
-        i1.setHistologyIcdO3("8340");
-        i2.setHistologyIcdO3("8340");
+        i1.setHistologyIcdO3("8330");
+        i2.setHistologyIcdO3("8330");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2011");
@@ -1441,7 +1442,14 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("ovary"));
-        i2.setHistologyIcdO3("8002");
+        i1.setHistologyIcdO3("8441");
+        i2.setHistologyIcdO3("8460");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("ovary"));
+        i1.setHistologyIcdO3("8460");
+        i2.setHistologyIcdO3("8010");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
@@ -2453,7 +2461,7 @@ public class MphUtilsTest {
         Assert.assertNotEquals(6, output.getAppliedRules().size()); //Since histologies are the same, this will be caught earlier at rule 3
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         i1.setHistologyIcdO3("8331");
-        i2.setHistologyIcdO3("8052"); //Follicular and Papillary, not thyroid tho
+        i2.setHistologyIcdO3("8260"); //Follicular and Papillary, not thyroid tho
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());

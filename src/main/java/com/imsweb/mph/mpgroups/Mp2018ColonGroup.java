@@ -7,7 +7,6 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
-import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
@@ -23,7 +22,7 @@ public class Mp2018ColonGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018ColonGroup() {
         super(MphConstants.MP_2018_COLON_GROUP_ID, MphConstants.MP_2018_COLON_GROUP_NAME, "C180-C189, C199, C209", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-2021");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
         //  - There is a clinical diagnosis of familial polyposis (FAP) OR
@@ -33,7 +32,7 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if ("8220".equals(i1.getHistology()) && "8220".equals(i2.getHistology()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }
         };
@@ -73,7 +72,7 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 if (!h1.equals(h2) && (MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h1) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd1)) && (
                         MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h2) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd2)))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -95,7 +94,7 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -123,7 +122,7 @@ public class Mp2018ColonGroup extends MphGroup {
 
         // Rule M7 Abstract multiple primaries when a subsequent tumor arises at the anastomotic site AND:
         // -  One tumor is a NOS and the other is a subtype/variant of that NOS OR
-        // -  The subsequent tumor occurs greater than 24 months after original tumor resection OR
+        // -  The subsequent tumor occurs greater than 36 months after original tumor resection OR
         // - The subsequent tumor arises in the mucosa
         // ABH 7/19/18 - Revised per https://www.squishlist.com/ims/seerdms_dev/81114/
         // Incoming record is a tumor in a segment of colon/rectal/rectosigmoid.
@@ -149,11 +148,11 @@ public class Mp2018ColonGroup extends MphGroup {
         };
         rule.setQuestion("Did a subsequent tumor arise at the anastomotic site and \n" +
                 "- One tumor is a NOS and the other is a subtype/variant of that NOS, or \n" +
-                "- The subsequent tumor occurs greater than 24 months after original tumor resection, or \n" +
+                "- The subsequent tumor occurs greater than 36 months after original tumor resection, or \n" +
                 "- The subsequent tumor arises in the mucosa?");
         rule.setReason("A subsequent tumor arising at the anastomotic site and \n" +
                 "- One tumor is a NOS and the other is a subtype/variant of that NOS, or \n" +
-                "- The subsequent tumor occurs greater than 24 months after original tumor resection, or \n" +
+                "- The subsequent tumor occurs greater than 36 months after original tumor resection, or \n" +
                 "- The subsequent tumor arises in the mucosa, \n" +
                 "is multiple primaries.");
 
@@ -200,11 +199,11 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().equals("C189") || i2.getPrimarySite().equals("C189")) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". One of the sites is C189.");
                 }
                 else if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -225,11 +224,11 @@ public class Mp2018ColonGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
                     result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
                 }
                 else if (MphConstants.DATE_VERIFY_APART == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
@@ -253,7 +252,7 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -272,11 +271,11 @@ public class Mp2018ColonGroup extends MphGroup {
                 else if (row1.equals(row2)) {
                     int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == diff)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 }
 
                 return result;

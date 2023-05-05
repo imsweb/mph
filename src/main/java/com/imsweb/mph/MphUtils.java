@@ -36,14 +36,9 @@ import com.imsweb.mph.mpgroups.Mp2018KidneyGroup;
 import com.imsweb.mph.mpgroups.Mp2018LungGroup;
 import com.imsweb.mph.mpgroups.Mp2018MalignantCNSAndPeripheralNervesGroup;
 import com.imsweb.mph.mpgroups.Mp2018NonMalignantCNSTumorsGroup;
-import com.imsweb.mph.mpgroups.Mp2018OtherSitesGroup;
 import com.imsweb.mph.mpgroups.Mp2018UrinarySitesGroup;
 import com.imsweb.mph.mpgroups.Mp2021CutaneousMelanomaGroup;
-import com.imsweb.mph.mpgroups.Mp2022BreastGroup;
-import com.imsweb.mph.mpgroups.Mp2022ColonGroup;
-import com.imsweb.mph.mpgroups.Mp2022HeadAndNeckGroup;
-import com.imsweb.mph.mpgroups.Mp2022KidneyGroup;
-import com.imsweb.mph.mpgroups.Mp2022MalignantCNSAndPeripheralNervesGroup;
+import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 /**
  * This class is used to determine single versus multiple primaries. More information can be found on the following websites:
@@ -160,18 +155,13 @@ public final class MphUtils {
         addGroup(new Mp2018LungGroup());
         addGroup(new Mp2018MalignantCNSAndPeripheralNervesGroup());
         addGroup(new Mp2018NonMalignantCNSTumorsGroup());
-        addGroup(new Mp2018OtherSitesGroup());
         addGroup(new Mp2018UrinarySitesGroup());
 
         //2021 solid tumor rules
         addGroup(new Mp2021CutaneousMelanomaGroup());
 
-        //2022 solid tumor rules
-        addGroup(new Mp2022BreastGroup());
-        addGroup(new Mp2022ColonGroup());
-        addGroup(new Mp2022HeadAndNeckGroup());
-        addGroup(new Mp2022KidneyGroup());
-        addGroup(new Mp2022MalignantCNSAndPeripheralNervesGroup());
+        //2023
+        addGroup(new Mp2023OtherSitesGroup());
     }
 
     /**
@@ -213,13 +203,15 @@ public final class MphUtils {
         if (!GroupUtility.validateProperties(site1, hist1, beh1, year1)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site1, hist1, beh1, year1) + ". Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site1, hist1, beh1, year1)
+                            + ". Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
         else if (!GroupUtility.validateProperties(site2, hist2, beh2, year2)) {
             output.setResult(MpResult.INVALID_INPUT);
             output.setReason(
-                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site2, hist2, beh2, year2) + ".Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
+                    "Cannot identify rule set for " + GroupUtility.getSiteHistInfo(site2, hist2, beh2, year2)
+                            + ".Valid primary site (C000-C999 excluding C809), histology (8000-9999), behavior (0-3, 6) and diagnosis year are required.");
             return output;
         }
 

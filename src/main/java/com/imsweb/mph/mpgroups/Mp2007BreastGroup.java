@@ -22,7 +22,7 @@ import com.imsweb.mph.mprules.MpRulePrimarySite;
 public class Mp2007BreastGroup extends MphGroup {
 
     public Mp2007BreastGroup() {
-        super(MphConstants.MP_2007_BREAST_GROUP_ID, MphConstants.MP_2007_BREAST_GROUP_NAME, "C500-C509", null, null, "9590-9989,9140", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_BREAST_GROUP_ID, MphConstants.MP_2007_BREAST_GROUP_NAME, "C500-C509", null, null, "9590-9993,9140", "2-3,6", "2007-2017");
 
         // M4- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
         MphRule rule = new MpRulePrimarySite(MphConstants.MP_2007_BREAST_GROUP_ID, "M4");

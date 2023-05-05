@@ -28,7 +28,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
         super(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C339, C410, C411, C479", null, null,
-                "9590-9992, 9140", "2-3,6", "2018-2021");
+                "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
         //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
@@ -167,7 +167,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     return result;
                 else {
                     //If there is a table for the site, lets check if the histology is in that table
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 == null || row2 == null) {
@@ -192,7 +192,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 map1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
                 map2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 != null && map1.equals(map2)) {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                     String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -223,7 +223,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 if (!map1.equals(map2))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
-                    String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                     //Special case for 8690 and 8693 of Table 9
                     if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
                             Collections.singletonList("8690"), Arrays.asList("8690", "8693"))) {
@@ -276,7 +276,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
                 Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 == null || map2 == null) {
@@ -322,6 +322,13 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M13");
         rule.getNotes().add("Use caution when applying this default rule. Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
+    }
+
+    @Override
+    public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
+        if (super.isApplicable(primarySite, histology, behavior, year))
+            return true;
+        return year >= 2019 && year < 2022 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8692", "8693").contains(histology) && "3".equals(behavior);
     }
 }
 

@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -22,7 +23,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
     public Mp2018NonMalignantCNSTumorsGroup() {
         super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
-                "9590-9992, 9140", "0-1", "2018-9999");
+                "9590-9993, 9140", "0-1", "2018-9999");
 
         // Rule M5 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR
@@ -45,7 +46,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
                 if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
@@ -138,7 +139,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
                 if (!i1.getHistology().equals(i2.getHistology()) && MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES.containsAll(Arrays.asList(icd1, icd2)))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
@@ -161,7 +162,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getHistology() + "/" + i1.getBehavior(), icd2 = i2.getHistology() + "/" + i2.getBehavior();
+                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
                 if (MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES.equals(i1.getPrimarySite()) && i2.getPrimarySite().equals(i1.getPrimarySite()) && MphConstants.CNS_2018_MENINGIOMAS.containsAll(
                         Arrays.asList(icd1, icd2)))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -202,11 +203,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h1) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd1);
-                String row2 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h2) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h2) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd2);
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
+                String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;
@@ -249,11 +250,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = h1 + "/" + i1.getBehavior(), h2 = i2.getHistology(), icd2 = h2 + "/" + i2.getBehavior();
-                String row1 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h1) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h1) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd1);
-                String row2 = MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.containsKey(h2) ? MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(
-                        h2) : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS.get(icd2);
+                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
+                String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
+                String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     String histologyNotInTable;

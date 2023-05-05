@@ -20,7 +20,7 @@ import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 public class Mp2007ColonGroup extends MphGroup {
 
     public Mp2007ColonGroup() {
-        super(MphConstants.MP_2007_COLON_GROUP_ID, MphConstants.MP_2007_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9989, 9140", "2-3,6", "2007-2017");
+        super(MphConstants.MP_2007_COLON_GROUP_ID, MphConstants.MP_2007_COLON_GROUP_NAME, "C180-C189", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more malignant polyps is a single primary.
         MphRule rule = new MphRule(MphConstants.MP_2007_COLON_GROUP_ID, "M3") {

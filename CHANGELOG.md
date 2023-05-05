@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.26**
+
+- Implemented 2023 updates of solid tumor rules.
+- Updated hematopoietic histology range.
+
 **Changes in version 1.25**
 
 - Fixed wrong messages for rules.

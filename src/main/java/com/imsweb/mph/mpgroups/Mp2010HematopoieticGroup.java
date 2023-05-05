@@ -19,7 +19,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2010HematopoieticGroup extends MphGroup {
 
     public Mp2010HematopoieticGroup() {
-        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9989", null, "2-3,6", "2010-9999");
+        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "2010-9999");
 
         // M1 
         MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M1") {
@@ -40,7 +40,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology(), h2 = i2.getHistology(), s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
                 if (h1.equals(h2)) {
-                    boolean nodalAndExtraNodalMalt = MphConstants.MALT.equals(i1.getMorphology()) && MphConstants.MALT.equals(i2.getMorphology()) && ((s1.startsWith("C77") && !s2.startsWith("C77"))
+                    boolean nodalAndExtraNodalMalt = MphConstants.MALT.equals(i1.getIcdCode()) && MphConstants.MALT.equals(i2.getIcdCode()) && ((s1.startsWith("C77") && !s2.startsWith("C77"))
                             || (s2.startsWith("C77") && !s1.startsWith("C77")));
                     result.setFinalResult(nodalAndExtraNodalMalt ? MpResult.QUESTIONABLE : MpResult.SINGLE_PRIMARY);
                 }
@@ -226,8 +226,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
@@ -259,8 +259,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
@@ -291,8 +291,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
@@ -331,8 +331,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
@@ -363,8 +363,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
@@ -390,8 +390,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior();
-                String morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
 
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
@@ -451,7 +451,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getHistology() + "/" + i1.getBehavior(), morph2 = i2.getHistology() + "/" + i2.getBehavior();
+                String morph1 = i1.getIcdCode(), morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 result.setFinalResult(
                         MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);

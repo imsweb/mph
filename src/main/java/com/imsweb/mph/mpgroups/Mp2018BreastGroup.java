@@ -87,7 +87,8 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (Arrays.asList("8541/3", "8543/2", "8543/3").containsAll(Arrays.asList(icd1, icd2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (-1 == sixtyDaysApart) {
@@ -110,7 +111,8 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if ((Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd1) || Arrays.asList("8541/3", "8543/2", "8543/3").contains(icd2)) && !Arrays.asList("8541/3", "8543/2", "8543/3")
                         .containsAll(Arrays.asList(icd1, icd2)))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -130,7 +132,8 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 // -One tumor = 8500/2 OR 8500/3 OR 8035/3; other tumor = 8520/2 OR 8519/2 OR 8520/3
                 // -One tumor= 8500/2 OR 8500/3 OR 8035/3 OR 8520/2 OR 8519/2 OR 8520/3; other tumor = 8522/3 OR 8522/2
                 // -One tumor= 8522; other tumor = 8522
@@ -173,7 +176,8 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/2"), Arrays.asList("8522/2", "8543/2", "8543/3", "8523/2"))
                         || GroupUtility.differentCategory(icd1, icd2, Collections.singletonList("8500/3"), Arrays.asList("8522/3", "8541/3", "8523/3"))) {
                     int latestDx = GroupUtility.compareDxDate(i1, i2);
@@ -216,7 +220,10 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.BREAST_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(h2) : MphConstants.BREAST_2018_TABLE3_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -238,7 +245,10 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
                 String row2 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd2);
                 if (row1 != null && row1.equals(row2)) {
@@ -266,7 +276,10 @@ public class Mp2018BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.BREAST_2018_TABLE2.contains(h1) || MphConstants.BREAST_2018_TABLE2.contains(icd1)))
                     row1 = "table2";

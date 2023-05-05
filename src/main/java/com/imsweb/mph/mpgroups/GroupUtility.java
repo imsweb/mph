@@ -204,8 +204,14 @@ public class GroupUtility {
         int day1 = NumberUtils.isDigits(i1.getDateOfDiagnosisDay()) ? Integer.parseInt(i1.getDateOfDiagnosisDay()) : -1;
         int day2 = NumberUtils.isDigits(i2.getDateOfDiagnosisDay()) ? Integer.parseInt(i2.getDateOfDiagnosisDay()) : -1;
 
-        String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+        String site1 = i1.getPrimarySite();
+        String site2 = i2.getPrimarySite();
+        String hist1 = i1.getHistology();
+        String hist2 = i2.getHistology();
+        String beh1 = i1.getBehavior();
+        String beh2 = i2.getBehavior();
+        String lat1 = i1.getLaterality();
+        String lat2 = i2.getLaterality();
         return validateProperties(site1, hist1, beh1, year1) &&
                 validateProperties(site2, hist2, beh2, year2) &&
                 validateLaterality(lat1) && validateLaterality(lat2) &&

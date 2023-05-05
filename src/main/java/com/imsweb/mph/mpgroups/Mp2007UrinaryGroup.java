@@ -105,7 +105,8 @@ public class Mp2007UrinaryGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
                 if (MphConstants.UROTHELIAL.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())) && (MphConstants.RENAL_PELVIS.equals(site1) || MphConstants.URETER.equals(site1) || site1
                         .startsWith(MphConstants.BLADDER) || MphConstants.URETHRA.equals(site1)) && (MphConstants.RENAL_PELVIS.equals(site2) || MphConstants.URETER.equals(site2) || site2.startsWith(
                         MphConstants.BLADDER) || MphConstants.URETHRA.equals(site2)))

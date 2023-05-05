@@ -24,7 +24,8 @@ public class MpRuleInsituAfterInvasive extends MphRule {
     @Override
     public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
-        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior();
+        String beh1 = i1.getBehavior();
+        String beh2 = i2.getBehavior();
         if (GroupUtility.differentCategory(beh1, beh2, Collections.singletonList(MphConstants.INSITU), Collections.singletonList(MphConstants.MALIGNANT))) {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
             if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {

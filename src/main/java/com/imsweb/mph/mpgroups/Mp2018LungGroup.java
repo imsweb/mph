@@ -69,7 +69,10 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.LUNG_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(h1) : MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.LUNG_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(h2) : MphConstants.LUNG_2018_TABLE3_SUBTYPES.get(icd2);
                 if (subtype1 != null && subtype2 != null && !subtype1.equals(subtype2))
@@ -91,7 +94,10 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
                     row1 = "table2";
@@ -149,7 +155,10 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
                     row1 = "table2";
@@ -198,7 +207,8 @@ public class Mp2018LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+                String lat1 = i1.getLaterality();
+                String lat2 = i2.getLaterality();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 //If they are not simultaneous, skip
                 if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)

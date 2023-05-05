@@ -43,7 +43,8 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), h2 = i2.getHistology();
+                String h1 = i1.getHistology();
+                String h2 = i2.getHistology();
                 if (!h1.equals(h2) && GroupUtility.differentCategory(h1, h2, MphConstants.GLIAL_TUMOR, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later

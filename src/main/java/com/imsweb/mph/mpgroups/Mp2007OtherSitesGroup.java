@@ -109,7 +109,10 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite().toUpperCase();
+                String site2 = i2.getPrimarySite().toUpperCase();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799 &&
                         (hist1.equals(hist2) || Arrays.asList("8000", "8010").contains(hist1) || Arrays.asList("8000", "8010").contains(hist2) ||
                         GroupUtility.differentCategory(hist1, hist2, Arrays.asList("8460", "8461"), Collections.singletonList("8441")))) {
@@ -159,7 +162,10 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), s1 = i1.getPrimarySite().substring(0, 3), s2 = i2.getPrimarySite().substring(0, 3);
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String s1 = i1.getPrimarySite().substring(0, 3);
+                String s2 = i2.getPrimarySite().substring(0, 3);
                 boolean isSiteInRange = (MphConstants.COLON.equals(s1) || MphConstants.RECTOSIGMOID.equals(site1) || MphConstants.RECTUM.equals(site1)) && (MphConstants.COLON.equals(s2)
                         || MphConstants.RECTOSIGMOID.equals(site2) || MphConstants.RECTUM.equals(site2));
                 boolean isOneMalignant = MphConstants.MALIGNANT.equals(i1.getBehavior()) || MphConstants.MALIGNANT.equals(i2.getBehavior());
@@ -269,7 +275,8 @@ public class Mp2007OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8070", "8140", "8720", "8800");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))

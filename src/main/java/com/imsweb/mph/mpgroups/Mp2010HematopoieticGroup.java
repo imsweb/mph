@@ -38,7 +38,10 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), h2 = i2.getHistology(), s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                String h1 = i1.getHistology();
+                String h2 = i2.getHistology();
+                String s1 = i1.getPrimarySite();
+                String s2 = i2.getPrimarySite();
                 if (h1.equals(h2)) {
                     boolean nodalAndExtraNodalMalt = MphConstants.MALT.equals(i1.getIcdCode()) && MphConstants.MALT.equals(i2.getIcdCode()) && ((s1.startsWith("C77") && !s2.startsWith("C77"))
                             || (s2.startsWith("C77") && !s1.startsWith("C77")));
@@ -64,7 +67,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 if ((GroupUtility.differentCategory(hist1, hist2, MphConstants.MAST_CELL_SARCOMA, MphConstants.MAST_CELL_LEUKEMIA) || GroupUtility.differentCategory(hist1, hist2,
                         MphConstants.MYELOID_SARCOMA, MphConstants.MYELOID_LEUKEMIA)) && MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior())) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
@@ -102,7 +106,10 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
                 if (!hist1.equals(hist2) && MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA.containsAll(Arrays.asList(hist1, hist2)) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
@@ -141,7 +148,10 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
                 boolean sameLocation = site1.equals(site2) || (site1.substring(0, 3).equals(site2.substring(0, 3)) && !MphConstants.LYMPH_NODE.equals(site1.substring(0, 3)));
                 if (GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.LYMPHOMA_NOS_AND_NON_HODGKIN_LYMPHOMA) && sameLocation) {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
@@ -179,7 +189,10 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology(), site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
                 boolean differentLocation = (!site1.equals(site2) && MphConstants.LYMPH_NODE.equals(site1.substring(0, 3))) || !site1.substring(0, 3).equals(site2.substring(0, 3));
                 if (GroupUtility.differentCategory(hist1, hist2, MphConstants.HODGKIN_LYMPHOMA, MphConstants.NON_HODGKIN_LYMPHOMA) && differentLocation)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

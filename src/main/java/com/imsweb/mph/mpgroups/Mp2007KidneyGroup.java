@@ -77,7 +77,8 @@ public class Mp2007KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 if (MphConstants.SPECIFIC_RENAL_CELL_HISTOLOGIES.containsAll(Arrays.asList(hist1, hist2)) && !hist1.equals(hist2))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
@@ -92,7 +93,8 @@ public class Mp2007KidneyGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 List<String> nosList = Arrays.asList("8000", "8010", "8140", "8312");
                 if ((nosList.contains(hist1) && MphConstants.NOS_VS_SPECIFIC.containsKey(hist1) && MphConstants.NOS_VS_SPECIFIC.get(hist1).contains(hist2)) || (nosList.contains(hist2)
                         && MphConstants.NOS_VS_SPECIFIC.containsKey(hist2) && MphConstants.NOS_VS_SPECIFIC.get(hist2).contains(hist1)))

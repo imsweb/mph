@@ -41,7 +41,8 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                String s1 = i1.getPrimarySite();
+                String s2 = i2.getPrimarySite();
                 if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
@@ -167,7 +168,10 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     return result;
                 else {
                     //If there is a table for the site, lets check if the histology is in that table
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String h1 = i1.getHistology();
+                    String icd1 = i1.getIcdCode();
+                    String h2 = i2.getHistology();
+                    String icd2 = i2.getIcdCode();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 == null || row2 == null) {
@@ -192,7 +196,10 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 map1 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
                 map2 = MphConstants.HEAD_AND_NECK_2018_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 != null && map1.equals(map2)) {
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String h1 = i1.getHistology();
+                    String icd1 = i1.getIcdCode();
+                    String h2 = i2.getHistology();
+                    String icd2 = i2.getIcdCode();
                     String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -223,7 +230,10 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 if (!map1.equals(map2))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 else {
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String h1 = i1.getHistology();
+                    String icd1 = i1.getIcdCode();
+                    String h2 = i2.getHistology();
+                    String icd2 = i2.getIcdCode();
                     //Special case for 8690 and 8693 of Table 9
                     if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
                             Collections.singletonList("8690"), Arrays.asList("8690", "8693"))) {
@@ -276,7 +286,10 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 Map<String, String> map1 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.HEAD_AND_NECK_2018_TABLE_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 == null || map2 == null) {

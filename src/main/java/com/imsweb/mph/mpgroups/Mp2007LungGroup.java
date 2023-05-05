@@ -80,7 +80,8 @@ public class Mp2007LungGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 //if they are on the same lung, don't apply this
                 if ((MphConstants.BOTH.equals(i2.getLaterality()) || MphConstants.BOTH.equals(i1.getLaterality())) && (!hist1.substring(0, 3).equals(hist2.substring(0, 3))))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

@@ -199,8 +199,14 @@ public class GroupUtility {
     public static boolean sameAndValidMainFields(MphInput i1, MphInput i2) {
         DateFieldParts date = new DateFieldParts(i1, i2);
 
-        String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
-        String beh1 = i1.getBehavior(), beh2 = i2.getBehavior(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+        String site1 = i1.getPrimarySite();
+        String site2 = i2.getPrimarySite();
+        String hist1 = i1.getHistology();
+        String hist2 = i2.getHistology();
+        String beh1 = i1.getBehavior();
+        String beh2 = i2.getBehavior();
+        String lat1 = i1.getLaterality();
+        String lat2 = i2.getLaterality();
         return validateProperties(site1, hist1, beh1, date.getYear1()) &&
                 validateProperties(site2, hist2, beh2, date.getYear2()) &&
                 validateLaterality(lat1) && validateLaterality(lat2) &&

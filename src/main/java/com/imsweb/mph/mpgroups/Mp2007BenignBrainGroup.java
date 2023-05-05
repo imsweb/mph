@@ -122,7 +122,8 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
@@ -142,7 +143,8 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
@@ -162,7 +164,8 @@ public class Mp2007BenignBrainGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 String branch1 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd1) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(
                         i1.getHistology());
                 String branch2 = MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) != null ? MphConstants.BENIGN_BRAIN_2007_CHART1.get(icd2) : MphConstants.BENIGN_BRAIN_2007_CHART1.get(

@@ -92,7 +92,12 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String lat1 = i1.getLaterality();
+                String lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && isPairedSite(site1) && isPairedSite(site2) && daysApart != MphConstants.DATE_VERIFY_APART) {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
@@ -141,8 +146,12 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), beh1 = i1.getBehavior(), beh2 =
-                        i2.getBehavior();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String beh1 = i1.getBehavior();
+                String beh2 = i2.getBehavior();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 //Exceptions
                 List<String> adenoCarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
@@ -335,7 +344,12 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology(), lat1 = i1.getLaterality(), lat2 = i2.getLaterality();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
+                String lat1 = i1.getLaterality();
+                String lat2 = i2.getLaterality();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_APART && isPairedSite(site1) && isPairedSite(site2)) {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
@@ -365,7 +379,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
@@ -386,7 +403,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 if (!isSameSite(site1, site2) && !isSameHistology(hist1, hist2))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
@@ -403,7 +423,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 result.setFinalResult(!isSameSite(site1, site2) && isSameHistology(hist1, hist2) ? MphUtils.MpResult.MULTIPLE_PRIMARIES : MphUtils.MpResult.SINGLE_PRIMARY);
                 return result;
             }
@@ -414,7 +437,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
 
     private boolean isSameSite(String site1, String site2) {
 
-        String s1 = site1.substring(0, 3), s2 = site2.substring(0, 3);
+        String s1 = site1.substring(0, 3);
+        String s2 = site2.substring(0, 3);
         return site1.equals(site2) || (s1.equals(s2) && !MphConstants.EXACT_MATCH_SITES.contains(s1)) || MphConstants.TONGUE.containsAll(Arrays.asList(s1, s2)) || MphConstants.MOUTH.containsAll(
                 Arrays.asList(s1, s2)) || MphConstants.SALIVARY.containsAll(Arrays.asList(s1, s2)) || MphConstants.OROPHARYNX.containsAll(Arrays.asList(s1, s2)) || MphConstants.HYPOPHARYNX
                 .containsAll(Arrays.asList(s1, s2)) || MphConstants.BILIARY.containsAll(Arrays.asList(s1, s2)) || MphConstants.SINUS.containsAll(Arrays.asList(s1, s2)) || MphConstants.LUNG

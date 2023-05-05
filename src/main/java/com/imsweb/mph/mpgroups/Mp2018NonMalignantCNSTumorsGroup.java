@@ -46,7 +46,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
@@ -76,7 +77,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                String s1 = i1.getPrimarySite();
+                String s2 = i2.getPrimarySite();
 
                 // - Any lobe(s) of the brain C710-C719 AND any other part of CNS
                 if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
@@ -139,7 +141,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (!i1.getHistology().equals(i2.getHistology()) && MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES.containsAll(Arrays.asList(icd1, icd2)))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
@@ -162,7 +165,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES.equals(i1.getPrimarySite()) && i2.getPrimarySite().equals(i1.getPrimarySite()) && MphConstants.CNS_2018_MENINGIOMAS.containsAll(
                         Arrays.asList(icd1, icd2)))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -203,7 +207,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
@@ -250,7 +257,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String  h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear()) >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);

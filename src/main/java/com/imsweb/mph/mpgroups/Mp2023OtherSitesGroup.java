@@ -59,8 +59,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String smallCellCarcinoma = "8041/3";
                 List<String> adenocarcinoma = Arrays.asList("8140/2", "8140/3", "8201/3", "8260/3", "8230/3", "8500/3", "8572/3", "8574/3", "8480/3", "8490/3");
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (MphConstants.PROSTATE.equals(site1) && MphConstants.PROSTATE.equals(site2) && GroupUtility.differentCategory(icd1, icd2, Collections.singletonList(smallCellCarcinoma),
                         adenocarcinoma)) {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
@@ -149,8 +151,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
-                String icd1 = i1.getIcdCode(), icd2 = i2.getIcdCode();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
                 if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && GroupUtility.differentCategory(icd1, icd2, MphConstants.ANAPLASTIC_CARCINOMA,
                         MphConstants.OTHER_THYROID_HISTOLOGIES))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -166,7 +170,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite().toUpperCase(), site2 = i2.getPrimarySite().toUpperCase(), hist1 = i1.getHistology(), hist2 = i2.getHistology();
+                String site1 = i1.getPrimarySite().toUpperCase();
+                String site2 = i2.getPrimarySite().toUpperCase();
+                String hist1 = i1.getHistology();
+                String hist2 = i2.getHistology();
                 if (MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2) && Integer.parseInt(hist1) <= 8799 && Integer.parseInt(hist2) <= 8799) {
                     Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
                     Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
@@ -220,7 +227,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String site1 = i1.getPrimarySite(), site2 = i2.getPrimarySite();
+                String site1 = i1.getPrimarySite();
+                String site2 = i2.getPrimarySite();
                 boolean isSiteInRange = site1.startsWith(MphConstants.SMALL_BOWEL) && site2.startsWith(MphConstants.SMALL_BOWEL);
                 boolean isOneMalignant = MphConstants.MALIGNANT.equals(i1.getBehavior()) || MphConstants.MALIGNANT.equals(i2.getBehavior());
                 if (isSiteInRange && isOneMalignant && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.FAMILIAL_ADENOMATOUS_POLYPOSIS, MphConstants.POLYP))
@@ -325,7 +333,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 != null && map2 != null) {
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String h1 = i1.getHistology();
+                    String icd1 = i1.getIcdCode();
+                    String h2 = i2.getHistology();
+                    String icd2 = i2.getIcdCode();
                     String subtype1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String subtype2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (subtype1 != null && subtype2 != null && !subtype1.contains(subtype2) && !subtype2.contains(subtype1))
@@ -346,7 +357,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
                 if (map1 != null && map1.equals(map2)) {
-                    String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                    String h1 = i1.getHistology();
+                    String icd1 = i1.getIcdCode();
+                    String h2 = i2.getHistology();
+                    String icd2 = i2.getIcdCode();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 != null && row1.equals(row2)) {
@@ -376,7 +390,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = null;
                 if (map1 != null)
                     row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);

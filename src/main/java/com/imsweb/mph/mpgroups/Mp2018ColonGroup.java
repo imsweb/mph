@@ -72,7 +72,10 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 if (!h1.equals(h2) && (MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h1) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd1)) && (
                         MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(h2) || MphConstants.COLON_2018_TABLE1_SUBTYPES.contains(icd2)))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -94,7 +97,10 @@ public class Mp2018ColonGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -252,7 +258,10 @@ public class Mp2018ColonGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
 
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {

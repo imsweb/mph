@@ -48,7 +48,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), h2 = i2.getHistology();
+                String h1 = i1.getHistology();
+                String h2 = i2.getHistology();
                 if (!h1.equals(h2) && GroupUtility.differentCategory(h1, h2, MphConstants.GLIAL_TUMOR_2018, Collections.singletonList(MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME))) {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
@@ -138,7 +139,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String s1 = i1.getPrimarySite(), s2 = i2.getPrimarySite();
+                String s1 = i1.getPrimarySite();
+                String s2 = i2.getPrimarySite();
 
                 // - Any lobe of the brain C710-C719 AND any other part of CNS
                 if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
@@ -210,7 +212,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String subtype1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(
                         h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(icd1);
                 String subtype2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_SUBTYPES.get(
@@ -234,7 +239,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
                 String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
@@ -269,7 +277,10 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology(), icd1 = i1.getIcdCode(), h2 = i2.getHistology(), icd2 = i2.getIcdCode();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
                 String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {

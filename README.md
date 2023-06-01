@@ -48,18 +48,28 @@ public class MphTest {
 
 Different sets of rules are used based on the diagnosis year and the histology.
 
-If histology is in the range 9590-9989, one of the Hematopoietic set of rules will be used:
+If histology is in the range 9590-9993, one of the Hematopoietic set of rules will be used:
 
-1. If DX year 2010 or later, the "Hematopoietic 2010" rules will be used.
-2. If DX year 2001-2009, the "Hematopoietic 2001" rules will be used.
-3. If DX year 2000 or earlier, the "Hematopoietic 1998" rules will be used.
+1. If DX year 2010 and later, the "Hematopoietic 2010+" rules will be used.
+2. If DX year 2001-2009, the "Hematopoietic 2001-2009" rules will be used.
+3. If DX year 2000 or earlier, the "Hematopoietic 2000 and earlier" rules will be used.
 
-If histology is not in the range 9590-9989, one of the following solid tumors sets will be used:
+If histology is not in the range 9590-9993, one of the following solid tumors sets will be used:
 
-1. If DX year is 2018 or later, the "2018 Solid Tumor" set of rules will be used.
-2. If DX year is 2007 or later, the "2007 MPH" set of rules will be used.
-3. If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Solid Malignant" rules will be used.
-4. If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2004 Benign Brain" rules will be used.
+**Solid Tumor**
+
+- 2021+ Cutaneous Melanoma
+- 2023+ Other Sites
+- 2018+ all other modules
+
+
+**MPH**
+- 2007-2020 Cutaneous Melanoma
+- 2007-2022 Other Sites
+- 2007-2017 for all other modules
+
+If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Solid Malignant" rules will be used.<br/><br/>
+If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Benign Brain" rules will be used.
 
 ## About SEER
 

@@ -56,19 +56,17 @@ If histology is in the range 9590-9993, one of the Hematopoietic set of rules wi
 
 If histology is not in the range 9590-9993, one of the following solid tumors sets will be used:
 
-<b>Solid Tumor</b>
-<ul>
-<li>2021+ Cutaneous Melanoma</li>
-<li>2023+ Other Sites</li>
-<li>2018+ all other modules</li>
-</ul>
+**Solid Tumor**
 
-<b>MPH</b>
-<ul>
-<li>2007-2020 Cutaneous Melanoma</li>
-<li>2007-2022 Other Sites</li>
-<li>2007-2017 for all other modules</li>
-</ul>
+- 2021+ Cutaneous Melanoma
+- 2023+ Other Sites
+- 2018+ all other modules
+
+
+**MPH**
+- 2007-2020 Cutaneous Melanoma
+- 2007-2022 Other Sites
+- 2007-2017 for all other modules
 
 If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Solid Malignant" rules will be used.<br/><br/>
 If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Benign Brain" rules will be used.

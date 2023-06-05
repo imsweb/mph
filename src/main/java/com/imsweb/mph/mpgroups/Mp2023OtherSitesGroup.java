@@ -262,7 +262,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M13 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M13");
+        rule = new MpRulePrimarySite(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M13");
         rule.getExamples().add("A tumor in the penis C609 and a tumor in the rectum C209 have different second characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         rule.getExamples().add("A tumor in the cervix C539 and a tumor in the vulva C519 have different third characters in their ICD-O-3 topography codes, so they are multiple primaries.");
         _rules.add(rule);
@@ -430,14 +430,14 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M20 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M20");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M20");
         rule.getNotes().add("This rule applies to multiple tumors, one in situ and a separate malignant tumor.");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         //M21- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M21");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M21");
         rule.getNotes().add("Use this rule as a last resort. Confirm that you have not overlooked an applicable rule.");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         _rules.add(rule);

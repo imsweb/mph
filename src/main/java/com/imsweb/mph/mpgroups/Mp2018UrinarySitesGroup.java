@@ -113,7 +113,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primariesii when an invasive tumor occurs more than 60 days after an in situ tumor.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M6");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_URINARY_GROUP_NAME, "M6");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         rule.getNotes().add(
@@ -302,7 +302,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M14- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2018_URINARY_GROUP_ID, "M14");
+        rule = new MpRulePrimarySite(MphConstants.MP_2018_URINARY_GROUP_NAME, "M14");
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
@@ -353,7 +353,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M16 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // - Occur in the same urinary site OR
         // - The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
-        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_ID, "M16");
+        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_NAME, "M16");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
@@ -364,7 +364,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M17 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // - Occur in the same urinary site OR
         // - Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
-        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_URINARY_GROUP_ID, "M17");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_URINARY_GROUP_NAME, "M17");
         rule.getExamples().add(
                 "The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
@@ -377,7 +377,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M18 Abstract a single primary when tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_ID, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_NAME, "M18");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add("TURB shows invasive urothelial carcinoma 8120/3 and CIS/in situ urothelial carcinoma 8120/2. Abstract a single primary.");
 

@@ -58,13 +58,13 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M5");
+        rule = new MpRuleHistology(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M5");
         rule.setQuestion("Do the melanomas haveICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number?");
         rule.setReason("Melanomas with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.");
         _rules.add(rule);
 
         //M6- An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M6");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M6");
         rule.setQuestion("Is there an invasive melanoma following an in situ tumor more than 60 days after diagnosis?");
         rule.setReason("An invasive melanoma that occurs more than 60 days after an in situ melanoma is a multiple primary.");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
@@ -91,7 +91,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M8");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item \"Multiplicity Counter\" to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");

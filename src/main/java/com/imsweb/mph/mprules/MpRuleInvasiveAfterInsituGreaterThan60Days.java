@@ -14,8 +14,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleInvasiveAfterInsituGreaterThan60Days extends MphRule {
 
-    public MpRuleInvasiveAfterInsituGreaterThan60Days(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleInvasiveAfterInsituGreaterThan60Days(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Is there an invasive tumor following an in situ tumor more than 60 days after diagnosis?");
         setReason("An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.");
     }

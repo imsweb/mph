@@ -31,7 +31,7 @@ public class Mp2018BreastGroup extends MphGroup {
                 "9590-9993, 9140", "2-4,6", "2018-9999");
 
         // Rule M4 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second (CXxx) and/or third characters (CxXx).
-        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_BREAST_GROUP_ID, "M4");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_BREAST_GROUP_NAME, "M4");
         rule.getNotes().add(
                 "Tumors with site codes that differ at the second or third character are in different primary sites; for example, a breast tumor C50x and a colon tumor C18x differ at the second and third character.");
         rule.getNotes().add(
@@ -40,7 +40,7 @@ public class Mp2018BreastGroup extends MphGroup {
 
         // Rule M5 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
         // original diagnosis or last recurrence.
-        rule = new MpRuleFiveYearsApart(MphConstants.MP_2018_BREAST_GROUP_ID, "M5");
+        rule = new MpRuleFiveYearsApart(MphConstants.MP_2018_BREAST_GROUP_NAME, "M5");
         rule.getNotes().add("The rules are hierarchical. This rule only applies when there is a subsequent breast tumor.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Mammograms are NED");
@@ -71,7 +71,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when there is bilateral breast cancer (both right and left breast).
-        rule = new MpRuleLaterality(MphConstants.MP_2018_BREAST_GROUP_ID, "M7");
+        rule = new MpRuleLaterality(MphConstants.MP_2018_BREAST_GROUP_NAME, "M7");
         rule.setQuestion("Is there a tumor(s) in each breast?");
         rule.setReason("Tumors on both sides (right and left breast) are multiple primaries.");
         rule.getNotes().add(
@@ -313,14 +313,14 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same breast.
-        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_BREAST_GROUP_ID, "M15");
+        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_BREAST_GROUP_NAME, "M15");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         _rules.add(rule);
 
         // Rule M16 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same breast.
-        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.MP_2018_BREAST_GROUP_ID, "M16");
+        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.MP_2018_BREAST_GROUP_NAME, "M16");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3.");
@@ -332,7 +332,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M17 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same breast.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_ID, "M17");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_BREAST_GROUP_NAME, "M17");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
@@ -341,7 +341,7 @@ public class Mp2018BreastGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M18 Abstract a single primary when none of the previous rules apply.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_ID, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_BREAST_GROUP_NAME, "M18");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add(
                 "One tumor is invasive carcinoma NST/ductal 8500/3 and a separate non-contiguous tumor in the same breast is DCIS 8500/2.  Abstract a single primary: invasive carcinoma NST/ductal 8500/3.");

@@ -28,12 +28,12 @@ public class Mp2018LungGroup extends MphGroup {
                 "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third character CxXx.
-        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_LUNG_GROUP_ID, "M3");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2018_LUNG_GROUP_NAME, "M3");
         rule.getNotes().add("When codes differ at the second or third characters, the tumors are in different primary sites.");
         _rules.add(rule);
 
         // Rule M4 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_LUNG_GROUP_ID, "M4");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_LUNG_GROUP_NAME, "M4");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence in the same lung on follow-up.");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  -  Tumor biomarkers are NED");
@@ -253,7 +253,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same lung.
-        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_LUNG_GROUP_ID, "M10");
+        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_LUNG_GROUP_NAME, "M10");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor in the same lung?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -262,7 +262,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract multiple primaries when there is a single tumor in each lung (one tumor in the right lung and one tumor in the left lung).
-        rule = new MpRuleLaterality(MphConstants.MP_2018_LUNG_GROUP_ID, "M11");
+        rule = new MpRuleLaterality(MphConstants.MP_2018_LUNG_GROUP_NAME, "M11");
         rule.setQuestion("Is there a single tumor in each lung?");
         rule.setReason("A single tumor in each lung is multiple primaries.");
         rule.getNotes().add("The only exception is when there is proof that one tumor is metastatic. Proof is any one of the following:");
@@ -278,7 +278,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same lung.
-        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M12");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_LUNG_GROUP_NAME, "M12");
         rule.setQuestion("Is there an invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung?");
         rule.setReason("An invasive tumor diagnosed less than or equal to 60 days after an in situ tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -292,7 +292,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same lung.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_LUNG_GROUP_ID, "M13");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_LUNG_GROUP_NAME, "M13");
         rule.setQuestion("Is there an invasive tumor following an in situ tumor in the same lung more than 60 days after diagnosis?");
         rule.setReason("An invasive tumor following an in situ tumor in the same lung more than 60 days after diagnosis are multiple primaries.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -303,7 +303,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14 Abstract a single primary when none of the previous rules apply.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_ID, "M14");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_LUNG_GROUP_NAME, "M14");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

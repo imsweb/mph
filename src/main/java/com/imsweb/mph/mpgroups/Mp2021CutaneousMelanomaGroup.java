@@ -144,7 +144,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M8");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item \"Multiplicity Counter\" to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");

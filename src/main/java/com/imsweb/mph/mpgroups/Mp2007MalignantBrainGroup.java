@@ -35,7 +35,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M5");
+        rule = new MpRulePrimarySite(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M5");
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
@@ -110,11 +110,11 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M9");
+        rule = new MpRuleHistology(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M9");
         _rules.add(rule);
 
         // M10- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M10");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M10");
         rule.getNotes().add("Multicentric brain tumors which involve different lobes of the brain that do not meet any of the above criteria are the same disease process.");
         rule.getNotes().add("Neither timing nor laterality is used to determine multiple primaries for malignant intracranial and CNS tumors.");
         rule.getExamples().add(

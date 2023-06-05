@@ -59,7 +59,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M4 Abstract multiple primaries when there are separate, non-contiguous tumors in sites with ICD-O site codes that differ at the second CXxx and/or third CxXx character.
-        rule = new MpRulePrimarySite(MphConstants.MP_2018_COLON_GROUP_ID, "M4");
+        rule = new MpRulePrimarySite(MphConstants.MP_2018_COLON_GROUP_NAME, "M4");
         rule.getNotes().add("Definition of separate/non-contiguous tumors: at least two malignancies which do not overlap/merge.");
         rule.getNotes().add("Differences at either the second or third characters are different primary sites/multiple primaries.");
         rule.getExamples().add("Breast C50x and colon C18x");
@@ -301,14 +301,14 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
-        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_ID, "M12");
+        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_COLON_GROUP_NAME, "M12");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor.
-        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M13");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_COLON_GROUP_NAME, "M13");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
         rule.getNotes().add("Change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
@@ -318,7 +318,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M14 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_ID, "M14");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_COLON_GROUP_NAME, "M14");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         rule.getNotes().add(
@@ -326,7 +326,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary when tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_ID, "M15");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_COLON_GROUP_NAME, "M15");
         rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add(
                 "The pathology states adenocarcinoma in situ 8140/2 and a second non-contiguous invasive adenocarcinoma 8140/3 in the sigmoid colon C187.  Multiple tumors that are the same histology in the same primary site (same four characters of ICD-O topography code) are a single primary.");

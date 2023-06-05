@@ -11,8 +11,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleLaterality extends MphRule {
 
-    public MpRuleLaterality(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleLaterality(String groupName, String step) {
+        super(groupName, step);
     }
 
     @Override

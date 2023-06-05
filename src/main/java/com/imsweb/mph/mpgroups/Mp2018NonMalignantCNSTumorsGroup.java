@@ -290,7 +290,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary when the tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, "M13");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M13");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");
         _rules.add(rule);
     }

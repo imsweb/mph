@@ -87,17 +87,17 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M7");
+        rule = new MpRulePrimarySite(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M7");
         _rules.add(rule);
 
         //M8- An invasive tumor following an insitu tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M8");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M8");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         //M9- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        rule = new MpRuleFiveYearsApart(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M9");
+        rule = new MpRuleFiveYearsApart(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M9");
         _rules.add(rule);
 
         //M10 - 
@@ -131,11 +131,11 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M11");
+        rule = new MpRuleHistology(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M11");
         _rules.add(rule);
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M12");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M12 have the same first 3 numbers in ICD-O-3 histology code.");
         rule.getExamples().add("Multifocal tumors in floor of mouth.");

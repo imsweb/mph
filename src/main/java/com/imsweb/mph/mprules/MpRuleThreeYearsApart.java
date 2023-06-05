@@ -12,8 +12,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleThreeYearsApart extends MphRule {
 
-    public MpRuleThreeYearsApart(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleThreeYearsApart(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Are there tumors diagnosed greater than three (3) years apart?");
         setReason("Tumors diagnosed greater than three (3) years apart are multiple primaries.");
     }

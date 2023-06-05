@@ -15,8 +15,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleInsituAfterInvasiveSameSide extends MphRule {
 
-    public MpRuleInsituAfterInvasiveSameSide(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleInsituAfterInvasiveSameSide(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Is there an in situ tumor following an invasive tumor?");
         setReason("An in situ tumor diagnosed following an invasive tumor is a single primary.");
     }

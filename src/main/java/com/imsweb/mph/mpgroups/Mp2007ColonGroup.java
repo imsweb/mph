@@ -72,7 +72,7 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- An invasive tumor following an insitu tumor more than 60 days after diagnosis is a multiple primary.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_COLON_GROUP_ID, "M6");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_COLON_GROUP_NAME, "M6");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
@@ -134,11 +134,11 @@ public class Mp2007ColonGroup extends MphGroup {
         _rules.add(rule);
 
         //M10- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_COLON_GROUP_ID, "M10");
+        rule = new MpRuleHistology(MphConstants.MP_2007_COLON_GROUP_NAME, "M10");
         _rules.add(rule);
 
         //M11- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_COLON_GROUP_ID, "M11");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_COLON_GROUP_NAME, "M11");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by Rule M11 are in the same segment of the colon.");
         _rules.add(rule);

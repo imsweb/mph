@@ -33,7 +33,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisYear("2023");
         i2.setDateOfDiagnosisYear("2023");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M3", output.getStep());
 
@@ -42,21 +42,21 @@ public class Mph2023RulesTest {
         i2.setHistologyIcdO3("8041");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M4", output.getStep());
 
         //Questionable at M4 if not sure year apart
         i1.setDateOfDiagnosisYear("2023");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertNotEquals("M4", output.getStep());
 
         //M5- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
         i1.setHistologyIcdO3("9510");
         i2.setHistologyIcdO3("9513");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M5", output.getStep());
 
@@ -68,7 +68,7 @@ public class Mph2023RulesTest {
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M6", output.getStep());
         Assert.assertTrue(output.getReason().contains("Kaposi sarcoma"));
@@ -85,7 +85,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("02"); // within 60 days definitely
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M7", output.getStep());
         Assert.assertTrue(output.getReason().contains("thyroid"));
@@ -94,7 +94,7 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("8021");
         i2.setHistologyIcdO3("8343");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M8", output.getStep());
         Assert.assertTrue(output.getReason().contains("anaplastic"));
@@ -105,21 +105,21 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("8001");
         i2.setHistologyIcdO3("8001");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M9", output.getStep());
         Assert.assertTrue(output.getReason().contains("ovary"));
         i1.setHistologyIcdO3("8441");
         i2.setHistologyIcdO3("8460");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M9", output.getStep());
         Assert.assertTrue(output.getReason().contains("ovary"));
         i1.setHistologyIcdO3("8441");
         i2.setHistologyIcdO3("8044");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertNotEquals("M9", output.getStep());
 
         // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
@@ -130,21 +130,21 @@ public class Mph2023RulesTest {
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M10", output.getStep());
         Assert.assertTrue(output.getReason().contains("both sides"));
         i1.setPrimarySite("C740");
         i2.setPrimarySite("C749");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M10", output.getStep());
         Assert.assertTrue(output.getReason().contains("both sides"));
         i1.setPrimarySite("C630");
         i2.setPrimarySite("C630");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M10", output.getStep());
         Assert.assertTrue(output.getReason().contains("both sides"));
@@ -157,7 +157,7 @@ public class Mph2023RulesTest {
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M11", output.getStep());
         Assert.assertTrue(output.getReason().contains("polyps"));
@@ -173,7 +173,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisYear("2023");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M12", output.getStep());
         Assert.assertTrue(output.getReason().contains("one"));
@@ -186,7 +186,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisMonth("2");
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M13", output.getStep());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -199,7 +199,7 @@ public class Mph2023RulesTest {
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M14", output.getStep());
         Assert.assertTrue(output.getReason().contains("topography"));
@@ -215,7 +215,7 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("8220"); //polyp
         i2.setHistologyIcdO3("8141"); //adenocarcinoma
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M15", output.getStep());
         Assert.assertTrue(output.getReason().contains("polyp"));
@@ -223,7 +223,7 @@ public class Mph2023RulesTest {
         //M16 - Multiple in situ and/or malignant polyps are a single primary.
         i2.setHistologyIcdO3("8211");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M16", output.getStep());
         Assert.assertTrue(output.getReason().contains("polyps"));
@@ -240,7 +240,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisMonth("1");
         i1.setDateOfDiagnosisMonth("5");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M17", output.getStep());
         Assert.assertTrue(output.getReason().contains("subtypes"));
@@ -257,7 +257,7 @@ public class Mph2023RulesTest {
         i1.setDateOfDiagnosisMonth("3");
         i1.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
         Assert.assertTrue(output.getReason().contains("Table 3-21"));
@@ -266,7 +266,7 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("9367");
         i2.setHistologyIcdO3("8800");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
         Assert.assertTrue(output.getReason().contains("Table 3-21"));
@@ -279,7 +279,7 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("8890");
         i2.setHistologyIcdO3("8850");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M19", output.getStep());
         Assert.assertTrue(output.getReason().contains("Table 2-21"));
@@ -291,7 +291,7 @@ public class Mph2023RulesTest {
         i1.setLaterality("1");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M19", output.getStep());
         Assert.assertTrue(output.getReason().contains("Table 2-21"));
@@ -308,7 +308,7 @@ public class Mph2023RulesTest {
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M20", output.getStep());
         Assert.assertTrue(output.getReason().contains("invasive"));
@@ -317,7 +317,7 @@ public class Mph2023RulesTest {
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("3"); //isitu is following invasive, go to next step
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M21", output.getStep());
         Assert.assertTrue(output.getReason().contains("criteria"));

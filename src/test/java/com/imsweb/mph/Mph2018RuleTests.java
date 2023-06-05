@@ -228,14 +228,14 @@ public class Mph2018RuleTests {
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         //2023 update behavior restriction removed
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setBehaviorIcdO3("2");
         i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -434,13 +434,13 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -452,13 +452,13 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8850");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -471,7 +471,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("9170");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -610,7 +610,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -618,7 +618,7 @@ public class Mph2018RuleTests {
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -632,7 +632,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8800");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -640,7 +640,7 @@ public class Mph2018RuleTests {
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_BREAST_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -1356,7 +1356,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8000");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2007_OTHER_SITES_GROUP_NAME, output.getGroupName());
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
         //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
@@ -1611,14 +1611,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8144");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1634,14 +1634,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8144");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1658,14 +1658,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8072");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1681,14 +1681,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8072");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1741,14 +1741,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8082");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1764,14 +1764,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8071");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1786,14 +1786,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8072");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1809,14 +1809,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8071");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1831,14 +1831,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8072");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1856,14 +1856,14 @@ public class Mph2018RuleTests {
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals("M7", output.getStep());
         Assert.assertEquals(5, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals("M7", output.getStep());
         Assert.assertEquals(5, output.getAppliedRules().size());
@@ -1882,14 +1882,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8693");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1905,14 +1905,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8692");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1922,7 +1922,7 @@ public class Mph2018RuleTests {
         i2.setPrimarySite("C479");
         i2.setHistologyIcdO3("8690");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1930,7 +1930,7 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8692");
         i2.setHistologyIcdO3("8693");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1938,7 +1938,7 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8690");
         i2.setHistologyIcdO3("8692");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1946,7 +1946,7 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8690");
         i2.setHistologyIcdO3("8693");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1954,7 +1954,7 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8690");
         i2.setHistologyIcdO3("8690");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -1962,19 +1962,19 @@ public class Mph2018RuleTests {
         i1.setHistologyIcdO3("8692");
         i2.setHistologyIcdO3("8692");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         i1.setHistologyIcdO3("8693");
         i2.setHistologyIcdO3("8693");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         i1.setHistologyIcdO3("8680");
         i2.setHistologyIcdO3("8680");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         // Rule M9 Abstract a single primary (the invasive)when an in situ tumor is diagnosed after an invasive tumor.
@@ -2161,14 +2161,14 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8692");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -2662,12 +2662,12 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8045");
         i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2019");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
@@ -2721,12 +2721,12 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("08");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_ID, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2018_LUNG_GROUP_NAME, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3. Timing is irrelevant.

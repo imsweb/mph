@@ -45,7 +45,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5 Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -65,7 +65,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -90,7 +90,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -115,7 +115,7 @@ public class Mp2018LungGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
 
                 }
                 else if (row1.equals(row2) && !"table2".equals(row1)) {
@@ -125,14 +125,14 @@ public class Mp2018LungGroup extends MphGroup {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
-                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                         else
-                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
 
                     }
                     else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MpResult.SINGLE_PRIMARY);
@@ -151,7 +151,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -176,7 +176,7 @@ public class Mp2018LungGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
 
                 }
                 else if (!row1.equals(row2))
@@ -203,7 +203,7 @@ public class Mp2018LungGroup extends MphGroup {
         // If Two tumors are within 60 days, proceed, otherwise skip this rule.
         //   If both are laterality=1 or both are laterality=2 return SINGLE_PRIMARY,
         //   otherwise return QUESTIONABLE.
-        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2018_LUNG_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -216,19 +216,19 @@ public class Mp2018LungGroup extends MphGroup {
                 else if (!MphConstants.BOTH.equals(lat1) && !MphConstants.BOTH.equals(lat2) && !GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
-                        result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                     else
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.BOTH.equals(lat1) || MphConstants.BOTH.equals(lat2) || GroupUtility.areSameSide(lat1, lat2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 else {
                     result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". Unknown if multiple tumors exist.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". Unknown if multiple tumors exist.");
                 }
 
                 return result;

@@ -30,7 +30,7 @@ public class MpRuleInsituAfterInvasive extends MphRule {
             int latestDx = GroupUtility.compareDxDate(i1, i2);
             if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
             }
             else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.INSITU.equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && MphConstants.INSITU.equals(beh2)))
                 result.setFinalResult(MpResult.SINGLE_PRIMARY);

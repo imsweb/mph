@@ -28,7 +28,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M4- At least one tumor that is non-small cell carcinoma (8046) and another tumor that is small cell carcinoma (8041-8045) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -42,7 +42,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- A tumor that is adenocarcinoma with mixed subtypes (8255) and another that is bronchioloalveolar (8250-8254) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -56,13 +56,13 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M6- A single tumor in each lung is multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.BOTH).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -76,7 +76,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -103,7 +103,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M10- Tumors with non-small cell carcinoma, NOS (8046) and a more specific non-small cell carcinoma type (chart 1) are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

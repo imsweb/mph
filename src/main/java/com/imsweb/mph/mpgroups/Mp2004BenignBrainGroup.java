@@ -16,7 +16,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         super(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "C700-C729,C751-C753", null, null, "9590-9993,9140", "0-1", "0000-2006");
 
         // Rule 1
-        MphRule rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -31,7 +31,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 2
-        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M2") {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -46,7 +46,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M3") {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -59,7 +59,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -72,7 +72,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

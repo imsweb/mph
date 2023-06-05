@@ -37,7 +37,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         //   - Submandibular gland C080 AND sublingual gland C081
         //   - Upper gum C030 AND lower gum C031
         //   - Upper lip C000 or C003 AND lower lip C001 or C004
-        MphRule rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -107,14 +107,14 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5 Abstract multiple primaries when there are separate/non-contiguous tumors on both the right side and the left side of a paired site.
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.HEAD_AND_NECK_2018_PAIRED_SITES)) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -144,7 +144,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3 of the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -187,7 +187,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                             else
                                 histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                            result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                         }
                         return result;
                     }
@@ -221,7 +221,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -282,7 +282,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary when separate/non-contiguous tumors in the same primary site are on the same row in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_ID, "M12") {
+        rule = new MphRule(MphConstants.MP_2018_HEAD_AND_NECK_GROUP_NAME, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -313,7 +313,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                             else
                                 histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                            result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                         }
                     }
                     else if (row1.contains(row2) || row2.contains(row1))

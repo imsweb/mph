@@ -24,7 +24,7 @@ public class MpRuleThreeYearsApart extends MphRule {
         int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
         if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
         }
         else if (MphConstants.DATE_VERIFY_APART == diff)
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

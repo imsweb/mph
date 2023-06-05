@@ -35,7 +35,7 @@ public class MpRuleInvasiveAfterInsituGreaterThan60Days extends MphRule {
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". There is not enough diagnosis date information.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". There is not enough diagnosis date information.");
                 }
                 else if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

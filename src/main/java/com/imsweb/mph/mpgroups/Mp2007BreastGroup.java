@@ -33,7 +33,7 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
-        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -48,13 +48,13 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Tumors on both sides (right and left breast) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -74,7 +74,7 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M9- Tumors that are intraductal or duct and Paget Disease are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -91,7 +91,7 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M10- Tumors that are lobular (8520) and intraductal or duct are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -109,7 +109,7 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M11- Multiple intraductal and/or duct carcinomas are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2007_BREAST_GROUP_NAME, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

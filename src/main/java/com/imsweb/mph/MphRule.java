@@ -10,7 +10,7 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public abstract class MphRule {
 
-    private String _groupId;
+    private String _groupName;
 
     private String _step;
 
@@ -22,15 +22,15 @@ public abstract class MphRule {
 
     private List<String> _examples;
 
-    public MphRule(String groupId, String step) {
-        _groupId = groupId;
+    public MphRule(String groupName, String step) {
+        _groupName = groupName;
         _step = step;
         _notes = new ArrayList<>();
         _examples = new ArrayList<>();
     }
 
-    public String getGroupId() {
-        return _groupId;
+    public String getGroupName() {
+        return _groupName;
     }
 
     public String getStep() {

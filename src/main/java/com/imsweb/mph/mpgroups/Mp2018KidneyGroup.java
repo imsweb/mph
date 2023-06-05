@@ -27,7 +27,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                 "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX).
-        MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -42,7 +42,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M4 Abstract a single primary when there are bilateral nephroblastomas (previously called Wilms tumors).
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -80,7 +80,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -107,7 +107,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -129,7 +129,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                 }
                 else if (row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -138,14 +138,14 @@ public class Mp2018KidneyGroup extends MphGroup {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart)
-                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                         else
-                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
 
                     }
                     else if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areSameSide(i1.getLaterality(), i2.getLaterality())) {
                         if ("8311".equals(h1) && h1.equals(h2)) {
@@ -175,7 +175,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -196,7 +196,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

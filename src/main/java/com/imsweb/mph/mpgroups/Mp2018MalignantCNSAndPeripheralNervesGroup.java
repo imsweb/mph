@@ -30,7 +30,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         //      It is unknown/not documented if the patient had a resection
         // - Simultaneous non-malignant and malignant tumors
         //      Abstract both the malignant and the non-malignant tumors
-        MphRule rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M5") {
+        MphRule rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer groups.
@@ -44,7 +44,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -54,7 +54,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h1))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -94,7 +94,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -135,7 +135,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // - Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -208,7 +208,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -235,7 +235,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -256,7 +256,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                 }
                 else if (row1.equals(row2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -273,7 +273,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -294,7 +294,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

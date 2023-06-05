@@ -24,7 +24,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         super(MphConstants.MP_2007_KIDNEY_GROUP_ID, MphConstants.MP_2007_KIDNEY_GROUP_NAME, "C649", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Wilms tumors are a single primary. (8960/3)
-        MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -43,13 +43,13 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M5 - Tumors in both the right kidney and in the left kidney are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -73,7 +73,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -89,7 +89,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M9 -
-        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2007_KIDNEY_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

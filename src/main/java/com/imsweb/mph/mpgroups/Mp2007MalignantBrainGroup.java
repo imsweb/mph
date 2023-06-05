@@ -23,7 +23,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                 "2007-2017");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M4") {
+        MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer groups.
@@ -39,7 +39,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -49,7 +49,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
                     int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.GLIOBLASTOMA_NOS_AND_MULTIFORME.equals(h1))
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -64,7 +64,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -88,7 +88,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

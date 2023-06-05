@@ -35,7 +35,7 @@ public class MpRuleInvasiveAfterInsituLessThan60Days extends MphRule {
             else {
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);

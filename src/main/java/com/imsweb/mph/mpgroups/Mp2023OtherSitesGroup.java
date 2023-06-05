@@ -29,7 +29,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         super(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, null, null, null, "9590-9993", "2-3,6", "2023-9999");
 
         //M3- Acinar Adenocarcinoma (8140) of the prostate is always a single primary. (C619, 8140)
-        MphRule rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -53,7 +53,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M4 - Abstract multiple primaries when the patient has a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3).
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -68,7 +68,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                     int laterDx = GroupUtility.compareDxDate(i1, i2);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
                         result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if ((MphConstants.COMPARE_DX_FIRST_LATEST == laterDx && smallCellCarcinoma.equals(icd1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == laterDx && smallCellCarcinoma.equals(
                             icd2)))
@@ -88,7 +88,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -102,7 +102,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Kaposi sarcoma (any site or sites) is always a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -116,7 +116,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -130,7 +130,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -147,7 +147,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -166,7 +166,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M9- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -183,7 +183,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                         }
                         else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -197,7 +197,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -208,7 +208,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -223,7 +223,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M11 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -243,14 +243,14 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M12 - Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or recurrence.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M12") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_APART == diff)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -268,7 +268,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M14 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M14") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -292,7 +292,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M15 - A de novo (frank) in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M15") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M15") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -310,7 +310,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M16 - Multiple in situ and/or malignant polyps are a single primary.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M16") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M16") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -326,7 +326,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M17") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M17") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -350,7 +350,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M18") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M18") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -367,7 +367,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                             result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                         }
                         else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -384,7 +384,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
 
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
-        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, "M19") {
+        rule = new MphRule(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, "M19") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -417,7 +417,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                     else
                         histologyNotInTable = row1 == null ? icd1 : icd2;
 
-                    result.setMessageNotInTable(this.getStep(), this.getGroupId(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

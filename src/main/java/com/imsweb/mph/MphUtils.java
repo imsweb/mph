@@ -251,7 +251,7 @@ public final class MphUtils {
                         potentialResult = result;
                     else if (!result.getPotentialResult().equals(potentialResult.getPotentialResult())) {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupId(rule.getGroupId());
+                        output.setGroupName(rule.getGroupName());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                         break;
@@ -260,7 +260,7 @@ public final class MphUtils {
                 else if (result.getFinalResult() != null) {
                     if (potentialResult == null || potentialResult.getPotentialResult().equals(result.getFinalResult())) {
                         output.setResult(result.getFinalResult());
-                        output.setGroupId(rule.getGroupId());
+                        output.setGroupName(rule.getGroupName());
                         output.setStep(rule.getStep());
                         output.setReason(StringUtils.isNotBlank(result.getMessage()) ? result.getMessage() : rule.getReason());
                         if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
@@ -268,7 +268,7 @@ public final class MphUtils {
                     }
                     else {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupId(rule.getGroupId());
+                        output.setGroupName(rule.getGroupName());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                     }

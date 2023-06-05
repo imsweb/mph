@@ -32,7 +32,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -53,7 +53,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
                 if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -96,7 +96,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_URINARY_GROUP_ID, "M7");
+        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_URINARY_GROUP_NAME, "M7");
         _rules.add(rule);
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)

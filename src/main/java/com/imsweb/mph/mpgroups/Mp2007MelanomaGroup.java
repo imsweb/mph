@@ -22,7 +22,7 @@ public class Mp2007MelanomaGroup extends MphGroup {
                 null, "2-3,6", "2007-2020");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -36,14 +36,14 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Melanomas with different laterality are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (!i1.getLaterality().equals(i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -72,14 +72,14 @@ public class Mp2007MelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2007_MELANOMA_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

@@ -24,7 +24,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         super(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "C000-C148, C300-C329", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
-        MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -32,7 +32,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
                 if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
                     if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -45,7 +45,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Tumors on the upper lip (C000 or C003) and the lower lip (C001 or C004) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -59,7 +59,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Tumors on the upper gum (C030) and the lower gum (C031) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -73,7 +73,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Tumors in the nasal cavity (C300) and the middle ear (C301) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -101,7 +101,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M10 - 
-        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

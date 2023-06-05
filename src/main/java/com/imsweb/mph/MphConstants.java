@@ -53,32 +53,32 @@ public class MphConstants {
     public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2021_cutaneous_melanoma";
 
     //Group Names for the set of rules
-    public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic (1998)";
-    public static final String MP_2001_HEMATO_GROUP_NAME = "Hematopoietic (2001)";
-    public static final String MP_2010_HEMATO_GROUP_NAME = "Hematopoietic (2010)";
-    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "Solid Malignant (2004)";
-    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2004)";
-    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "Benign Brain (2007)";
-    public static final String MP_2007_BREAST_GROUP_NAME = "Breast (2007)";
-    public static final String MP_2007_COLON_GROUP_NAME = "Colon (2007)";
-    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "Head and Neck (2007)";
-    public static final String MP_2007_KIDNEY_GROUP_NAME = "Kidney (2007)";
-    public static final String MP_2007_LUNG_GROUP_NAME = "Lung (2007)";
-    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "Malignant Brain (2007)";
-    public static final String MP_2007_MELANOMA_GROUP_NAME = "Melanoma (2007)";
-    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "Other Sites (2007)";
-    public static final String MP_2007_URINARY_GROUP_NAME = "Urinary (2007)";
+    public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic 2000 and earlier";
+    public static final String MP_2001_HEMATO_GROUP_NAME = "Hematopoietic 2001-2009";
+    public static final String MP_2010_HEMATO_GROUP_NAME = "Hematopoietic 2010+";
+    public static final String MP_2004_SOLID_MALIGNANT_GROUP_NAME = "2006 and earlier Solid Malignant";
+    public static final String MP_2004_BENIGN_BRAIN_GROUP_NAME = "2006 and earlier Benign Brain";
+    public static final String MP_2007_BENIGN_BRAIN_GROUP_NAME = "MPH 2007-2017 Benign Brain";
+    public static final String MP_2007_BREAST_GROUP_NAME = "MPH 2007-2017 Breast";
+    public static final String MP_2007_COLON_GROUP_NAME = "MPH 2007-2017 Colon";
+    public static final String MP_2007_HEAD_AND_NECK_GROUP_NAME = "MPH 2007-2017 Head and Neck";
+    public static final String MP_2007_KIDNEY_GROUP_NAME = "MPH 2007-2017 Kidney";
+    public static final String MP_2007_LUNG_GROUP_NAME = "MPH 2007-2017 Lung";
+    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_NAME = "MPH 2007-2017 Malignant Brain";
+    public static final String MP_2007_MELANOMA_GROUP_NAME = "MPH 2007-2020 Melanoma";
+    public static final String MP_2007_OTHER_SITES_GROUP_NAME = "MPH 2007-2022 Other Sites";
+    public static final String MP_2007_URINARY_GROUP_NAME = "MPH 2007-2017 Urinary";
 
-    public static final String MP_2018_BREAST_GROUP_NAME = "2018 Breast";
-    public static final String MP_2018_COLON_GROUP_NAME = "2018 Colon";
-    public static final String MP_2018_HEAD_AND_NECK_GROUP_NAME = "2018 Head And Neck";
-    public static final String MP_2018_KIDNEY_GROUP_NAME = "2018 Kidney";
-    public static final String MP_2018_LUNG_GROUP_NAME = "2018 Lung";
-    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME = "2018 Malignant CNS And Peripheral Nerves";
-    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME = "2018 Non Malignant CNS Tumors";
-    public static final String MP_2023_OTHER_SITES_GROUP_NAME = "2023 Other Sites";
-    public static final String MP_2018_URINARY_GROUP_NAME = "2018 Urinary";
-    public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME = "2021 Cutaneous Melanoma";
+    public static final String MP_2018_BREAST_GROUP_NAME = "Solid Tumor 2018+ Breast";
+    public static final String MP_2018_COLON_GROUP_NAME = "Solid Tumor 2018+ Colon";
+    public static final String MP_2018_HEAD_AND_NECK_GROUP_NAME = "Solid Tumor 2018+ Head And Neck";
+    public static final String MP_2018_KIDNEY_GROUP_NAME = "Solid Tumor 2018+ Kidney";
+    public static final String MP_2018_LUNG_GROUP_NAME = "Solid Tumor 2018+ Lung";
+    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_NAME = "Solid Tumor 2018+ Malignant CNS And Peripheral Nerves";
+    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME = "Solid Tumor 2018+ Non Malignant CNS Tumors";
+    public static final String MP_2023_OTHER_SITES_GROUP_NAME = "Solid Tumor 2023+ Other Sites";
+    public static final String MP_2018_URINARY_GROUP_NAME = "Solid Tumor 2018+ Urinary";
+    public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME = "Solid Tumor 2021+ Cutaneous Melanoma";
 
     //Topographies
 

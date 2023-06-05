@@ -25,32 +25,32 @@ public class MphConstants {
     public static final int DATE_VERIFY_APART = 1;
 
     //Group Ids for the set of rules
-    public static final String MP_1998_HEMATO_GROUP_ID = "mp_1998_hemato";
-    public static final String MP_2001_HEMATO_GROUP_ID = "mp_2001_hemato";
-    public static final String MP_2010_HEMATO_GROUP_ID = "mp_2010_hemato";
-    public static final String MP_2004_SOLID_MALIGNANT_GROUP_ID = "mp_2004_solid_malignant";
-    public static final String MP_2004_BENIGN_BRAIN_GROUP_ID = "mp_2004_benign_brain";
-    public static final String MP_2007_BENIGN_BRAIN_GROUP_ID = "mp_2007_benign_brain";
-    public static final String MP_2007_BREAST_GROUP_ID = "mp_2007_breast";
-    public static final String MP_2007_COLON_GROUP_ID = "mp_2007_colon";
-    public static final String MP_2007_HEAD_AND_NECK_GROUP_ID = "mp_2007_head_and_neck";
-    public static final String MP_2007_KIDNEY_GROUP_ID = "mp_2007_kidney";
-    public static final String MP_2007_LUNG_GROUP_ID = "mp_2007_lung";
-    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_ID = "mp_2007_malignant_brain";
-    public static final String MP_2007_MELANOMA_GROUP_ID = "mp_2007_melanoma";
-    public static final String MP_2007_OTHER_SITES_GROUP_ID = "mp_2007_other_sites";
-    public static final String MP_2007_URINARY_GROUP_ID = "mp_2007_urinary";
-    public static final String MP_2018_BREAST_GROUP_ID = "mp_2018_breast";
-    public static final String MP_2018_COLON_GROUP_ID = "mp_2018_colon";
-    public static final String MP_2018_HEAD_AND_NECK_GROUP_ID = "mp_2018_head_and_neck";
-    public static final String MP_2018_KIDNEY_GROUP_ID = "mp_2018_kidney";
-    public static final String MP_2018_LUNG_GROUP_ID = "mp_2018_lung";
-    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID = "mp_2018_malignant_cns_and_peripheral_nerves";
-    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID = "mp_2018_non_malignant_cns_tumors";
-    public static final String MP_2023_OTHER_SITES_GROUP_ID = "mp_2023_other_sites";
-    public static final String MP_2018_URINARY_GROUP_ID = "mp_2018_urinary";
+    public static final String MP_1998_HEMATO_GROUP_ID = "hematopoietic_2000_and_earlier";
+    public static final String MP_2001_HEMATO_GROUP_ID = "hematopoietic_2001_to_2009";
+    public static final String MP_2010_HEMATO_GROUP_ID = "hematopoietic_2010_and_later";
+    public static final String MP_2004_SOLID_MALIGNANT_GROUP_ID = "2006_and_earlier_solid_malignant";
+    public static final String MP_2004_BENIGN_BRAIN_GROUP_ID = "2006_and_earlier_benign_brain";
+    public static final String MP_2007_BENIGN_BRAIN_GROUP_ID = "mph_2007_to_2017_benign_brain";
+    public static final String MP_2007_BREAST_GROUP_ID = "mph_2007_to_2017_breast";
+    public static final String MP_2007_COLON_GROUP_ID = "mph_2007_to_2017_colon";
+    public static final String MP_2007_HEAD_AND_NECK_GROUP_ID = "mph_2007_to_2017_head_and_neck";
+    public static final String MP_2007_KIDNEY_GROUP_ID = "mph_2007_to_2017_kidney";
+    public static final String MP_2007_LUNG_GROUP_ID = "mph_2007_to_2017_lung";
+    public static final String MP_2007_MALIGNANT_BRAIN_GROUP_ID = "mph_2007_to_2017_malignant_brain";
+    public static final String MP_2007_MELANOMA_GROUP_ID = "mph_2007_to_2017_melanoma";
+    public static final String MP_2007_OTHER_SITES_GROUP_ID = "mph_2007_to_2022_other_sites";
+    public static final String MP_2007_URINARY_GROUP_ID = "mph_2007_to_2017_urinary";
+    public static final String MP_2018_BREAST_GROUP_ID = "solid_tumor_2018_and_later_breast";
+    public static final String MP_2018_COLON_GROUP_ID = "solid_tumor_2018_and_later_colon";
+    public static final String MP_2018_HEAD_AND_NECK_GROUP_ID = "solid_tumor_2018_and_later_head_and_neck";
+    public static final String MP_2018_KIDNEY_GROUP_ID = "solid_tumor_2018_and_later_kidney";
+    public static final String MP_2018_LUNG_GROUP_ID = "solid_tumor_2018_and_later_lung";
+    public static final String MP_2018_MALIGNANT_CNS_AND_PERIPHERAL_NERVES_GROUP_ID = "solid_tumor_2018_and_later_malignant_cns_and_peripheral_nerves";
+    public static final String MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID = "solid_tumor_2018_and_later_non_malignant_cns_tumors";
+    public static final String MP_2023_OTHER_SITES_GROUP_ID = "solid_tumor_2023_and_later_other_sites";
+    public static final String MP_2018_URINARY_GROUP_ID = "solid_tumor_2018_and_later_urinary";
 
-    public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_ID = "mp_2021_cutaneous_melanoma";
+    public static final String MP_2021_CUTANEOUS_MELANOMA_GROUP_ID = "solid_tumor_2021_and_later_cutaneous_melanoma";
 
     //Group Names for the set of rules
     public static final String MP_1998_HEMATO_GROUP_NAME = "Hematopoietic 2000 and earlier";

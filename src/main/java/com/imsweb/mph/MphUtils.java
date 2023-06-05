@@ -5,7 +5,7 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +79,7 @@ public final class MphUtils {
     private HematoDbUtilsProvider _provider = null;
 
     // the cached groups of rules used by the instance
-    private Map<String, MphGroup> _groups = new HashMap<>();
+    private Map<String, MphGroup> _groups = new LinkedHashMap<>();
 
     /**
      * Initialized the instance with the given provider; this allows to use a customized provider instead of the default one.

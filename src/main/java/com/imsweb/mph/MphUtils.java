@@ -239,6 +239,7 @@ public final class MphUtils {
         }
         else {
             output.setGroupId(group1.getId());
+            output.setGroupName(group1.getName());
             TempRuleResult potentialResult = null;
             List<MphRule> rulesAppliedAfterQuestionable = new ArrayList<>();
             for (MphRule rule : group1.getRules()) {
@@ -252,7 +253,6 @@ public final class MphUtils {
                         potentialResult = result;
                     else if (!result.getPotentialResult().equals(potentialResult.getPotentialResult())) {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupName(rule.getGroupName());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                         break;
@@ -261,7 +261,6 @@ public final class MphUtils {
                 else if (result.getFinalResult() != null) {
                     if (potentialResult == null || potentialResult.getPotentialResult().equals(result.getFinalResult())) {
                         output.setResult(result.getFinalResult());
-                        output.setGroupName(rule.getGroupName());
                         output.setStep(rule.getStep());
                         output.setReason(StringUtils.isNotBlank(result.getMessage()) ? result.getMessage() : rule.getReason());
                         if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
@@ -269,7 +268,6 @@ public final class MphUtils {
                     }
                     else {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupName(rule.getGroupName());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                     }

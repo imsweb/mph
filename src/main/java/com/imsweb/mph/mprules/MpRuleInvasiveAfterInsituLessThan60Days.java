@@ -14,8 +14,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleInvasiveAfterInsituLessThan60Days extends MphRule {
 
-    public MpRuleInvasiveAfterInsituLessThan60Days(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleInvasiveAfterInsituLessThan60Days(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Is there an invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis?");
         setReason("An invasive tumor following an in situ tumor less than or equal to 60 days after diagnosis is a single primary.");
     }
@@ -35,7 +35,7 @@ public class MpRuleInvasiveAfterInsituLessThan60Days extends MphRule {
             else {
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);

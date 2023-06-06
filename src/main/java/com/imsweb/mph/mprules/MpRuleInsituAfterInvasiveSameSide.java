@@ -15,8 +15,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleInsituAfterInvasiveSameSide extends MphRule {
 
-    public MpRuleInsituAfterInvasiveSameSide(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleInsituAfterInvasiveSameSide(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Is there an in situ tumor following an invasive tumor?");
         setReason("An in situ tumor diagnosed following an invasive tumor is a single primary.");
     }
@@ -35,13 +35,13 @@ public class MpRuleInsituAfterInvasiveSameSide extends MphRule {
             if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 if (MphConstants.COMPARE_DX_UNKNOWN == latestDx)
-                    result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                 else
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
             }
             else if (MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                 result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
             }
             else if ((MphConstants.COMPARE_DX_FIRST_LATEST == latestDx && MphConstants.INSITU.equals(beh1)) || (MphConstants.COMPARE_DX_SECOND_LATEST == latestDx && MphConstants.INSITU.equals(beh2)))
                 result.setFinalResult(MpResult.SINGLE_PRIMARY);

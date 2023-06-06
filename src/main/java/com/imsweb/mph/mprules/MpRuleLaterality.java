@@ -11,8 +11,8 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleLaterality extends MphRule {
 
-    public MpRuleLaterality(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleLaterality(String groupName, String step) {
+        super(groupName, step);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class MpRuleLaterality extends MphRule {
         TempRuleResult result = new TempRuleResult();
         if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+            result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
         }
         else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

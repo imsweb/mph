@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.27**
+
+- Exposed module names.
+
 **Changes in version 1.26**
 
 - Implemented 2023 updates of solid tumor rules.

@@ -10,8 +10,8 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class MpRuleNoCriteriaSatisfied extends MphRule {
 
-    public MpRuleNoCriteriaSatisfied(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleNoCriteriaSatisfied(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Does not meet any of the criteria?");
         setReason("Tumors that do not meet any of the criteria are abstracted as a single primary.");
     }

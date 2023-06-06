@@ -24,13 +24,13 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                 null, "2-3,6", "2021-9999");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M3") {
+        MphRule rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().equals("C449") || i2.getPrimarySite().equals("C449")) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupId() + ". One of the sites is C449.");
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". One of the sites is C449.");
                 }
                 else if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -43,7 +43,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Abstract multiple primaries when there are separate, non-contiguous melanomas with different lateralities.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -54,7 +54,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                 }
                 else if (!i1.getLaterality().equals(i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -73,7 +73,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
 
         //M5- Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in
         //Column 3, Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -92,7 +92,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. Tumors must have same site and same laterality.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -102,14 +102,14 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                     List<String> lateralityNotRequiredSites = Arrays.asList("C440", "C448", "C449");
                     if (!lateralityNotRequiredSites.contains(i1.getPrimarySite()) && !Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                         return result;
                     }
                     else if (lateralityNotRequiredSites.contains(i1.getPrimarySite()) || i1.getLaterality().equals(i2.getLaterality())) {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                             result.setFinalResult(MpResult.QUESTIONABLE);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                         }
                         else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -125,14 +125,14 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
                 else if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -144,7 +144,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, "M8");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item \"Multiplicity Counter\" to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");

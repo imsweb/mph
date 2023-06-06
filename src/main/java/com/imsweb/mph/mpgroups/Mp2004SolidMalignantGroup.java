@@ -20,7 +20,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         super(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, null, null, "8000-9589", null, "2-3,6", "0000-2006");
 
         // Rule 1
-        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -34,7 +34,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 2
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M2") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -49,7 +49,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M3") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -62,15 +62,15 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                         else if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
-                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                             else
-                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                             return result;
                         }
                     }
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -88,7 +88,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -107,9 +107,9 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                 (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
-                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                         else
-                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2)) {
                         if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
@@ -118,7 +118,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                             if ((MphConstants.OVARY.equals(site1) && MphConstants.OVARY.equals(site2)) || (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(hist1, hist2))) ||
                                     (MphConstants.WILMS.equals(hist1) && MphConstants.WILMS.equals(hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                         }
                         else {
                             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -142,7 +142,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -169,7 +169,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 else if (isSameSite(site1, site2) && isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -196,7 +196,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 6
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -245,9 +245,9 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                     result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             }
                             if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
-                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                                result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                             else
-                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                                result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                             return result;
                         }
                     }
@@ -281,7 +281,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                     MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else {
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -340,7 +340,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 7
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -355,13 +355,13 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                     if (!GroupUtility.validPairedSiteLaterality(lat1, lat2)) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
-                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
                         else
-                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupId());
+                            result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (GroupUtility.areOppositeSides(lat1, lat2))
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -375,7 +375,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 8
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -387,7 +387,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                 if (isSameSite(site1, site2) && !isSameHistology(hist1, hist2) && daysApart != MphConstants.DATE_VERIFY_WITHIN) {
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -399,7 +399,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 9
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -419,7 +419,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 10
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

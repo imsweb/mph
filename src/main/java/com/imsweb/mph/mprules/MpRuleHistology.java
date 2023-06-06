@@ -10,8 +10,8 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class MpRuleHistology extends MphRule {
 
-    public MpRuleHistology(String groupId, String step) {
-        super(groupId, step);
+    public MpRuleHistology(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Do the tumors have ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number?");
         setReason("Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.");
     }

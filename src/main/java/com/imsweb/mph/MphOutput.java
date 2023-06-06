@@ -16,6 +16,8 @@ public class MphOutput {
 
     private String _groupId;
 
+    private String _groupName;
+
     private String _step;
 
     public MphOutput() {
@@ -48,6 +50,14 @@ public class MphOutput {
 
     public void setGroupId(String groupId) {
         _groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return _groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        _groupName = groupName;
     }
 
     public String getStep() {

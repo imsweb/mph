@@ -5,7 +5,7 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +79,7 @@ public final class MphUtils {
     private HematoDbUtilsProvider _provider = null;
 
     // the cached groups of rules used by the instance
-    private Map<String, MphGroup> _groups = new HashMap<>();
+    private Map<String, MphGroup> _groups = new LinkedHashMap<>();
 
     /**
      * Initialized the instance with the given provider; this allows to use a customized provider instead of the default one.
@@ -238,6 +238,8 @@ public final class MphUtils {
             output.setReason("The two sets of parameters belong to two different cancer groups.");
         }
         else {
+            output.setGroupId(group1.getId());
+            output.setGroupName(group1.getName());
             TempRuleResult potentialResult = null;
             List<MphRule> rulesAppliedAfterQuestionable = new ArrayList<>();
             for (MphRule rule : group1.getRules()) {
@@ -251,7 +253,6 @@ public final class MphUtils {
                         potentialResult = result;
                     else if (!result.getPotentialResult().equals(potentialResult.getPotentialResult())) {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupId(rule.getGroupId());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                         break;
@@ -260,7 +261,6 @@ public final class MphUtils {
                 else if (result.getFinalResult() != null) {
                     if (potentialResult == null || potentialResult.getPotentialResult().equals(result.getFinalResult())) {
                         output.setResult(result.getFinalResult());
-                        output.setGroupId(rule.getGroupId());
                         output.setStep(rule.getStep());
                         output.setReason(StringUtils.isNotBlank(result.getMessage()) ? result.getMessage() : rule.getReason());
                         if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
@@ -268,7 +268,6 @@ public final class MphUtils {
                     }
                     else {
                         output.setResult(MpResult.QUESTIONABLE);
-                        output.setGroupId(rule.getGroupId());
                         output.setStep(output.getAppliedRules().get(output.getAppliedRules().size() - 1).getStep());
                         output.setReason(potentialResult.getMessage());
                     }

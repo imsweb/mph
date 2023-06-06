@@ -22,7 +22,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "2010-9999");
 
         // M1 
-        MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -34,7 +34,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M2 
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M2") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -63,7 +63,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M3
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M3") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -75,7 +75,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.COMPARE_DX_UNKNOWN == laterDx && MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -102,7 +102,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M4
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M4") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -115,7 +115,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -144,7 +144,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M5
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M5") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -157,7 +157,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int simultaneouslyPresent = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == simultaneouslyPresent) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == simultaneouslyPresent)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -185,7 +185,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M6
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M6") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -210,7 +210,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M7
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M7") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -235,7 +235,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M8
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M8") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -268,7 +268,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M9
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M9") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -300,7 +300,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M10
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M10") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -318,7 +318,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart || MphConstants.COMPARE_DX_UNKNOWN == latestDx) {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && isChronicToAcuteTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
@@ -340,7 +340,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M11
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M11") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -372,7 +372,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M12
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M12") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -399,7 +399,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M13
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M13") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -429,7 +429,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M14
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M14") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -441,7 +441,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
                     else if (MphConstants.DATE_VERIFY_WITHIN == daysApart)
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -460,7 +460,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M15
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_ID, "M15") {
+        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M15") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

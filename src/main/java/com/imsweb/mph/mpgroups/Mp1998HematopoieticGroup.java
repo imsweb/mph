@@ -28,7 +28,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         super(MphConstants.MP_1998_HEMATO_GROUP_ID, MphConstants.MP_1998_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "0000-2000");
         initializeLookup();
 
-        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_ID, "") {
+        MphRule rule = new MphRule(MphConstants.MP_1998_HEMATO_GROUP_NAME, "") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -41,7 +41,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 int laterDx = GroupUtility.compareDxDate(i1, i2);
                 if (MphConstants.COMPARE_DX_UNKNOWN == laterDx) {
                     result.setFinalResult(MphUtils.MpResult.QUESTIONABLE);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupId());
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     return result;
                 }
                 String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i2.getHistology() : i1.getHistology(), secondDx =

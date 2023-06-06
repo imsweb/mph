@@ -10,8 +10,8 @@ import com.imsweb.mph.internal.TempRuleResult;
 
 public class MpRulePrimarySite extends MphRule {
 
-    public MpRulePrimarySite(String groupId, String step) {
-        super(groupId, step);
+    public MpRulePrimarySite(String groupName, String step) {
+        super(groupName, step);
         setQuestion("Are there tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third character (Cx?x)?");
         setReason("Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.");
     }

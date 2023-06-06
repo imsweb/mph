@@ -2,7 +2,7 @@
 
 **Changes in version 1.27**
 
-- Exposed module names.
+- Renamed all group IDs and names and exposed the names in the output objects.
 
 **Changes in version 1.26**
 

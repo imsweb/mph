@@ -34,6 +34,7 @@ public class Mph2023RulesTest {
         i2.setDateOfDiagnosisYear("2023");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.MP_2023_OTHER_SITES_GROUP_ID, output.getGroupId());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M3", output.getStep());
 

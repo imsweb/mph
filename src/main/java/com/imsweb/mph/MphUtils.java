@@ -238,6 +238,7 @@ public final class MphUtils {
             output.setReason("The two sets of parameters belong to two different cancer groups.");
         }
         else {
+            output.setGroupId(group1.getId());
             TempRuleResult potentialResult = null;
             List<MphRule> rulesAppliedAfterQuestionable = new ArrayList<>();
             for (MphRule rule : group1.getRules()) {

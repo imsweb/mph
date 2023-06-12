@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.28**
+
+- Updated HematoDB data with latest data from SEER API.
+
 **Changes in version 1.27**
 
 - Renamed all group IDs and names and exposed the names in the output objects.

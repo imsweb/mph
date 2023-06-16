@@ -162,6 +162,7 @@ public class MphUtilsTest {
     @Test
     public void testGetAllGroups() {
         Map<String, MphGroup> testMap = _utils.getAllGroups();
+        //Make sure the IDs are certain length, External libraries store the ID in database
         for (MphGroup group : testMap.values())
             Assert.assertTrue(group.getId().length() <= 100);
 

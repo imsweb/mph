@@ -26,10 +26,10 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     private static List<String[]> _2001_HEMATOPOIETIC_GROUP_PAIRS = new ArrayList<>();
 
     public Mp2001HematopoieticGroup() {
-        super(MphConstants.MP_2001_HEMATO_GROUP_ID, MphConstants.MP_2001_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "2001-2009");
+        super(MphConstants.HEMATO_2001_TO_2009, MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2001_2009, "C000-C809", null, "9590-9993", null, "2-3,6", "2001-2009");
         initializeLookups();
 
-        MphRule rule = new MphRule(MphConstants.MP_2001_HEMATO_GROUP_NAME, "") {
+        MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2001_2009, "") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

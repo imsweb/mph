@@ -18,10 +18,10 @@ import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 public class Mp2007BenignBrainGroup extends MphGroup {
 
     public Mp2007BenignBrainGroup() {
-        super(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9993,9140", "0-1", "2007-2017");
+        super(MphConstants.MPH_2007_BENIGN_BRAIN_GROUP_ID, MphConstants.MPH_2007_2017_BENIGN_BRAIN, "C700-C701, C709-C725, C728-C729, C751-C753", null, null, "9590-9993,9140", "0-1", "2007-2017");
 
         // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.        
-        MphRule rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M3") {
+        MphRule rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer group.           
@@ -33,7 +33,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M4 - Tumors with ICD-O-3 topography codes that are different at the second (C?xx) and/or third characters (Cx?x), or fourth (Cxx?) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -47,7 +47,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5 - Tumors on both sides (left and right) of a paired site (Table 1) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -68,7 +68,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - An atypical choroid plexus papilloma (9390/1) following a choroid plexus papilloma, NOS (9390/0) is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -93,7 +93,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - A neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0) is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -118,7 +118,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with two or more histologic types on the same branch in Chart 1 are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -139,7 +139,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M9 - Tumors with multiple histologic types on different branches in Chart 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -160,7 +160,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M10 - Tumors with two or more histologic types and at least one of the histologies is not listed in Chart 1 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -181,12 +181,12 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         //M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M11");
+        rule = new MpRuleHistology(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M11");
         rule.getNotes().add("Use this rule when none of the histology codes are listed in Chart 1.");
         _rules.add(rule);
 
         //M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_NAME, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M12");
         rule.getNotes().add("Timing is not used to determine multiple primaries for benign and borderline intracranial and CNS tumors.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and the same laterality as the original tumor are a single primary.");
         rule.getExamples().add("Tumors in the same site with the same histology (Chart 1) and it is unknown if laterality is the same as the original tumor are a single primary.");

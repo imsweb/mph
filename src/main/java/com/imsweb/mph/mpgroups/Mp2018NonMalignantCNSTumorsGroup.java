@@ -21,14 +21,14 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
     // C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018NonMalignantCNSTumorsGroup() {
-        super(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_ID, MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME,
+        super(MphConstants.STR_2018_AND_LATER_NON_MALIGNANT_CNS, MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS,
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
                 "9590-9993, 9140", "0-1", "2018-9999");
 
         // Rule M5 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR
         // - It is unknown/not documented whether a resection was done
-        MphRule rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M5") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer group.
@@ -42,7 +42,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // Rule M6 Abstract a single primary when the patient has bilateral:
         // - Acoustic neuromas/ vestibular schwannomas 9560/0, OR
         // - Optic gliomas/pilocytic astrocytomas 9421/1
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -73,7 +73,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Spinal meninges C701 AND any other part of CNS
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
         //  other site in the header besides C700 (C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753))
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -137,7 +137,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -161,7 +161,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - The same laterality (left or right) of the cranial meninges
         // - Bilateral (both left and right) cranial meninges
         // - The midline AND in either the right or left cranial meninges
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -182,7 +182,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Same laterality: In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -203,7 +203,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M11") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -253,7 +253,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M12") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -290,7 +290,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary when the tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_NON_MALIGNANT_CNS_TUMORS_GROUP_NAME, "M13");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M13");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");
         _rules.add(rule);
     }

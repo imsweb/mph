@@ -20,15 +20,15 @@ import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
 public class Mp2007LungGroup extends MphGroup {
 
     public Mp2007LungGroup() {
-        super(MphConstants.MP_2007_LUNG_GROUP_ID, MphConstants.MP_2007_LUNG_GROUP_NAME, "C340-C349", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
+        super(MphConstants.MPH_2007_LUNG_GROUP_ID, MphConstants.MPH_2007_2017_LUNG, "C340-C349", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        MphRule rule = new MpRulePrimarySite(MphConstants.MP_2007_LUNG_GROUP_NAME, "M3");
+        MphRule rule = new MpRulePrimarySite(MphConstants.MPH_2007_2017_LUNG, "M3");
         rule.getNotes().add("This is a change in rules; tumors in the trachea (C33) and in the lung (C34) were a single lung primary in the previous rules.");
         _rules.add(rule);
 
         // M4- At least one tumor that is non-small cell carcinoma (8046) and another tumor that is small cell carcinoma (8041-8045) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_LUNG, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -42,7 +42,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- A tumor that is adenocarcinoma with mixed subtypes (8255) and another that is bronchioloalveolar (8250-8254) are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_LUNG, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -56,7 +56,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M6- A single tumor in each lung is multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_LUNG, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -76,7 +76,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M7- Multiple tumors in both lungs with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_LUNG, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -93,17 +93,17 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2007_LUNG_GROUP_NAME, "M8");
+        rule = new MpRuleThreeYearsApart(MphConstants.MPH_2007_2017_LUNG, "M8");
         _rules.add(rule);
 
         // M9- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2007_LUNG_GROUP_NAME, "M9");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MPH_2007_2017_LUNG, "M9");
         rule.getNotes().add("The purpose of this rule is to ensure that the case is counted as an incident (invasive) case when incidence data are analyzed.");
         rule.getNotes().add("Abstract as multiple primaries even if the medical record/physician states it is recurrence or progression of disease.");
         _rules.add(rule);
 
         // M10- Tumors with non-small cell carcinoma, NOS (8046) and a more specific non-small cell carcinoma type (chart 1) are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_LUNG_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_LUNG, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -117,12 +117,12 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M11- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.
-        rule = new MpRuleHistology(MphConstants.MP_2007_LUNG_GROUP_NAME, "M11");
+        rule = new MpRuleHistology(MphConstants.MPH_2007_2017_LUNG, "M11");
         rule.getNotes().add("Adenocarcinoma in one tumor and squamous cell carcinoma in another tumor are multiple primaries.");
         _rules.add(rule);
 
         // M12- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_LUNG_GROUP_NAME, "M12");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MPH_2007_2017_LUNG, "M12");
         rule.getNotes().add("When an invasive tumor follows an in situ tumor within 60 days, abstract as a single primary.");
         rule.getNotes().add("All cases covered by this rule are the same histology.");
         _rules.add(rule);

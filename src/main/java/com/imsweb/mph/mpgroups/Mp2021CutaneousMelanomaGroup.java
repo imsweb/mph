@@ -20,11 +20,11 @@ import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 public class Mp2021CutaneousMelanomaGroup extends MphGroup {
 
     public Mp2021CutaneousMelanomaGroup() {
-        super(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_ID, MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "C440-C449", null, "8720-8780",
+        super(MphConstants.STR_2021_AND_LATER_CUTANEOUS_MELANOMA, MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "C440-C449", null, "8720-8780",
                 null, "2-3,6", "2021-9999");
 
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M3") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -43,7 +43,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Abstract multiple primaries when there are separate, non-contiguous melanomas with different lateralities.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -73,7 +73,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
 
         //M5- Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in
         //Column 3, Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -92,7 +92,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M6- Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. Tumors must have same site and same laterality.
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -125,7 +125,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
-        rule = new MphRule(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -144,7 +144,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M8- Melanomas that do not meet any of the above criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, "M8");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M8");
         rule.setReason("Melanomas that do not meet any of the above criteria are abstracted as a single primary.");
         rule.getNotes().add("Use the data item \"Multiplicity Counter\" to record the number of melanomas abstracted as a single primary.");
         rule.getNotes().add("When an invasive melanoma follows an in situ melanoma within 60 days, abstract as a single primary.");

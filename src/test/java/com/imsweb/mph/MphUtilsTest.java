@@ -162,22 +162,24 @@ public class MphUtilsTest {
     @Test
     public void testGetAllGroups() {
         Map<String, MphGroup> testMap = _utils.getAllGroups();
+        for (MphGroup group : testMap.values())
+            Assert.assertTrue(group.getId().length() <= 100);
 
-        Assert.assertEquals(MphConstants.MP_1998_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_1998_HEMATO_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2001_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_2001_HEMATO_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2010_HEMATO_GROUP_ID, testMap.get(MphConstants.MP_2010_HEMATO_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.HEMATO_2000_AND_EARLIER, testMap.get(MphConstants.HEMATO_2000_AND_EARLIER).getId());
+        Assert.assertEquals(MphConstants.HEMATO_2001_TO_2009, testMap.get(MphConstants.HEMATO_2001_TO_2009).getId());
+        Assert.assertEquals(MphConstants.HEMATO_2010_AND_LATER, testMap.get(MphConstants.HEMATO_2010_AND_LATER).getId());
         Assert.assertEquals(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, testMap.get(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID).getId());
         Assert.assertEquals(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2004_BENIGN_BRAIN_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2007_BENIGN_BRAIN_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_BREAST_GROUP_ID, testMap.get(MphConstants.MP_2007_BREAST_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_COLON_GROUP_ID, testMap.get(MphConstants.MP_2007_COLON_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID, testMap.get(MphConstants.MP_2007_HEAD_AND_NECK_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_KIDNEY_GROUP_ID, testMap.get(MphConstants.MP_2007_KIDNEY_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_LUNG_GROUP_ID, testMap.get(MphConstants.MP_2007_LUNG_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, testMap.get(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_MELANOMA_GROUP_ID, testMap.get(MphConstants.MP_2007_MELANOMA_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_OTHER_SITES_GROUP_ID, testMap.get(MphConstants.MP_2007_OTHER_SITES_GROUP_ID).getId());
-        Assert.assertEquals(MphConstants.MP_2007_URINARY_GROUP_ID, testMap.get(MphConstants.MP_2007_URINARY_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_BENIGN_BRAIN_GROUP_ID, testMap.get(MphConstants.MPH_2007_BENIGN_BRAIN_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_BREAST_GROUP_ID, testMap.get(MphConstants.MPH_2007_BREAST_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_COLON_GROUP_ID, testMap.get(MphConstants.MPH_2007_COLON_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_HEAD_AND_NECK_GROUP_ID, testMap.get(MphConstants.MPH_2007_HEAD_AND_NECK_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_KIDNEY_GROUP_ID, testMap.get(MphConstants.MPH_2007_KIDNEY_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_LUNG_GROUP_ID, testMap.get(MphConstants.MPH_2007_LUNG_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_MALIGNANT_BRAIN_GROUP_ID, testMap.get(MphConstants.MPH_2007_MALIGNANT_BRAIN_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_MELANOMA_GROUP_ID, testMap.get(MphConstants.MPH_2007_MELANOMA_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_OTHER_SITES_GROUP_ID, testMap.get(MphConstants.MPH_2007_OTHER_SITES_GROUP_ID).getId());
+        Assert.assertEquals(MphConstants.MPH_2007_URINARY_GROUP_ID, testMap.get(MphConstants.MPH_2007_URINARY_GROUP_ID).getId());
     }
 
     @Test

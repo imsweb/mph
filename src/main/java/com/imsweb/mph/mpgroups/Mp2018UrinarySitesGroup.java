@@ -26,13 +26,13 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
     // C659, C669, C670-C679, C680-C689
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018UrinarySitesGroup() {
-        super(MphConstants.MP_2018_URINARY_GROUP_ID, MphConstants.MP_2018_URINARY_GROUP_NAME, "C659, C669, C670-C679, C680-C689", null, null,
+        super(MphConstants.STR_2018_AND_LATER_URINARY, MphConstants.SOLID_TUMOR_2018_URINARY, "C659, C669, C670-C679, C680-C689", null, null,
                 "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are:
         // - Separate/non-contiguous tumors in both the right AND left renal pelvis AND
         // - No other urinary sites are involved with separate/non-contiguous tumors
-        MphRule rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M3") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -58,7 +58,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M4 Abstract multiple primaries when there are:
         // - Separate/non-contiguous tumors in the right AND left ureter AND
         // - No other urinary sites are involved with separate/non-contiguous tumors
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -83,7 +83,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M5 Abstract a single primary when synchronous or simultaneous tumors are noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2 in the following sites:
         // - Bladder C67_ AND
         // - One or both ureter(s) C669
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -113,7 +113,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primariesii when an invasive tumor occurs more than 60 days after an in situ tumor.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_URINARY_GROUP_NAME, "M6");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.SOLID_TUMOR_2018_URINARY, "M6");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         rule.getNotes().add(
@@ -123,7 +123,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M7 Abstract a single primary when the patient has multiple occurrences of /2 urothelial carcinoma in the bladder. Tumors may be any combination of:
         //        - In situ urothelial carcinoma 8120/2 AND/OR
         //        - Papillary urothelial carcinoma noninvasive 8130/2 (does not include micropapillary subtype)
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -143,7 +143,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
 
         //Rule M8 Abstract multiple primaries when the patient has micropapillary urothelial carcinoma 8131/3 of the bladder AND a
         //urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -163,7 +163,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M9 Abstract a single primary when the patient has multiple invasive urothelial cell carcinomas in the bladder. All tumors are either:
         // - Multiple occurrences of urothelial or urothelial subtypes (with exception of micropapillary) OR
         // - Multiple occurrences of micropapillary
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -183,7 +183,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -217,7 +217,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary when there are urothelial carcinomas in multiple urinary organs.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M11") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -241,7 +241,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M12") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -266,7 +266,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M13") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -302,11 +302,11 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // M14- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2018_URINARY_GROUP_NAME, "M14");
+        rule = new MpRulePrimarySite(MphConstants.SOLID_TUMOR_2018_URINARY, "M14");
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.MP_2018_URINARY_GROUP_NAME, "M15") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M15") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -353,7 +353,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M16 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor AND tumors:
         // - Occur in the same urinary site OR
         // - The original tumors are multifocal/multicentric and occur in multiple urinary sites; subsequent tumor(s) are in at least one of the previously involved urinary sites
-        rule = new MpRuleInsituAfterInvasive(MphConstants.MP_2018_URINARY_GROUP_NAME, "M16");
+        rule = new MpRuleInsituAfterInvasive(MphConstants.SOLID_TUMOR_2018_URINARY, "M16");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
@@ -364,7 +364,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M17 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor AND tumors:
         // - Occur in the same urinary site OR
         // - Original tumor is multifocal/multicentric and involves multiple urinary sites; the subsequent invasive tumor(s) occur in at least one of the previously involved urinary sites
-        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.MP_2018_URINARY_GROUP_NAME, "M17");
+        rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.SOLID_TUMOR_2018_URINARY, "M17");
         rule.getExamples().add(
                 "The first presentation was multifocal/multicentric in situ tumors in multiple urinary organs; the subsequent presentation was invasive tumor in at least one of the previously involved urinary organs.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule if none of the previous rules apply.");
@@ -377,7 +377,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M18 Abstract a single primary when tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_URINARY_GROUP_NAME, "M18");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_URINARY, "M18");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add("TURB shows invasive urothelial carcinoma 8120/3 and CIS/in situ urothelial carcinoma 8120/2. Abstract a single primary.");
 

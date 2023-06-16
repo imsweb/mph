@@ -23,11 +23,11 @@ public class Mp2018KidneyGroup extends MphGroup {
     // C649
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018KidneyGroup() {
-        super(MphConstants.MP_2018_KIDNEY_GROUP_ID, MphConstants.MP_2018_KIDNEY_GROUP_NAME, "C649", null, null,
+        super(MphConstants.STR_2018_AND_LATER_KIDNEY, MphConstants.SOLID_TUMOR_2018_KIDNEY, "C649", null, null,
                 "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when multiple tumors are present in sites with ICD-O site codes that differ at the second (CXxx), third (CxXx) and/or fourth characters (CxxX).
-        MphRule rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M3") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -42,7 +42,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M4 Abstract a single primary when there are bilateral nephroblastomas (previously called Wilms tumors).
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -58,7 +58,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M5 Abstract multiple primaries when there are tumors in both the right kidney and in the left kidney.
-        rule = new MpRuleLaterality(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M5");
+        rule = new MpRuleLaterality(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M5");
         rule.setQuestion("Are there tumors in both the left and right kidney?");
         rule.setReason("Tumors in both the right kidney and in the left kidney are multiple primaries.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -66,7 +66,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M6");
+        rule = new MpRuleThreeYearsApart(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M6");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  - Urine cytology is negative");
@@ -80,7 +80,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M7 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -107,7 +107,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -175,7 +175,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
-        rule = new MphRule(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -209,7 +209,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
-        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M10");
+        rule = new MpRuleInsituAfterInvasiveSameSide(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M10");
         rule.setQuestion("Is there an in situ tumor following an invasive tumor and tumors are in the same kidney?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor and tumors are in the same kidney is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
@@ -218,7 +218,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same kidney.
-        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M11");
+        rule = new MpRuleInvasiveAfterInsituLessThan60DaysSameSide(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M11");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS.");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3.");
@@ -230,14 +230,14 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor in the same kidney.
-        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M12");
+        rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M12");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         _rules.add(rule);
 
         // Rule M13 Abstract a single primary when there are multiple tumors that do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2018_KIDNEY_GROUP_NAME, "M13");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M13");
         rule.getNotes().add("Use this rule as a last resort.  Please confirm that you have not overlooked an applicable rule.");
         rule.getExamples().add(
                 "Patient presents in 2018 with renal cell carcinoma in the right kidney.  Patient has a history of a previous renal cell carcinoma in the right kidney diagnosed in 2016.  This is a single primary because it is the same primary site and the same histology.");

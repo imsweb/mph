@@ -19,10 +19,10 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2010HematopoieticGroup extends MphGroup {
 
     public Mp2010HematopoieticGroup() {
-        super(MphConstants.MP_2010_HEMATO_GROUP_ID, MphConstants.MP_2010_HEMATO_GROUP_NAME, "C000-C809", null, "9590-9993", null, "2-3,6", "2010-9999");
+        super(MphConstants.HEMATO_2010_AND_LATER, MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "C000-C809", null, "9590-9993", null, "2-3,6", "2010-9999");
 
         // M1 
-        MphRule rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M1") {
+        MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -34,7 +34,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M2 
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M2") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -63,7 +63,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M3
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M3") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -102,7 +102,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M4
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -144,7 +144,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M5
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -185,7 +185,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M6
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -210,7 +210,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M7
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -235,7 +235,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M8
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -268,7 +268,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M9
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -300,7 +300,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M10
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -340,7 +340,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M11
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M11") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -372,7 +372,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M12
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M12") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -399,7 +399,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M13
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M13") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -429,7 +429,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M14
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M14") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -460,7 +460,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         _rules.add(rule);
 
         // M15
-        rule = new MphRule(MphConstants.MP_2010_HEMATO_GROUP_NAME, "M15") {
+        rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M15") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

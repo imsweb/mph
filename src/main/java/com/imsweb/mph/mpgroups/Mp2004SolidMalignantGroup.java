@@ -17,10 +17,10 @@ import com.imsweb.mph.internal.TempRuleResult;
 public class Mp2004SolidMalignantGroup extends MphGroup {
 
     public Mp2004SolidMalignantGroup() {
-        super(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, null, null, "8000-9589", null, "2-3,6", "0000-2006");
+        super(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_ID, MphConstants.MP_2004_SOLID_MALIGNANT, null, null, "8000-9589", null, "2-3,6", "0000-2006");
 
         // Rule 1
-        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M1") {
+        MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -34,7 +34,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 2
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M2") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -49,7 +49,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 3
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M3") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -88,7 +88,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 4
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M4") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -142,7 +142,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 5
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M5") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -196,7 +196,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule 6
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -340,7 +340,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 7
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -375,7 +375,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 8
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -399,7 +399,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 9
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M9") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -419,7 +419,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         _rules.add(rule);
 
         //Rule 10
-        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT_GROUP_NAME, "M10") {
+        rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();

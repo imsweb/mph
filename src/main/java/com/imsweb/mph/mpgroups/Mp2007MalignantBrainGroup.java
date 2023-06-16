@@ -19,11 +19,11 @@ import com.imsweb.mph.mprules.MpRulePrimarySite;
 public class Mp2007MalignantBrainGroup extends MphGroup {
 
     public Mp2007MalignantBrainGroup() {
-        super(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9993,9140", "3",
+        super(MphConstants.MPH_2007_MALIGNANT_BRAIN_GROUP_ID, MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "C700-C701,C709-C725,C728-C729,C751-C753", null, null, "9590-9993,9140", "3",
                 "2007-2017");
 
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
-        MphRule rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M4") {
+        MphRule rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M4") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 //This will never happen, since the two conditions belong to different cancer groups.
@@ -35,11 +35,11 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5- Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.
-        rule = new MpRulePrimarySite(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M5");
+        rule = new MpRulePrimarySite(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M5");
         _rules.add(rule);
 
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M6") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -64,7 +64,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M7") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -88,7 +88,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
-        rule = new MphRule(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M8") {
+        rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
@@ -110,11 +110,11 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M9- Tumors with ICD-O-3 histology codes that are different at the first (?xxx), second (x?xx) or third (xx?x) number are multiple primaries.        
-        rule = new MpRuleHistology(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M9");
+        rule = new MpRuleHistology(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M9");
         _rules.add(rule);
 
         // M10- Tumors that do not meet any of the criteria are abstracted as a single primary.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MP_2007_MALIGNANT_BRAIN_GROUP_NAME, "M10");
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M10");
         rule.getNotes().add("Multicentric brain tumors which involve different lobes of the brain that do not meet any of the above criteria are the same disease process.");
         rule.getNotes().add("Neither timing nor laterality is used to determine multiple primaries for malignant intracranial and CNS tumors.");
         rule.getExamples().add(

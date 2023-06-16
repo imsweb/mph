@@ -42,7 +42,7 @@ public class Mph2021RuleTests {
         i2.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("topography"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -50,14 +50,14 @@ public class Mph2021RuleTests {
         i2.setPrimarySite("C449");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals("M4", output.getStep());
 
         // Rule M4 Melanomas with different laterality are multiple primaries. **
@@ -74,7 +74,7 @@ public class Mph2021RuleTests {
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("lateralities"));
@@ -82,7 +82,7 @@ public class Mph2021RuleTests {
         //melanoma mid-line laterality is considered as different laterality of right or left
         i2.setLaterality("5");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("lateralities"));
@@ -90,7 +90,7 @@ public class Mph2021RuleTests {
         //if one laterality is unknown, continue to the next step
         i2.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
         //If site doesn't require laterality, skip
         i1.setPrimarySite("C440");
@@ -104,7 +104,7 @@ public class Mph2021RuleTests {
         i1.setLaterality("1");
         i2.setLaterality("2");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertTrue(output.getAppliedRules().size() > ruleCountToTest);
 
 
@@ -120,7 +120,7 @@ public class Mph2021RuleTests {
         i1.setLaterality("1");
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("Column 3"));
@@ -142,13 +142,13 @@ public class Mph2021RuleTests {
         i1.setDateOfDiagnosisMonth("1");
         i2.setDateOfDiagnosisMonth("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i1.setLaterality("9");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -156,13 +156,13 @@ public class Mph2021RuleTests {
         i1.setPrimarySite("C440");
         i2.setPrimarySite("C440");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i2.setDateOfDiagnosisMonth("3");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.MP_2021_CUTANEOUS_MELANOMA_GROUP_NAME, output.getGroupName());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());

@@ -5,6 +5,8 @@ package com.imsweb.mph;
 
 import java.util.Date;
 
+import com.imsweb.mph.MphUtils.MpResult;
+
 public interface HematoDbUtilsProvider {
 
     /**
@@ -12,7 +14,10 @@ public interface HematoDbUtilsProvider {
      * <p/>
      * Codes should have the format "9999/9".
      * <p/>
-     * If both codes are the same, true is returned (same primaries).
+     * If one of the codes or the diagnosis years is invalid, Invalid Input is returned.
+     * If one of the codes is obsolete for the diagnosis year, questionable is returned.
+     * If both codes are the same, same primary is returned (same primaries).
+     * Else multiple primaries is returned
      * <p/>
      * @param leftCode left code to compare
      * @param rightCode right code to compare
@@ -20,7 +25,7 @@ public interface HematoDbUtilsProvider {
      * @param rightYear dx year of right disease
      * @return true if the codes are same primary, false otherwise
      */
-    boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear);
+    MpResult isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear);
 
     /**
      * Checks if the second disease is in 'transform to' list of the first disease.

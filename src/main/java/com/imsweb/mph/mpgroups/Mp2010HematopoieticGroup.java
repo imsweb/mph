@@ -466,8 +466,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode(), morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
-                result.setFinalResult(
-                        MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2) ? MphUtils.MpResult.SINGLE_PRIMARY : MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2));
                 return result;
             }
         };

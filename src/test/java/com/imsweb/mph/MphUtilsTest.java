@@ -2127,6 +2127,7 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9733");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
+        //9733 is only valid from 2001 to 2009
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         i2.setDateOfDiagnosisYear("2009");
         output = _utils.computePrimaries(i1, i2);

@@ -2127,7 +2127,11 @@ public class MphUtilsTest {
         i2.setHistologyIcdO3("9733");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        i2.setDateOfDiagnosisYear("2009");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(15, output.getAppliedRules().size());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         i1.setHistologyIcdO3("9801");
         i2.setHistologyIcdO3("9837");
         i1.setDateOfDiagnosisYear("2015");

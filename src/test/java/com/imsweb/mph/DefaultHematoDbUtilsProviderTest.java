@@ -32,7 +32,8 @@ public class DefaultHematoDbUtilsProviderTest {
 
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, _provider.isSamePrimary("9738/3", "9590/3", 2011, 2022));
         Assert.assertEquals(MpResult.QUESTIONABLE, _provider.isSamePrimary("9738/3", "9590/3", 2021, 2022));
-        Assert.assertEquals(MpResult.QUESTIONABLE, _provider.isSamePrimary("9738/3", "9590/3", 2011, 2009));
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, _provider.isSamePrimary("9738/3", "9590/3", 2011, 2009));
+        Assert.assertEquals(MpResult.QUESTIONABLE, _provider.isSamePrimary("9738/3", "9590/3", 2011, 2000));
     }
 
     @Test

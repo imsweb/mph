@@ -21,6 +21,10 @@ public class HematoDbDTO {
         return year >= _startYear && year <= _endYear && morphology.equals(_morphology);
     }
 
+    public boolean validCodeForDiagnosisYear(int year) {
+        return year >= _startYear && year <= _endYear;
+    }
+
     public Short getStartYear() {
         return _startYear;
     }

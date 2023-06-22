@@ -3,6 +3,7 @@
 **Changes in version 1.29**
 
 - Renamed group IDs and names.
+- Updated HematoDB same primary function to handle obsolete codes.
 
 **Changes in version 1.28**
 

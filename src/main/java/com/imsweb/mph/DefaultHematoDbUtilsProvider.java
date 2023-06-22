@@ -16,10 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
+import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.HematoDbDTO;
 
 /**
@@ -89,23 +91,35 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     @Override
-    public boolean isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
-        int year = Math.max(leftYear, rightYear);
+    public MpResult isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
         if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
-            return false;
+            return MpResult.INVALID_INPUT;
         if (leftCode.equals(rightCode))
-            return true;
+            return MpResult.SINGLE_PRIMARY;
+
+        boolean rightCodeIsSamePrimaryForLeft = false;
         if (_samePrimaryDto.containsKey(leftCode)) {
-            for (HematoDbDTO dto : _samePrimaryDto.get(leftCode))
-                if (dto.matches(rightCode, year))
-                    return true;
+            List<HematoDbDTO> allRowsForLeftCode = _samePrimaryDto.get(leftCode);
+            List<HematoDbDTO> validRowsForLeftCode = allRowsForLeftCode.stream().filter(r -> r.validCodeForDiagnosisYear(leftYear)).collect(Collectors.toList());
+            if (validRowsForLeftCode.isEmpty())
+                return MpResult.QUESTIONABLE;
+            for (HematoDbDTO dto : validRowsForLeftCode) {
+                if (dto.matches(rightCode, leftYear)) {
+                    rightCodeIsSamePrimaryForLeft = true;
+                    break;
+                }
+            }
         }
-        if (_samePrimaryDto.containsKey(rightCode)) {
-            for (HematoDbDTO dto : _samePrimaryDto.get(rightCode))
-                if (dto.matches(leftCode, year))
-                    return true;
+        if (rightCodeIsSamePrimaryForLeft && _samePrimaryDto.containsKey(rightCode)) {
+            List<HematoDbDTO> allRowsForRightCode = _samePrimaryDto.get(rightCode);
+            List<HematoDbDTO> validRowsForRightCode = allRowsForRightCode.stream().filter(r -> r.validCodeForDiagnosisYear(rightYear)).collect(Collectors.toList());
+            if (validRowsForRightCode.isEmpty())
+                return MpResult.QUESTIONABLE;
+            for (HematoDbDTO dto : validRowsForRightCode)
+                if (dto.matches(leftCode, rightYear))
+                    return MpResult.SINGLE_PRIMARY;
         }
-        return false;
+        return MpResult.MULTIPLE_PRIMARIES;
     }
 
     @Override

@@ -1,5 +1,7 @@
 # Multiple Primary and Histology Coding Rules
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imsweb_mph&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=imsweb_mph)
+[![integration](https://github.com/imsweb/mph/workflows/integration/badge.svg)](https://github.com/imsweb/mph/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imsweb/algorithms/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imsweb/mph)
 
 This library contains the SEER Java implementations of the Multiple Primary and Histology Coding Rules.

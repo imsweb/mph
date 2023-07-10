@@ -12,4 +12,7 @@
     <Match>
         <Bug pattern="MS_EXPOSE_REP"/>
     </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
 </FindBugsFilter>

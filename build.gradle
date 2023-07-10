@@ -16,8 +16,6 @@ plugins {
 group = 'com.imsweb'
 version = file('VERSION').text
 description = 'Java implementation of the Multiple Primary and Histology Coding Rules.'
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
 println "Starting build using JDK ${Runtime.version().feature()}"
 
@@ -46,6 +44,9 @@ tasks.withType(Javadoc) {
 
 // generate javadoc and sources (required by Nexus)
 java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
     withJavadocJar()
     withSourcesJar()
 }

@@ -1266,7 +1266,6 @@ public class MphUtilsTest {
     @Test
     public void test2007Melanoma() {
 
-        /*
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
@@ -1364,7 +1363,6 @@ public class MphUtilsTest {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(6, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("criteria"));
-        */
     }
 
     @Test

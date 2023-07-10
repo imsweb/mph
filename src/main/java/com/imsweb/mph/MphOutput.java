@@ -41,7 +41,7 @@ public class MphOutput {
     }
 
     public List<MphRule> getAppliedRules() {
-        return new ArrayList<>(_appliedRules);
+        return _appliedRules;
     }
 
     public String getGroupId() {

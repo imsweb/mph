@@ -95,7 +95,7 @@ public abstract class MphGroup {
     }
 
     public List<MphRule> getRules() {
-        return new ArrayList<>(_rules);
+        return _rules;
     }
 
     public boolean isApplicable(String primarySite, String histology, String behavior, int year) {

@@ -54,11 +54,11 @@ public abstract class MphRule {
     }
 
     public List<String> getNotes() {
-        return _notes;
+        return new ArrayList<>(_notes);
     }
 
     public List<String> getExamples() {
-        return _examples;
+        return new ArrayList<>(_examples);
     }
 
     public abstract TempRuleResult apply(MphInput i1, MphInput i2);

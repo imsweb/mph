@@ -103,7 +103,7 @@ public final class MphUtils {
     public static synchronized MphUtils getInstance() {
         if (!isInitialized())
             initialize(new DefaultHematoDbUtilsProvider());
-        return _INSTANCE;
+        return new MphUtils(_INSTANCE._provider);
     }
 
     /**

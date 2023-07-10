@@ -162,8 +162,8 @@ public class MphConstants {
     //Histologies
     public static final List<String> ANAPLASTIC_CARCINOMA = Collections.singletonList("8021/3");
 
-    public static final List<String> OTHER_THYROID_HISTOLOGIES = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3", "8345/3", "8290/3", "8260/3", "8344/3", "8350/3", "8343/3", "8340/3",
-            "8343/2", "8337/3");
+    public static final List<String> OTHER_THYROID_HISTOLOGIES = Collections.unmodifiableList(Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3", "8345/3", "8290/3", "8260/3", "8344/3", "8350/3", "8343/3", "8340/3",
+            "8343/2", "8337/3"));
     public static final List<String> CARCINOMA_NOS = GroupUtility.expandList("8010");
     public static final List<String> CARCINOMA_SPECIFIC = GroupUtility.expandList(
             "8000-8005,8011-8015,8020-8022,8030-8035,8041-8046,8050-8052,8070-8078,8080-8084,8090-8098,8102,8110,8120-8124,8130-8131,8140-8148,8150-8157,8160-8162,8170-8175,"
@@ -177,7 +177,7 @@ public class MphConstants {
     public static final String INFLAMMATORY_CARCINOMA = "8530";
     public static final List<String> ADENOCARCINOMA_NOS = GroupUtility.expandList("8140");
 
-    public static final List<String> ADENOCARCINOMA_PROSTATE_SUBTYPES = Arrays.asList("8140", "8572/3", "8500", "8201/3", "8260/3", "8230/3", "8480/3", "8490/3");
+    public static final List<String> ADENOCARCINOMA_PROSTATE_SUBTYPES = Collections.unmodifiableList(Arrays.asList("8140", "8572/3", "8500", "8201/3", "8260/3", "8230/3", "8480/3", "8490/3"));
     public static final List<String> ADENOCARCINOMA_SPECIFIC = GroupUtility.expandList("8000-8005,8010-8011,8020-8022,8046,8141-8148,8154,8160-8162,8190,"
             + "8200-8201,8210-8211,8214-8215,8220-8221,8230-8231,8244-8245,8250-8255,8260-8263,8270-8272,8280-8281,8290,8300,8310,8312-8320,8322-8323,8330-8333,8335,8337,8350,"
             + "8370,8380-8384,8390,8400-8403,8407-8409,8410,8413,8420,8440-8442,8450-8453,8460-8462,8470-8473,8480-8482,8490,8500-8504,8507-8508,8510,8512-8514,8520-8525,8530,"
@@ -189,8 +189,8 @@ public class MphConstants {
     public static final List<String> SARCOMA_NOS = GroupUtility.expandList("8800");
     public static final List<String> SARCOMA_SPECIFIC = GroupUtility.expandList("8000-8005,8801-8806,8810-8815,8830,8832-8833,8840,8842,8850-8855,8857-8858,8890-8891,"
             + "8894-8896,8900-8902,8910,8912,8920-8921,8930-8931,8933,8935-8936,8990-8991,9040-9044,9180-9243,9260-9261");
-    public static final List<String> FOLLICULAR = Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3");
-    public static final List<String> PAPILLARY = Arrays.asList("8260/3", "8344/3", "8350/3", "8343/3", "8340/3");
+    public static final List<String> FOLLICULAR = Collections.unmodifiableList(Arrays.asList("8330/3", "8339/3", "8335/3", "8331/3", "8332/3"));
+    public static final List<String> PAPILLARY = Collections.unmodifiableList(Arrays.asList("8260/3", "8344/3", "8350/3", "8343/3", "8340/3"));
 
     public static final List<String> FOLLICULAR_NOS = Collections.singletonList("8330/3");
     public static final List<String> PAPILLARY_NOS = Collections.singletonList("8260/3");
@@ -390,7 +390,7 @@ public class MphConstants {
 
 
 
-    public static final List<String> BREAST_2018_TABLE2 = Arrays.asList("8500", "8520", "8522", "8540", "8519/2", "8523", "8524", "8575", "8543", "8541/3", "8255/3");
+    public static final List<String> BREAST_2018_TABLE2 = Collections.unmodifiableList(Arrays.asList("8500", "8520", "8522", "8540", "8519/2", "8523", "8524", "8575", "8543", "8541/3", "8255/3"));
 
 
 
@@ -705,7 +705,7 @@ public class MphConstants {
 
     public static final List<String> LUNG_2018_8041_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList("8041", "8249", "8045", "8013", "8240"));
 
-    public static final List<String> LUNG_2018_TABLE2 = Arrays.asList("8560", "8033", "8562", "8013", "8254/3", "8045", "8072", "8073", "8070", "8074", "8255/3");
+    public static final List<String> LUNG_2018_TABLE2 = Collections.unmodifiableList(Arrays.asList("8560", "8033", "8562", "8013", "8254/3", "8045", "8072", "8073", "8070", "8074", "8255/3"));
 
     public static final Map<String, String> LUNG_2018_TABLE3_SUBTYPES;
 
@@ -1386,25 +1386,24 @@ public class MphConstants {
         CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3",
-            "8723/3",
-            "8770/3", "8721/3", "8772/3", "8773/3", "8774/3");
+    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Collections.unmodifiableList(Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3",
+            "8723/3", "8770/3", "8721/3", "8772/3", "8773/3", "8774/3"));
 
 
-    public static final List<String> TESTIS_SITES = Arrays.asList("C620", "C621", "C629");
-    public static final List<String> ESOPHAGUS_SITES = Arrays.asList("C150", "C151", "C152", "C153", "C154", "C155", "C158", "C159");
-    public static final List<String> STOMACH_SITES = Arrays.asList("C160", "C161", "C162", "C163", "C164", "C165", "C166", "C168", "C169");
-    public static final List<String> INTESTINE_SITES = Arrays.asList("C170", "C171", "C172", "C173", "C178", "C179", "C241");
-    public static final List<String> ANUS_SITES = Arrays.asList("C210", "C211", "C212", "C218");
-    public static final List<String> LIVER_SITES = Arrays.asList("C220", "C221");
-    public static final List<String> BLADDER_SITES = Arrays.asList("C239", "C240", "C248", "C249");
-    public static final List<String> PANCREAS_SITES = Arrays.asList("C250", "C251", "C252", "C253", "C254", "C257", "C258", "C259");
-    public static final List<String> UTERINE_CORPUS_SITES = Arrays.asList("C540", "C541", "C542", "C543", "C548", "C549", "C559");
-    public static final List<String> UTERINE_CERVIX_SITES = Arrays.asList("C530", "C531", "C538", "C539");
-    public static final List<String> VULVA_SITES = Arrays.asList("C510", "C511", "C512", "C518", "C519");
-    public static final List<String> SOFT_TISSUES_SITES = Arrays.asList("C490", "C491", "C492", "C493", "C494", "C495", "C496", "C498", "C499");
+    public static final List<String> TESTIS_SITES = Collections.unmodifiableList(Arrays.asList("C620", "C621", "C629"));
+    public static final List<String> ESOPHAGUS_SITES = Collections.unmodifiableList(Arrays.asList("C150", "C151", "C152", "C153", "C154", "C155", "C158", "C159"));
+    public static final List<String> STOMACH_SITES = Collections.unmodifiableList(Arrays.asList("C160", "C161", "C162", "C163", "C164", "C165", "C166", "C168", "C169"));
+    public static final List<String> INTESTINE_SITES = Collections.unmodifiableList(Arrays.asList("C170", "C171", "C172", "C173", "C178", "C179", "C241"));
+    public static final List<String> ANUS_SITES = Collections.unmodifiableList(Arrays.asList("C210", "C211", "C212", "C218"));
+    public static final List<String> LIVER_SITES = Collections.unmodifiableList(Arrays.asList("C220", "C221"));
+    public static final List<String> BLADDER_SITES = Collections.unmodifiableList(Arrays.asList("C239", "C240", "C248", "C249"));
+    public static final List<String> PANCREAS_SITES = Collections.unmodifiableList(Arrays.asList("C250", "C251", "C252", "C253", "C254", "C257", "C258", "C259"));
+    public static final List<String> UTERINE_CORPUS_SITES = Collections.unmodifiableList(Arrays.asList("C540", "C541", "C542", "C543", "C548", "C549", "C559"));
+    public static final List<String> UTERINE_CERVIX_SITES = Collections.unmodifiableList(Arrays.asList("C530", "C531", "C538", "C539"));
+    public static final List<String> VULVA_SITES = Collections.unmodifiableList(Arrays.asList("C510", "C511", "C512", "C518", "C519"));
+    public static final List<String> SOFT_TISSUES_SITES = Collections.unmodifiableList(Arrays.asList("C490", "C491", "C492", "C493", "C494", "C495", "C496", "C498", "C499"));
 
-    public static final List<String> BONE_SITES = Arrays.asList("C400", "C401", "C402", "C403", "C408", "C409", "C412", "C413", "C414", "C418", "C419");
+    public static final List<String> BONE_SITES = Collections.unmodifiableList(Arrays.asList("C400", "C401", "C402", "C403", "C408", "C409", "C412", "C413", "C414", "C418", "C419"));
     public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
 
     static {

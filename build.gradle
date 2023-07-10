@@ -4,13 +4,13 @@ plugins {
     id 'java-library'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.github.spotbugs' version '5.0.12'
+    id 'com.github.spotbugs' version '5.0.14'
     id 'maven-publish'
     id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '1.1.0' // publish to Maven Central
-    id "com.github.ben-manes.versions" version '0.43.0' // check for out-of-date dependencies (run manually)
-    id 'org.sonatype.gradle.plugins.scan' version '2.5.5' // scan for vulnerabilities
-    id "org.sonarqube" version "3.5.0.2730" // sonarQube analysis
+    id "com.github.ben-manes.versions" version '0.47.0' // check for out-of-date dependencies (run manually)
+    id 'org.sonatype.gradle.plugins.scan' version '2.6.0' // scan for vulnerabilities
+    id "org.sonarqube" version "4.2.1.3168" // sonarQube analysis
 }
 
 group = 'com.imsweb'
@@ -30,7 +30,7 @@ dependencies {
     implementation 'com.opencsv:opencsv:5.7.1'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'com.imsweb:seerapi-client-java:5.0'
+    testImplementation 'com.imsweb:seerapi-client-java:5.3'
 }
 
 // enforce UTF-8, display the compilation warnings
@@ -67,7 +67,7 @@ jar {
 
 // checkstyle plugin settings
 checkstyle {
-    ignoreFailures = true
+    ignoreFailures = false
     configFile = project(':').file('config/checkstyle/checkstyle.xml')
     configProperties = ['suppressionFile': project(':').file('config/checkstyle/suppressions.xml')]
 }
@@ -104,28 +104,21 @@ spotbugsTest {
 
 sonarqube {
     properties {
-        property 'sonar.projectName', 'Library-MPH'
-        property 'sonar.projectKey', 'Library---MPH'
-        property 'sonar.organization', 'imsweb'
-        property 'sonar.host.url', project.ext.get('sonar.host.url')
+        property "sonar.projectKey", "imsweb_mph"
+        property "sonar.organization", "imsweb"
+        property "sonar.host.url", "https://sonarcloud.io"
         property 'sonar.exclusions', '**/lab/*'
         property 'sonar.coverage.exclusions', '**/lab/*'
     }
 }
 
-if (!project.hasProperty('branch_name') || (project.ext.get('branch_name') != 'master' && project.ext.get('branch_name') != 'main'))
-    gradle.startParameter.excludedTaskNames += 'sonarqube'
-
-
-
 // Nexus vulnerability scan (https://github.com/sonatype-nexus-community/scan-gradle-plugin)
 ossIndexAudit {
     outputFormat = 'DEPENDENCY_GRAPH'
     printBanner = false
+    excludeCoordinates = ['com.fasterxml.jackson.core:jackson-core:2.14.2']
 }
-
-if (project.hasProperty('branch_name') && (project.ext.get('branch_name') == 'master' || project.ext.get('branch_name') == 'main'))
-    check.dependsOn 'ossIndexAudit'
+check.dependsOn 'ossIndexAudit'
 
 // needed to deploy to Maven Central
 publishing {
@@ -211,8 +204,6 @@ if (version.endsWith('-SNAPSHOT')) {
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '7.5.1'
+    gradleVersion = '8.2'
     distributionType = Wrapper.DistributionType.ALL
 }
-
-

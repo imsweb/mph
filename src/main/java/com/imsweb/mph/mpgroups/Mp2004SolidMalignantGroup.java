@@ -40,7 +40,8 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 return new TempRuleResult();
             }
-        };        rule.setReason("A single lesion composed of multiple (different) histologic types is a single primary even if it crosses site boundaries.");
+        };
+        rule.setReason("A single lesion composed of multiple (different) histologic types is a single primary even if it crosses site boundaries.");
         rule.getExamples().add(" A single lesion containing both embryonal cell carcinoma and teratoma is a single primary and would be coded to 9081/3, mixed embryonal carcinoma and teratoma.");
         rule.getExamples().add(
                 "A single lesion of the liver composed of neuroendocrine carcinoma (8246/3) and hepatocellular carcinoma (8170/3) is a single primary and would be coded to the more specific histology, neuroendocrine carcinoma 8246/3.");

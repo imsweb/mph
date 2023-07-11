@@ -25,9 +25,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                //TODO
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setReason("Abstract a single primary when minimal information is available (such as a death certificate only [DCO] case or a pathology-report-only case).");
@@ -245,7 +243,6 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -278,7 +275,6 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -350,7 +346,6 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);

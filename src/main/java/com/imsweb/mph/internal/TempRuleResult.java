@@ -13,9 +13,6 @@ public class TempRuleResult {
 
     private String _message;
 
-    public TempRuleResult() {
-    }
-
     public MphUtils.MpResult getFinalResult() {
         return _finalResult;
     }

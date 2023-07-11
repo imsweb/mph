@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.imsweb.mph.MphConstants;
@@ -21,6 +22,7 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 
+@SuppressWarnings("java:S3776")
 public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     // Head and Neck
@@ -43,30 +45,17 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String s1 = i1.getPrimarySite();
                 String s2 = i2.getPrimarySite();
-                if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if (GroupUtility.differentCategory(s1, s2, MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.SOFT_PALATE)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.UVULA)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.SOFT_PALATE, MphConstants.UVULA)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS)) ||
+                if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP) || GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM)
+                        || GroupUtility.differentCategory(s1, s2, MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR) || GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE,
+                        MphConstants.SOFT_PALATE) || GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.UVULA) || GroupUtility.differentCategory(s1, s2,
+                        MphConstants.SOFT_PALATE, MphConstants.UVULA) || (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.FRONTAL_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.SPHENOID_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if (GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND, MphConstants.SUBLINGUAL_GLAND))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if (MphConstants.GLOTTIS_AND_LARYNGEAL_SITES.containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLA, MphConstants.MANDIBLE))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                else if ((GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD)) ||
+                        (GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)) || GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND,
+                        MphConstants.SUBLINGUAL_GLAND) || (new HashSet<>(MphConstants.GLOTTIS_AND_LARYNGEAL_SITES).containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2)) || GroupUtility.differentCategory(s1, s2,
+                        MphConstants.MAXILLA, MphConstants.MANDIBLE) || (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

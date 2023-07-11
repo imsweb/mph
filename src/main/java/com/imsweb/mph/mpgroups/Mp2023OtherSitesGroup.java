@@ -22,6 +22,7 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 
+@SuppressWarnings("java:S3776")
 public class Mp2023OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia

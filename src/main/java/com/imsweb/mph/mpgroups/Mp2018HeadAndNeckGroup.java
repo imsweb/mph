@@ -22,8 +22,15 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 
+import static com.imsweb.mph.MphConstants.AND_CONNECTOR;
+import static com.imsweb.mph.MphConstants.HIERARCHICAL_RULES;
+import static com.imsweb.mph.MphConstants.HISTOLOGY_IS_IRRELEVANT;
+import static com.imsweb.mph.MphConstants.TIMING_IS_IRRELEVANT;
+import static com.imsweb.mph.MphConstants.USE_FOR_MULTIPLE_RULES;
+
 @SuppressWarnings("java:S3776")
-public class Mp2018HeadAndNeckGroup extends MphGroup {
+public class Mp2018HeadAndNeckGroup extends MphGroup {    
+    
 
     // Head and Neck
     // C000-C148, C300-C339, C410, C411, C442, C479
@@ -82,17 +89,17 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 "Submandibular gland C080 AND sublingual gland C081, \n" +
                 "Upper gum C030 AND lower gum C031, \n" +
                 "Upper lip C000 or C003 AND lower lip C001 or C004, are multiple primaries.");
-        rule.getNotes().add("Use this rule only for multiple tumors.");
-        rule.getNotes().add("Timing is irrelevant.");
-        rule.getNotes().add("Histology is irrelevant.");
+        rule.getNotes().add(USE_FOR_MULTIPLE_RULES);
+        rule.getNotes().add(TIMING_IS_IRRELEVANT);
+        rule.getNotes().add(HISTOLOGY_IS_IRRELEVANT);
         rule.getNotes().add("These primary sites differ at the fourth character of the site code CxxX. Use this rule ONLY for the primary sites listed.");
         _rules.add(rule);
 
         // Rule M4 Abstract multiple primaries when separate/non-contiguous tumors are present in sites with ICD-O site codes that differ at the second CXxx, and/or third characters CxXx.
         rule = new MpRulePrimarySite(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M4");
-        rule.getNotes().add("Use this rule only for multiple tumors.");
-        rule.getNotes().add("Timing is irrelevant.");
-        rule.getNotes().add("Histology is irrelevant.");
+        rule.getNotes().add(USE_FOR_MULTIPLE_RULES);
+        rule.getNotes().add(TIMING_IS_IRRELEVANT);
+        rule.getNotes().add(HISTOLOGY_IS_IRRELEVANT);
         _rules.add(rule);
 
         // Rule M5 Abstract multiple primaries when there are separate/non-contiguous tumors on both the right side and the left side of a paired site.
@@ -114,9 +121,9 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         rule.setQuestion("Are there separate, non-contiguous tumors on both the right side and the left side of a paired site?");
         rule.setReason("Separate, non-contiguous tumors on the right side and the left side of a paired site are multiple primaries.");
         rule.getNotes().add("See Table 10 for a list of paired sites.");
-        rule.getNotes().add("Use this rule only for multiple tumors.");
-        rule.getNotes().add("Timing is irrelevant.");
-        rule.getNotes().add("Histology is irrelevant.");
+        rule.getNotes().add(USE_FOR_MULTIPLE_RULES);
+        rule.getNotes().add(TIMING_IS_IRRELEVANT);
+        rule.getNotes().add(HISTOLOGY_IS_IRRELEVANT);
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
@@ -171,7 +178,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                             boolean bothNotInTable = false;
                             if (row1 == null && row2 == null) {
                                 bothNotInTable = true;
-                                histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                                histologyNotInTable = "Both " + icd1 + AND_CONNECTOR + icd2;
                             }
                             else
                                 histologyNotInTable = row1 == null ? icd1 : icd2;
@@ -224,10 +231,10 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     String h2 = i2.getHistology();
                     String icd2 = i2.getIcdCode();
                     //Special case for 8690 and 8693 of Table 9
-                    if (MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES.containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
+                    if (new HashSet<>(MphConstants.HEAD_AND_NECK_2018_TABLE9_SITES).containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && GroupUtility.differentCategory(h1, h2,
                             Collections.singletonList("8690"), Arrays.asList("8690", "8693"))) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("Manual review is required for " + h1 + " and " + h2 + " of Table 9.");
+                        result.setMessage("Manual review is required for " + h1 + AND_CONNECTOR + h2 + " of Table 9.");
                         return result;
                     }
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
@@ -245,14 +252,14 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
         // Rule M9 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor in the same primary site.
         rule = new MpRuleInsituAfterInvasive(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M9");
-        rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
+        rule.getNotes().add(HIERARCHICAL_RULES);
         rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Tables 1-9 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary (the invasive) when an invasive tumor is diagnosed less than or equal to 60 days after an in situ tumor in the same primary site.
         rule = new MpRuleInvasiveAfterInsituLessThan60Days(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M10");
-        rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
+        rule.getNotes().add(HIERARCHICAL_RULES);
         rule.getNotes().add("The tumors may be an NOS and a subtype/variant of that NOS");
         rule.getNotes().add("When the case has been abstracted, change behavior code on original abstract from /2 to /3. Do not change date of diagnosis.");
         rule.getNotes().add("If the case has already been submitted to the central registry, report all changes.");
@@ -263,7 +270,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
 
         // Rule M11 Abstract multiple primaries when an invasive tumor occurs more than 60 days after an in situ tumor.
         rule = new MpRuleInvasiveAfterInsituGreaterThan60Days(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M11");
-        rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
+        rule.getNotes().add(HIERARCHICAL_RULES);
         rule.getNotes().add("Abstract both the invasive and in situ tumors.");
         rule.getNotes().add("Abstract as multiple primaries even if physician states the invasive tumor is disease recurrence or progression.");
         rule.getNotes().add(
@@ -297,7 +304,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                             boolean bothNotInTable = false;
                             if (row1 == null && row2 == null) {
                                 bothNotInTable = true;
-                                histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                                histologyNotInTable = "Both " + icd1 + AND_CONNECTOR + icd2;
                             }
                             else
                                 histologyNotInTable = row1 == null ? icd1 : icd2;

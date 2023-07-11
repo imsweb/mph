@@ -21,6 +21,9 @@ import com.imsweb.mph.MphInput;
 
 public class GroupUtility {
 
+    private GroupUtility() {
+    }
+
     /**
      * Validates the provided input's primary site, histology, behavior and diagnosis year. These properties are required to determine the cancer group and used at least in one of the rules in each group.
      */
@@ -255,6 +258,7 @@ public class GroupUtility {
     /**
      * checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
      */
+    @SuppressWarnings("java:S3776")
     public static int verifyYearsApart(MphInput input1, MphInput input2, int yearsApart) {
 
         DateFieldParts date = new DateFieldParts(input1, input2);

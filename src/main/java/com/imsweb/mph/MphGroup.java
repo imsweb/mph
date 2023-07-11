@@ -42,7 +42,7 @@ public abstract class MphGroup {
 
     private List<Range<Integer>> _yearIncRanges;
 
-    public MphGroup(String id, String name, String siteInclusions, String siteExclusions, String histInclusions, String histExclusions, String behavInclusions, String yearInclusions) {
+    protected MphGroup(String id, String name, String siteInclusions, String siteExclusions, String histInclusions, String histExclusions, String behavInclusions, String yearInclusions) {
         _id = id;
         _name = name;
         _siteInclusions = siteInclusions;
@@ -106,9 +106,11 @@ public abstract class MphGroup {
         if (!GroupUtility.isContained(_behavIncRanges, Integer.parseInt(behavior)) || !GroupUtility.isContained(_yearIncRanges, year))
             return false;
 
-        boolean siteOk, histOk = false;
+        boolean siteOk;
+        boolean histOk = false;
 
-        Integer site = Integer.parseInt(primarySite.substring(1)), hist = Integer.parseInt(histology);
+        Integer site = Integer.parseInt(primarySite.substring(1));
+        Integer hist = Integer.parseInt(histology);
 
         // check site
         if (_siteIncRanges != null && !_siteIncRanges.isEmpty())

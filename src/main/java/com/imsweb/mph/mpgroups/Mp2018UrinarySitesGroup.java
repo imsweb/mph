@@ -137,7 +137,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 "Are there multiple occurrences of noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2 and/or Papillary urothelial carcinoma noninvasive 8130/2 tumors in the bladder?");
         rule.setReason(
                 "Multiple occurrences of noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2 and/or Papillary urothelial carcinoma noninvasive 8130/2 tumors in the bladder is a single primary.");
-        rule.getNotes().add("Timing is irrelevant.");
+        rule.getNotes().add(MphConstants.TIMING_IS_IRRELEVANT);
         rule.getNotes().add("Abstract only one in situ urothelial bladder tumor per the patient’s lifetime.");
         _rules.add(rule);
 

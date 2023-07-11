@@ -14,6 +14,8 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
+//S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
+//S6541 - Methods should not perform too many tasks (aka Brain method) => some of the rules are complicated by definition
 @SuppressWarnings({"java:S6541", "java:S3776"})
 public class Mp2004SolidMalignantGroup extends MphGroup {
 
@@ -24,7 +26,6 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                //TODO
                 return new TempRuleResult();
             }
         };
@@ -37,7 +38,6 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                //TODO
                 return new TempRuleResult();
             }
         };        rule.setReason("A single lesion composed of multiple (different) histologic types is a single primary even if it crosses site boundaries.");

@@ -28,6 +28,7 @@ import static com.imsweb.mph.MphConstants.HISTOLOGY_IS_IRRELEVANT;
 import static com.imsweb.mph.MphConstants.TIMING_IS_IRRELEVANT;
 import static com.imsweb.mph.MphConstants.USE_FOR_MULTIPLE_RULES;
 
+//S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
 @SuppressWarnings("java:S3776")
 public class Mp2018HeadAndNeckGroup extends MphGroup {    
     

@@ -258,6 +258,7 @@ public class GroupUtility {
     /**
      * checks if the two tumors are diagnosed "x" years apart. It returns Yes (1), No (0) or Unknown (-1) (If there is no enough information)
      */
+    //S3776 - Cognitive Complexity of methods should not be too high => Handling unknown dates made this a little bit complicated
     @SuppressWarnings("java:S3776")
     public static int verifyYearsApart(MphInput input1, MphInput input2, int yearsApart) {
 

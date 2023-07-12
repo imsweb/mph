@@ -16,7 +16,7 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleLaterality;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2018LungGroup extends MphGroup {
 
@@ -33,7 +33,7 @@ public class Mp2018LungGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M4 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.SOLID_TUMOR_2018_LUNG, "M4");
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2018_LUNG, "M4", 3);
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence in the same lung on follow-up.");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  -  Tumor biomarkers are NED");

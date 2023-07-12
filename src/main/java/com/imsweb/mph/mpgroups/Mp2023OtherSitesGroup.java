@@ -19,8 +19,12 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleKaposiSarcoma;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleRetinoblastoma;
+import com.imsweb.mph.mprules.MpRuleThyroidFollicularPapillary;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 //S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
 @SuppressWarnings("java:S3776")
@@ -90,56 +94,17 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is the diagnosis retinoblastoma (unilateral or bilateral)?");
-        rule.setReason("Retinoblastoma is always a single primary (unilateral or bilateral).");
+        rule = new MpRuleRetinoblastoma(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M5");
         _rules.add(rule);
 
         //M6- Kaposi sarcoma (any site or sites) is always a single primary.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M6") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.KAPOSI_SARCOMA.equals(i1.getHistology()) && MphConstants.KAPOSI_SARCOMA.equals(i2.getHistology()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is the diagnosis Kaposi sarcoma (any site or sites)?");
-        rule.setReason("Kaposi sarcoma (any site or sites) is always a single primary.");
+        rule = new MpRuleKaposiSarcoma(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M6");
         _rules.add(rule);
 
         //M7- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M7") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR);
-                follicularAndPapillary.addAll(MphConstants.PAPILLARY);
-                String site1 = i1.getPrimarySite();
-                String site2 = i2.getPrimarySite();
-                String icd1 = i1.getIcdCode();
-                String icd2 = i2.getIcdCode();
-                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(icd1, icd2))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
+        Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR);
+        follicularAndPapillary.addAll(MphConstants.PAPILLARY);
+        rule = new MpRuleThyroidFollicularPapillary(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M7", follicularAndPapillary);
         rule.setQuestion("Are there follicular and papillary tumors of the thyroid within 60 days of diagnosis?");
         rule.setReason("Abstract a single primary when follicular and papillary tumors in the thyroid are diagnosed within 60 days and tumors are: \n"
                 + "Papillary thyroid carcinoma, NOS and follicular carcinoma, NOS OR\n"
@@ -245,20 +210,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M12 - Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or recurrence.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M12") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                }
-                else if (MphConstants.DATE_VERIFY_APART == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M12", 1);
         rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
         rule.setReason("Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or recurrence.");
         _rules.add(rule);

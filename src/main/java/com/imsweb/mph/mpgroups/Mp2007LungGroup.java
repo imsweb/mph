@@ -15,7 +15,7 @@ import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007LungGroup extends MphGroup {
 
@@ -93,7 +93,7 @@ public class Mp2007LungGroup extends MphGroup {
         _rules.add(rule);
 
         // M8- Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MpRuleThreeYearsApart(MphConstants.MPH_2007_2017_LUNG, "M8");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2017_LUNG, "M8", 3);
         _rules.add(rule);
 
         // M9- An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.

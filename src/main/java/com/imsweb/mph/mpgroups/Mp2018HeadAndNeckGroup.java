@@ -15,12 +15,12 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
-import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 import static com.imsweb.mph.MphConstants.AND_CONNECTOR;
 import static com.imsweb.mph.MphConstants.HIERARCHICAL_RULES;
@@ -30,8 +30,7 @@ import static com.imsweb.mph.MphConstants.USE_FOR_MULTIPLE_RULES;
 
 //S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
 @SuppressWarnings("java:S3776")
-public class Mp2018HeadAndNeckGroup extends MphGroup {    
-    
+public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     // Head and Neck
     // C000-C148, C300-C339, C410, C411, C442, C479
@@ -62,7 +61,8 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                         (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)) || GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND,
-                        MphConstants.SUBLINGUAL_GLAND) || (new HashSet<>(MphConstants.GLOTTIS_AND_LARYNGEAL_SITES).containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2)) || GroupUtility.differentCategory(s1, s2,
+                        MphConstants.SUBLINGUAL_GLAND) || (new HashSet<>(MphConstants.GLOTTIS_AND_LARYNGEAL_SITES).containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2))
+                        || GroupUtility.differentCategory(s1, s2,
                         MphConstants.MAXILLA, MphConstants.MANDIBLE) || (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)) ||
                         (GroupUtility.differentCategory(s1, s2, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)))
@@ -128,7 +128,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the original diagnosis or last recurrence.
-        rule = new MpRuleFiveYearsApart(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M6");
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "M6", 5);
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Scopes are NED");
         rule.getNotes().add("  - Scans are NED");

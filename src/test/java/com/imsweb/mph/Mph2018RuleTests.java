@@ -1537,7 +1537,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("five"));
+        Assert.assertTrue(output.getReason().contains("5"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply
         i2.setDateOfDiagnosisYear("2015");
@@ -2255,7 +2255,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("greater than three (3) years apart"));
+        Assert.assertTrue(output.getReason().contains("3"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setDateOfDiagnosisYear("2017");
@@ -2549,7 +2549,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("three (3) years apart"));
+        Assert.assertTrue(output.getReason().contains("3"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i2.setDateOfDiagnosisYear("2017");

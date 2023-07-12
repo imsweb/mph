@@ -18,8 +18,12 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleKaposiSarcoma;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleRetinoblastoma;
+import com.imsweb.mph.mprules.MpRuleThyroidFollicularPapillary;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007OtherSitesGroup extends MphGroup {
 
@@ -46,56 +50,17 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M4- Retinoblastoma is always a single primary (unilateral or bilateral). (9510, 9511, 9512, 9513)
-        rule = new MphRule(MphConstants.MPH_2007_2022_OTHER_SITES, "M4") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.RETINO_BLASTOMA.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is the diagnosis retinoblastoma (unilateral or bilateral)?");
-        rule.setReason("Retinoblastoma is always a single primary (unilateral or bilateral).");
+        rule = new MpRuleRetinoblastoma(MphConstants.MPH_2007_2022_OTHER_SITES, "M4");
         _rules.add(rule);
 
         //M5- Kaposi sarcoma (any site or sites) is always a single primary.
-        rule = new MphRule(MphConstants.MPH_2007_2022_OTHER_SITES, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.KAPOSI_SARCOMA.equals(i1.getHistology()) && MphConstants.KAPOSI_SARCOMA.equals(i2.getHistology()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is the diagnosis Kaposi sarcoma (any site or sites)?");
-        rule.setReason("Kaposi sarcoma (any site or sites) is always a single primary.");
+        rule = new MpRuleKaposiSarcoma(MphConstants.MPH_2007_2022_OTHER_SITES, "M5");
         _rules.add(rule);
 
         //M6- Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.
-        rule = new MphRule(MphConstants.MPH_2007_2022_OTHER_SITES, "M6") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR_NOS);
-                follicularAndPapillary.addAll(MphConstants.PAPILLARY_NOS);
-                String site1 = i1.getPrimarySite();
-                String site2 = i2.getPrimarySite();
-                String icd1 = i1.getIcdCode();
-                String icd2 = i2.getIcdCode();
-                if (MphConstants.THYROID.equals(site1) && MphConstants.THYROID.equals(site2) && follicularAndPapillary.containsAll(Arrays.asList(icd1, icd2))) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
+        Set<String> follicularAndPapillary = new HashSet<>(MphConstants.FOLLICULAR_NOS);
+        follicularAndPapillary.addAll(MphConstants.PAPILLARY_NOS);
+        rule = new MpRuleThyroidFollicularPapillary(MphConstants.MPH_2007_2022_OTHER_SITES, "M6", follicularAndPapillary);
         rule.setQuestion("Are there follicular and papillary tumors of the thyroid within 60 days of diagnosis?");
         rule.setReason("Follicular and papillary tumors in the thyroid within 60 days of diagnosis are a single primary.");
         _rules.add(rule);
@@ -180,22 +145,7 @@ public class Mp2007OtherSitesGroup extends MphGroup {
         _rules.add(rule);
 
         //M10 - Tumors diagnosed more than one (1) year apart are multiple primaries.
-        rule = new MphRule(MphConstants.MPH_2007_2022_OTHER_SITES, "M10") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                }
-                else if (MphConstants.DATE_VERIFY_APART == diff)
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
-        rule.setReason("Tumors diagnosed more than one (1) year apart are multiple primaries.");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2022_OTHER_SITES, "M10", 1);
         _rules.add(rule);
 
         //M11 - Tumors in sites with ICD-O-3 topography codes that are different at the second (C?xx) and/or third (Cx?x) character are multiple primaries.

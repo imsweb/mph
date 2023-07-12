@@ -450,7 +450,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(2, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("five"));
+        Assert.assertTrue(output.getReason().contains("5"));
 
         //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
         i1.setPrimarySite("C500");
@@ -828,7 +828,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(7, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("five"));
+        Assert.assertTrue(output.getReason().contains("5"));
         i2.setDateOfDiagnosisYear("2010");
         //Questionable at M9 with potential multiple and ended up as single at M12 -- QUESTIONABLE
         output = _utils.computePrimaries(i1, i2);
@@ -946,7 +946,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(4, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("three"));
+        Assert.assertTrue(output.getReason().contains("3"));
 
         // M7 - An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.
         i1.setHistologyIcdO3("8060");
@@ -1512,7 +1512,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(8, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("one"));
+        Assert.assertTrue(output.getReason().contains("1"));
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisYear("2014"); //not enough information
@@ -1709,7 +1709,7 @@ public class MphUtilsTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(5, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("three"));
+        Assert.assertTrue(output.getReason().contains("3"));
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)
         // Renal pelvis (C659), Ureter(C669), Bladder (C670-C679), Urethra /prostatic urethra (C680)

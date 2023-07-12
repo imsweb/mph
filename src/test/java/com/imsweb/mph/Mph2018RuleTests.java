@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import com.imsweb.mph.MphUtils.MpResult;
 
+//Suppressing sonar warnings for method complexity
+@SuppressWarnings("java:S5961")
 public class Mph2018RuleTests {
 
     private MphUtils _utils = MphUtils.getInstance();

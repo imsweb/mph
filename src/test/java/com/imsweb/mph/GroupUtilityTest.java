@@ -219,6 +219,8 @@ public class GroupUtilityTest {
         Assert.assertTrue(GroupUtility.differentCategory("9001", "8750", GroupUtility.expandList("8001-8750"), GroupUtility.expandList("9001-9750")));
     }
 
+    //Suppressing sonar warnings for method complexity
+    @SuppressWarnings("java:S5961")
     @Test
     public void testVerifyDaysApart() {
 

@@ -35,7 +35,7 @@ public class MpRuleFollowing extends MphRule {
                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
             }
-            else if ((MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && icd1.equals(_laterMorph)) || (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && icd1.equals(_laterMorph)))
+            else if ((MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && icd1.equals(_laterMorph)) || (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && icd2.equals(_laterMorph)))
                 result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
         }
         return result;

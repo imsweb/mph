@@ -13,6 +13,7 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
+import com.imsweb.mph.mprules.MpRuleLateralityPairedSites;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 
 public class Mp2007BenignBrainGroup extends MphGroup {
@@ -47,22 +48,8 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M5 - Tumors on both sides (left and right) of a paired site (Table 1) are multiple primaries.
-        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C700", "C710", "C711", "C712", "C713", "C714", "C722", "C723", "C724", "C725");
-                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        List<String> pairedSites = Arrays.asList("C700", "C710", "C711", "C712", "C713", "C714", "C722", "C723", "C724", "C725");
+        rule = new MpRuleLateralityPairedSites(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M5", pairedSites);
         rule.setQuestion("Are there tumors on both sides (left and right) of a paired site?");
         rule.setReason("Tumors on both sides (left and right) of a paired site are multiple primaries.");
         _rules.add(rule);

@@ -41,7 +41,8 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                     return result;
                 }
                 //find the group for both histologies
-                String group1 = null, group2 = null;
+                String group1 = null;
+                String group2 = null;
                 for (String[] row : _2001_HEMATOPOIETIC_GROUPS) {
                     if (group1 == null && hist1.compareTo(row[1]) >= 0 && hist1.compareTo(row[2]) <= 0)
                         group1 = row[0];
@@ -58,7 +59,8 @@ public class Mp2001HematopoieticGroup extends MphGroup {
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                         return result;
                     }
-                    String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group2 : group1, secondDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group1 : group2;
+                    String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group2 : group1;
+                    String secondDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? group1 : group2;
                     for (String[] row : _2001_HEMATOPOIETIC_GROUP_PAIRS)
                         if ((firstDx.equals(row[0]) && secondDx.equals(row[1])) || (MphConstants.COMPARE_DX_EQUAL == laterDx && secondDx.equals(row[0]) && firstDx.equals(row[1]))) {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

@@ -14,6 +14,9 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
+//S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
+//S6541 - Methods should not perform too many tasks (aka Brain method) => some of the rules are complicated by definition
+@SuppressWarnings({"java:S6541", "java:S3776"})
 public class Mp2004SolidMalignantGroup extends MphGroup {
 
     public Mp2004SolidMalignantGroup() {
@@ -23,9 +26,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                //TODO
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setReason("A single lesion composed of one histologic type is a single primary, even if the lesion crosses site boundaries.");
@@ -37,9 +38,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M2") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                //TODO
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setReason("A single lesion composed of multiple (different) histologic types is a single primary even if it crosses site boundaries.");
@@ -236,13 +235,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                     MphConstants.PAPILLARY_CARCINOMA.equals(hist2) || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
                                             .contains(hist2)))
                                 result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST)) {
-                                if ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
-                                        || MphConstants.LOBULAR_CARCINOMA.contains(hist2)))
-                                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                                else if ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
-                                        MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
-                                    result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                            else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST) && ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
+                                        || MphConstants.LOBULAR_CARCINOMA.contains(hist2)) || ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
+                                        MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))))
+                                    {result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                             }
                             if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart)
                                 result.setMessageUnknownLatAndDate(this.getStep(), this.getGroupName());
@@ -273,13 +269,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                 MphConstants.PAPILLARY_CARCINOMA.equals(hist2) || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
                                         .contains(hist2)))
                             result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST)) {
-                            if ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
-                                    || MphConstants.LOBULAR_CARCINOMA.contains(hist2)))
-                                result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            else if ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
-                                    MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
-                                result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST) && ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
+                                    || MphConstants.LOBULAR_CARCINOMA.contains(hist2)) || ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
+                                    MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))))
+                                {result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
@@ -305,13 +298,10 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
                                 MphConstants.PAPILLARY_CARCINOMA.equals(hist2) || MphConstants.TRANSITIONAL_CELL_CARCINOMA.contains(hist2) || MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA
                                         .contains(hist2)))
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST)) {
-                            if ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
-                                    || MphConstants.LOBULAR_CARCINOMA.contains(hist2)))
-                                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                            else if ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
-                                    MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))
-                                result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        else if (site1.startsWith(MphConstants.BREAST) && site2.startsWith(MphConstants.BREAST) && ((MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.LOBULAR_CARCINOMA.contains(hist1)) && (MphConstants.DUCT_CARCINOMA.contains(hist2)
+                                    || MphConstants.LOBULAR_CARCINOMA.contains(hist2)) || ((MphConstants.PAGET_DISEASE.contains(hist1) || MphConstants.DUCT_CARCINOMA.contains(hist1) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist1)) && (
+                                    MphConstants.PAGET_DISEASE.contains(hist2) || MphConstants.DUCT_CARCINOMA.contains(hist2) || MphConstants.INTRADUCTAL_CARCINOMA.contains(hist2)))))
+                                {result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         }
                     }
                 }

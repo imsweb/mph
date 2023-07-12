@@ -13,6 +13,18 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MphConstants {
 
+    private MphConstants() {
+    }
+
+    public static final String USE_FOR_MULTIPLE_RULES = "Use this rule only for multiple tumors.";
+    public static final String TIMING_IS_IRRELEVANT = "Timing is irrelevant.";
+    public static final String HISTOLOGY_IS_IRRELEVANT = "Histology is irrelevant.";
+    public static final String HIERARCHICAL_RULES = "The rules are hierarchical. Only use this rule when none of the previous rules apply.";
+    public static final String AND_CONNECTOR = " and ";
+    public static final String TRANSFORMATION_NOTE = "Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.";
+    public static final String HODGKIN_NOTE = "For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
+            + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3";
+
     //Compare dx date constants
     public static final int COMPARE_DX_UNKNOWN = -1;
     public static final int COMPARE_DX_EQUAL = 0;

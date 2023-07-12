@@ -5,6 +5,7 @@ package com.imsweb.mph.mpgroups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.imsweb.mph.MphConstants;
@@ -95,7 +96,7 @@ public class Mp2007BreastGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> lobular = GroupUtility.expandList("8520"); //TODO if lobular of KY is correct use the constant in MphConstants
+                List<String> lobular = Collections.singletonList("8520");
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), lobular, intraductalOrDuct))

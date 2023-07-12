@@ -22,7 +22,7 @@ public abstract class MphRule {
 
     private List<String> _examples;
 
-    public MphRule(String groupName, String step) {
+    protected MphRule(String groupName, String step) {
         _groupName = groupName;
         _step = step;
         _notes = new ArrayList<>();

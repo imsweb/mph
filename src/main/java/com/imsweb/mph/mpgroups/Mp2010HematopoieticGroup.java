@@ -16,6 +16,11 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 
+import static com.imsweb.mph.MphConstants.HODGKIN_NOTE;
+import static com.imsweb.mph.MphConstants.TRANSFORMATION_NOTE;
+
+//S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
+@SuppressWarnings("java:S3776")
 public class Mp2010HematopoieticGroup extends MphGroup {
 
     public Mp2010HematopoieticGroup() {
@@ -25,9 +30,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M1") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                //TODO
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setReason("Abstract a single primary when minimal information is available (such as a death certificate only [DCO] case or a pathology-report-only case).");
@@ -125,8 +128,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         };
         rule.setReason("Abstract a single primary when two or more types of non-Hodgkin lymphoma are simultaneously present in the same anatomic location(s), such "
                 + "as the same lymph node or lymph node region(s), the same organ(s), and/or the same tissue(s)");
-        rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+        rule.getNotes().add(HODGKIN_NOTE);
         rule.getNotes().add("Use Rule M15 for simultaneous occurrences of two or more cutaneous lymphomas. Do not use this rule for cutaneous lymphomas. Simultaneous "
                 + "occurrences of two or more cutaneous lymphomas, other than an NOS and more specific, are extremely rare. If there are simultaneous cutaneous "
                 + "lymphomas, DO NOT use this rule; proceed to rule M15 (use Multiple Primaries Calculator)");
@@ -168,8 +170,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         };
         rule.setReason("Abstract a single primary when both Hodgkin and non-Hodgkin lymphoma are simultaneously present in the same anatomic location(s), such as "
                 + "the same lymph node or same lymph node region(s), the same organ(s), and/or the same tissue(s).");
-        rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+        rule.getNotes().add(HODGKIN_NOTE);
         rule.getNotes().add("Do not query the Heme DB Multiple Primaries Calculator in this situation");
         rule.getNotes().add("When the neoplasm is in an early stage, the involved lymph node(s) will be in the same region as defined by ICD-O-3 codes. See Appendix C for help "
                 + "identifying lymph node names, chains, regions and codes.");
@@ -201,8 +202,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         };
         rule.setReason("Abstract as multiple primaries when Hodgkin lymphoma is diagnosed in one anatomic location and non-Hodgkin lymphoma is diagnosed in "
                 + "another anatomic location.");
-        rule.getNotes().add("For the purpose of using the rules, a non-Hodgkin lymphoma is any lymphoma (including the leukemia/lymphomas) not stated to be Hodgkin "
-                + "lymphoma, NOS or a type of Hodgkin lymphoma.\n - Hodgkin lymphomas are: 9650/-9653/3, 9655/3, 9659/3, 9663/3");
+        rule.getNotes().add(HODGKIN_NOTE);
         rule.getExamples().add("Patient diagnosed with HL in the cervical lymph nodes and with NHL in the GI tract. Abstract as multiple primaries.");
         rule.getExamples().add("Hodgkin lymphoma in a mediastinal mass and non-Hodgkin lymphoma in the tonsil. Abstract as multiple primaries.");
         rule.getExamples().add("NHL in a right cervical node and HL in a left cervical node. Abstract as multiple primaries. Left and right node chains are separate regions. See "
@@ -213,9 +213,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
                 //This rule is skipped by the automated process
-                return result;
+                return new TempRuleResult();
             }
         };
         rule.setReason("Abstract as a single primary when a more specific histology is diagnosed after an NOS ONLY when the Heme DB Multiple Primaries Calculator "
@@ -241,11 +240,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -261,7 +260,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 + "days AND there is documentation of only one positive biopsy (bone marrow biopsy, lymph node biopsy, or tissue biopsy).");
         rule.getNotes().add("When these diagnoses happen within 21 days, it is most likely that one diagnosis was provisional and the biopsy identified the correct diagnosis. "
                 + "Abstract the acute neoplasm.");
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
         rule.getExamples().add("Clinical workup shows plasmacytoma (9731/3). Lytic lesions also seen on clinical workup. Bone marrow biopsy done which shows multiple myeloma. "
                 + "Plasmacytoma transforms to multiple myeloma. Code the multiple myeloma (9732/3) since this is the acute neoplasm and there is only one bone marrow "
                 + "biopsy.");
@@ -274,11 +273,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -295,7 +294,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 + "either the chronic or the acute neoplasm. ");
         rule.getNotes().add("The two diagnoses are likely the result of an ongoing diagnostic work-up. The later diagnosis is usually based on all of the test results and correlated "
                 + "with any clinical information.");
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
 
         _rules.add(rule);
 
@@ -306,7 +305,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     if (GroupUtility.differentCategory(morph1, morph2, Collections.singletonList("9732/3"), Arrays.asList("9731/3", "9734/3"))) {
@@ -333,7 +333,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.getNotes().add("The presence of multiple plasmacytomas is diagnostic of multiple myeloma, see Hematopoietic Database, 9732/3.");
         rule.getNotes().add("This is a change from the pre-2010 rules. Use the Heme DB Multiple Primaries Calculator to determine multiple primaries when a transformation "
                 + "from a chronic to an acute neoplasm occurs.");
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
         rule.getExamples().add("Patient was diagnosed with MDS, unclassifiable in 2010. The patient presents in 2013 with a diagnosis of acute myeloid leukemia (AML) (9861/3). The "
                 + "transformation paragraph in the Heme DB says MDS (chronic neoplasm) transforms to AML (acute neoplasm). Because the chronic neoplasm (MDS) "
                 + "and the acute neoplasm (AML) are diagnosed more than 21 days apart, abstract the MDS and the AML (9861/3) as multiple primaries");
@@ -346,11 +346,11 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    //TODO, implement this correctly if we find a way to determine whether there is a documentation for biopsy or not programmatically
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -366,7 +366,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 + "documentation of two bone marrow examinations, lymph node biopsies, or tissue biopsies: one confirming the chronic neoplasm and another "
                 + "confirming the acute neoplasm.");
 
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
         rule.getExamples().add("Vertebral biopsy on 2/13/2013 positive for plasmacytoma and 3/2/2013 bone marrow biopsy was positive for multiple myeloma. Biopsies and diagnoses "
                 + "were less than 21 days apart. Code as two primaries, solitary plasmacytoma of bone (9731/3) and plasma cell myeloma/multiple myeloma (9732/3)");
         _rules.add(rule);
@@ -378,7 +378,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
@@ -393,7 +394,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.getNotes().add("When these diagnoses happen within 21 days, it is most likely that the first diagnosis of acute neoplasm was a provisional diagnosis.");
         rule.getNotes().add("When the subsequent diagnosis occurs more than 21 days after the original diagnosis of acute neoplasm, it is important to follow-back to obtain information "
                 + "on treatment or a subsequent bone marrow biopsy that negates the diagnosis of acute neoplasm");
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
         rule.getExamples().add("3/16/2013 biopsy of cervical nodes positive for diffuse large B-cell lymphoma (DLBCL) (9680/3). 4/18/2013 bone marrow shows follicular lymphoma "
                 + "(9690/3). No treatment given between the diagnoses of acute neoplasm (DLBCL) and chronic (follicular). Abstract one primary, DLBCL (9680/3).");
         _rules.add(rule);
@@ -406,7 +407,8 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
 
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
                 if (isTransformation(morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
@@ -420,7 +422,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         rule.getNotes().add("Only abstract as multiple primaries when the patient has been treated for the acute neoplasm.");
         rule.getNotes().add("Apply this rule when treatment for the acute neoplasm is given, even when all planned treatment is not completed.");
         rule.getNotes().add("The rules regarding first course of treatment are not the same for Solid Tumors and Hematopoietic. Do not apply the Note 2 to Solid Tumors.");
-        rule.getNotes().add("Transformations to (acute neoplasms) and Transformations from (chronic neoplasms) are defined for each applicable histology in the database.");
+        rule.getNotes().add(TRANSFORMATION_NOTE);
         rule.getExamples().add("Patient was diagnosed in 2009 with AML, NOS (9861/3). The patient was treated with chemotherapy and a subsequent stem cell transplant. On "
                 + "2/25/2013 a bone marrow biopsy was positive for myelodysplastic syndrome. Abstract a second primary with the histology MDS (9989/3).");
         rule.getExamples().add("Patient diagnosed with AML (9861/3). Plan of treatment chemotherapy. If remission achieved, followed by bone marrow transplant. After chemotherapy, "
@@ -464,8 +466,10 @@ public class Mp2010HematopoieticGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                String morph1 = i1.getIcdCode(), morph2 = i2.getIcdCode();
-                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear()), year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
+                String morph1 = i1.getIcdCode();
+                String morph2 = i2.getIcdCode();
+                int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
+                int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 result.setFinalResult(MphUtils.getInstance().getHematoDbUtilsProvider().isSamePrimary(morph1, morph2, year1, year2));
                 return result;
             }

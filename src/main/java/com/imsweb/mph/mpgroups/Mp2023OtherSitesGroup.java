@@ -22,6 +22,8 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 
+//S3776 - Cognitive Complexity of methods should not be too high => some of the rules are complicated by definition
+@SuppressWarnings("java:S3776")
 public class Mp2023OtherSitesGroup extends MphGroup {
 
     //Excludes Head and Neck, Colon, Lung, Melanoma of Skin, Breast, Kidney, Renal Pelvis, Ureter, Bladder, Brain, Lymphoma and Leukemia

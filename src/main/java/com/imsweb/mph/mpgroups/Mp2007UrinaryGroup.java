@@ -17,7 +17,9 @@ import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
+import com.imsweb.mph.mprules.MpRuleRenalPelvis;
+import com.imsweb.mph.mprules.MpRuleUreter;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007UrinaryGroup extends MphGroup {
 
@@ -25,42 +27,14 @@ public class Mp2007UrinaryGroup extends MphGroup {
         super(MphConstants.MPH_2007_URINARY_GROUP_ID, MphConstants.MPH_2007_2017_URINARY, "C659, C669, C670-C679, C680-C689", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries. (C659) 
-        MphRule rule = new MphRule(MphConstants.MPH_2007_2017_URINARY, "M3") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        MphRule rule = new MpRuleRenalPelvis(MphConstants.MPH_2007_2017_URINARY, "M3");
         rule.setQuestion("Are there tumors in both the right renal pelvis and the left renal pelvis and no other urinary sites are involved?");
         rule.setReason("When no other urinary sites are involved, tumor(s) in the right renal pelvis AND tumor(s) in the left renal pelvis are multiple primaries.");
         rule.getNotes().add("Use this rule and abstract as a multiple primary unless documented to be metastatic.");
         _rules.add(rule);
 
         // M4 - When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries. (C669) 
-        rule = new MphRule(MphConstants.MPH_2007_2017_URINARY, "M4") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        rule = new MpRuleUreter(MphConstants.MPH_2007_2017_URINARY, "M4");
         rule.setQuestion("Are there tumors in both the right ureter and the left ureter and no other urinary sites are involved?");
         rule.setReason("When no other urinary sites are involved, tumor(s) in both the right ureter AND tumor(s) in the left ureter are multiple primaries.");
         rule.getNotes().add("Use this rule and abstract as a multiple primary unless documented to be metastatic.");
@@ -96,7 +70,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         _rules.add(rule);
 
         // M7 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MpRuleThreeYearsApart(MphConstants.MPH_2007_2017_URINARY, "M7");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2017_URINARY, "M7", 3);
         _rules.add(rule);
 
         // M8 - Urothelial tumors in two or more of the following sites are a single primary* (See Table 1 of pdf)

@@ -80,38 +80,35 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 String s1 = i1.getPrimarySite();
                 String s2 = i2.getPrimarySite();
 
-                // - Any lobe(s) of the brain C710-C719 AND any other part of CNS
-                if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Cauda equina C721 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Cerebral meninges C700 AND spinal meninges C701, Cerebral meninges C700 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Any cranial nerve(s) C722-C725 AND any other part of the CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(
+                //Any lobe(s) of the brain C710-C719 AND any other part of CNS
+                boolean lobesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
+                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1));
+                // - Cauda equina C721 AND any other part of CNS
+                boolean caudaEquinaAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2))
+                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1));
+                // - Cerebral meninges C700 AND spinal meninges C701, Cerebral meninges C700 AND any other part of CNS
+                boolean celebralMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
+                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1));
+                // - Any cranial nerve(s) C722-C725 AND any other part of the CNS
+                boolean cranialAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Meninges of cranial nerves C709 AND any other part of the CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1) && !GroupUtility.isSiteContained(
+                        MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1));
+                // - Meninges of cranial nerves C709 AND any other part of the CNS
+                boolean meningesOfCranialAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1) && !GroupUtility.isSiteContained(
                         MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2))
                         || (GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1)))
+                        MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1));
+                // -Spinal cord C720 AND any other part of CNS
+                boolean spinalCordAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2))
+                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1));
+                // - Spinal meninges C701 AND any other part of CNS
+                boolean spinalMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
+                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1));
+
+                if (lobesAndOtherPart || caudaEquinaAndOtherPart || celebralMeningesAndOtherPart || cranialAndOtherPart || meningesOfCranialAndOtherPart || spinalCordAndOtherPart || spinalMeningesAndOtherPart)
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // -Spinal cord C720 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Spinal meninges C701 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+
                 return result;
             }
         };

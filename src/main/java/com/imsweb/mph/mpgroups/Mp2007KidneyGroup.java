@@ -16,7 +16,7 @@ import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007KidneyGroup extends MphGroup {
 
@@ -63,7 +63,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - Tumors diagnosed more than three (3) years apart are multiple primaries.
-        rule = new MpRuleThreeYearsApart(MphConstants.MPH_2007_2017_KIDNEY, "M6");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2017_KIDNEY, "M6", 3);
         _rules.add(rule);
 
         // M7 - An invasive tumor following an in situ tumor more than 60 days after diagnosis are multiple primaries.

@@ -10,18 +10,21 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
-public class MpRuleFiveYearsApart extends MphRule {
+public class MpRuleYearsApart extends MphRule {
 
-    public MpRuleFiveYearsApart(String groupName, String step) {
+    private int _year = 0;
+
+    public MpRuleYearsApart(String groupName, String step, int year) {
         super(groupName, step);
-        setQuestion("Are there tumors diagnosed more than five (5) years apart?");
-        setReason("Tumors diagnosed more than five (5) years apart are multiple primaries.");
+        _year = year;
+        setQuestion("Are there tumors diagnosed more than " + year + " years apart?");
+        setReason("Tumors diagnosed more than " + year + " years apart are multiple primaries.");
     }
 
     @Override
     public TempRuleResult apply(MphInput i1, MphInput i2) {
         TempRuleResult result = new TempRuleResult();
-        int diff = GroupUtility.verifyYearsApart(i1, i2, 5);
+        int diff = GroupUtility.verifyYearsApart(i1, i2, _year);
         if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
             result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
             result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());

@@ -12,11 +12,11 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
-import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007HeadAndNeckGroup extends MphGroup {
 
@@ -97,7 +97,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         _rules.add(rule);
 
         //M9- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        rule = new MpRuleFiveYearsApart(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M9");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M9", 5);
         _rules.add(rule);
 
         //M10 - 

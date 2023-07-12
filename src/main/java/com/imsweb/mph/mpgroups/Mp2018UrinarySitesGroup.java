@@ -19,6 +19,8 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleRenalPelvis;
+import com.imsweb.mph.mprules.MpRuleUreter;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
 
@@ -32,21 +34,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M3 Abstract multiple primaries when there are:
         // - Separate/non-contiguous tumors in both the right AND left renal pelvis AND
         // - No other urinary sites are involved with separate/non-contiguous tumors
-        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M3") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.RENAL_PELVIS.equals(i1.getPrimarySite()) && MphConstants.RENAL_PELVIS.equals(i2.getPrimarySite())) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        MphRule rule = new MpRuleRenalPelvis(MphConstants.SOLID_TUMOR_2018_URINARY, "M3");
         rule.setQuestion(
                 "Are there separate/non-contiguous tumors in both the right renal pelvis and the left renal pelvis and no other urinary sites are involved with separate/non-contiguous tumors?");
         rule.setReason(
@@ -58,21 +46,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M4 Abstract multiple primaries when there are:
         // - Separate/non-contiguous tumors in the right AND left ureter AND
         // - No other urinary sites are involved with separate/non-contiguous tumors
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M4") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        rule = new MpRuleUreter(MphConstants.SOLID_TUMOR_2018_URINARY, "M4");
         rule.setQuestion("Are there separate/non-contiguous tumors in both the right ureter and the left ureter and no other urinary sites are involved with separate/non-contiguous tumors?");
         rule.setReason(
                 "When no other urinary sites are involved with separate/non-contiguous tumors, and there are separate/non-contiguous tumors in both the right ureter AND tumor(s) in the left ureter are multiple primaries.");

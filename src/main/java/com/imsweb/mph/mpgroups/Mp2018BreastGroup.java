@@ -13,13 +13,13 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
-import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasiveSameSide;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60DaysSameSide;
 import com.imsweb.mph.mprules.MpRuleLaterality;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2018BreastGroup extends MphGroup {
 
@@ -40,7 +40,7 @@ public class Mp2018BreastGroup extends MphGroup {
 
         // Rule M5 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than five years after the
         // original diagnosis or last recurrence.
-        rule = new MpRuleFiveYearsApart(MphConstants.SOLID_TUMOR_2018_BREAST, "M5");
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2018_BREAST, "M5", 5);
         rule.getNotes().add("The rules are hierarchical. This rule only applies when there is a subsequent breast tumor.");
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Mammograms are NED");

@@ -15,7 +15,7 @@ import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60DaysSameSide;
 import com.imsweb.mph.mprules.MpRuleLaterality;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
-import com.imsweb.mph.mprules.MpRuleThreeYearsApart;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2018KidneyGroup extends MphGroup {
 
@@ -66,7 +66,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
-        rule = new MpRuleThreeYearsApart(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M6");
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M6", 3);
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Scans are NED");
         rule.getNotes().add("  - Urine cytology is negative");

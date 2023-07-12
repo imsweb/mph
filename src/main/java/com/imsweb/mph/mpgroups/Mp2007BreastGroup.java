@@ -14,11 +14,11 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
-import com.imsweb.mph.mprules.MpRuleFiveYearsApart;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2007BreastGroup extends MphGroup {
 
@@ -30,7 +30,7 @@ public class Mp2007BreastGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Tumors diagnosed more than five (5) years apart are multiple primaries.
-        rule = new MpRuleFiveYearsApart(MphConstants.MPH_2007_2017_BREAST, "M5");
+        rule = new MpRuleYearsApart(MphConstants.MPH_2007_2017_BREAST, "M5", 5);
         _rules.add(rule);
 
         //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)

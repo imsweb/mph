@@ -12,6 +12,7 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleFollowing;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleLateralityPairedSites;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
@@ -55,50 +56,14 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         _rules.add(rule);
 
         // M6 - An atypical choroid plexus papilloma (9390/1) following a choroid plexus papilloma, NOS (9390/0) is a single primary.
-        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M6") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.PAPILLOMA.equals(i1.getHistology()) && MphConstants.PAPILLOMA.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN
-                        .equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
-                    int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed later
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
+        rule = new MpRuleFollowing(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M6", "9390/1", "9390/0");
         rule.setQuestion("Is there an atypicalchoroid plexuspapilloma (9390/1) following achoroid plexus papilloma,NOS (9390/0)?");
         rule.setReason("An atypical choroid plexus papilloma (9390/1) following a choroid plexus papilloma, NOS (9390/0) is a single primary.");
         rule.getNotes().add("Do not code progression of disease as multiple primaries.");
         _rules.add(rule);
 
         // M7 - A neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0) is a single primary.
-        rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M7") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                if (MphConstants.NEUROFIBROMATOSIS.equals(i1.getHistology()) && MphConstants.NEUROFIBROMATOSIS.equals(i2.getHistology()) && ((MphConstants.UNCERTAIN.equals(i1.getBehavior())
-                        && MphConstants.BENIGN.equals(i2.getBehavior())) || (MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior())))) {
-                    int laterDiagnosedTumor = GroupUtility.compareDxDate(i1, i2);
-                    if (MphConstants.COMPARE_DX_UNKNOWN == laterDiagnosedTumor) { //If impossible to decide which tumor is diagnosed first
-                        result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.COMPARE_DX_FIRST_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i1.getBehavior()) && MphConstants.BENIGN.equals(i2.getBehavior()))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                    else if (MphConstants.COMPARE_DX_SECOND_LATEST == laterDiagnosedTumor && MphConstants.UNCERTAIN.equals(i2.getBehavior()) && MphConstants.BENIGN.equals(i1.getBehavior()))
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
+        rule = new MpRuleFollowing(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M7", "9540/1", "9540/0");
         rule.setQuestion("Is there a neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0)?");
         rule.setReason("A neurofibromatosis, NOS (9540/1) following a neurofibroma, NOS (9540/0) is a single primary.");
         rule.getNotes().add("Do not code progression of disease as multiple primaries.");

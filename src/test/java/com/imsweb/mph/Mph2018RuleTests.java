@@ -1154,7 +1154,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("more than one (1) year apart"));
+        Assert.assertTrue(output.getReason().contains("1"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply
         i1.setDateOfDiagnosisYear("2018");

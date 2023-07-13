@@ -10,6 +10,7 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasiveSameSide;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60DaysSameSide;
@@ -120,16 +121,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
                 else if (row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
@@ -175,34 +167,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M9") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
-                String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (!row1.equals(row2))
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
+        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M9", MphConstants.KIDNEY_2018_TABLE1_ROWS);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

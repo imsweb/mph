@@ -175,16 +175,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                         //if the two histologies are same, skip this rule even if the histology is not in the table
                         if (!h1.equals(h2)) {
                             result.setFinalResult(MpResult.QUESTIONABLE);
-                            String histologyNotInTable;
-                            boolean bothNotInTable = false;
-                            if (row1 == null && row2 == null) {
-                                bothNotInTable = true;
-                                histologyNotInTable = "Both " + icd1 + AND_CONNECTOR + icd2;
-                            }
-                            else
-                                histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
+                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                         }
                         return result;
                     }
@@ -301,16 +292,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                             result.setFinalResult(MpResult.SINGLE_PRIMARY);
                         else {
                             result.setFinalResult(MpResult.QUESTIONABLE);
-                            String histologyNotInTable;
-                            boolean bothNotInTable = false;
-                            if (row1 == null && row2 == null) {
-                                bothNotInTable = true;
-                                histologyNotInTable = "Both " + icd1 + AND_CONNECTOR + icd2;
-                            }
-                            else
-                                histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
+                            result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                         }
                     }
                     else if (row1.contains(row2) || row2.contains(row1))

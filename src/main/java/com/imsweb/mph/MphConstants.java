@@ -230,7 +230,6 @@ public class MphConstants {
     public static final List<String> MYELOID_LEUKEMIA = GroupUtility.expandList("9840,9861,9865-9867,9869-9874,9891,9895-9898,9910-9911,9931");
     public static final List<String> RETINO_BLASTOMA = GroupUtility.expandList("9510-9513");
     public static final String WILMS = "8960";
-    public static final String PAPILLOMA = "9390";
     public static final String NEUROFIBROMATOSIS = "9540";
     public static final List<String> SPECIFIC_RENAL_CELL_HISTOLOGIES = GroupUtility.expandList("8260,8310,8316-8320,8510,8959");
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";

@@ -14,6 +14,7 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
+import com.imsweb.mph.mprules.MpRuleLateralityPairedSites;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 import com.imsweb.mph.mprules.MpRuleYearsApart;
@@ -24,22 +25,8 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         super(MphConstants.MPH_2007_HEAD_AND_NECK_GROUP_ID, MphConstants.MPH_2007_2017_HEAD_AND_NECK, "C000-C148, C300-C329", null, null, "9590-9993, 9140", "2-3,6", "2007-2017");
 
         // M3 - Tumors on the right side and the left side of a paired site are multiple primaries.  
-        MphRule rule = new MphRule(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M3") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
-                if (GroupUtility.isPairedSites(i1.getPrimarySite(), i2.getPrimarySite(), pairedSites)) {
-                    if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownLaterality(this.getStep(), this.getGroupName());
-                    }
-                    else if (GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                }
-                return result;
-            }
-        };
+        List<String> pairedSites = Arrays.asList("C079", "C080,C081", "C090,C091,C098,C099", "C300", "C310,C312", "C301");
+        MphRule rule = new MpRuleLateralityPairedSites(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M3", pairedSites);
         rule.setQuestion("Are there tumors in both the left and right sides of a paired site?");
         rule.setReason("Tumors on the right side and the left side of a paired site are multiple primaries.");
         _rules.add(rule);

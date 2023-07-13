@@ -44,8 +44,8 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                     result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     return result;
                 }
-                String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i2.getHistology() : i1.getHistology(), secondDx =
-                        MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i1.getHistology() : i2.getHistology();
+                String firstDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i2.getHistology() : i1.getHistology();
+                String secondDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i1.getHistology() : i2.getHistology();
                 for (String[] row : _HEMATOPOIETIC_1998)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
                             (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(

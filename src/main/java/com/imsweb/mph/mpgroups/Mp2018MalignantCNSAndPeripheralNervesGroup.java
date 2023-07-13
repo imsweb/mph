@@ -12,6 +12,7 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleCNS;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
@@ -131,80 +132,11 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - Cerebral meninges C700 AND any other part of CNS
         // - Any one of the cranial nerves C722-C725 AND any other part of the CNS
         // - Any two or more of the cranial nerves
-        //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
+        // - C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
         // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // - Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M8") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String s1 = i1.getPrimarySite();
-                String s2 = i2.getPrimarySite();
-
-                // - Any lobe of the brain C710-C719 AND any other part of CNS
-                if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Cauda equina C721 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Cerebral meninges C700 AND spinal meninges C701, Cerebral meninges C700 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                    // - Any one of the cranial nerves C722-C725 AND any other part of the CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Any two or more of the cranial nerves
-                    //    C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS
-                else if (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s2) && !s1.equals(s2))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s2) && !GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-
-                    // - Spinal cord C720 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                    // - Spinal meninges C701 AND any other part of CNS
-                else if ((GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
-                        || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1)))
-                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
-        rule.setQuestion("Are multiple tumors present in the following sites:\n" +
-                "Any lobe of the brain C710-C719 AND any other part of CNS,\n" +
-                "Cauda equina C721 AND any other part of CNS,\n" +
-                "Cerebral meninges C700 AND spinal meninges C701,\n" +
-                "Cerebral meninges C700 AND any other part of CNS,\n" +
-                "Any of the cranial nerves C722-C725 AND any other part of the CNS,\n" +
-                "Any two or more of the cranial nerves: C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS,\n" +
-                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS,\n" +
-                "Spinal cord C720 AND any other part of CNS,\n" +
-                "Spinal meninges C701 AND any other part of CNS?");
-        rule.setReason("Multiple tumors present in the following sites:\n" +
-                "Any lobe of the brain C710-C719 AND any other part of CNS,\n" +
-                "Cauda equina C721 AND any other part of CNS,\n" +
-                "Cerebral meninges C700 AND spinal meninges C701,\n" +
-                "Cerebral meninges C700 AND any other part of CNS,\n" +
-                "Any of the cranial nerves C722-C725 AND any other part of the CNS,\n" +
-                "Any two or more of the cranial nerves: C722 Olfactory, C723 Optic, C724 Acoustic, C725 Cranial nerves NOS,\n" +
-                "Meninges of cranial or peripheral nerves C709 AND any other part of the CNS,\n" +
-                "Spinal cord C720 AND any other part of CNS,\n" +
-                "Spinal meninges C701 AND any other part of CNS,\n" +
-                "are multiple primaries.");
+        rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M8", true);
         _rules.add(rule);
 
         // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.

@@ -13,7 +13,9 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleCNS;
+import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
+import com.imsweb.mph.mprules.MpRuleSameRowInTable;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
@@ -167,35 +169,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M10") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
-                String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (row1.equals(row2))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
-
-                return result;
-            }
-        };
+        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M10", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
@@ -205,35 +179,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M11") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
-                String row2 = MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (!row1.equals(row2))
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-
-                return result;
-            }
-        };
+        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M11", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

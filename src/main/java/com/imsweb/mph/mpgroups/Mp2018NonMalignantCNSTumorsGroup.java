@@ -158,16 +158,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
                 else if (row1.equals(row2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -208,16 +199,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

@@ -14,12 +14,14 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
 import com.imsweb.mph.mprules.MpRuleRenalPelvis;
+import com.imsweb.mph.mprules.MpRuleSameRowInTable;
 import com.imsweb.mph.mprules.MpRuleUreter;
 
 public class Mp2018UrinarySitesGroup extends MphGroup {
@@ -240,34 +242,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M13") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
-                String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (!row1.equals(row2))
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
+        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M13",  MphConstants.URINARY_2018_TABLE2_ROWS);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
@@ -280,41 +255,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M15") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h1) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h1) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd1);
-                String row2 = MphConstants.URINARY_2018_TABLE2_ROWS.containsKey(h2) ? MphConstants.URINARY_2018_TABLE2_ROWS.get(h2) : MphConstants.URINARY_2018_TABLE2_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (row1.equals(row2)) {
-                    int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
-                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == sixtyDaysApart)
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
-                }
-                return result;
-            }
-        };
+        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M15", MphConstants.URINARY_2018_TABLE2_ROWS, true);
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 2 in the Equivalent Terms and Definitions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

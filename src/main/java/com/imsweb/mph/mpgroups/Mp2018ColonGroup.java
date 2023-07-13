@@ -9,11 +9,14 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasive;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituLessThan60Days;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRulePrimarySite;
+import com.imsweb.mph.mprules.MpRuleSameRowInTable;
+import com.imsweb.mph.mprules.MpRuleYearsApart;
 
 public class Mp2018ColonGroup extends MphGroup {
 
@@ -93,34 +96,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_COLON, "M6") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
-                String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (!row1.equals(row2))
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
+        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_COLON, "M6", MphConstants.COLON_2018_TABLE1_ROWS);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
@@ -224,22 +200,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than one year after the original diagnosis or last recurrence.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_COLON, "M10") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-                int diff = GroupUtility.verifyYearsApart(i1, i2, 1);
-                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                    result.setPotentialResult(MpResult.MULTIPLE_PRIMARIES);
-                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". There is not enough diagnosis date information.");
-                }
-                else if (MphConstants.DATE_VERIFY_APART == diff)
-                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
-                return result;
-            }
-        };
-        rule.setQuestion("Are there tumors diagnosed more than one (1) year apart?");
-        rule.setReason("Tumors diagnosed more than one (1) year apart are multiple primaries.");
+        rule = new MpRuleYearsApart(MphConstants.SOLID_TUMOR_2018_COLON, "M10", 1);
         rule.getNotes().add("Clinically disease-free means that there was no evidence of recurrence on follow-up.");
         rule.getNotes().add("  - Colonoscopies are NED");
         rule.getNotes().add("  - Scans are NED");
@@ -253,43 +214,7 @@ public class Mp2018ColonGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_COLON, "M11") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
-                TempRuleResult result = new TempRuleResult();
-
-                String h1 = i1.getHistology();
-                String icd1 = i1.getIcdCode();
-                String h2 = i2.getHistology();
-                String icd2 = i2.getIcdCode();
-                String row1 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h1) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd1);
-                String row2 = MphConstants.COLON_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.COLON_2018_TABLE1_ROWS.get(h2) : MphConstants.COLON_2018_TABLE1_ROWS.get(icd2);
-                if (row1 == null || row2 == null) {
-                    result.setFinalResult(MpResult.QUESTIONABLE);
-                    String histologyNotInTable;
-                    boolean bothNotInTable = false;
-                    if (row1 == null && row2 == null) {
-                        bothNotInTable = true;
-                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
-                    }
-                    else
-                        histologyNotInTable = row1 == null ? icd1 : icd2;
-
-                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), histologyNotInTable, bothNotInTable);
-                }
-                else if (row1.equals(row2)) {
-                    int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                        result.setPotentialResult(MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == diff)
-                        result.setFinalResult(MpResult.SINGLE_PRIMARY);
-                }
-
-                return result;
-            }
-        };
+        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_COLON, "M11", MphConstants.COLON_2018_TABLE1_ROWS, true);
         rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
         rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");

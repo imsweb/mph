@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.imsweb.mph.mpgroups.GroupUtility;
 
+@SuppressWarnings("java:S2386") //Mutable fields should not be "public static", Sonar's suggestion to make these protected doesn't work
 public class MphConstants {
 
     private MphConstants() {

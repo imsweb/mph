@@ -64,6 +64,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
+    @SuppressWarnings("java:S112") //Generic exceptions should never be thrown - The file should exist!
     private static synchronized void initializeLookup() {
         if (_HEMATOPOIETIC_1998.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {

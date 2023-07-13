@@ -28,6 +28,7 @@ import com.imsweb.mph.internal.HematoDbDTO;
  * This is a default hemato db utils provider which uses seer-api to determine whether two morphologies are same primary, transform to or transform from according to
  * hematopoietic and lymphoid neoplasm database.
  */
+@SuppressWarnings("java:S112") //This is a lab class and throwing RuntimeException is fine
 public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
 
     private Map<String, List<HematoDbDTO>> _samePrimaryDto;

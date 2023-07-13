@@ -49,7 +49,15 @@ public class TempRuleResult {
         _message = "Unable to apply Rule " + step + " of " + groupId + ". Valid and known laterality should be provided.";
     }
 
-    public void setMessageNotInTable(String step, String groupId, String histologyNotInTable, boolean bothHistologiesNotInTable) {
-        _message = "Unable to apply Rule " + step + " of " + groupId + ". " + histologyNotInTable + (bothHistologiesNotInTable ? " are " : " is ") + "not in the table.";
+    public void setMessageNotInTable(String step, String groupId, String row1, String row2, String icd1, String icd2) {
+        String histologyNotInTable;
+        boolean bothNotInTable = false;
+        if (row1 == null && row2 == null) {
+            bothNotInTable = true;
+            histologyNotInTable = "Both " + icd1 + " and " + icd2;
+        }
+        else
+            histologyNotInTable = row1 == null ? icd1 : icd2;
+        _message = "Unable to apply Rule " + step + " of " + groupId + ". " + histologyNotInTable + (bothNotInTable ? " are " : " is ") + "not in the table.";
     }
 }

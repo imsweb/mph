@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.imsweb.mph.HematoDbUtils;
+import com.imsweb.mph.HematoUtils;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -244,7 +244,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -277,7 +277,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -309,7 +309,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     if (GroupUtility.differentCategory(morph1, morph2, Collections.singletonList("9732/3"), Arrays.asList("9731/3", "9734/3"))) {
                         result.setMessage("For plasmacytoma (9731, 9734) and plasma cell myeloma (9732): This rule would only apply if the initial workup was completed and a single plasmacytoma was diagnosed. If plasma cell myeloma is diagnosed after the initial workup and treatment, then this rule would be applicable and the multiple myeloma would be a second primary.");
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -321,7 +321,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
-                    else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && HematoDbUtils.isChronicToAcuteTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
+                    else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && HematoUtils.isChronicToAcuteTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2))
@@ -351,7 +351,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -383,7 +383,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
@@ -412,7 +412,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoDbUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
@@ -472,7 +472,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
-                result.setFinalResult(HematoDbUtils.isSamePrimary(morph1, morph2, year1, year2) ? MpResult.SINGLE_PRIMARY : MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(HematoUtils.isSamePrimary(morph1, morph2, year1, year2) ? MpResult.SINGLE_PRIMARY : MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

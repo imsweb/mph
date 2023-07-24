@@ -76,7 +76,7 @@ public final class MphUtils {
     private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
-    private HematoDbDataProvider _provider = null;
+    private HematoDataProvider _provider = null;
 
     // the cached groups of rules used by the instance
     private Map<String, MphGroup> _groups = new LinkedHashMap<>();
@@ -86,7 +86,7 @@ public final class MphUtils {
      * This method must be called before trying to get an instance, of the default provider will be used instead.
      * @param provider
      */
-    public static synchronized void initialize(HematoDbDataProvider provider) {
+    public static synchronized void initialize(HematoDataProvider provider) {
         _INSTANCE = new MphUtils(provider);
     }
 
@@ -102,7 +102,7 @@ public final class MphUtils {
      */
     public static synchronized MphUtils getInstance() {
         if (!isInitialized())
-            initialize(new DefaultHematoDbDataProvider());
+            initialize(new DefaultHematoDataProvider());
         return _INSTANCE;
     }
 
@@ -117,7 +117,7 @@ public final class MphUtils {
      * Private constructor, use the getInstance() method.
      * @param provider the provider to use for this instance, cannot be null
      */
-    private MphUtils(HematoDbDataProvider provider) {
+    private MphUtils(HematoDataProvider provider) {
         if (provider == null)
             throw new NullPointerException("Hemato DB Utils provider cannot be null.");
         _provider = provider;
@@ -282,7 +282,7 @@ public final class MphUtils {
     /**
      * Returns the HematoDB provider that was registered with the instance.
      */
-    public HematoDbDataProvider getHematoDbDataProvider() {
+    public HematoDataProvider getHematoDbDataProvider() {
         return _provider;
     }
 

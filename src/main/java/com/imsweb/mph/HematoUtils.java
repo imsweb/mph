@@ -5,7 +5,7 @@ package com.imsweb.mph;
 
 import java.util.regex.Pattern;
 
-public final class HematoDbUtils {
+public final class HematoUtils {
 
     private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
@@ -15,7 +15,7 @@ public final class HematoDbUtils {
         if (morph1.equals(morph2))
             return true;
 
-        HematoDbDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
+        HematoDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
         return hematoProvider.getSamePrimary(morph1).stream().anyMatch(r -> r.matches(morph2, year1)) && hematoProvider.getSamePrimary(morph2).stream().anyMatch(r -> r.matches(morph1, year2));
     }
 
@@ -34,12 +34,12 @@ public final class HematoDbUtils {
     }
 
     private static boolean confirmTransformTo(String leftCode, String rightCode, int year) {
-        HematoDbDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
+        HematoDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
         return hematoProvider.getTransformTo(leftCode).stream().anyMatch(d -> d.matches(rightCode, year));
     }
 
     private static boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
-        HematoDbDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
+        HematoDataProvider hematoProvider = MphUtils.getInstance().getHematoDbDataProvider();
         return hematoProvider.getTransformFrom(leftCode).stream().anyMatch(d -> d.matches(rightCode, year));
     }
 }

@@ -42,7 +42,7 @@ public class MphUtilsTest {
 
     @BeforeClass
     public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDbDataProvider());
+        MphUtils.initialize(new DefaultHematoDataProvider());
     }
 
     @Test

@@ -21,31 +21,31 @@ import java.util.regex.Pattern;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
-import com.imsweb.mph.internal.HematoDbDTO;
+import com.imsweb.mph.internal.HematoDTO;
 
 /**
  * This is a default hemato db data provider which uses seer-api to get same primary, transform to or transform from data from
  * hematopoietic and lymphoid neoplasm database.
  */
 @SuppressWarnings("java:S112") //This is a lab class and throwing RuntimeException is fine
-public class DefaultHematoDbDataProvider implements HematoDbDataProvider {
+public class DefaultHematoDataProvider implements HematoDataProvider {
 
-    private Map<String, List<HematoDbDTO>> _samePrimaryDto;
-    private Map<String, List<HematoDbDTO>> _transformToDto;
-    private Map<String, List<HematoDbDTO>> _transformFromDto;
+    private Map<String, List<HematoDTO>> _samePrimaryDto;
+    private Map<String, List<HematoDTO>> _transformToDto;
+    private Map<String, List<HematoDTO>> _transformFromDto;
     private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
-    public DefaultHematoDbDataProvider() {
+    public DefaultHematoDataProvider() {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
             if (is == null)
                 throw new RuntimeException("Unable to get Hematopoietic2010SamePrimaryPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_samePrimaryDto.containsKey(row[0]))
-                    _samePrimaryDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _samePrimaryDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
-                    List<HematoDbDTO> list = new ArrayList<>();
-                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    List<HematoDTO> list = new ArrayList<>();
+                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                     _samePrimaryDto.put(row[0], list);
                 }
             }
@@ -59,10 +59,10 @@ public class DefaultHematoDbDataProvider implements HematoDbDataProvider {
                 throw new RuntimeException("Unable to get Hematopoietic2010TransformToPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformToDto.containsKey(row[0]))
-                    _transformToDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformToDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
-                    List<HematoDbDTO> list = new ArrayList<>();
-                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    List<HematoDTO> list = new ArrayList<>();
+                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                     _transformToDto.put(row[0], list);
                 }
             }
@@ -76,10 +76,10 @@ public class DefaultHematoDbDataProvider implements HematoDbDataProvider {
                 throw new RuntimeException("Unable to get Hematopoietic2010TransformFromPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformFromDto.containsKey(row[0]))
-                    _transformFromDto.get(row[0]).add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformFromDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                 else {
-                    List<HematoDbDTO> list = new ArrayList<>();
-                    list.add(new HematoDbDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    List<HematoDTO> list = new ArrayList<>();
+                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
                     _transformFromDto.put(row[0], list);
                 }
             }
@@ -91,21 +91,21 @@ public class DefaultHematoDbDataProvider implements HematoDbDataProvider {
     }
 
     @Override
-    public List<HematoDbDTO> getSamePrimary(String morphology) {
+    public List<HematoDTO> getSamePrimary(String morphology) {
         if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_samePrimaryDto.containsKey(morphology))
             return Collections.emptyList();
         return _samePrimaryDto.get(morphology);
     }
 
     @Override
-    public List<HematoDbDTO> getTransformTo(String morphology) {
+    public List<HematoDTO> getTransformTo(String morphology) {
         if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformToDto.containsKey(morphology))
             return Collections.emptyList();
         return _transformToDto.get(morphology);
     }
 
     @Override
-    public List<HematoDbDTO> getTransformFrom(String morphology) {
+    public List<HematoDTO> getTransformFrom(String morphology) {
         if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformFromDto.containsKey(morphology))
             return Collections.emptyList();
         return _transformFromDto.get(morphology);

@@ -6,9 +6,9 @@ package com.imsweb.mph;
 import java.util.Date;
 import java.util.List;
 
-import com.imsweb.mph.internal.HematoDbDTO;
+import com.imsweb.mph.internal.HematoDTO;
 
-public interface HematoDbDataProvider {
+public interface HematoDataProvider {
 
     /**
      * Returns same primary information for a given morphology
@@ -18,7 +18,7 @@ public interface HematoDbDataProvider {
      * @param morphology
      * @return List of same primary morphologies with their applicable year
      */
-    List<HematoDbDTO> getSamePrimary(String morphology);
+    List<HematoDTO> getSamePrimary(String morphology);
 
     /**
      * Returns "transform to" information for a given morphology
@@ -28,7 +28,7 @@ public interface HematoDbDataProvider {
      * @param morphology
      * @return List of transform to morphologies with their applicable year
      */
-    List<HematoDbDTO> getTransformTo(String morphology);
+    List<HematoDTO> getTransformTo(String morphology);
 
     /**
      * Returns "transform from" information for a given morphology
@@ -38,7 +38,7 @@ public interface HematoDbDataProvider {
      * @param morphology
      * @return List of transform from morphologies with their applicable year
      */
-    List<HematoDbDTO> getTransformFrom(String morphology);
+    List<HematoDTO> getTransformFrom(String morphology);
 
     /**
      * @return the date when the hemato data is last updated

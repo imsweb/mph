@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -33,7 +32,6 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
     private Map<String, List<HematoDTO>> _samePrimaryDto;
     private Map<String, List<HematoDTO>> _transformToDto;
     private Map<String, List<HematoDTO>> _transformFromDto;
-    private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
     public DefaultHematoDataProvider() {
         _samePrimaryDto = new HashMap<>();
@@ -92,23 +90,17 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
 
     @Override
     public List<HematoDTO> getSamePrimary(String morphology) {
-        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_samePrimaryDto.containsKey(morphology))
-            return Collections.emptyList();
-        return _samePrimaryDto.get(morphology);
+        return _samePrimaryDto.computeIfAbsent(morphology, k -> Collections.emptyList());
     }
 
     @Override
     public List<HematoDTO> getTransformTo(String morphology) {
-        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformToDto.containsKey(morphology))
-            return Collections.emptyList();
-        return _transformToDto.get(morphology);
+        return _transformToDto.computeIfAbsent(morphology, k -> Collections.emptyList());
     }
 
     @Override
     public List<HematoDTO> getTransformFrom(String morphology) {
-        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformFromDto.containsKey(morphology))
-            return Collections.emptyList();
-        return _transformFromDto.get(morphology);
+        return _transformFromDto.computeIfAbsent(morphology, k -> Collections.emptyList());
     }
 
     @Override

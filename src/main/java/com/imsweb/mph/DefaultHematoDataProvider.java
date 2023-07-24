@@ -26,7 +26,6 @@ import com.imsweb.mph.internal.HematoDTO;
  * This is a default hemato db data provider which uses seer-api to get same primary, transform to or transform from data from
  * hematopoietic and lymphoid neoplasm database.
  */
-@SuppressWarnings("java:S112") //This is a lab class and throwing RuntimeException is fine
 public class DefaultHematoDataProvider implements HematoDataProvider {
 
     private Map<String, List<HematoDTO>> _samePrimaryDto;
@@ -37,7 +36,7 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
             if (is == null)
-                throw new RuntimeException("Unable to get Hematopoietic2010SamePrimaryPairs.csv");
+                throw new IllegalStateException("Unable to get Hematopoietic2010SamePrimaryPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_samePrimaryDto.containsKey(row[0]))
                     _samePrimaryDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
@@ -49,12 +48,12 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             }
         }
         catch (CsvException | IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         _transformToDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformToPairs.csv")) {
             if (is == null)
-                throw new RuntimeException("Unable to get Hematopoietic2010TransformToPairs.csv");
+                throw new IllegalStateException("Unable to get Hematopoietic2010TransformToPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformToDto.containsKey(row[0]))
                     _transformToDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
@@ -66,12 +65,12 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             }
         }
         catch (CsvException | IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         _transformFromDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010TransformFromPairs.csv")) {
             if (is == null)
-                throw new RuntimeException("Unable to get Hematopoietic2010TransformFromPairs.csv");
+                throw new IllegalStateException("Unable to get Hematopoietic2010TransformFromPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
                 if (_transformFromDto.containsKey(row[0]))
                     _transformFromDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
@@ -83,7 +82,7 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             }
         }
         catch (CsvException | IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
 
     }
@@ -108,7 +107,7 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
 
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
             if (is == null)
-                throw new RuntimeException("Unable to get info properties");
+                throw new IllegalStateException("Unable to get info properties");
             Properties prop = new Properties();
             prop.load(is);
             String lastUpdateDate = prop.getProperty("last_updated");

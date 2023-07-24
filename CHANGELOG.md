@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.30**
+
+- Updated HematoDbProvider Interface to provide data instead of functionality.
+
 **Changes in version 1.29**
 
 - Renamed group IDs and names.

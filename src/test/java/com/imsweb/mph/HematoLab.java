@@ -25,7 +25,7 @@ import com.imsweb.seerapi.client.disease.Disease;
 import com.imsweb.seerapi.client.disease.DiseaseSearchResults;
 import com.imsweb.seerapi.client.disease.YearRangeString;
 
-public class HematoDbLab {
+public class HematoLab {
 
     public static void main(String[] args) throws Exception {
         createHematoDbCsvFiles();

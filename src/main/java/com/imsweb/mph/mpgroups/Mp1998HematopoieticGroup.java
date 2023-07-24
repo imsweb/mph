@@ -64,16 +64,15 @@ public class Mp1998HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    @SuppressWarnings("java:S112") //Generic exceptions should never be thrown - The file should exist!
     private static synchronized void initializeLookup() {
         if (_HEMATOPOIETIC_1998.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {
                 if (is == null)
-                    throw new RuntimeException("Unable to read Hematopoietic1998HistologyPairs.csv");
+                    throw new IllegalStateException("Unable to read Hematopoietic1998HistologyPairs.csv");
                 _HEMATOPOIETIC_1998.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (CsvException | IOException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
             }
         }
     }

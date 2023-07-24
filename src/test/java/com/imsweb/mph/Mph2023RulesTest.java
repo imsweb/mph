@@ -15,7 +15,7 @@ public class Mph2023RulesTest {
 
     @BeforeClass
     public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDbUtilsProvider());
+        MphUtils.initialize(new DefaultHematoDataProvider());
     }
 
     @Test

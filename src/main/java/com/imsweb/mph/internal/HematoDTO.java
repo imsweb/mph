@@ -3,7 +3,7 @@
  */
 package com.imsweb.mph.internal;
 
-public class HematoDbDTO {
+public class HematoDTO {
 
     private Short _startYear;
 
@@ -11,7 +11,7 @@ public class HematoDbDTO {
 
     private String _morphology;
 
-    public HematoDbDTO(Short startYear, Short endYear, String morphology) {
+    public HematoDTO(Short startYear, Short endYear, String morphology) {
         _startYear = startYear;
         _endYear = endYear;
         _morphology = morphology;
@@ -19,21 +19,5 @@ public class HematoDbDTO {
 
     public boolean matches(String morphology, int year) {
         return year >= _startYear && year <= _endYear && morphology.equals(_morphology);
-    }
-
-    public boolean validCodeForDiagnosisYear(int year) {
-        return year >= _startYear && year <= _endYear;
-    }
-
-    public Short getStartYear() {
-        return _startYear;
-    }
-
-    public Short getEndYear() {
-        return _endYear;
-    }
-
-    public String getMorphology() {
-        return _morphology;
     }
 }

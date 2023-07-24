@@ -76,24 +76,23 @@ public class Mp2001HematopoieticGroup extends MphGroup {
         _rules.add(rule);
     }
 
-    @SuppressWarnings("java:S112") //Generic exceptions should never be thrown - The file should exist!
     private static synchronized void initializeLookups() {
         if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv")) {
                 if (is == null)
-                    throw new RuntimeException("Unable to read Hematopoietic2001HistologyGroups.csv");
+                    throw new IllegalStateException("Unable to read Hematopoietic2001HistologyGroups.csv");
                 _2001_HEMATOPOIETIC_GROUPS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (CsvException | IOException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
             }
             try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
                 if (is == null)
-                    throw new RuntimeException("Unable to read Hematopoietic2001HistologyGroupPairs.csv");
+                    throw new IllegalStateException("Unable to read Hematopoietic2001HistologyGroupPairs.csv");
                 _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll());
             }
             catch (CsvException | IOException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
             }
         }
     }

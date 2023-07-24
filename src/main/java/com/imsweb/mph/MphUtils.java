@@ -76,17 +76,17 @@ public final class MphUtils {
     private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
-    private HematoDbUtilsProvider _provider = null;
+    private HematoDbDataProvider _provider = null;
 
     // the cached groups of rules used by the instance
     private Map<String, MphGroup> _groups = new LinkedHashMap<>();
 
     /**
-     * Initialized the instance with the given provider; this allows to use a customized provider instead of the default one.
+     * Initialized the instance with the given hemato db data provider; this allows to use a customized provider instead of the default one.
      * This method must be called before trying to get an instance, of the default provider will be used instead.
      * @param provider
      */
-    public static synchronized void initialize(HematoDbUtilsProvider provider) {
+    public static synchronized void initialize(HematoDbDataProvider provider) {
         _INSTANCE = new MphUtils(provider);
     }
 
@@ -102,7 +102,7 @@ public final class MphUtils {
      */
     public static synchronized MphUtils getInstance() {
         if (!isInitialized())
-            initialize(new DefaultHematoDbUtilsProvider());
+            initialize(new DefaultHematoDbDataProvider());
         return _INSTANCE;
     }
 
@@ -117,7 +117,7 @@ public final class MphUtils {
      * Private constructor, use the getInstance() method.
      * @param provider the provider to use for this instance, cannot be null
      */
-    private MphUtils(HematoDbUtilsProvider provider) {
+    private MphUtils(HematoDbDataProvider provider) {
         if (provider == null)
             throw new NullPointerException("Hemato DB Utils provider cannot be null.");
         _provider = provider;
@@ -282,7 +282,7 @@ public final class MphUtils {
     /**
      * Returns the HematoDB provider that was registered with the instance.
      */
-    public HematoDbUtilsProvider getHematoDbUtilsProvider() {
+    public HematoDbDataProvider getHematoDbDataProvider() {
         return _provider;
     }
 

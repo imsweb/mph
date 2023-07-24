@@ -10,33 +10,32 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
-import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.internal.HematoDbDTO;
 
 /**
- * This is a default hemato db utils provider which uses seer-api to determine whether two morphologies are same primary, transform to or transform from according to
+ * This is a default hemato db data provider which uses seer-api to get same primary, transform to or transform from data from
  * hematopoietic and lymphoid neoplasm database.
  */
 @SuppressWarnings("java:S112") //This is a lab class and throwing RuntimeException is fine
-public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
+public class DefaultHematoDbDataProvider implements HematoDbDataProvider {
 
     private Map<String, List<HematoDbDTO>> _samePrimaryDto;
     private Map<String, List<HematoDbDTO>> _transformToDto;
     private Map<String, List<HematoDbDTO>> _transformFromDto;
     private static Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
 
-    public DefaultHematoDbUtilsProvider() {
+    public DefaultHematoDbDataProvider() {
         _samePrimaryDto = new HashMap<>();
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2010SamePrimaryPairs.csv")) {
             if (is == null)
@@ -92,70 +91,24 @@ public class DefaultHematoDbUtilsProvider implements HematoDbUtilsProvider {
     }
 
     @Override
-    public MpResult isSamePrimary(String leftCode, String rightCode, int leftYear, int rightYear) {
-        if (leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches())
-            return MpResult.INVALID_INPUT;
-        if (leftCode.equals(rightCode))
-            return MpResult.SINGLE_PRIMARY;
-
-        boolean rightCodeIsSamePrimaryForLeft = false;
-        if (_samePrimaryDto.containsKey(leftCode)) {
-            List<HematoDbDTO> allRowsForLeftCode = _samePrimaryDto.get(leftCode);
-            List<HematoDbDTO> validRowsForLeftCode = allRowsForLeftCode.stream().filter(r -> r.validCodeForDiagnosisYear(leftYear)).collect(Collectors.toList());
-            if (validRowsForLeftCode.isEmpty())
-                return MpResult.QUESTIONABLE;
-            for (HematoDbDTO dto : validRowsForLeftCode) {
-                if (dto.matches(rightCode, leftYear)) {
-                    rightCodeIsSamePrimaryForLeft = true;
-                    break;
-                }
-            }
-        }
-        if (rightCodeIsSamePrimaryForLeft && _samePrimaryDto.containsKey(rightCode)) {
-            List<HematoDbDTO> allRowsForRightCode = _samePrimaryDto.get(rightCode);
-            List<HematoDbDTO> validRowsForRightCode = allRowsForRightCode.stream().filter(r -> r.validCodeForDiagnosisYear(rightYear)).collect(Collectors.toList());
-            if (validRowsForRightCode.isEmpty())
-                return MpResult.QUESTIONABLE;
-            for (HematoDbDTO dto : validRowsForRightCode)
-                if (dto.matches(leftCode, rightYear))
-                    return MpResult.SINGLE_PRIMARY;
-        }
-        return MpResult.MULTIPLE_PRIMARIES;
+    public List<HematoDbDTO> getSamePrimary(String morphology) {
+        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_samePrimaryDto.containsKey(morphology))
+            return Collections.emptyList();
+        return _samePrimaryDto.get(morphology);
     }
 
     @Override
-    public boolean canTransformTo(String fromCode, String toCode, int fromYear, int toYear) {
-        return confirmTransformTo(fromCode, toCode, fromYear) || confirmTransformFrom(toCode, fromCode, toYear);
+    public List<HematoDbDTO> getTransformTo(String morphology) {
+        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformToDto.containsKey(morphology))
+            return Collections.emptyList();
+        return _transformToDto.get(morphology);
     }
 
-    private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
-        if (invalidCodes(leftCode, rightCode))
-            return false;
-
-        if (_transformToDto.containsKey(leftCode)) {
-            for (HematoDbDTO dto : _transformToDto.get(leftCode))
-                if (dto.matches(rightCode, year))
-                    return true;
-        }
-
-        return false;
-    }
-
-    private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
-        if (invalidCodes(leftCode, rightCode))
-            return false;
-
-        if (_transformFromDto.containsKey(leftCode)) {
-            for (HematoDbDTO dto : _transformFromDto.get(leftCode))
-                if (dto.matches(rightCode, year))
-                    return true;
-        }
-
-        return false;
-    }
-
-    private boolean invalidCodes(String leftCode, String rightCode) {
-        return leftCode == null || rightCode == null || !_MORPHOLOGY.matcher(leftCode).matches() || !_MORPHOLOGY.matcher(rightCode).matches();
+    @Override
+    public List<HematoDbDTO> getTransformFrom(String morphology) {
+        if (morphology == null || !_MORPHOLOGY.matcher(morphology).matches() || !_transformFromDto.containsKey(morphology))
+            return Collections.emptyList();
+        return _transformFromDto.get(morphology);
     }
 
     @Override

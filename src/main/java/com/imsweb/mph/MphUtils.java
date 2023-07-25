@@ -53,7 +53,7 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
  * <a href="http://www.seer.cancer.gov/tools/mphrules">SEER 2007 multiple primary rules</a>
  * <a href="https://seer.cancer.gov/tools/solidtumor/">2018 Solid Tumor Rules</a>
  * <br/><br/>
- * This Java implementation is based on the the documentation provided on the above websites.
+ * This Java implementation is based on the documentation provided on the above websites.
  * Created in December 2013 by Sewbesew Bekele
  */
 public final class MphUtils {
@@ -68,7 +68,7 @@ public final class MphUtils {
         MULTIPLE_PRIMARIES,
         // indicates there is not enough information to make a proper determination
         QUESTIONABLE,
-        // indicates one or more of the requires inputs (site, hist, behavior, year) are missing or invalid
+        // indicates one or more of the required inputs (site, hist, behavior, year) are missing or invalid
         INVALID_INPUT
     }
 
@@ -76,15 +76,15 @@ public final class MphUtils {
     private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
-    private HematoDataProvider _provider = null;
+    private final HematoDataProvider _provider;
 
     // the cached groups of rules used by the instance
-    private Map<String, MphGroup> _groups = new LinkedHashMap<>();
+    private final Map<String, MphGroup> _groups = new LinkedHashMap<>();
 
     /**
      * Initialized the instance with the given hemato db data provider; this allows to use a customized provider instead of the default one.
      * This method must be called before trying to get an instance, of the default provider will be used instead.
-     * @param provider
+     * @param provider hemato database data provider interface
      */
     public static synchronized void initialize(HematoDataProvider provider) {
         _INSTANCE = new MphUtils(provider);
@@ -117,7 +117,7 @@ public final class MphUtils {
      * Private constructor, use the getInstance() method.
      * @param provider the provider to use for this instance, cannot be null
      */
-    private MphUtils(HematoDataProvider provider) {
+    public MphUtils(HematoDataProvider provider) {
         if (provider == null)
             throw new NullPointerException("Hemato DB Utils provider cannot be null.");
         _provider = provider;
@@ -220,7 +220,7 @@ public final class MphUtils {
         MphGroup group1 = findCancerGroup(site1, hist1, beh1, latestYear);
         MphGroup group2 = findCancerGroup(site2, hist2, beh2, latestYear);
 
-        //Generic rule, if both groups can not be determined and they have same valid site, hist, behavior, date, laterality return single primary.
+        //Generic rule, if both groups can not be determined, and if they have same valid site, hist, behavior, date, laterality return single primary.
         if (group1 == null && group2 == null && GroupUtility.sameAndValidMainFields(input1, input2)) {
             output.setResult(MpResult.SINGLE_PRIMARY);
             output.setReason("The two sets of parameters have same values for site, histology, behavior, diagnosis date and laterality.");

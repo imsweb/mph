@@ -2,7 +2,7 @@
 
 **Changes in version 1.31**
 
-- Enhanced HematoDbProvider Interface to be a clean data provider.
+- Enhanced HematoDataProvider Interface to be a clean data provider.
 
 **Changes in version 1.30**
 

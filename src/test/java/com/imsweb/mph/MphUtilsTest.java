@@ -38,11 +38,21 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 public class MphUtilsTest {
 
-    private MphUtils _utils = MphUtils.getInstance();
+    private final MphUtils _utils = MphUtils.getInstance();
 
     @BeforeClass
     public static void setUp() {
         MphUtils.initialize(new DefaultHematoDataProvider());
+    }
+
+    @Test
+    public void testIsHematoSamePrimary() {
+        Assert.assertFalse(_utils.isHematoSamePrimary(null, null, 2020, 2020));
+        Assert.assertFalse(_utils.isHematoSamePrimary("1234", "1234", 2020, 2020));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9733/3", "9733/3", 2020, 2020));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9733/3", "9733/3", 2020, 2020));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9865/3", "9800/3", 2011, 2011));
+        Assert.assertFalse(_utils.isHematoSamePrimary("9865/3", "9800/3", 2011, 2009));
     }
 
     @Test

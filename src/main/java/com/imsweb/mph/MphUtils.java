@@ -280,6 +280,18 @@ public final class MphUtils {
     }
 
     /**
+     * Calculates if two hematopoietic diseases are same primaries based on Hemato DB.
+     * @param morph1 disease 1
+     * @param morph2 disease 2
+     * @param year1 diagnosis year 1
+     * @param year2 disgnosis year 2
+     * @return true if two diseases are same primary and false otherwise.
+     */
+    public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
+        return HematoUtils.isSamePrimary(morph1, morph2, year1, year2);
+    }
+
+    /**
      * Returns the HematoDB provider that was registered with the instance.
      */
     public HematoDataProvider getHematoDbDataProvider() {

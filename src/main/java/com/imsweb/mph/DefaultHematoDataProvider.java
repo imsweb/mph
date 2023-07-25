@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
@@ -38,11 +40,15 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             if (is == null)
                 throw new IllegalStateException("Unable to get Hematopoietic2010SamePrimaryPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
+                Short validStartYear = StringUtils.isNotBlank(row[1]) ? Short.valueOf(row[1]) : null;
+                Short validEndYear = StringUtils.isNotBlank(row[2]) ? Short.valueOf(row[2]) : null;
+                Short startYear = StringUtils.isNotBlank(row[3]) ? Short.valueOf(row[3]) : null;
+                Short endYear = StringUtils.isNotBlank(row[4]) ? Short.valueOf(row[4]) : null;
                 if (_samePrimaryDto.containsKey(row[0]))
-                    _samePrimaryDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _samePrimaryDto.get(row[0]).add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                 else {
                     List<HematoDTO> list = new ArrayList<>();
-                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    list.add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                     _samePrimaryDto.put(row[0], list);
                 }
             }
@@ -55,11 +61,15 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             if (is == null)
                 throw new IllegalStateException("Unable to get Hematopoietic2010TransformToPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
+                Short validStartYear = StringUtils.isNotBlank(row[1]) ? Short.valueOf(row[1]) : null;
+                Short validEndYear = StringUtils.isNotBlank(row[2]) ? Short.valueOf(row[2]) : null;
+                Short startYear = StringUtils.isNotBlank(row[3]) ? Short.valueOf(row[3]) : null;
+                Short endYear = StringUtils.isNotBlank(row[4]) ? Short.valueOf(row[4]) : null;
                 if (_transformToDto.containsKey(row[0]))
-                    _transformToDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformToDto.get(row[0]).add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                 else {
                     List<HematoDTO> list = new ArrayList<>();
-                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    list.add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                     _transformToDto.put(row[0], list);
                 }
             }
@@ -72,11 +82,15 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
             if (is == null)
                 throw new IllegalStateException("Unable to get Hematopoietic2010TransformFromPairs.csv");
             for (String[] row : new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.US_ASCII)).withSkipLines(1).build().readAll()) {
+                Short validStartYear = StringUtils.isNotBlank(row[1]) ? Short.valueOf(row[1]) : null;
+                Short validEndYear = StringUtils.isNotBlank(row[2]) ? Short.valueOf(row[2]) : null;
+                Short startYear = StringUtils.isNotBlank(row[3]) ? Short.valueOf(row[3]) : null;
+                Short endYear = StringUtils.isNotBlank(row[4]) ? Short.valueOf(row[4]) : null;
                 if (_transformFromDto.containsKey(row[0]))
-                    _transformFromDto.get(row[0]).add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    _transformFromDto.get(row[0]).add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                 else {
                     List<HematoDTO> list = new ArrayList<>();
-                    list.add(new HematoDTO(Short.valueOf(row[1]), Short.valueOf(row[2]), row[3]));
+                    list.add(new HematoDTO(validStartYear, validEndYear, startYear, endYear, row[5]));
                     _transformFromDto.put(row[0], list);
                 }
             }

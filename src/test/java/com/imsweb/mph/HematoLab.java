@@ -76,19 +76,20 @@ public class HematoLab {
             }
 
             if (allFullDiseases.size() > 0) {
-                List<String[]> samePrimaryPairs = new ArrayList<>(), transformTo = new ArrayList<>(), transformFrom = new ArrayList<>();
-                samePrimaryPairs.add(new String[] {"morphology", "start year", "end year", "same primary"});
-                transformTo.add(new String[] {"morphology", "start year", "end year", "transform to"});
-                transformFrom.add(new String[] {"morphology", "start year", "end year", "transform from"});
+                List<String[]> samePrimaryPairs = new ArrayList<>();
+                List<String[]> transformTo = new ArrayList<>();
+                List<String[]> transformFrom = new ArrayList<>();
+                samePrimaryPairs.add(new String[] {"morphology", "valid start year", "valid end year", "start year", "end year", "same primary"});
+                transformTo.add(new String[] {"morphology", "valid start year", "valid end year", "start year", "end year", "transform to"});
+                transformFrom.add(new String[] {"morphology", "valid start year", "valid end year", "start year", "end year", "transform from"});
                 for (Disease disease : allFullDiseases.values()) {
                     String morphology = disease.getIcdO3Morphology();
                     if (disease.getSamePrimaries() != null)
                         for (YearRangeString range : disease.getSamePrimaries()) {
-                            int startYear =
-                                    range.getStartYear() != null ? range.getStartYear() : (
-                                            disease.getValid() != null && disease.getValid().getStartYear() != null ? disease.getValid().getStartYear() : 0);
-                            int endYear =
-                                    range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
+                            String validStartYear = disease.getValid() != null && disease.getValid().getStartYear() != null ? String.valueOf(disease.getValid().getStartYear()) : null;
+                            String validEndYear = disease.getValid() != null && disease.getValid().getEndYear() != null ? String.valueOf(disease.getValid().getEndYear()) : null;
+                            String startYear = range.getStartYear() != null ? String.valueOf(range.getStartYear()) : null;
+                            String endYear = range.getEndYear() != null ? String.valueOf(range.getEndYear()) : null;
                             Disease samePrimary = null;
                             try {
                                 samePrimary = allFullDiseases.get(range.getValue());
@@ -97,16 +98,15 @@ public class HematoLab {
                                 //If a disease is listed as same primary but not existed, don't add it.
                             }
                             if (samePrimary != null)
-                                samePrimaryPairs.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), samePrimary.getIcdO3Morphology()});
+                                samePrimaryPairs.add(new String[] {morphology, validStartYear, validEndYear, startYear, endYear, samePrimary.getIcdO3Morphology()});
                         }
 
                     if (disease.getTransformTo() != null)
                         for (YearRangeString range : disease.getTransformTo()) {
-                            int startYear =
-                                    range.getStartYear() != null ? range.getStartYear() : (
-                                            disease.getValid() != null && disease.getValid().getStartYear() != null ? disease.getValid().getStartYear() : 0);
-                            int endYear =
-                                    range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
+                            String validStartYear = disease.getValid() != null && disease.getValid().getStartYear() != null ? String.valueOf(disease.getValid().getStartYear()) : null;
+                            String validEndYear = disease.getValid() != null && disease.getValid().getEndYear() != null ? String.valueOf(disease.getValid().getEndYear()) : null;
+                            String startYear = range.getStartYear() != null ? String.valueOf(range.getStartYear()) : null;
+                            String endYear = range.getEndYear() != null ? String.valueOf(range.getEndYear()) : null;
                             Disease transformToMorphology = null;
                             try {
                                 transformToMorphology = allFullDiseases.get(range.getValue());
@@ -115,16 +115,15 @@ public class HematoLab {
                                 //If a disease is listed as transform to but not existed, don't add it.
                             }
                             if (transformToMorphology != null)
-                                transformTo.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), transformToMorphology.getIcdO3Morphology()});
+                                transformTo.add(new String[] {morphology, validStartYear, validEndYear, startYear, endYear, transformToMorphology.getIcdO3Morphology()});
                         }
 
                     if (disease.getTransformFrom() != null)
                         for (YearRangeString range : disease.getTransformFrom()) {
-                            int startYear =
-                                    range.getStartYear() != null ? range.getStartYear() : (
-                                            disease.getValid() != null && disease.getValid().getStartYear() != null ? disease.getValid().getStartYear() : 0);
-                            int endYear =
-                                    range.getEndYear() != null ? range.getEndYear() : (disease.getValid() != null && disease.getValid().getEndYear() != null ? disease.getValid().getEndYear() : 9999);
+                            String validStartYear = disease.getValid() != null && disease.getValid().getStartYear() != null ? String.valueOf(disease.getValid().getStartYear()) : null;
+                            String validEndYear = disease.getValid() != null && disease.getValid().getEndYear() != null ? String.valueOf(disease.getValid().getEndYear()) : null;
+                            String startYear = range.getStartYear() != null ? String.valueOf(range.getStartYear()) : null;
+                            String endYear = range.getEndYear() != null ? String.valueOf(range.getEndYear()) : null;
                             Disease transformFromMorphology = null;
                             try {
                                 transformFromMorphology = allFullDiseases.get(range.getValue());
@@ -133,7 +132,7 @@ public class HematoLab {
                                 //If a disease is listed as transform from but not existed, don't add it.
                             }
                             if (transformFromMorphology != null)
-                                transformFrom.add(new String[] {morphology, String.valueOf(startYear), String.valueOf(endYear), transformFromMorphology.getIcdO3Morphology()});
+                                transformFrom.add(new String[] {morphology, validStartYear, validEndYear, startYear, endYear, transformFromMorphology.getIcdO3Morphology()});
                         }
                 }
                 samePrimaryWriter.writeAll(samePrimaryPairs);

@@ -3,6 +3,7 @@
 **Changes in version 1.31**
 
 - Enhanced HematoDataProvider Interface to be a clean data provider.
+- Fixed a bug in M10 of 2018 Urinary Rules.
 
 **Changes in version 1.30**
 

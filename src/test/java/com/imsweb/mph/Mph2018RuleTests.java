@@ -3945,6 +3945,10 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisYear("2016");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //don't skip if it is not bladder
+        i1.setPrimarySite("C659");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M11 Abstract a single primary when there are rothelial carcinomas in multiple urinary organs.
         //"8120", "8031", "8082", "8130", "8131", "8020", "8122"

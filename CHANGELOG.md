@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.31**
+
+- Fixed a bug in M10 of 2018 Urinary Rules.
+
 **Changes in version 1.30**
 
 - Updated HematoDbProvider Interface to provide data instead of functionality.

@@ -163,15 +163,17 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2) {
                 TempRuleResult result = new TempRuleResult();
-                if (!new HashSet<>(MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY).containsAll(Arrays.asList(i1.getHistology(), i2.getHistology()))) {
-                    int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
-                        result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
-                    }
-                    else if (MphConstants.DATE_VERIFY_APART == diff)
-                        result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                //This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.
+                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && new HashSet<>(
+                        MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY).containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
+                    return result;
+                int diff = GroupUtility.verifyYearsApart(i1, i2, 3);
+                if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {
+                    result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
+                    result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                 }
+                else if (MphConstants.DATE_VERIFY_APART == diff)
+                    result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
                 return result;
             }
@@ -189,7 +191,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 "The physician may state this is a recurrence, meaning the patient had a previous urinary site tumor and now has another urinary site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         rule.getExamples().add(
                 "Patient is diagnosed with multifocal/multicentric urothelial carcinomas in the ureter and renal pelvis in January 2018. Both the kidney and ureter are surgically removed. In June 2022 the patient presents with tumor in the contralateral ureter. The physician states this is a recurrence of the original urothelial carcinoma. Code a new primary for the 2022 ureter carcinoma.");
-        rule.setReason("Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence. This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.");
+        rule.setReason(
+                "Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence. This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.");
         _rules.add(rule);
 
         // Rule M11 Abstract a single primary when there are urothelial carcinomas in multiple urinary organs.
@@ -242,7 +245,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M13",  MphConstants.URINARY_2018_TABLE2_ROWS);
+        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M13", MphConstants.URINARY_2018_TABLE2_ROWS);
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

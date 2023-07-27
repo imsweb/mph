@@ -91,7 +91,7 @@ public final class MphUtils {
      * This will use the default hemato db provider
      */
     public MphUtils() {
-        new MphUtils(new DefaultHematoDataProvider());
+        this(new DefaultHematoDataProvider());
     }
 
     /**

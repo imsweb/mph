@@ -6,6 +6,7 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.List;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -26,7 +27,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         // M3 - Wilms tumors are a single primary. (8960/3)
         MphRule rule = new MphRule(MphConstants.MPH_2007_2017_KIDNEY, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.WILMS.equals(i1.getHistology()) && MphConstants.WILMS.equals(
                         i2.getHistology()))
@@ -45,7 +46,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         // M5 - Tumors in both the right kidney and in the left kidney are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_KIDNEY, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -75,7 +76,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         // M8 - One tumor with a specific renal cell type and another tumor with a different specific renal cell type are multiple primaries (table 1 in pdf).
         rule = new MphRule(MphConstants.MPH_2007_2017_KIDNEY, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();
@@ -91,7 +92,7 @@ public class Mp2007KidneyGroup extends MphGroup {
         // M9 -
         rule = new MphRule(MphConstants.MPH_2007_2017_KIDNEY, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();

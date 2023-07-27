@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mprules;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
@@ -17,7 +18,7 @@ public class MpRuleHistology extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
         TempRuleResult result = new TempRuleResult();
         if (!i1.getHistology().substring(0, 3).equals(i2.getHistology().substring(0, 3)))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

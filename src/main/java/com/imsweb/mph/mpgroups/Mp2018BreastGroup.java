@@ -6,6 +6,7 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -58,7 +59,7 @@ public class Mp2018BreastGroup extends MphGroup {
         // - Bilateral breasts
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology())
                         && MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology()))
@@ -85,7 +86,7 @@ public class Mp2018BreastGroup extends MphGroup {
         // Rule M8 Abstract a single primary when the diagnosis is Paget disease with synchronous underlying in situ or invasive carcinoma NST (duct/ductal).
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_NAME, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -109,7 +110,7 @@ public class Mp2018BreastGroup extends MphGroup {
         //Rule M9 Abstract multiple primaries when the diagnosis is Paget disease with synchronous/simultaneous underlying tumor which is NOT duct.
         rule = new MphRule(MphConstants.MP_2018_BREAST_GROUP_NAME, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -130,7 +131,7 @@ public class Mp2018BreastGroup extends MphGroup {
         //- One tumor may be mixed duct and lobular 8522, the other tumor either duct or lobular
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -174,7 +175,7 @@ public class Mp2018BreastGroup extends MphGroup {
         //        - Invasive duct + other invasive carcinoma 8523/3
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -218,7 +219,7 @@ public class Mp2018BreastGroup extends MphGroup {
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -243,7 +244,7 @@ public class Mp2018BreastGroup extends MphGroup {
         // Rule M13 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M13") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -274,7 +275,7 @@ public class Mp2018BreastGroup extends MphGroup {
         // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_BREAST, "M14") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();

@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mprules;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -17,7 +18,7 @@ public class MpRuleUreter extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
         TempRuleResult result = new TempRuleResult();
         if (MphConstants.URETER.equals(i1.getPrimarySite()) && MphConstants.URETER.equals(i2.getPrimarySite())) {
             if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {

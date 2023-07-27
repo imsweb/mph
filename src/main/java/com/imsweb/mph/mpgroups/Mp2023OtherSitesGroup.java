@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -37,7 +38,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M3- Acinar Adenocarcinoma (8140) of the prostate is always a single primary. (C619, 8140)
         MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -61,7 +62,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M4 - Abstract multiple primaries when the patient has a subsequent small cell carcinoma of the prostate more than 1 year following a diagnosis of acinar adenocarcinoma and/or subtype/variant of acinar adenocarcinoma of prostate (Table 3).
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String smallCellCarcinoma = "8041/3";
                 List<String> adenocarcinoma = Arrays.asList("8140/2", "8140/3", "8201/3", "8260/3", "8230/3", "8500/3", "8572/3", "8574/3", "8480/3", "8490/3");
@@ -116,7 +117,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M8- Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -135,7 +136,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M9- Bilateral epithelial tumors (8000-8799) of the ovary within 60 days are a single primary. Ovary = C569
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite().toUpperCase();
                 String site2 = i2.getPrimarySite().toUpperCase();
@@ -166,7 +167,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C444", "C445", "C446", "C447", "C471", "C472", "C491", "C492",
                         "C569",
@@ -192,7 +193,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M11 - Adenocarcinoma in adenomatous polyposis coli (familial polyposis) with one or more in situ or malignant polyps is a single primary.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -224,7 +225,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M14 - Tumors with ICD-O-3 topography codes that differ only at the fourth character (Cxx?) and are in any one of the following primary sites are multiple primaries. ** Anus and anal canal (C21_) Bones, joints, and articular cartilage (C40_- C41_) Connective subcutaneous and other soft tissues (C49_) Skin (C44_)
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M14") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> list = Arrays.asList("C21", "C40", "C41", "C49", "C44");
                 //primary sites should be the same at their 2nd and 3rd digit to pass M11, so if site 1 is in the list site 2 also is.
@@ -248,7 +249,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M15 - A de novo (frank) in situ or malignant adenocarcinoma and an in situ or malignant tumor in a polyp are a single primary.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M15") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> insituOrMalignant = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
                 List<String> adenocarcinoma = new ArrayList<>(MphConstants.ADENOCARCINOMA_SPECIFIC);
@@ -266,7 +267,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M16 - Multiple in situ and/or malignant polyps are a single primary.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M16") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> insituOrMalignant = Arrays.asList(MphConstants.INSITU, MphConstants.MALIGNANT);
                 if (insituOrMalignant.containsAll(Arrays.asList(i1.getBehavior(), i2.getBehavior())) && MphConstants.POLYP.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
@@ -282,7 +283,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M17") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE.get(i2.getPrimarySite());
@@ -306,7 +307,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M18") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());
@@ -340,7 +341,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M19") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 Map<String, String> map1 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i1.getPrimarySite());
                 Map<String, String> map2 = MphConstants.OTHER_SITES_2023_TABLE_ROWS_FOR_SITE.get(i2.getPrimarySite());

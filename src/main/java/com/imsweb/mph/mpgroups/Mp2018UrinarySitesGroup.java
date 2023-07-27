@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -61,7 +62,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - One or both ureter(s) C669
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -101,7 +102,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         //        - Papillary urothelial carcinoma noninvasive 8130/2 (does not include micropapillary subtype)
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.INSITU.equals(i1.getBehavior()) && MphConstants.INSITU.equals(i2.getBehavior()) && i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite()
                         .startsWith(MphConstants.BLADDER) && MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY.containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
@@ -121,7 +122,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         //urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(),
                         Collections.singletonList("8131"), MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY))
@@ -141,7 +142,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // - Multiple occurrences of micropapillary
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String h2 = i2.getHistology();
@@ -161,7 +162,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M10 Abstract multiple primaries when the patient has a subsequent tumor after being clinically disease-free for greater than three years after the original diagnosis or last recurrence.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 //This rule does not apply when both/all tumors are urothelial carcinoma of the bladder.
                 if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && new HashSet<>(
@@ -198,7 +199,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M11 Abstract a single primary when there are urothelial carcinomas in multiple urinary organs.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String h2 = i2.getHistology();
@@ -222,7 +223,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();

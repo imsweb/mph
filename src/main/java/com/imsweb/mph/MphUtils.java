@@ -72,39 +72,12 @@ public final class MphUtils {
         INVALID_INPUT
     }
 
-    // the unique instance of this utility class
-    private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
-    private final HematoDataProvider _provider;
+    private HematoDataProvider _provider;
 
     // the cached groups of rules used by the instance
     private final Map<String, MphGroup> _groups = new LinkedHashMap<>();
-
-    /**
-     * Initialized the instance with the given hemato db data provider; this allows to use a customized provider instead of the default one.
-     * This method must be called before trying to get an instance, of the default provider will be used instead.
-     * @param provider hemato database data provider interface
-     */
-    public static synchronized void initialize(HematoDataProvider provider) {
-        _INSTANCE = new MphUtils(provider);
-    }
-
-    /**
-     * Returns true if the instance has been initialized, false otherwise.
-     */
-    public static synchronized boolean isInitialized() {
-        return _INSTANCE != null;
-    }
-
-    /**
-     * Returns the instance of MPH utils.
-     */
-    public static synchronized MphUtils getInstance() {
-        if (!isInitialized())
-            initialize(new DefaultHematoDataProvider());
-        return _INSTANCE;
-    }
 
     /**
      * Adds an ID and a MphGroup to the _groups Map.
@@ -114,13 +87,19 @@ public final class MphUtils {
     }
 
     /**
-     * Private constructor, use the getInstance() method.
-     * @param provider the provider to use for this instance, cannot be null
+     * Constructor
+     * This will use the default hemato db provider
+     */
+    public MphUtils() {
+        new MphUtils(new DefaultHematoDataProvider());
+    }
+
+    /**
+     * Constructor with a provider
+     * @param provider the provider to use for this instance, if it is null the default hemato db provider will be used
      */
     public MphUtils(HematoDataProvider provider) {
-        if (provider == null)
-            throw new NullPointerException("Hemato DB Utils provider cannot be null.");
-        _provider = provider;
+        _provider = provider != null ? provider : new DefaultHematoDataProvider();
 
         // 1998 Hematopoietic rules
         addGroup(new Mp1998HematopoieticGroup());
@@ -247,7 +226,7 @@ public final class MphUtils {
                     output.getAppliedRules().add(rule);
                 else
                     rulesAppliedAfterQuestionable.add(rule);
-                TempRuleResult result = rule.apply(input1, input2);
+                TempRuleResult result = rule.apply(input1, input2, _provider);
                 if (result.getPotentialResult() != null) {
                     if (potentialResult == null)
                         potentialResult = result;
@@ -288,14 +267,7 @@ public final class MphUtils {
      * @return true if two diseases are same primary and false otherwise.
      */
     public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
-        return HematoUtils.isSamePrimary(morph1, morph2, year1, year2);
-    }
-
-    /**
-     * Returns the HematoDB provider that was registered with the instance.
-     */
-    public HematoDataProvider getHematoDbDataProvider() {
-        return _provider;
+        return HematoUtils.isSamePrimary(_provider, morph1, morph2, year1, year2);
     }
 
     /**

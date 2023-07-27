@@ -4,19 +4,13 @@
 package com.imsweb.mph;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.imsweb.mph.MphUtils.MpResult;
 
 public class Mph2021RuleTests {
 
-    private MphUtils _utils = MphUtils.getInstance();
-
-    @BeforeClass
-    public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDataProvider());
-    }
+    private MphUtils _utils = new MphUtils();
 
     @Test
     public void test2021CutaneousMelanoma() {

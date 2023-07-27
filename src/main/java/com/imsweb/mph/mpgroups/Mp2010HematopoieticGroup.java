@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.HematoUtils;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -30,7 +31,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M1 
         MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M1") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 return new TempRuleResult();
             }
         };
@@ -40,7 +41,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M2 
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M2") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String h2 = i2.getHistology();
@@ -69,7 +70,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M3
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();
@@ -108,7 +109,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M4
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();
@@ -149,7 +150,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M5
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();
@@ -189,7 +190,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M6
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();
@@ -213,7 +214,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M7
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 //This rule is skipped by the automated process
                 return new TempRuleResult();
             }
@@ -237,14 +238,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M8
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -270,14 +271,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M9
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -302,14 +303,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M10
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     if (GroupUtility.differentCategory(morph1, morph2, Collections.singletonList("9732/3"), Arrays.asList("9731/3", "9734/3"))) {
                         result.setMessage("For plasmacytoma (9731, 9734) and plasma cell myeloma (9732): This rule would only apply if the initial workup was completed and a single plasmacytoma was diagnosed. If plasma cell myeloma is diagnosed after the initial workup and treatment, then this rule would be applicable and the multiple myeloma would be a second primary.");
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -321,7 +322,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                         result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
-                    else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && HematoUtils.isChronicToAcuteTransformation(MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
+                    else if (MphConstants.DATE_VERIFY_APART == daysApart && latestDx > 0 && HematoUtils.isChronicToAcuteTransformation(provider, MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph2 : morph1,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? morph1 : morph2,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year2 : year1,
                             MphConstants.COMPARE_DX_FIRST_LATEST == latestDx ? year1 : year2))
@@ -344,14 +345,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M11
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
                     //For now return manual review if the cases are diagnosed simultaneously or within 21 days
                     if (daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -376,14 +377,14 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M12
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M12") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
@@ -404,7 +405,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M13
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M13") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
@@ -412,7 +413,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
                 //If one disease can not be converted to another, no need to check other criteria
-                if (HematoUtils.isTransformation(morph1, morph2, year1, year2)) {
+                if (HematoUtils.isTransformation(provider, morph1, morph2, year1, year2)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessage("Manual review is required to check whether there is confirmation of treatment or not.");
                 }
@@ -435,7 +436,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M14
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M14") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> combined = new ArrayList<>(MphConstants.BCELL);
                 combined.addAll(MphConstants.TCELL);
@@ -466,13 +467,13 @@ public class Mp2010HematopoieticGroup extends MphGroup {
         // M15
         rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2010, "M15") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String morph1 = i1.getIcdCode();
                 String morph2 = i2.getIcdCode();
                 int year1 = Integer.parseInt(i1.getDateOfDiagnosisYear());
                 int year2 = Integer.parseInt(i2.getDateOfDiagnosisYear());
-                result.setFinalResult(HematoUtils.isSamePrimary(morph1, morph2, year1, year2) ? MpResult.SINGLE_PRIMARY : MpResult.MULTIPLE_PRIMARIES);
+                result.setFinalResult(HematoUtils.isSamePrimary(provider, morph1, morph2, year1, year2) ? MpResult.SINGLE_PRIMARY : MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };

@@ -5,6 +5,7 @@ package com.imsweb.mph.mprules;
 
 import java.util.Collections;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
@@ -22,7 +23,7 @@ public class MpRuleInsituAfterInvasiveSameSide extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
         TempRuleResult result = new TempRuleResult();
         String beh1 = i1.getBehavior();
         String beh2 = i2.getBehavior();

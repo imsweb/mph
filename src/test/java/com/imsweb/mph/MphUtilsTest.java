@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.imsweb.mph.MphUtils.MpResult;
@@ -38,12 +37,7 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 public class MphUtilsTest {
 
-    private final MphUtils _utils = MphUtils.getInstance();
-
-    @BeforeClass
-    public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDataProvider());
-    }
+    private final MphUtils _utils = new MphUtils();
 
     @Test
     public void testIsHematoSamePrimary() {
@@ -2602,7 +2596,7 @@ public class MphUtilsTest {
 
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
-                TempRuleResult result = rule.apply(i1, i2);
+                TempRuleResult result = rule.apply(i1, i2, new DefaultHematoDataProvider());
                 Assert.assertTrue(result.getMessage().contains("There is not enough diagnosis date information."));
             }
         }
@@ -2625,7 +2619,7 @@ public class MphUtilsTest {
 
         for (MphRule rule : malgroup.getRules()) {
             if (rule.getStep().equals("M3")) {
-                TempRuleResult result = rule.apply(i1, i2);
+                TempRuleResult result = rule.apply(i1, i2, new DefaultHematoDataProvider());
                 Assert.assertTrue(result.getMessage().contains("Valid and known laterality and diagnosis date"));
             }
         }

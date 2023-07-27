@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -25,7 +26,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 1
         MphRule rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M1") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 return new TempRuleResult();
             }
         };
@@ -37,7 +38,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 2
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M2") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 return new TempRuleResult();
             }
         };
@@ -50,7 +51,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 3
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 int daysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i2.getHistology()) && daysApart != MphConstants.DATE_VERIFY_APART) {
@@ -89,7 +90,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 4
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -143,7 +144,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 5
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -197,7 +198,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         // Rule 6
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -332,7 +333,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         //Rule 7
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -367,7 +368,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         //Rule 8
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -391,7 +392,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         //Rule 9
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();
@@ -411,7 +412,7 @@ public class Mp2004SolidMalignantGroup extends MphGroup {
         //Rule 10
         rule = new MphRule(MphConstants.MP_2004_SOLID_MALIGNANT, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();

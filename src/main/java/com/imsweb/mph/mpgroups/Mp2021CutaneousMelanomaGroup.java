@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -26,7 +27,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         //M3- Melanomas in sites with ICD-O-3 topography codes that are different at the second (C?xx), third (Cx?x) or fourth (C44?) character are multiple primaries.
         MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getPrimarySite().equals("C449") || i2.getPrimarySite().equals("C449")) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -45,7 +46,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         //M4- Abstract multiple primaries when there are separate, non-contiguous melanomas with different lateralities.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> lateralityNotRequiredSites = Arrays.asList("C440", "C448", "C449");
                 if (lateralityNotRequiredSites.contains(i1.getPrimarySite()) || MphConstants.PAIRED_NO_INFORMATION.equals(i1.getLaterality()) || MphConstants.PAIRED_NO_INFORMATION.equals(
@@ -75,7 +76,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         //Column 3, Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 String subtype1 = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.containsKey(i1.getHistology()) ?  MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i1.getHistology()) : MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i1.getIcdCode());
                 String subtype2 = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.containsKey(i2.getHistology()) ? MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i2.getHistology()) : MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES.get(i2.getIcdCode());
@@ -94,7 +95,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         //M6- Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. Tumors must have same site and same laterality.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 boolean icd1InTable = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_ROWS.contains(i1.getHistology()) || MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_ROWS.contains(i1.getIcdCode());
                 boolean icd2InTable = MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_ROWS.contains(i2.getHistology()) || MphConstants.CUTANEOUS_MELANOMA_2021_TABLE2_ROWS.contains(i2.getIcdCode());
@@ -127,7 +128,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
                 TempRuleResult result = new TempRuleResult();
                 int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {

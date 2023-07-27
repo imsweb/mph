@@ -9,6 +9,7 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils.MpResult;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
@@ -21,7 +22,7 @@ public class MpRuleInvasiveAfterInsituLessThan60Days extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         String beh1 = i1.getBehavior();
         String beh2 = i2.getBehavior();

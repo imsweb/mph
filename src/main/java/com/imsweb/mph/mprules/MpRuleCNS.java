@@ -7,6 +7,7 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
@@ -41,7 +42,7 @@ public class MpRuleCNS extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         String s1 = i1.getPrimarySite();
         String s2 = i2.getPrimarySite();
@@ -53,7 +54,8 @@ public class MpRuleCNS extends MphRule {
         boolean caudaEquinaAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2))
                 || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CAUDA_EQUINA, s1));
         // - Cerebral meninges C700 AND spinal meninges C701, Cerebral meninges C700 AND any other part of CNS
-        boolean celebralMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
+        boolean celebralMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(
+                MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2))
                 || (GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_CEREBRAL_MENINGES_SITES, s1));
         // - Any cranial nerve(s) C722-C725 AND any other part of the CNS
         boolean cranialAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA, s1) && !GroupUtility.isSiteContained(
@@ -72,10 +74,12 @@ public class MpRuleCNS extends MphRule {
         boolean spinalCordAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2))
                 || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_CORD_SITES, s1));
         // - Spinal meninges C701 AND any other part of CNS
-        boolean spinalMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
+        boolean spinalMeningesAndOtherPart = (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1) && !GroupUtility.isSiteContained(
+                MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2))
                 || (GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s2) && !GroupUtility.isSiteContained(MphConstants.CNS_2018_SPINAL_MENINGES_SITES, s1));
 
-        if (lobesAndOtherPart || caudaEquinaAndOtherPart || celebralMeningesAndOtherPart || cranialAndOtherPart || meningesOfCranialAndOtherPart || spinalCordAndOtherPart || spinalMeningesAndOtherPart || (cranialNerves && _malignant))
+        if (lobesAndOtherPart || caudaEquinaAndOtherPart || celebralMeningesAndOtherPart || cranialAndOtherPart || meningesOfCranialAndOtherPart || spinalCordAndOtherPart || spinalMeningesAndOtherPart
+                || (cranialNerves && _malignant))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
 
         return result;

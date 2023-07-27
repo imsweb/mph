@@ -11,6 +11,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
@@ -34,7 +35,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M4- Tumors on the upper lip (C000 or C003) and the lower lip (C001 or C004) are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -48,7 +49,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M5- Tumors on the upper gum (C030) and the lower gum (C031) are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.UPPER_GUM, MphConstants.LOWER_GUM))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -62,7 +63,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M6- Tumors in the nasal cavity (C300) and the middle ear (C301) are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getPrimarySite(), i2.getPrimarySite(), MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -90,7 +91,7 @@ public class Mp2007HeadAndNeckGroup extends MphGroup {
         //M10 - 
         rule = new MphRule(MphConstants.MPH_2007_2017_HEAD_AND_NECK, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String hist1 = i1.getHistology();
                 String hist2 = i2.getHistology();

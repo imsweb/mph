@@ -11,6 +11,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
@@ -25,7 +26,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         // M4 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.
         MphRule rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 //This will never happen, since the two conditions belong to different cancer groups.
                 return new TempRuleResult();
             }
@@ -41,7 +42,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         // M6 - A glioblastoma or glioblastoma multiforme (9440) following a glial tumor is a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String h2 = i2.getHistology();
@@ -66,7 +67,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         // M7 - Tumors with ICD-O-3 histology codes on the same branch in Chart 1 or Chart 2 are a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology());
                 List<String> branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());
@@ -90,7 +91,7 @@ public class Mp2007MalignantBrainGroup extends MphGroup {
         // M8 - Tumors with ICD-O-3 histology codes on different branches in Chart 1 or Chart 2 are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_MALIGNANT_BRAIN, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> branch1 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i1.getHistology());
                 List<String> branch2 = MphConstants.MALIGNANT_BRAIN_2007_CHART1.get(i2.getHistology());

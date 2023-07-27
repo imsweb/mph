@@ -8,6 +8,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2004BenignBrainGroup extends MphGroup {
@@ -18,7 +19,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         // Rule 1
         MphRule rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN, "M1") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
                         && GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality()) && i1.getLaterality().equals(i2.getLaterality()))
@@ -33,7 +34,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         // Rule 2
         rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN, "M2") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior())
                         && !GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality()))
@@ -48,7 +49,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         // Rule 3
         rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (!isSameSite(i1.getPrimarySite(), i2.getPrimarySite()) && isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -61,7 +62,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         // Rule 4
         rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior()) && GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -74,7 +75,7 @@ public class Mp2004BenignBrainGroup extends MphGroup {
         // Rule 5
         rule = new MphRule(MphConstants.MP_2004_BENIGN_BRAIN, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 result.setFinalResult(
                         !isSameHistology(i1.getHistology(), i1.getBehavior(), i2.getHistology(), i2.getBehavior()) ? MphUtils.MpResult.MULTIPLE_PRIMARIES : MphUtils.MpResult.SINGLE_PRIMARY);

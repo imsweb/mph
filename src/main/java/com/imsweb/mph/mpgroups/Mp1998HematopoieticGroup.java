@@ -18,6 +18,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp1998HematopoieticGroup extends MphGroup {
@@ -30,7 +31,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
 
         MphRule rule = new MphRule(MphConstants.HEMATOPOIETIC_AND_LYMPHOID_2000_AND_EARLIER, "") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getHistology().equals(i2.getHistology())) {
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

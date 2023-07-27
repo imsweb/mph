@@ -7,6 +7,7 @@ import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
@@ -22,7 +23,7 @@ public class MpRuleYearsApart extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         int diff = GroupUtility.verifyYearsApart(i1, i2, _year);
         if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {

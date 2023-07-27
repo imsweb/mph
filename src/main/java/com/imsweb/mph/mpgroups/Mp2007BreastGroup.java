@@ -13,6 +13,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
@@ -36,7 +37,7 @@ public class Mp2007BreastGroup extends MphGroup {
         //M6- Inflammatory carcinoma in one or both breasts is a single primary. (8530/3)
         rule = new MphRule(MphConstants.MPH_2007_2017_BREAST, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (MphConstants.MALIGNANT.equals(i1.getBehavior()) && MphConstants.MALIGNANT.equals(i2.getBehavior()) && MphConstants.INFLAMMATORY_CARCINOMA.equals(i1.getHistology())
                         && MphConstants.INFLAMMATORY_CARCINOMA.equals(i2.getHistology()))
@@ -51,7 +52,7 @@ public class Mp2007BreastGroup extends MphGroup {
         //M7- Tumors on both sides (right and left breast) are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_BREAST, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (!GroupUtility.validPairedSiteLaterality(i1.getLaterality(), i2.getLaterality())) {
                     result.setPotentialResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -77,7 +78,7 @@ public class Mp2007BreastGroup extends MphGroup {
         //M9- Tumors that are intraductal or duct and Paget Disease are a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_BREAST, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);
@@ -94,7 +95,7 @@ public class Mp2007BreastGroup extends MphGroup {
         //M10- Tumors that are lobular (8520) and intraductal or duct are a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_BREAST, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> lobular = Collections.singletonList("8520");
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
@@ -112,7 +113,7 @@ public class Mp2007BreastGroup extends MphGroup {
         //M11- Multiple intraductal and/or duct carcinomas are a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_BREAST, "M11") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> intraductalOrDuct = new ArrayList<>(MphConstants.INTRADUCTAL_CARCINOMA);
                 intraductalOrDuct.addAll(MphConstants.DUCT_CARCINOMA);

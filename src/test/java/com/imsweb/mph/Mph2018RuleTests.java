@@ -4,7 +4,6 @@
 package com.imsweb.mph;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.imsweb.mph.MphUtils.MpResult;
@@ -13,12 +12,7 @@ import com.imsweb.mph.MphUtils.MpResult;
 @SuppressWarnings("java:S5961")
 public class Mph2018RuleTests {
 
-    private MphUtils _utils = MphUtils.getInstance();
-
-    @BeforeClass
-    public static void setUp() {
-        MphUtils.initialize(new DefaultHematoDataProvider());
-    }
+    private MphUtils _utils = new MphUtils();
 
 
     //==================================================================================================================

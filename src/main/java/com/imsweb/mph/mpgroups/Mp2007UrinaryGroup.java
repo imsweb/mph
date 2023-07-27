@@ -12,6 +12,7 @@ import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleHistology;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
@@ -50,7 +51,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         // or papillary transitional cell carcinoma (8130-8131), are a single primary.       
         rule = new MphRule(MphConstants.MPH_2007_2017_URINARY, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> carcinomaHist = new ArrayList<>(MphConstants.TRANSITIONAL_CELL_CARCINOMA);
                 carcinomaHist.addAll(MphConstants.PAPILLARY_TRANSITIONAL_CELL_CARCINOMA);
@@ -77,7 +78,7 @@ public class Mp2007UrinaryGroup extends MphGroup {
         // Renal pelvis (C659), Ureter(C669), Bladder (C670-C679), Urethra /prostatic urethra (C680)
         rule = new MphRule(MphConstants.MPH_2007_2017_URINARY, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String site1 = i1.getPrimarySite();
                 String site2 = i2.getPrimarySite();

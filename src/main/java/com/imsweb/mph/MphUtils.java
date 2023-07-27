@@ -59,7 +59,7 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
  */
 public final class MphUtils {
 
-    private final Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
+    private final Pattern _morphology = Pattern.compile("^(\\d{4}/\\d)");
 
     /**
      * The possible result of determining if two tumors are single or multiple primaries.
@@ -324,7 +324,7 @@ public final class MphUtils {
      * @return true if two diseases are same primary and false otherwise.
      */
     public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
-        if (morph1 == null || morph2 == null || !_MORPHOLOGY.matcher(morph1).matches() || !_MORPHOLOGY.matcher(morph2).matches())
+        if (morph1 == null || morph2 == null || !_morphology.matcher(morph1).matches() || !_morphology.matcher(morph2).matches())
             return false;
         if (morph1.equals(morph2))
             return true;

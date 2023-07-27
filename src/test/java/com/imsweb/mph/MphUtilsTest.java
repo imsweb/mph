@@ -62,6 +62,7 @@ public class MphUtilsTest {
 
         Assert.assertTrue(_utils.isHematoSamePrimary("9591/3", "9766/3", 2020, 2022));
         Assert.assertFalse(_utils.isHematoSamePrimary("9591/3", "9766/3", 2020, 2020));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9591/3", "9766/3", 2022, 2022));
     }
 
     @Test

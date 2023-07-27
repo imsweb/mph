@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -58,6 +59,8 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
  */
 public final class MphUtils {
 
+    private final Pattern _MORPHOLOGY = Pattern.compile("^(\\d{4}/\\d)");
+
     /**
      * The possible result of determining if two tumors are single or multiple primaries.
      */
@@ -72,9 +75,11 @@ public final class MphUtils {
         INVALID_INPUT
     }
 
+    // the unique instance of this utility class
+    private static MphUtils _INSTANCE = null;
 
     // the Hematopoietic diseases provider used by the instance
-    private HematoDataProvider _provider;
+    private final HematoDataProvider _provider;
 
     // the cached groups of rules used by the instance
     private final Map<String, MphGroup> _groups = new LinkedHashMap<>();
@@ -84,6 +89,31 @@ public final class MphUtils {
      */
     private void addGroup(MphGroup newGroup) {
         _groups.put(newGroup.getId(), newGroup);
+    }
+
+    /**
+     * Initialized the instance with the given hemato db data provider; this allows to use a customized provider instead of the default one.
+     * This method must be called before trying to get an instance, of the default provider will be used instead.
+     * @param provider hemato database data provider interface
+     */
+    public static synchronized void initialize(HematoDataProvider provider) {
+        _INSTANCE = new MphUtils(provider);
+    }
+
+    /**
+     * Returns true if the instance has been initialized, false otherwise.
+     */
+    public static synchronized boolean isInitialized() {
+        return _INSTANCE != null;
+    }
+
+    /**
+     * Returns the instance of MPH utils.
+     */
+    public static synchronized MphUtils getInstance() {
+        if (!isInitialized())
+            initialize(new DefaultHematoDataProvider());
+        return _INSTANCE;
     }
 
     /**
@@ -217,6 +247,7 @@ public final class MphUtils {
             output.setReason("The two sets of parameters belong to two different cancer groups.");
         }
         else {
+            RuleExecutionContext context = new RuleExecutionContext(this);
             output.setGroupId(group1.getId());
             output.setGroupName(group1.getName());
             TempRuleResult potentialResult = null;
@@ -226,7 +257,7 @@ public final class MphUtils {
                     output.getAppliedRules().add(rule);
                 else
                     rulesAppliedAfterQuestionable.add(rule);
-                TempRuleResult result = rule.apply(input1, input2, _provider);
+                TempRuleResult result = rule.apply(input1, input2, context);
                 if (result.getPotentialResult() != null) {
                     if (potentialResult == null)
                         potentialResult = result;
@@ -259,18 +290,6 @@ public final class MphUtils {
     }
 
     /**
-     * Calculates if two hematopoietic diseases are same primaries based on Hemato DB.
-     * @param morph1 disease 1
-     * @param morph2 disease 2
-     * @param year1 diagnosis year 1
-     * @param year2 disgnosis year 2
-     * @return true if two diseases are same primary and false otherwise.
-     */
-    public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
-        return HematoUtils.isSamePrimary(_provider, morph1, morph2, year1, year2);
-    }
-
-    /**
      * Calculates the cancer group for the provided naaccr properties.
      * @param primarySite primary site
      * @param histology histology ICD-O-3
@@ -294,5 +313,44 @@ public final class MphUtils {
      */
     public Map<String, MphGroup> getAllGroups() {
         return Collections.unmodifiableMap(_groups);
+    }
+
+    /**
+     * Calculates if two hematopoietic diseases are same primaries based on Hemato DB.
+     * @param morph1 disease 1
+     * @param morph2 disease 2
+     * @param year1 diagnosis year 1
+     * @param year2 disgnosis year 2
+     * @return true if two diseases are same primary and false otherwise.
+     */
+    public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
+        if (morph1 == null || morph2 == null || !_MORPHOLOGY.matcher(morph1).matches() || !_MORPHOLOGY.matcher(morph2).matches())
+            return false;
+        if (morph1.equals(morph2))
+            return true;
+
+        return _provider.getSamePrimary(morph1).stream().anyMatch(r -> r.matches(morph2, year1)) && _provider.getSamePrimary(morph2).stream().anyMatch(r -> r.matches(morph1, year2));
+    }
+
+    public boolean isTransformation(String leftCode, String rightCode, int leftYear, int rightYear) {
+        return isChronicToAcuteTransformation(leftCode, rightCode, leftYear, rightYear) || isAcuteToChronicTransformation(leftCode, rightCode, leftYear, rightYear);
+    }
+
+    //when a neoplasm is originally diagnosed as a chronic neoplasm AND there is a second diagnosis of an acute neoplasm
+    public boolean isChronicToAcuteTransformation(String earlierMorph, String laterMorph, int earlierYear, int laterYear) {
+        return confirmTransformTo(earlierMorph, laterMorph, earlierYear) && confirmTransformFrom(laterMorph, earlierMorph, laterYear);
+    }
+
+    //when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm
+    public boolean isAcuteToChronicTransformation(String earlierMorph, String laterMorph, int earlierYear, int laterYear) {
+        return confirmTransformFrom(earlierMorph, laterMorph, earlierYear) && confirmTransformTo(laterMorph, earlierMorph, laterYear);
+    }
+
+    private boolean confirmTransformTo(String leftCode, String rightCode, int year) {
+        return _provider.getTransformTo(leftCode).stream().anyMatch(d -> d.matches(rightCode, year));
+    }
+
+    private boolean confirmTransformFrom(String leftCode, String rightCode, int year) {
+        return _provider.getTransformFrom(leftCode).stream().anyMatch(d -> d.matches(rightCode, year));
     }
 }

@@ -3,10 +3,10 @@
  */
 package com.imsweb.mph.mprules;
 
-import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class MpRulePrimarySite extends MphRule {
@@ -18,7 +18,7 @@ public class MpRulePrimarySite extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         if (!i1.getPrimarySite().substring(1, 3).equals(i2.getPrimarySite().substring(1, 3)))
             result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);

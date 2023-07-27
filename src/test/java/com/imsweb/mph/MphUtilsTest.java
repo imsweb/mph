@@ -37,16 +37,59 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
 
 public class MphUtilsTest {
 
-    private final MphUtils _utils = new MphUtils();
+    private final MphUtils _utils = MphUtils.getInstance();
 
     @Test
     public void testIsHematoSamePrimary() {
-        Assert.assertFalse(_utils.isHematoSamePrimary(null, null, 2020, 2020));
-        Assert.assertFalse(_utils.isHematoSamePrimary("1234", "1234", 2020, 2020));
-        Assert.assertTrue(_utils.isHematoSamePrimary("9733/3", "9733/3", 2020, 2020));
-        Assert.assertTrue(_utils.isHematoSamePrimary("9733/3", "9733/3", 2020, 2020));
-        Assert.assertTrue(_utils.isHematoSamePrimary("9865/3", "9800/3", 2011, 2011));
-        Assert.assertFalse(_utils.isHematoSamePrimary("9865/3", "9800/3", 2011, 2009));
+
+        Assert.assertFalse(_utils.isHematoSamePrimary(null, null, 2010, 2010));
+        Assert.assertFalse(_utils.isHematoSamePrimary("", "", 2010, 2010));
+        Assert.assertFalse(_utils.isHematoSamePrimary("TEST", "TEST", 2010, 2010));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9861/3", "9861/3", 2010, 2010));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9861/3", "9861/3", 2010, 2000));
+
+        Assert.assertTrue(_utils.isHematoSamePrimary("9870/3", "9590/3", 2016, 2011));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9590/3", "9870/3", 2009, 2016));
+        Assert.assertFalse(_utils.isHematoSamePrimary("9590/3", "9870/3", 1990, 1998));
+
+        Assert.assertFalse(_utils.isHematoSamePrimary("9870/3", "9805/3", 2016, 2016));
+        Assert.assertFalse(_utils.isHematoSamePrimary("9870/3", "9805/3", 2010, 2010));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9870/3", "9805/3", 2001, 2001));
+        Assert.assertFalse(_utils.isHematoSamePrimary("9671/3", "9823/3", 2018, 2009));
+
+        Assert.assertTrue(_utils.isHematoSamePrimary("9738/3", "9590/3", 2019, 2022));
+        Assert.assertFalse(_utils.isHematoSamePrimary("9738/3", "9590/3", 2021, 2022));
+    }
+
+    @Test
+    public void testIsChronicToAcute() {
+
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation(null, null, 2010, 2010));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("", "", 2010, 2010));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("TEST", "TEST", 2010, 2010));
+        Assert.assertTrue(_utils.isChronicToAcuteTransformation("9761/3", "9659/3", 2010, 2010));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("9659/3", "9761/3", 2010, 2010));
+        Assert.assertTrue(_utils.isChronicToAcuteTransformation("9992/3", "9872/3", 2010, 2010));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("9992/3", "9872/3", 2005, 2010));
+        Assert.assertTrue(_utils.isChronicToAcuteTransformation("9989/3", "9861/3", 2010, 2010));
+
+        Assert.assertTrue(_utils.isChronicToAcuteTransformation("9993/3", "9867/3", 2021, 2021));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("9867/3", "9993/3", 2021, 2021));
+        Assert.assertFalse(_utils.isChronicToAcuteTransformation("9993/3", "9867/3", 2020, 2021));
+    }
+
+    @Test
+    public void testIsAcuteToChronic() {
+
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation(null, null, 2010, 2010));
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation("", "", 2010, 2010));
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation("TEST", "TEST", 2010, 2010));
+        Assert.assertTrue(_utils.isAcuteToChronicTransformation("9653/3", "9671/3", 2010, 2010));
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation("9671/3", "9653/3", 2010, 2010));
+
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation("9993/3", "9867/3", 2021, 2021));
+        Assert.assertTrue(_utils.isAcuteToChronicTransformation("9867/3", "9993/3", 2021, 2021));
+        Assert.assertFalse(_utils.isAcuteToChronicTransformation("9993/3", "9867/3", 2020, 2021));
     }
 
     @Test
@@ -137,7 +180,6 @@ public class MphUtilsTest {
 
         //2018 Colon
         Assert.assertEquals(new Mp2018ColonGroup(), _utils.findCancerGroup("C180", "8100", "3", 2018));
-
 
         //2018 Head and Neck
         Assert.assertEquals(new Mp2018HeadAndNeckGroup(), _utils.findCancerGroup("C005", "8100", "3", 2018));
@@ -2020,7 +2062,6 @@ public class MphUtilsTest {
         //confirms that the NOS and the more specific histology are the same primary.
         //This is Skipped on the automated process
 
-
         //M8 TODO
 
         //M9 TODO
@@ -2596,7 +2637,7 @@ public class MphUtilsTest {
 
         for (MphRule rule : group.getRules()) {
             if (rule.getStep().equals("M5")) {
-                TempRuleResult result = rule.apply(i1, i2, new DefaultHematoDataProvider());
+                TempRuleResult result = rule.apply(i1, i2, new RuleExecutionContext(_utils));
                 Assert.assertTrue(result.getMessage().contains("There is not enough diagnosis date information."));
             }
         }
@@ -2619,7 +2660,7 @@ public class MphUtilsTest {
 
         for (MphRule rule : malgroup.getRules()) {
             if (rule.getStep().equals("M3")) {
-                TempRuleResult result = rule.apply(i1, i2, new DefaultHematoDataProvider());
+                TempRuleResult result = rule.apply(i1, i2, new RuleExecutionContext(_utils));
                 Assert.assertTrue(result.getMessage().contains("Valid and known laterality and diagnosis date"));
             }
         }

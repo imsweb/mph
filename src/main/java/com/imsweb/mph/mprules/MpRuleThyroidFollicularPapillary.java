@@ -6,11 +6,11 @@ package com.imsweb.mph.mprules;
 import java.util.Arrays;
 import java.util.Set;
 
-import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
@@ -24,7 +24,7 @@ public class MpRuleThyroidFollicularPapillary extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         String site1 = i1.getPrimarySite();
         String site2 = i2.getPrimarySite();

@@ -61,5 +61,5 @@ public abstract class MphRule {
         return _examples;
     }
 
-    public abstract TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider);
+    public abstract TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context);
 }

@@ -6,12 +6,12 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.List;
 
-import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleFollowing;
 import com.imsweb.mph.mprules.MpRuleHistology;
@@ -26,7 +26,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         // M3 - An invasive brain tumor (/3) and either a benign brain tumor (/0) or an uncertain/borderline brain tumor (/1) are always multiple primaries.        
         MphRule rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M3") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 //This will never happen, since the two conditions belong to different cancer group.           
                 return new TempRuleResult();
             }
@@ -38,7 +38,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         // M4 - Tumors with ICD-O-3 topography codes that are different at the second (C?xx) and/or third characters (Cx?x), or fourth (Cxx?) are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M4") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (!i1.getPrimarySite().equals(i2.getPrimarySite()))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
@@ -73,7 +73,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         // M8 - Tumors with two or more histologic types on the same branch in Chart 1 are a single primary.
         rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -94,7 +94,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         // M9 - Tumors with multiple histologic types on different branches in Chart 1 are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();
@@ -115,7 +115,7 @@ public class Mp2007BenignBrainGroup extends MphGroup {
         // M10 - Tumors with two or more histologic types and at least one of the histologies is not listed in Chart 1 are multiple primaries.
         rule = new MphRule(MphConstants.MPH_2007_2017_BENIGN_BRAIN, "M10") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String icd1 = i1.getIcdCode();
                 String icd2 = i2.getIcdCode();

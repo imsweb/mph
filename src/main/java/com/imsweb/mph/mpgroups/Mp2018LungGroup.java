@@ -3,13 +3,13 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleInsituAfterInvasiveSameSide;
 import com.imsweb.mph.mprules.MpRuleInvasiveAfterInsituGreaterThan60Days;
@@ -48,7 +48,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M5 Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M5") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.LUNG_2018_8041_AND_SUBTYPES, MphConstants.LUNG_2018_8046_AND_SUBTYPES))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
@@ -68,7 +68,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M6") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -93,7 +93,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M7") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -144,7 +144,7 @@ public class Mp2018LungGroup extends MphGroup {
         // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M8") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String h1 = i1.getHistology();
                 String icd1 = i1.getIcdCode();
@@ -186,7 +186,7 @@ public class Mp2018LungGroup extends MphGroup {
         //   otherwise return QUESTIONABLE.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M9") {
             @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 String lat1 = i1.getLaterality();
                 String lat2 = i2.getLaterality();

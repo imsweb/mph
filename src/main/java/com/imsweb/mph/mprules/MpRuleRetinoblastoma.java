@@ -6,11 +6,11 @@ package com.imsweb.mph.mprules;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import com.imsweb.mph.HematoDataProvider;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class MpRuleRetinoblastoma extends MphRule {
@@ -22,7 +22,7 @@ public class MpRuleRetinoblastoma extends MphRule {
     }
 
     @Override
-    public TempRuleResult apply(MphInput i1, MphInput i2, HematoDataProvider provider) {
+    public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
         TempRuleResult result = new TempRuleResult();
         if (new HashSet<>(MphConstants.RETINO_BLASTOMA).containsAll(Arrays.asList(i1.getHistology(), i2.getHistology())))
             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

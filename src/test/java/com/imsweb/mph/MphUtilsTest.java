@@ -2170,14 +2170,15 @@ public class MphUtilsTest {
         //M15 Use the Heme DB Multiple Primaries Calculator to determine the number of primaries
         Assert.assertEquals(15, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());//9732 and 9971 are not same primaries
-        i1.setHistologyIcdO3("9732");
-        i2.setHistologyIcdO3("9733");
+        //9993 is valid after 2021. one of the dx year should be 2021+ them to be same primary
+        i1.setHistologyIcdO3("9800");
+        i2.setHistologyIcdO3("9993");
         i1.setDateOfDiagnosisYear("2010");
         i2.setDateOfDiagnosisYear("2010");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        i2.setDateOfDiagnosisYear("2009");
+        i1.setDateOfDiagnosisYear("2021");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());

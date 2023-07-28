@@ -319,7 +319,7 @@ public final class MphUtils {
     /**
      * @return the date when the hemato data is last updated
      */
-    public Date getDataLastUpdated() {
+    public Date getHematoDataLastUpdated() {
         return _provider.getDataLastUpdated();
     }
 

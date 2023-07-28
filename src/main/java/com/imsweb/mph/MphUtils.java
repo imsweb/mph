@@ -3,11 +3,17 @@
  */
 package com.imsweb.mph;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -313,6 +319,21 @@ public final class MphUtils {
      */
     public Map<String, MphGroup> getAllGroups() {
         return Collections.unmodifiableMap(_groups);
+    }
+
+    public Date getDataLastUpdated() {
+
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
+            if (is == null)
+                throw new IllegalStateException("Unable to get info properties");
+            Properties prop = new Properties();
+            prop.load(is);
+            String lastUpdateDate = prop.getProperty("last_updated");
+            return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
+        }
+        catch (IOException | ParseException e) {
+            return null;
+        }
     }
 
     /**

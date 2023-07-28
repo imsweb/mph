@@ -5,6 +5,7 @@ package com.imsweb.mph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -313,6 +314,13 @@ public final class MphUtils {
      */
     public Map<String, MphGroup> getAllGroups() {
         return Collections.unmodifiableMap(_groups);
+    }
+
+    /**
+     * @return the date when the hemato data is last updated
+     */
+    public Date getHematoDataLastUpdated() {
+        return _provider.getDataLastUpdated();
     }
 
     /**

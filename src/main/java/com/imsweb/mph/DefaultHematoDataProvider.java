@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -110,5 +114,21 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
     @Override
     public List<HematoDTO> getTransformFrom(String morphology) {
         return _transformFromDto.computeIfAbsent(morphology, k -> Collections.emptyList());
+    }
+
+    @Override
+    public Date getDataLastUpdated() {
+
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
+            if (is == null)
+                throw new IllegalStateException("Unable to get info properties");
+            Properties prop = new Properties();
+            prop.load(is);
+            String lastUpdateDate = prop.getProperty("last_updated");
+            return new SimpleDateFormat("yyyyMMddHHmm").parse(lastUpdateDate);
+        }
+        catch (IOException | ParseException e) {
+            return null;
+        }
     }
 }

@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph;
 
+import java.util.Date;
 import java.util.List;
 
 import com.imsweb.mph.internal.HematoDTO;
@@ -38,4 +39,9 @@ public interface HematoDataProvider {
      * @return List of transform from morphologies with their applicable year
      */
     List<HematoDTO> getTransformFrom(String morphology);
+
+    /**
+     * @return the date when the hemato data is last updated
+     */
+    Date getDataLastUpdated();
 }

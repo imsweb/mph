@@ -337,8 +337,7 @@ public final class MphUtils {
         if (morph1.equals(morph2))
             return true;
 
-        int laterYear = Math.max(year1, year2);
-        return _provider.getSamePrimary(morph1).stream().anyMatch(r -> r.matches(morph2, laterYear)) || _provider.getSamePrimary(morph2).stream().anyMatch(r -> r.matches(morph1, laterYear));
+        return year1 > year2 ? _provider.getSamePrimary(morph1).stream().anyMatch(r -> r.matches(morph2, year1)) : _provider.getSamePrimary(morph2).stream().anyMatch(r -> r.matches(morph1, year2));
     }
 
     public boolean isTransformation(String leftCode, String rightCode, int leftYear, int rightYear) {

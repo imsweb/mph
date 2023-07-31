@@ -3,6 +3,8 @@
  */
 package com.imsweb.mph.internal;
 
+import java.util.Objects;
+
 public class HematoDTO {
 
     private Short _validStartYear;
@@ -32,5 +34,19 @@ public class HematoDTO {
             endYear = _validEndYear != null ? _validEndYear : 9999;
 
         return year >= startYear && year <= endYear && morphology.equals(_morphology);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HematoDTO)) return false;
+        HematoDTO hematoDTO = (HematoDTO)o;
+        return Objects.equals(_validStartYear, hematoDTO._validStartYear) && Objects.equals(_validEndYear, hematoDTO._validEndYear) && Objects.equals(_startYear,
+                hematoDTO._startYear) && Objects.equals(_endYear, hematoDTO._endYear) && Objects.equals(_morphology, hematoDTO._morphology);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_validStartYear, _validEndYear, _startYear, _endYear, _morphology);
     }
 }

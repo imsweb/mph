@@ -103,17 +103,17 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
 
     @Override
     public List<HematoDTO> getSamePrimary(String morphology) {
-        return _samePrimaryDto.computeIfAbsent(morphology, k -> Collections.emptyList());
+        return _samePrimaryDto.getOrDefault(morphology, Collections.emptyList());
     }
 
     @Override
     public List<HematoDTO> getTransformTo(String morphology) {
-        return _transformToDto.computeIfAbsent(morphology, k -> Collections.emptyList());
+        return _transformToDto.getOrDefault(morphology, Collections.emptyList());
     }
 
     @Override
     public List<HematoDTO> getTransformFrom(String morphology) {
-        return _transformFromDto.computeIfAbsent(morphology, k -> Collections.emptyList());
+        return _transformFromDto.getOrDefault(morphology, Collections.emptyList());
     }
 
     @Override

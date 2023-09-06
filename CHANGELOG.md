@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.32**
+
+- Fixed a concurrent modification exception.
+
 **Changes in version 1.31**
 
 - Enhanced HematoDataProvider Interface to be a clean data provider.

@@ -18,7 +18,7 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphOutput;
 import com.imsweb.mph.MphUtils;
 
-public class TestingDataCreationLab {
+public class TestingDataCreation {
 
     // this is a WIP; clearly there are too many combinations to deal with them exhaustively, I need to find a better to create the files...
     public static void main(String[] args) throws IOException {

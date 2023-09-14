@@ -7,6 +7,14 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import com.imsweb.mph.mpgroups.GroupUtility;
 
+/**
+ * This class is used to encapsulate the inputs to the MP evaluation.
+ * <br/><br/>
+ * The evaluation will typically have two inputs each representing a tumor.
+ * <br/><br/>
+ * All the fields are standard NAACCR fields. The ICD-O-2 fields are used
+ * instead of the ICD-O-3 if the DX year is prior to 2001.
+ */
 public class MphInput {
 
     private String _primarySite;

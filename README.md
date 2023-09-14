@@ -18,8 +18,10 @@ You can check out the [release page](https://github.com/imsweb/mph/releases) for
 
 ## Usage
 
-The entry point to the library is the **MphUtils.computePrimary** method. It takes two **MphInput** representing the two tumors to evaluate, and returns an **MphOutput** that contains 
-the result (SINGLE_PRIMARY, MULTIPLE_PRIMARIES or QUESTIONABLE) and a description of the rules that were executed to obtain that result.
+The entry point to the library is the [MphUtils.computePrimary](https://github.com/imsweb/mph/blob/master/src/main/java/com/imsweb/mph/MphUtils.java) method. 
+It takes two [MphInput](https://github.com/imsweb/mph/blob/master/src/main/java/com/imsweb/mph/MphInput.java) representing the two tumors to evaluate, 
+and returns an [MphOutput](https://github.com/imsweb/mph/blob/master/src/main/java/com/imsweb/mph/MphOutput.java) that contains the result 
+(SINGLE_PRIMARY, MULTIPLE_PRIMARIES, QUESTIONABLE or INVALID_INPUT) and a description of the rules that were executed to obtain that result.
 
 Here is a typical call to the library:
 
@@ -30,21 +32,33 @@ public class MphTest {
         
         MphInput input1 = new MphInput();
         input1.setDateOfDiagnosisYear("2016");
+        input1.setDateOfDiagnosisMonth("06");
+        input1.setDateOfDiagnosisDay("15");
         input1.setPrimarySite("C509");
-        input1.setHistologyIcdO3("8000");
-        input1.setBehaviorIcdO3("3");
+        input1.setLaterality("0");
+        input1.setHistologyIcdO3("8000"); // use for DX year 2001+
+        input1.setBehaviorIcdO3("3"); // use for DX year 2001+
+        //input1.setHistologyIcdO2("8000");  // use for DX year prior to 2001
+        //input1.setBehaviorIcdO2("3");  // use for DX year prior to 2001
         
         MphInput input2 = new MphInput();
         input2.setDateOfDiagnosisYear("2016");
+        input2.setDateOfDiagnosisMonth("06");
+        input2.setDateOfDiagnosisDay("15");
         input2.setPrimarySite("C501");
-        input2.setHistologyIcdO3("8000");
-        input2.setBehaviorIcdO3("3");
+        input2.setLaterality("0");
+        input2.setHistologyIcdO3("8000"); // use for DX year 2001+
+        input2.setBehaviorIcdO3("3"); // use for DX year 2001+
+        //input2.setHistologyIcdO2("8000");  // use for DX year prior to 2001
+        //input2.setBehaviorIcdO2("3");  // use for DX year prior to 2001
         
         MphOutput output = MphUtils.getInstance().computePrimaries(input1, input2);
         System.out.println("Result: " + output.getResult());
     }
 }
 ```
+
+That simple example was copied from [this lab class](https://github.com/imsweb/mph/blob/master/src/test/java/lab/SimpleExample.java).
 
 ## Rules
 

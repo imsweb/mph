@@ -29,6 +29,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.imsweb:seerapi-client-java:5.3'
+    testImplementation 'com.imsweb:data-generator:1.30'
 }
 
 // enforce UTF-8, display the compilation warnings

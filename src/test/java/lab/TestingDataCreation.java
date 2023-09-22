@@ -22,12 +22,18 @@ import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.naaccrxml.entity.Tumor;
 
+/**
+ * This class can be used to generate CSV files with fake data, along with the result of the library.
+ * <br/><br/>
+ * The class uses another library (data-generator) to create the data. The simplest way to run it
+ * is to clone the project from GitHub and run it within your preferred IDE.
+ */
 public class TestingDataCreation {
 
     public static void main(String[] args) throws IOException {
 
         // global parameters
-        int numTests = 100;
+        int numTests = 500;
         int minDxYear = 2010;
         int maxDxYear = 2020;
 
@@ -95,7 +101,7 @@ public class TestingDataCreation {
                     row.add(input2.getBehavior());
                     row.add(input2.getLaterality());
                     row.add(output.getResult().toString());
-                    row.add(output.getReason().replace("\r\n", "\\r\\n"));
+                    row.add(output.getReason().replace("\n", "\\n"));
 
                     writer.write(String.join(",", row));
                     writer.write("\n");

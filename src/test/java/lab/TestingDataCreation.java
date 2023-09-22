@@ -33,9 +33,9 @@ public class TestingDataCreation {
     public static void main(String[] args) throws IOException {
 
         // global parameters
-        int numTests = 500;
-        int minDxYear = 2010;
-        int maxDxYear = 2020;
+        int numTests = 10000;
+        int minDxYear = 2000;
+        int maxDxYear = 2022;
 
         // the fake data generator
         NaaccrXmlDataGenerator generator = new NaaccrXmlDataGenerator(LayoutFactory.getNaaccrXmlLayout(LayoutFactory.LAYOUT_ID_NAACCR_XML_23));

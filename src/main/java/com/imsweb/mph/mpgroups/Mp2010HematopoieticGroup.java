@@ -444,13 +444,12 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 combined.addAll(MphConstants.HODGKIN_LYMPHOMA);
                 combined.addAll(MphConstants.PLASMACYTOMA);
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PTLD, combined)) {
-                    int daysApart = GroupUtility.verifyDaysApart(i1, i2, 21);
-                    if (MphConstants.DATE_VERIFY_UNKNOWN == daysApart) {
+                    //Even if the dx date is known to be the same, we don't know if it is in one biopsy.
+                    //If dx date is same, return a potential single primary! If M15 confirms the cases as single, we will return single.
+                    if (i1.getDateOfDiagnosisYear().equals(i2.getDateOfDiagnosisYear()) && i1.getDateOfDiagnosisMonth().equals(i2.getDateOfDiagnosisMonth()) && i1.getDateOfDiagnosisDay().equals(i2.getDateOfDiagnosisDay())) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
                     }
-                    else if (MphConstants.DATE_VERIFY_WITHIN == daysApart)
-                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                 }
                 return result;
             }

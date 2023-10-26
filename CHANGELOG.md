@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.33**
+
+- Fixed definition of simultaneous to be same day for M14 of Hematopoietic and Lymphoid 2010+ rules. (#129)
+
 **Changes in version 1.32**
 
 - Fixed a concurrent modification exception.

@@ -2147,31 +2147,27 @@ public class MphUtilsTest {
         i1.setDateOfDiagnosisMonth("01");
         i2.setDateOfDiagnosisMonth("01");
         i1.setDateOfDiagnosisDay("20");
+        i2.setDateOfDiagnosisDay("20");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         i2.setHistologyIcdO3("9718"); //Tcell
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         i2.setHistologyIcdO3("9653"); //Hodgkin
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         i2.setHistologyIcdO3("9732"); //plasmacytoma
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(14, output.getAppliedRules().size());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        i2.setDateOfDiagnosisMonth("02"); //unknown if they are simultaneous
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(14, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
-        i2.setDateOfDiagnosisMonth("03"); //definitely not simultaneous
+        i2.setDateOfDiagnosisDay("02"); //skip if they are not same date
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertNotEquals(14, output.getAppliedRules().size());
+        Assert.assertEquals(15, output.getAppliedRules().size());
 
         //M15 Use the Heme DB Multiple Primaries Calculator to determine the number of primaries
-        Assert.assertEquals(15, output.getAppliedRules().size());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());//9732 and 9971 are not same primaries
         //9993 is valid after 2021. one of the dx year should be 2021+ them to be same primary
         i1.setHistologyIcdO3("9800");

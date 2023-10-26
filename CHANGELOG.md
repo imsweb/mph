@@ -2,7 +2,7 @@
 
 **Changes in version 1.33**
 
-- Fixed definition of simultaneous to be same day for M14 of Hematopoietic and Lymphoid 2010+ rules.
+- Fixed definition of simultaneous to be same day for M14 of Hematopoietic and Lymphoid 2010+ rules. (#129)
 
 **Changes in version 1.32**
 

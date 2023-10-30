@@ -228,24 +228,23 @@ public class GroupUtility {
         DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
+        if (date.getYear1() == null || date.getYear2() == null || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.COMPARE_DX_UNKNOWN;
         else if (date.getYear1() > date.getYear2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
         else if (date.getYear2() > date.getYear1())
             return MphConstants.COMPARE_DX_SECOND_LATEST;
 
-        // if month is missing or invalid, return unknown
-        if (date.getMonth1() < 1 || date.getMonth1() > 12 || date.getMonth2() < 1 || date.getMonth2() > 12)
+        // if month is missing, return unknown
+        if (date.getMonth1() == null || date.getMonth2() == null)
             return MphConstants.COMPARE_DX_UNKNOWN;
         else if (date.getMonth1() > date.getMonth2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
         else if (date.getMonth2() > date.getMonth1())
             return MphConstants.COMPARE_DX_SECOND_LATEST;
 
-        // if day is missing or invalid, return unknown
-        if (date.getDay1() < 1 || date.getDay1() > LocalDate.of(date.getYear1(), date.getMonth1(), 1).lengthOfMonth() || date.getDay2() < 1 || date.getDay2() > LocalDate.of(date.getYear2(),
-                date.getMonth2(), 1).lengthOfMonth())
+        // if day is missing, return unknown
+        if (date.getDay1() == null || date.getDay2() == null)
             return MphConstants.COMPARE_DX_UNKNOWN;
         else if (date.getDay1() > date.getDay2())
             return MphConstants.COMPARE_DX_FIRST_LATEST;
@@ -265,20 +264,19 @@ public class GroupUtility {
         DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
+        if (date.getYear1() == null || date.getYear2() == null || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.DATE_VERIFY_UNKNOWN;
         else if (Math.abs(date.getYear1() - date.getYear2()) > yearsApart)
             return MphConstants.DATE_VERIFY_APART;
         else if (Math.abs(date.getYear1() - date.getYear2()) < yearsApart)
             return MphConstants.DATE_VERIFY_WITHIN;
-        else if (date.getMonth1() < 1 || date.getMonth1() > 12 || date.getMonth2() < 1 || date.getMonth2() > 12)
+        else if (date.getMonth1() == null || date.getMonth2() == null)
             return MphConstants.DATE_VERIFY_UNKNOWN;
         else if ((date.getYear1() > date.getYear2() && date.getMonth1() > date.getMonth2()) || (date.getYear2() > date.getYear1() && date.getMonth2() > date.getMonth1()))
             return MphConstants.DATE_VERIFY_APART;
         else if ((date.getYear1() > date.getYear2() && date.getMonth1() < date.getMonth2()) || (date.getYear2() > date.getYear1() && date.getMonth2() < date.getMonth1()))
             return MphConstants.DATE_VERIFY_WITHIN;
-        else if (date.getDay1() < 1 || date.getDay1() > LocalDate.of(date.getYear1(), date.getMonth1(), 1).lengthOfMonth() || date.getDay2() < 1 || date.getDay2() > LocalDate.of(date.getYear2(),
-                date.getMonth2(), 1).lengthOfMonth())
+        else if (date.getDay1() == null || date.getDay2() == null)
             return MphConstants.DATE_VERIFY_UNKNOWN;
         return Math.abs(ChronoUnit.YEARS.between(LocalDate.of(date.getYear1(), date.getMonth1(), date.getDay1()), LocalDate.of(date.getYear2(), date.getMonth2(), date.getDay2())))
                 >= yearsApart ? MphConstants.DATE_VERIFY_APART : MphConstants.DATE_VERIFY_WITHIN;
@@ -296,7 +294,7 @@ public class GroupUtility {
         DateFieldParts date = new DateFieldParts(input1, input2);
         //If year is missing or in the future, return unknown
         int currYear = LocalDate.now().getYear();
-        if (date.getYear1() == 9999 || date.getYear2() == 9999 || date.getYear1() > currYear || date.getYear2() > currYear)
+        if (date.getYear1() == null || date.getYear2() == null || date.getYear1() > currYear || date.getYear2() > currYear)
             return MphConstants.DATE_VERIFY_UNKNOWN;
 
         int minDaysInBetween = daysInBetween(date.getYear2(), date.getMonth2(), date.getDay2(), date.getYear1(), date.getMonth1(), date.getDay1(), true);
@@ -317,39 +315,24 @@ public class GroupUtility {
     }
 
     //This method is called if one diagnosis is after the other, It returns the minimum or maximum days between two diagnosis dates based on boolean minimum
-    private static int daysInBetween(int startYr, int startMon, int startDay, int endYr, int endMon, int endDay, boolean minimum) {
-
-        if (startMon < 1 || startMon > 12) {
-            startMon = 99;
-            startDay = 99;
-        }
-        else if (startDay < 1 || startDay > LocalDate.of(startYr, startMon, 1).lengthOfMonth())
-            startDay = 99;
-
-        if (endMon < 1 || endMon > 12) {
-            endMon = 99;
-            endDay = 99;
-        }
-        else if (endDay < 1 || endDay > LocalDate.of(endYr, endMon, 1).lengthOfMonth())
-            endDay = 99;
-
+    private static int daysInBetween(Integer startYr, Integer startMon, Integer startDay, Integer endYr, Integer endMon, Integer endDay, boolean minimum) {
         LocalDate startDateMin = LocalDate.of(startYr, 1, 1);
         LocalDate startDateMax = LocalDate.of(startYr, 12, 31);
         LocalDate endDateMin = LocalDate.of(endYr, 1, 1);
         LocalDate endDateMax = LocalDate.of(endYr, 12, 31);
-        if (startDay != 99) {
+        if (startDay != null) {
             startDateMin = LocalDate.of(startYr, startMon, startDay);
             startDateMax = LocalDate.of(startYr, startMon, startDay);
         }
-        else if (startMon != 99) {
+        else if (startMon != null) {
             startDateMin = LocalDate.of(startYr, startMon, 1);
             startDateMax = LocalDate.of(startYr, startMon, YearMonth.of(startYr, startMon).lengthOfMonth());
         }
-        if (endDay != 99) {
+        if (endDay != null) {
             endDateMin = LocalDate.of(endYr, endMon, endDay);
             endDateMax = LocalDate.of(endYr, endMon, endDay);
         }
-        else if (endMon != 99) {
+        else if (endMon != null) {
             endDateMin = LocalDate.of(endYr, endMon, 1);
             endDateMax = LocalDate.of(endYr, endMon, YearMonth.of(endYr, endMon).lengthOfMonth());
         }
@@ -369,43 +352,51 @@ public class GroupUtility {
 
     static class DateFieldParts {
 
-        private final int _year1;
-        private final int _month1;
-        private final int _day1;
-        private final int _year2;
-        private final int _month2;
-        private final int _day2;
+        private final Integer _year1;
+        private Integer _month1;
+        private Integer _day1;
+        private final Integer _year2;
+        private Integer _month2;
+        private Integer _day2;
 
         public DateFieldParts(MphInput input1, MphInput input2) {
-            _year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : 9999;
-            _year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : 9999;
-            _month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : 99;
-            _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : 99;
-            _day1 = NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : 99;
-            _day2 = NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : 99;
+            _year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : null;
+            _year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : null;
+            _month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : null;
+            if (_month1 != null && (_month1 < 1 || _month1 > 12))
+                _month1 = null;
+            _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : null;
+            if (_month2 != null && (_month2 < 1 || _month2 > 12))
+                _month2 = null;
+            _day1 = _month1 != null && NumberUtils.isDigits(input1.getDateOfDiagnosisDay())? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
+            if (_year1 != null && _day1 != null && _day1 > LocalDate.of(_year1, _month1, 1).lengthOfMonth())
+                _day1 = null;
+            _day2 = _month2 != null && NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : null;
+            if (_year2 != null && _day2 != null && _day2 > LocalDate.of(_year2, _month2, 1).lengthOfMonth())
+                _day2 = null;
         }
 
-        public int getYear1() {
+        public Integer getYear1() {
             return _year1;
         }
 
-        public int getMonth1() {
+        public Integer getMonth1() {
             return _month1;
         }
 
-        public int getDay1() {
+        public Integer getDay1() {
             return _day1;
         }
 
-        public int getYear2() {
+        public Integer getYear2() {
             return _year2;
         }
 
-        public int getMonth2() {
+        public Integer getMonth2() {
             return _month2;
         }
 
-        public int getDay2() {
+        public Integer getDay2() {
             return _day2;
         }
 

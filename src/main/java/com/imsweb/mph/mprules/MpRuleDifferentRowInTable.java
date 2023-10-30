@@ -27,6 +27,9 @@ public class MpRuleDifferentRowInTable extends MphRule {
         String icd1 = i1.getIcdCode();
         String h2 = i2.getHistology();
         String icd2 = i2.getIcdCode();
+        //If they are same code, no need to check if they are in different rows.
+        if (icd1.equals(icd2))
+            return result;
         String row1 = _table.containsKey(h1) ? _table.get(h1) : _table.get(icd1);
         String row2 = _table.containsKey(h2) ? _table.get(h2) : _table.get(icd2);
         if (row1 == null || row2 == null) {

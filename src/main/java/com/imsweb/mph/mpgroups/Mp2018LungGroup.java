@@ -105,11 +105,11 @@ public class Mp2018LungGroup extends MphGroup {
                 String row2 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h2) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd2);
                 if (row2 == null && (MphConstants.LUNG_2018_TABLE2.contains(h2) || MphConstants.LUNG_2018_TABLE2.contains(icd2)))
                     row2 = "table2";
-                if (row1 == null || row2 == null) {
+                if (!icd1.equals(icd2) && (row1 == null || row2 == null)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
-                else if (row1.equals(row2) && !"table2".equals(row1)) {
+                else if (icd1.equals(icd2) || (row1.equals(row2) && !"table2".equals(row1))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                         return result;
@@ -150,6 +150,9 @@ public class Mp2018LungGroup extends MphGroup {
                 String icd1 = i1.getIcdCode();
                 String h2 = i2.getHistology();
                 String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (icd1.equals(icd2))
+                    return result;
                 String row1 = MphConstants.LUNG_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.LUNG_2018_TABLE3_ROWS.get(h1) : MphConstants.LUNG_2018_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.LUNG_2018_TABLE2.contains(h1) || MphConstants.LUNG_2018_TABLE2.contains(icd1)))
                     row1 = "table2";

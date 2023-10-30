@@ -3,6 +3,7 @@
 **Changes in version 1.33**
 
 - Fixed definition of simultaneous to be same day for M14 of Hematopoietic and Lymphoid 2010+ rules. (#129)
+- Return questionable for same row rules if the histologies being compared are the same, even if they are not in the table. (#130)
 
 **Changes in version 1.32**
 

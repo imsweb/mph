@@ -449,7 +449,7 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                     //If dx date is same, return a potential single primary! If M15 confirms the cases as single, we will return single.
                     if (i1.getDateOfDiagnosisYear().equals(i2.getDateOfDiagnosisYear()) && Objects.equals(i1.getDateOfDiagnosisMonth(), i2.getDateOfDiagnosisMonth()) && Objects.equals(i1.getDateOfDiagnosisDay(), i2.getDateOfDiagnosisDay())) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". Manual review required to determine whether the histologies were diagnosed from the same biopsy.");
                     }
                 }
                 return result;

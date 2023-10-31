@@ -74,6 +74,16 @@ public class GroupUtility {
     }
 
     /**
+     * check if diagnosis dates are valid and same
+     */
+    public static boolean sameKnownDateParts(MphInput i1, MphInput i2) {
+        DateFieldParts date = new DateFieldParts(i1, i2);
+        return date.getYear1() != null && date.getYear1().equals(date.getYear2()) &&
+                (date.getMonth1() == null || date.getMonth2() == null || (date.getMonth1().equals(date.getMonth2()) &&
+                (date.getDay1() == null || date.getDay2() == null || date.getDay1().equals(date.getDay2()))));
+    }
+
+    /**
      * Checks if integer value is in a list of ranges
      */
     public static boolean isContained(List<Range<Integer>> list, Integer value) {
@@ -371,7 +381,7 @@ public class GroupUtility {
             _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : null;
             if (_month2 != null && (_month2 < 1 || _month2 > 12))
                 _month2 = null;
-            _day1 = _month1 != null && NumberUtils.isDigits(input1.getDateOfDiagnosisDay())? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
+            _day1 = _month1 != null && NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
             if (_year1 != null && _day1 != null && _day1 > LocalDate.of(_year1, _month1, 1).lengthOfMonth())
                 _day1 = null;
             _day2 = _month2 != null && NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : null;

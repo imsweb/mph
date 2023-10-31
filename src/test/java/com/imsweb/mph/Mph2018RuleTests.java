@@ -641,9 +641,9 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("same row in Table 3"));
-        //even thou hists are in the table, consider same row if they are the same code
-        i1.setHistologyIcdO3("8000");
-        i2.setHistologyIcdO3("8000");
+        //even thou hists are in the table, consider same row if they are the same code except 8000 and 8010
+        i1.setHistologyIcdO3("8001");
+        i2.setHistologyIcdO3("8001");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
@@ -2327,8 +2327,8 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Not in the table but same hist -> same row
-        i1.setHistologyIcdO3("8000");
-        i2.setHistologyIcdO3("8000");
+        i1.setHistologyIcdO3("8001");
+        i2.setHistologyIcdO3("8001");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());

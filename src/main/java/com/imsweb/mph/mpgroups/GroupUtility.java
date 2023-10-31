@@ -74,6 +74,14 @@ public class GroupUtility {
     }
 
     /**
+     * checks if two morphologies are same except 8000 and 8010.
+     */
+    public static boolean sameHistologies(String icd1, String icd2) {
+        return icd1 != null && icd1.equals(icd2) && !icd1.startsWith("8000") && !icd1.startsWith("8010");
+
+    }
+
+    /**
      * Checks if integer value is in a list of ranges
      */
     public static boolean isContained(List<Range<Integer>> list, Integer value) {

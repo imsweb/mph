@@ -34,11 +34,11 @@ public class MpRuleSameRowInTable extends MphRule {
         String icd2 = i2.getIcdCode();
         String row1 = _table.containsKey(h1) ? _table.get(h1) : _table.get(icd1);
         String row2 = _table.containsKey(h2) ? _table.get(h2) : _table.get(icd2);
-        if (!icd1.equals(icd2) && (row1 == null || row2 == null)) {
+        if (!GroupUtility.sameHistologies(icd1, icd2) && (row1 == null || row2 == null)) {
             result.setFinalResult(MpResult.QUESTIONABLE);
             result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
         }
-        else if (icd1.equals(icd2) || row1.equals(row2)) {
+        else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2)) {
             if (_synchronous) {
                 int diff = GroupUtility.verifyDaysApart(i1, i2, 60);
                 if (MphConstants.DATE_VERIFY_UNKNOWN == diff) {

@@ -120,11 +120,11 @@ public class Mp2018KidneyGroup extends MphGroup {
                 String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h1) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h1) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd1);
                 String row2 = MphConstants.KIDNEY_2018_TABLE1_ROWS.containsKey(h2) ? MphConstants.KIDNEY_2018_TABLE1_ROWS.get(h2) : MphConstants.KIDNEY_2018_TABLE1_ROWS.get(icd2);
-                if (!icd1.equals(icd2) && (row1 == null || row2 == null)) {
+                if (!GroupUtility.sameHistologies(icd1, icd2) && (row1 == null || row2 == null)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
-                else if (icd1.equals(icd2) || row1.equals(row2)) {
+                else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2)) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_APART == sixtyDaysApart)
                         return result;

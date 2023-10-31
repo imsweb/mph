@@ -62,7 +62,9 @@ public class GroupUtility {
     /**
      * check if diagnosis dates are valid and same
      */
-    public static boolean sameValidDates(int year1, int month1, int day1, int year2, int month2, int day2) {
+    public static boolean sameValidDates(Integer year1, Integer month1, Integer day1, Integer year2, Integer month2, Integer day2) {
+        if (year1 == null || year2 == null || month1 == null || month2 == null || day1 == null || day2 == null)
+            return false;
         try {
             return LocalDate.of(year1, month1, day1).isEqual(LocalDate.of(year2, month2, day2));
         }
@@ -210,7 +212,8 @@ public class GroupUtility {
         String beh2 = i2.getBehavior();
         String lat1 = i1.getLaterality();
         String lat2 = i2.getLaterality();
-        return validateProperties(site1, hist1, beh1, date.getYear1()) &&
+        return date.getYear1() != null && date.getYear2() != null &&
+                validateProperties(site1, hist1, beh1, date.getYear1()) &&
                 validateProperties(site2, hist2, beh2, date.getYear2()) &&
                 validateLaterality(lat1) && validateLaterality(lat2) &&
                 Objects.equals(site1, site2) &&

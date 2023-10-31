@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -447,9 +446,9 @@ public class Mp2010HematopoieticGroup extends MphGroup {
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.PTLD, combined)) {
                     //Even if the dx date is known to be the same, we don't know if it is in one biopsy.
                     //If dx date is same, return a potential single primary! If M15 confirms the cases as single, we will return single.
-                    if (i1.getDateOfDiagnosisYear().equals(i2.getDateOfDiagnosisYear()) && Objects.equals(i1.getDateOfDiagnosisMonth(), i2.getDateOfDiagnosisMonth()) && Objects.equals(i1.getDateOfDiagnosisDay(), i2.getDateOfDiagnosisDay())) {
+                    if (GroupUtility.sameKnownDateParts(i1, i2)) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
-                        result.setMessageUnknownDiagnosisDate(this.getStep(), this.getGroupName());
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". Manual review required to determine whether the histologies were diagnosed from the same biopsy.");
                     }
                 }
                 return result;

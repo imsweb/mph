@@ -2166,6 +2166,25 @@ public class MphUtilsTest {
         i2.setDateOfDiagnosisDay("02"); //skip if they are not same date
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(15, output.getAppliedRules().size());
+        //Same know dates (day part is missing and invalid)
+        i1.setDateOfDiagnosisYear("2010");
+        i2.setDateOfDiagnosisYear("2010");
+        i1.setDateOfDiagnosisMonth("01");
+        i2.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisDay("99");
+        i2.setDateOfDiagnosisDay("AA");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(14, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        //Same know dates (month part is missing also)
+        i2.setDateOfDiagnosisMonth(null);
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(14, output.getAppliedRules().size());
+        Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
+        //Month is different
+        i2.setDateOfDiagnosisMonth("02");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(15, output.getAppliedRules().size());
 
         //M15 Use the Heme DB Multiple Primaries Calculator to determine the number of primaries
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());//9732 and 9971 are not same primaries

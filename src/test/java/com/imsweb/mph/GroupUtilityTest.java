@@ -16,6 +16,35 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 public class GroupUtilityTest {
 
     @Test
+    public void testSameKnownDateParts() {
+        MphInput i1 = new MphInput();
+        MphInput i2 = new MphInput();
+        Assert.assertFalse(GroupUtility.sameKnownDateParts(i1, i2));
+        i1.setDateOfDiagnosisYear("2010");
+        Assert.assertFalse(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisYear("2011");
+        Assert.assertFalse(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisYear("2010");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i1.setDateOfDiagnosisMonth("02");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisMonth("99");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisMonth("03");
+        Assert.assertFalse(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisMonth("02");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i1.setDateOfDiagnosisDay("03");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisDay("AA");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisDay("03");
+        Assert.assertTrue(GroupUtility.sameKnownDateParts(i1, i2));
+        i2.setDateOfDiagnosisDay("04");
+        Assert.assertFalse(GroupUtility.sameKnownDateParts(i1, i2));
+    }
+
+    @Test
     public void testValidateProperties() {
         Assert.assertFalse(GroupUtility.validateProperties(null, "8100", "1", 2007));
         Assert.assertFalse(GroupUtility.validateProperties("123", "8100", "1", 2007));

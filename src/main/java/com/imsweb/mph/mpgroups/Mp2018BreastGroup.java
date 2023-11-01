@@ -252,7 +252,7 @@ public class Mp2018BreastGroup extends MphGroup {
                 String icd2 = i2.getIcdCode();
                 String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
                 String row2 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h2) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h2) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd2);
-                if (row1 != null && row1.equals(row2)) {
+                if (GroupUtility.sameHistologies(icd1, icd2) || (row1 != null && row1.equals(row2))) {
                     int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                     if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                         result.setPotentialResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -281,6 +281,9 @@ public class Mp2018BreastGroup extends MphGroup {
                 String icd1 = i1.getIcdCode();
                 String h2 = i2.getHistology();
                 String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (GroupUtility.sameHistologies(icd1, icd2))
+                    return result;
                 String row1 = MphConstants.BREAST_2018_TABLE3_ROWS.containsKey(h1) ? MphConstants.BREAST_2018_TABLE3_ROWS.get(h1) : MphConstants.BREAST_2018_TABLE3_ROWS.get(icd1);
                 if (row1 == null && (MphConstants.BREAST_2018_TABLE2.contains(h1) || MphConstants.BREAST_2018_TABLE2.contains(icd1)))
                     row1 = "table2";

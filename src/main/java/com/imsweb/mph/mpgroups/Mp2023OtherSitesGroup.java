@@ -318,7 +318,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                     String icd2 = i2.getIcdCode();
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
-                    if (row1 != null && row1.equals(row2)) {
+                    if (GroupUtility.sameHistologies(icd1, icd2) || (row1 != null && row1.equals(row2))) {
                         int sixtyDaysApart = GroupUtility.verifyDaysApart(i1, i2, 60);
                         if (MphConstants.DATE_VERIFY_UNKNOWN == sixtyDaysApart) {
                             result.setPotentialResult(MpResult.SINGLE_PRIMARY);
@@ -348,6 +348,10 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 String icd1 = i1.getIcdCode();
                 String h2 = i2.getHistology();
                 String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (GroupUtility.sameHistologies(icd1, icd2))
+                    return result;
+
                 String row1 = null;
                 if (map1 != null)
                     row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);

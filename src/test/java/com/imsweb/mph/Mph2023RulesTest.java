@@ -256,6 +256,28 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
         Assert.assertTrue(output.getReason().contains("Table 3-21"));
+        //Histologies in the table
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8002");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+
+        //Histologies in the table but they are same (but 8000 and 8010)
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8000");
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //Histologies in the table but they are same (and not 8000 and 8010)
+        i1.setHistologyIcdO3("8002");
+        i2.setHistologyIcdO3("8002");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M18", output.getStep());
+
         i1.setPrimarySite("C490");
         i2.setPrimarySite("C490");
         i1.setHistologyIcdO3("9367");

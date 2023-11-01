@@ -16,6 +16,19 @@ import com.imsweb.mph.mpgroups.GroupUtility;
 public class GroupUtilityTest {
 
     @Test
+    public void testSameHistologies() {
+        Assert.assertFalse(GroupUtility.sameHistologies(null, null));
+        Assert.assertTrue(GroupUtility.sameHistologies("", ""));
+        Assert.assertTrue(GroupUtility.sameHistologies("8800", "8800"));
+        Assert.assertFalse(GroupUtility.sameHistologies("8800", "8801"));
+        Assert.assertTrue(GroupUtility.sameHistologies("8800/3", "8800/3"));
+        Assert.assertFalse(GroupUtility.sameHistologies("8800/3", "8800/2"));
+        Assert.assertFalse(GroupUtility.sameHistologies("8000", "8000"));
+        Assert.assertFalse(GroupUtility.sameHistologies("8010", "8010"));
+        Assert.assertFalse(GroupUtility.sameHistologies("8000/3", "8000/3"));
+    }
+
+    @Test
     public void testSameKnownDateParts() {
         MphInput i1 = new MphInput();
         MphInput i2 = new MphInput();

@@ -641,6 +641,15 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        //even thou hists are in the table, consider same row if they are the same code except 8000 and 8010
+        i1.setHistologyIcdO3("8001");
+        i2.setHistologyIcdO3("8001");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
 
         // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M14";
@@ -2317,6 +2326,13 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
+        //Not in the table but same hist -> same row
+        i1.setHistologyIcdO3("8001");
+        i2.setHistologyIcdO3("8001");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+
         i1.setHistologyIcdO3("8311"); i2.setHistologyIcdO3("8311");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -2703,6 +2719,12 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8083");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //Histologies not in table->
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8002");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         //8013 is moved to its row
         i1.setPrimarySite("C342");
         i1.setHistologyIcdO3("8041");

@@ -289,7 +289,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                     String row1 = map1.containsKey(h1) ? map1.get(h1) : map1.get(icd1);
                     String row2 = map2.containsKey(h2) ? map2.get(h2) : map2.get(icd2);
                     if (row1 == null || row2 == null) {
-                        if (icd1.equals(icd2))
+                        if (GroupUtility.sameHistologies(icd1, icd2))
                             result.setFinalResult(MpResult.SINGLE_PRIMARY);
                         else {
                             result.setFinalResult(MpResult.QUESTIONABLE);

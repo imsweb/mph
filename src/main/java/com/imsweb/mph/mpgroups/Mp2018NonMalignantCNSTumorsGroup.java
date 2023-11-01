@@ -159,11 +159,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                         >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 String row1 = i1Table6.containsKey(h1) ? i1Table6.get(h1) : i1Table6.get(icd1);
                 String row2 = i2Table6.containsKey(h2) ? i2Table6.get(h2) : i2Table6.get(icd2);
-                if (row1 == null || row2 == null) {
+                if (!GroupUtility.sameHistologies(icd1, icd2) && (row1 == null || row2 == null)) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
-                else if (row1.equals(row2))
+                else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2))
                     result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
 
                 return result;
@@ -196,6 +196,9 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 String icd1 = i1.getIcdCode();
                 String h2 = i2.getHistology();
                 String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (GroupUtility.sameHistologies(icd1, icd2))
+                    return result;
                 Map<String, String> i1Table6 = Integer.parseInt(i1.getDateOfDiagnosisYear())
                         >= 2023 ? MphConstants.NON_MALIGNANT_CNS_2023_TABLE6_ROWS : MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
                 Map<String, String> i2Table6 = Integer.parseInt(i2.getDateOfDiagnosisYear())

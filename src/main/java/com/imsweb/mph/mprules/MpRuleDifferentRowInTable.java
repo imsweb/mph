@@ -10,6 +10,7 @@ import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
+import com.imsweb.mph.mpgroups.GroupUtility;
 
 public class MpRuleDifferentRowInTable extends MphRule {
 
@@ -27,6 +28,9 @@ public class MpRuleDifferentRowInTable extends MphRule {
         String icd1 = i1.getIcdCode();
         String h2 = i2.getHistology();
         String icd2 = i2.getIcdCode();
+        //If they are same code, no need to check if they are in different rows.
+        if (GroupUtility.sameHistologies(icd1, icd2))
+            return result;
         String row1 = _table.containsKey(h1) ? _table.get(h1) : _table.get(icd1);
         String row2 = _table.containsKey(h2) ? _table.get(h2) : _table.get(icd2);
         if (row1 == null || row2 == null) {

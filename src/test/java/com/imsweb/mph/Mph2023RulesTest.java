@@ -264,9 +264,15 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals("M19", output.getStep());
 
-        //Histologies in the table but they are same
+        //Histologies in the table but they are same (but 8000 and 8010)
         i1.setHistologyIcdO3("8000");
         i2.setHistologyIcdO3("8000");
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //Histologies in the table but they are same (and not 8000 and 8010)
+        i1.setHistologyIcdO3("8002");
+        i2.setHistologyIcdO3("8002");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());

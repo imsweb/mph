@@ -2139,7 +2139,7 @@ public class MphUtilsTest {
         i1.setPrimarySite("C001");
         i2.setPrimarySite("C772");
         i1.setHistologyIcdO3("9971"); //ptld
-        i2.setHistologyIcdO3("9684"); //Bcell
+        i2.setHistologyIcdO3("9687"); //Bcell
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setDateOfDiagnosisYear("2010");

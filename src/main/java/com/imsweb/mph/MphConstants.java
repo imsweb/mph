@@ -222,8 +222,8 @@ public class MphConstants {
     public static final List<String> FAMILLIAL_POLYPOSIS = GroupUtility.expandList("8220-8221");
     public static final List<String> FAMILIAL_ADENOMATOUS_POLYPOSIS = GroupUtility.expandList("8220");
     public static final List<String> PTLD = GroupUtility.expandList("9971"); // post-transplant lymphoproliferative disorder
-    public static final List<String> BCELL = GroupUtility.expandList("9680,9684");
-    public static final List<String> TCELL = GroupUtility.expandList("9702,9705,9708,9709,9716-9719,9724,9726,9729,9827,9831,9834,9837");
+    public static final List<String> BCELL = GroupUtility.expandList("9671,9673,9678-9680,9687-9691,9695,9698,9699");
+    public static final List<String> TCELL = GroupUtility.expandList("9702,9705,9708,9709,9716-9719,9724,9726,9827,9831,9834,9837");
     public static final List<String> PLASMACYTOMA = GroupUtility.expandList("9731-9732,9734");
     public static final List<String> MAST_CELL_SARCOMA = GroupUtility.expandList("9740");
     public static final List<String> MAST_CELL_LEUKEMIA = GroupUtility.expandList("9742");

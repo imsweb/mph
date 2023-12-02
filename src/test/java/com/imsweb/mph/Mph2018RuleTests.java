@@ -2180,6 +2180,29 @@ public class Mph2018RuleTests {
 
         // Rule M13 Abstract a single primary  when none of the previous rules apply.
         //No case will reach here
+
+        //9222/3 is added on the 2024 update, 8851 and 9222/3 multiple
+        i1.setPrimarySite("C321");
+        i1.setDateOfDiagnosisYear("2022");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8851");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C328");
+        i2.setDateOfDiagnosisYear("2022");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("9222");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M7", output.getStep());
+        //9222/3 and 9220/3 same row
+        i1.setHistologyIcdO3("9220");
+        i2.setDateOfDiagnosisYear("2022");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M12", output.getStep());
     }
 
     @Test

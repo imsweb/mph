@@ -419,7 +419,6 @@ public class MphConstants {
         content.put("8230/3", "8230/3"); // Solid carcinoma/solid adenocarcinoma
         content.put("8310", "8310"); // Clear cell carcinoma
         content.put("8519/2", "8519/2"); // Pleomorphic lobular carcinoma in situ
-        content.put("8512", "8512"); // Medullary carcinoma with lymphoid stroma
         content.put("8513", "8513"); // Atypical medullary carcinoma (AMC)
         content.put("8980/3", "8980/3"); // Carcinosarcoma
         content.put("8572", "8572"); // Fibromatosis-like metaplastic carcinoma
@@ -427,7 +426,6 @@ public class MphConstants {
         content.put("8032", "8032"); // Metaplastic carcinoma spindle-cell type/spindle cell carcinoma
         content.put("8571", "8571"); // Metaplastic carcinoma with chondroid differentiation/with osseous differentiation
         content.put("8982", "8982"); // Myoepithelial carcinoma
-        content.put("8033", "8033"); // Sarcomatoid carcinoma
         content.put("8070", "8070"); // Squamous cell carcinoma
         content.put("8504", "8504"); // Encapsulated papillary carcinoma
         content.put("8507", "8507"); // Micropapillary carcinoma
@@ -477,7 +475,6 @@ public class MphConstants {
         content.put("8032", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8571", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8982", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
-        content.put("8033", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8070", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8480", "8480"); // Mucinous carcinoma 8480
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
@@ -500,6 +497,7 @@ public class MphConstants {
         content.put("8920/3", "8800/3"); // Sarcoma NOS 8800
         content.put("8910/3", "8800/3"); // Sarcoma NOS 8800
         content.put("8901/3", "8800/3"); // Sarcoma NOS 8800
+        content.put("9130/3", "8800/3"); // Sarcoma NOS 8800
         content.put("8410", "8410"); // Sebaceous carcinoma 8410
         content.put("8502", "8502"); // Secretory carcinoma 8502
         content.put("8490", "8490"); // Signet ring carcinoma 8490
@@ -508,8 +506,6 @@ public class MphConstants {
         content.put("8246", "8041"); // Small cell carcinoma 8041
         content.put("8211", "8211"); // Tubular carcinoma 8211
 
-        content.put("8512", "8510"); // Medullary carcinoma 8510
-        content.put("9130/3", "8800/3"); // Sarcoma NOS 8800
         BREAST_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 
@@ -571,8 +567,9 @@ public class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("8013", "8013"); //Large cell neuroendocrine carcinoma/tumor
-        content.put("8041", "8041"); //Small cell neuroendocrine carcinoma
+        content.put("8693/3", "8693/3"); //Extra-adrenal paraganglioma 8693/3
+        content.put("8013/3", "8013/3"); //Large cell neuroendocrine carcinoma/tumor
+        content.put("8041/3", "8041/3"); //Small cell neuroendocrine carcinoma
         content.put("8316", "8316"); //Acquired cystic disease-associated renal cell carcinoma/tubulocystic renal cell carcinoma
         content.put("8317", "8317"); //Chromophobe renal cell carcinoma (ChRCC)
         content.put("8323/3", "8323/3"); //Clear cell papillary renal cell carcinoma
@@ -581,7 +578,6 @@ public class MphConstants {
         content.put("8311", "8311"); //Hereditary leiomyomatosis and renal cell carcinomaassociated renal cell carcinoma
         content.put("8480", "8480"); //Mucinous tubular and spindle cell carcinoma
         content.put("8260", "8260"); //Papillary renal cell carcinoma
-        content.put("8510", "8510"); //Renal medullary carcinoma
         content.put("9120/3", "9120/3"); // Angiosarcoma
         content.put("8964/3", "8964/3"); // Clear cell sarcoma/bone-metastasizing renal tumor of childhood
         content.put("8890/3", "8890/3"); // Leiomyosarcoma/renal vein leiomyosarcoma
@@ -600,10 +596,12 @@ public class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
+        content.put("8510", "8510"); // Medullary carcinoma 8510
         content.put("8960", "8960"); // Nephroblastoma 8960
-        content.put("8041", "8240"); // Neuroendocrine tumor (NET) 8240
-        content.put("8013", "8240"); // Neuroendocrine tumor (NET) 8240
-        content.put("8240", "8240"); // Neuroendocrine tumor (NET) 8240
+        content.put("8693/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8041/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8013/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8240/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
         content.put("8312", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8316", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8317", "8312"); // Renal cell carcinoma NOS 8312
@@ -613,7 +611,6 @@ public class MphConstants {
         content.put("8311", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8480", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8260", "8312"); // Renal cell carcinoma NOS 8312
-        content.put("8510", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8800/3", "8800/3"); // Sarcoma 8800/3
         content.put("9120/3", "8800/3"); // Sarcoma 8800/3
         content.put("8964/3", "8800/3"); // Sarcoma 8800/3
@@ -649,6 +646,9 @@ public class MphConstants {
         content.put("8380", "8380");
         content.put("8144", "8144");
         content.put("8480", "8480");
+        content.put("8013/3", "8013/3");
+        content.put("8041/3", "8041/3");
+        content.put("8249/3", "8249/3");
         content.put("9120/3", "9120/3");
         content.put("9220/3", "9220/3");
         content.put("8890/3", "8890/3");
@@ -656,9 +656,6 @@ public class MphConstants {
         content.put("9540/3", "9540/3");
         content.put("8802/3", "8802/3");
         content.put("8900/3", "8910/3");
-        content.put("8910/3", "8910/3");
-        content.put("8013", "8013");
-        content.put("8240", "8240");
         content.put("8051", "8051");
         content.put("8031/3", "8031/3");
         content.put("8082/3", "8082/3");
@@ -680,6 +677,11 @@ public class MphConstants {
         content.put("8480", "8140"); // Carcinoma NOS 8010
         content.put("8720/3", "8720/3"); // Malignant melanoma 8720/3
         content.put("8714/3", "8714/3"); // Malignant perivascular epithelioid cell tumor 8714/3
+        content.put("8246/3", "8246/3"); // Neuroendocrine carcinoma, NOS 8246/3
+        content.put("8013/3", "8246/3"); // Neuroendocrine carcinoma, NOS 8246/3
+        content.put("8041/3", "8246/3"); // Neuroendocrine carcinoma, NOS 8246/3
+        content.put("8240/3", "8240/3"); // Neuroendocrine tumor, NOS 8240/3
+        content.put("8249/3", "8240/3"); // Neuroendocrine tumor, NOS 8240/3
         content.put("8800/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9120/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9220/3", "8800/3"); // Sarcoma NOS 8800/3
@@ -689,9 +691,6 @@ public class MphConstants {
         content.put("8802/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("8900/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("8910/3", "8800/3"); // Sarcoma NOS 8800/3
-        content.put("8041", "8041"); // Small cell neuroendocrine carcinoma 8041
-        content.put("8013", "8041"); // Small cell neuroendocrine carcinoma 8041
-        content.put("8240", "8041"); // Small cell neuroendocrine carcinoma 8041
         content.put("8070", "8070"); // Squamous cell carcinoma 8070
         content.put("8051", "8070"); // Squamous cell carcinoma 8070
         content.put("8120", "8120"); // Urothelial carcinoma 8120
@@ -1030,13 +1029,13 @@ public class MphConstants {
     // See Head and Neck 2018 AS OF date at top of this file.
 
     //Changes made to this list per Sewbesew's request and Suzanne's approval
-    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C300", "C301", "C310,C312", "C442"));
+    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C300", "C301", "C310,C312", "C442", "C754"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE1_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE2_SITES = Collections.unmodifiableList(Arrays.asList(
             "C110", "C112", "C113", "C118", "C119"));
-    private static final List<String> HEAD_AND_NECK_2018_TABLE3_SITES = Collections.unmodifiableList(Arrays.asList(
+    public static final List<String> HEAD_AND_NECK_2018_TABLE3_SITES = Collections.unmodifiableList(Arrays.asList(
             "C129", "C130", "C131", "C132", "C138", "C139", "C320", "C321", "C322", "C323", "C328", "C329", "C339"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE4_SITES = Collections.unmodifiableList(Arrays.asList(
@@ -1080,9 +1079,12 @@ public class MphConstants {
         thisTableSubTypes.put("8912/3", "8912/3");
         thisTableSubTypes.put("9040/3", "9040/3");
         thisTableSubTypes.put("8802/3", "8802/3");
+        thisTableSubTypes.put("8083", "8083");
         thisTableSubTypes.put("8071", "8071");
+        thisTableSubTypes.put("8052", "8052");
         thisTableSubTypes.put("8074", "8074");
         thisTableSubTypes.put("8072", "8072");
+        thisTableSubTypes.put("8051", "8051");
         for (String site : HEAD_AND_NECK_2018_TABLE1_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1098,6 +1100,11 @@ public class MphConstants {
 
         // Table 3 ----------------------------------------
         thisTableSubTypes = new HashMap<>();
+        thisTableSubTypes.put("9222/3", "9222/3");
+        thisTableSubTypes.put("8851/3", "8851/3");
+        thisTableSubTypes.put("8013/3", "8013/3");
+        thisTableSubTypes.put("8249/3", "8249/3");
+        thisTableSubTypes.put("8041/3", "8041/3");
         thisTableSubTypes.put("8560", "8560");
         thisTableSubTypes.put("8083", "8083");
         thisTableSubTypes.put("8082", "8082");
@@ -1106,9 +1113,6 @@ public class MphConstants {
         thisTableSubTypes.put("8052", "8052");
         thisTableSubTypes.put("8074", "8074");
         thisTableSubTypes.put("8051", "8051");
-        thisTableSubTypes.put("8013", "8013");
-        thisTableSubTypes.put("8249", "8249");
-        thisTableSubTypes.put("8041", "8041");
         for (String site : HEAD_AND_NECK_2018_TABLE3_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1123,10 +1127,15 @@ public class MphConstants {
 
         // Table 5 ----------------------------------------
         thisTableSubTypes = new HashMap<>();
+        thisTableSubTypes.put("8083", "8083");
         thisTableSubTypes.put("8071", "8071");
+        thisTableSubTypes.put("8082", "8082");
         thisTableSubTypes.put("8072", "8072");
+        thisTableSubTypes.put("8052", "8052");
         thisTableSubTypes.put("8086", "8086");
         thisTableSubTypes.put("8085", "8085");
+        thisTableSubTypes.put("8074", "8074");
+        thisTableSubTypes.put("8051", "8051");
         for (String site : HEAD_AND_NECK_2018_TABLE5_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1221,6 +1230,9 @@ public class MphConstants {
         thisTableRows.put("8074", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8072", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8121", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8083", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8052", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8051", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("9081", "9081"); // Teratocarcinosarcoma 9081
         for (String site : HEAD_AND_NECK_2018_TABLE1_SITES)
             content.put(site, thisTableRows);
@@ -1242,8 +1254,14 @@ public class MphConstants {
         // Table 3 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
         thisTableRows.put("8200", "8200"); // Adenoid cystic carcinoma 8200
-        thisTableRows.put("9220", "9220"); // Chondrosarcoma 9220
-        thisTableRows.put("8850", "8850"); // Liposarcoma 8850
+        thisTableRows.put("9220/3", "9220/3"); // Chondrosarcoma 9220/3
+        thisTableRows.put("9222/3", "9220/3"); // Chondrosarcoma 9220/3, for 2022+
+        thisTableRows.put("8850/3", "8850/3"); // Liposarcoma 8850/3
+        thisTableRows.put("8851/3", "8850/3"); // Liposarcoma 8850/3
+        thisTableRows.put("8240/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
+        thisTableRows.put("8013/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
+        thisTableRows.put("8249/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
+        thisTableRows.put("8041/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8560", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8083", "8070"); // Squamous cell carcinoma (SCC) 8070
@@ -1253,10 +1271,6 @@ public class MphConstants {
         thisTableRows.put("8051", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8071", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8072", "8070"); // Squamous cell carcinoma (SCC) 8070
-        thisTableRows.put("8240", "8240"); // Well-differentiated neuroendocrine carcinoma 8240
-        thisTableRows.put("8013", "8240"); // Well-differentiated neuroendocrine carcinoma 8240
-        thisTableRows.put("8249", "8240"); // Well-differentiated neuroendocrine carcinoma 8240
-        thisTableRows.put("8041", "8240"); // Well-differentiated neuroendocrine carcinoma 8240
         for (String site : HEAD_AND_NECK_2018_TABLE3_SITES)
             content.put(site, thisTableRows);
 
@@ -1279,10 +1293,15 @@ public class MphConstants {
         thisTableRows.put("8200", "8200"); // Adenoid cystic carcinoma 8200
         thisTableRows.put("8525", "8525"); //Polymorphous adenocarcinoma 8525
         thisTableRows.put("8070", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8083", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8071", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8082", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8072", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8052", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8086", "8070"); //Squamous cell carcinoma 8070
         thisTableRows.put("8085", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8074", "8070"); //Squamous cell carcinoma 8070
+        thisTableRows.put("8051", "8070"); //Squamous cell carcinoma 8070
         for (String site : HEAD_AND_NECK_2018_TABLE5_SITES)
             content.put(site, thisTableRows);
 
@@ -1349,9 +1368,12 @@ public class MphConstants {
         // Table 9 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
         thisTableRows.put("8690", "8690");
+        thisTableRows.put("8691", "8691");
         thisTableRows.put("8692", "8692");
         thisTableRows.put("8693", "8693");
         thisTableRows.put("8680", "8680");
+        thisTableRows.put("8681", "8681");
+        thisTableRows.put("8682", "8682");
         for (String site : HEAD_AND_NECK_2018_TABLE9_SITES)
             content.put(site, thisTableRows);
 

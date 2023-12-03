@@ -4,13 +4,13 @@ plugins {
     id 'java-library'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.github.spotbugs' version '5.0.14'
+    id 'com.github.spotbugs' version '6.0.1'
     id 'maven-publish'
     id 'signing'
-    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0' // publish to Maven Central
-    id "com.github.ben-manes.versions" version '0.47.0' // check for out-of-date dependencies (run manually)
-    id 'org.sonatype.gradle.plugins.scan' version '2.6.0' // scan for vulnerabilities
-    id "org.sonarqube" version "4.2.1.3168" // sonarQube analysis
+    id 'io.github.gradle-nexus.publish-plugin' version '1.3.0' // publish to Maven Central
+    id 'com.github.ben-manes.versions' version '0.50.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
+    id 'org.sonatype.gradle.plugins.scan' version '2.6.1' // scan for vulnerabilities
+    id "org.sonarqube" version "4.4.1.3373"// sonarQube analysis
 }
 
 group = 'com.imsweb'
@@ -24,22 +24,22 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'com.opencsv:opencsv:5.7.1'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'com.opencsv:opencsv:5.9'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'com.imsweb:seerapi-client-java:5.3'
+    testImplementation 'com.imsweb:seerapi-client-java:5.4'
     testImplementation 'com.imsweb:data-generator:1.31'
 }
 
 // enforce UTF-8, display the compilation warnings
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
 }
 
 // the Javadoc was made way too strict in Java 8 and it's not worth the time fixing everything!
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     options.addStringOption('Xdoclint:none', '-quiet')
 }
 
@@ -85,7 +85,7 @@ test.finalizedBy jacocoTestReport
 // spotbugs plugin settings
 spotbugs {
     ignoreFailures = false
-    excludeFilter = project(':').file("config/spotbugs/spotbugs-exclude.xml")
+    excludeFilter.set(project(':').file("config/spotbugs/spotbugs-exclude.xml"))
 }
 
 sonarqube {
@@ -105,6 +105,19 @@ ossIndexAudit {
     excludeCoordinates = ['com.fasterxml.jackson.core:jackson-core:2.14.2']
 }
 check.dependsOn 'ossIndexAudit'
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+// https://github.com/ben-manes/gradle-versions-plugin
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.version)
+    }
+}
 
 // needed to deploy to Maven Central
 publishing {
@@ -154,8 +167,10 @@ publishing {
 
 // setup JAR signing
 signing {
-    def signingKey = project.findProperty('signing.armored.key') ?: ''
-    def signingPassword = project.findProperty('signing.armored.password') ?: ''
+    required { !project.version.endsWith('-SNAPSHOT') }
+
+    String signingKey = project.findProperty('signingKey') ?: ''
+    String signingPassword = project.findProperty('signingPassword') ?: ''
 
     useInMemoryPgpKeys(signingKey, signingPassword)
 
@@ -182,13 +197,8 @@ nexusPublishing {
     }
 }
 
-// don't try to release a snapshot to a non-snapshot repository, that won't work anyway
-if (version.endsWith('-SNAPSHOT')) {
-    gradle.startParameter.excludedTaskNames += 'closeAndReleaseSonatypeStagingRepository'
-}
-
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '8.2'
+    gradleVersion = '8.5'
     distributionType = Wrapper.DistributionType.ALL
 }

@@ -197,6 +197,10 @@ nexusPublishing {
     }
 }
 
+tasks.register('hematoDataTest', Test) {
+    include '**/HematoDataTest.class'
+}
+
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
     gradleVersion = '8.5'

@@ -833,8 +833,8 @@ public class MphConstants {
     // See Non-Malignant CNS 2019 AS OF date at top of this file.
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "9390/1", "9351/1", "9352/1", "9493/0", "9121/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
-            "8825/1", "8000/1", "9550/0", "9560/1", "8815/1"));
+            "9390/1", "9351/1", "9352/1", "9493/0", "9121/0", "9122/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
+            "8825/1", "9550/0", "9560/1", "8815/1"));
 
     public static final Map<String, String> NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
     public static final Map<String, String> NON_MALIGNANT_CNS_2023_TABLE6_ROWS;
@@ -860,6 +860,7 @@ public class MphConstants {
         content.put("9582/0", "9582/0"); // Granular cell tumor of the sellar region 9582/0
         content.put("9161/1", "9161/1"); // Hemangioblastoma 9161/1
         content.put("9121/0", "9120/0"); // Hemangioma 9120/0
+        content.put("9122/0", "9120/0"); // Hemangioma 9120/0
         content.put("9120/0", "9120/0"); // Hemangioma 9120/0
         content.put("9749/1", "9749/1"); // Juvenile xanthogranuloma
         content.put("8890/0", "8890/0"); // Leiomyoma 8890/0
@@ -881,6 +882,7 @@ public class MphConstants {
         content.put("9394/1", "9394/1"); // Myxopapillary ependymoma 9394/1
         content.put("9506/1", "9506/1"); // Neurocytoma
         content.put("8000/0", "8000/0"); // Neuroepithelial tumor, benign
+        content.put("8000/1", "8000/0"); // Neuroepithelial tumor, benign
         content.put("9540/0", "9540/0"); // Neurofibroma 9540/0
         content.put("9550/0", "9540/0"); // Neurofibroma 9540/0
         content.put("9421/1", "9421/1"); // Optic glioma/pilocytic astrocytoma 9421/1
@@ -961,6 +963,7 @@ public class MphConstants {
         content.put("9401", "9400"); // Astrocytoma NOS 9400
         content.put("9411", "9400"); // Astrocytoma NOS 9400
         content.put("9424", "9400"); // Astrocytoma NOS 9400
+        content.put("8693/3", "8693/3"); // Cauda equina neuroendocrine tumor
         content.put("9100", "9100"); // Choriocarcinoma 9100
         content.put("9390", "9390"); // Choroid plexus carcinoma 9390
         content.put("9508", "9508"); // CNS embryonal tumor with rhabdoid features 9508
@@ -982,7 +985,8 @@ public class MphConstants {
         content.put("9441", "9440"); // Glioblastoma multiforme 9440
         content.put("9445", "9440,9400"); // Glioblastoma multiforme 9440
         content.put("9442", "9440"); // Glioblastoma multiforme 9440
-        content.put("9421/3", "9421/3"); // Glioblastoma multiforme 9440
+        content.put("9380", "9380"); // Glioma, NOS 9380
+        content.put("9421/3", "9421/3"); // High-grade astrocytoma with piloid features
         content.put("9080", "9080"); // Immature teratoma 9080
         content.put("9085", "9080"); // Immature teratoma 9080
         content.put("9084", "9080"); // Immature teratoma 9080
@@ -1029,7 +1033,7 @@ public class MphConstants {
     // See Head and Neck 2018 AS OF date at top of this file.
 
     //Changes made to this list per Sewbesew's request and Suzanne's approval
-    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C300", "C301", "C310,C312", "C442", "C754"));
+    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C300", "C301", "C310,C312", "C754"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE1_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319"));
@@ -1048,8 +1052,7 @@ public class MphConstants {
             "C079", "C080", "C081", "C088", "C089"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE7_SITES = Collections.unmodifiableList(Arrays.asList(
             "C410", "C411"));
-    private static final List<String> HEAD_AND_NECK_2018_TABLE8_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C301", "C442"));
+    private static final List<String> HEAD_AND_NECK_2018_TABLE8_SITES = Collections.singletonList("C301");
     public static final List<String> HEAD_AND_NECK_2018_TABLE9_SITES = Collections.unmodifiableList(Arrays.asList("C479", "C754", "C755"));
     private static final List<String> HEAD_AND_NECK_2018_TABLEC111_SITES = Collections.singletonList("C111");
 

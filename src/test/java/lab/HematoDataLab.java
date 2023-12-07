@@ -1,14 +1,13 @@
 /*
  * Copyright (C) 2016 Information Management Services, Inc.
  */
-package com.imsweb.mph;
+package lab;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,26 +24,29 @@ import com.imsweb.seerapi.client.disease.Disease;
 import com.imsweb.seerapi.client.disease.DiseaseSearchResults;
 import com.imsweb.seerapi.client.disease.YearRangeString;
 
-public class HematoLab {
+/**
+ * To run this lab locally, you will need a ".seerapi" file under your user folder with a line "apiKey=XXX" set to your SEER*API key.
+ */
+public class HematoDataLab {
 
+    @SuppressWarnings("DataFlowIssue")
     public static void main(String[] args) throws Exception {
-        createHematoDbCsvFiles();
-    }
+        File dir = new File(System.getProperty("user.dir") + "/src/main/resources/");
 
-    @SuppressWarnings("ConstantConditions")
-    private static void createHematoDbCsvFiles() throws IOException {
-        File hematoDataInfoFile = new File(getWorkingDirectory() + "/src/main/resources/hemato_data_info.properties");
-        File samePrimaryFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010SamePrimaryPairs.csv");
-        File transformToFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformToPairs.csv");
-        File transformFromFile = new File(getWorkingDirectory() + "/src/main/resources/Hematopoietic2010TransformFromPairs.csv");
+        File hematoDataInfoFile = new File(dir, "hemato_data_info.properties");
+        if (!hematoDataInfoFile.exists())
+            throw new IllegalStateException("Unable to find embedded properties file!");
 
-        try (OutputStream hematoDataInfoOutput = new FileOutputStream(hematoDataInfoFile);
-             CSVWriter samePrimaryWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(samePrimaryFile), StandardCharsets.UTF_8));
-             CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformToFile), StandardCharsets.UTF_8));
-             CSVWriter transformFromWriter = new CSVWriter(new OutputStreamWriter(new FileOutputStream(transformFromFile), StandardCharsets.UTF_8))) {
+        File samePrimaryFile = new File(dir, "Hematopoietic2010SamePrimaryPairs.csv");
+        File transformToFile = new File(dir, "Hematopoietic2010TransformToPairs.csv");
+        File transformFromFile = new File(dir, "Hematopoietic2010TransformFromPairs.csv");
 
-            String key = "Enter Your SEER API key here";
-            SeerApi api = new SeerApi.Builder().apiKey(key).connect();
+        try (OutputStream hematoDataInfoOutput = Files.newOutputStream(hematoDataInfoFile.toPath());
+             CSVWriter samePrimaryWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(samePrimaryFile.toPath()), StandardCharsets.UTF_8));
+             CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(transformToFile.toPath()), StandardCharsets.UTF_8));
+             CSVWriter transformFromWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(transformFromFile.toPath()), StandardCharsets.UTF_8))) {
+
+            SeerApi api = new SeerApi.Builder().connect();
             List<Disease> allDiseases = new ArrayList<>();
             int total, previousTotal = 0, offset = 0;
             do {
@@ -75,7 +77,7 @@ public class HematoLab {
                 }
             }
 
-            if (allFullDiseases.size() > 0) {
+            if (!allFullDiseases.isEmpty()) {
                 List<String[]> samePrimaryPairs = new ArrayList<>();
                 List<String[]> transformTo = new ArrayList<>();
                 List<String[]> transformFrom = new ArrayList<>();
@@ -138,17 +140,12 @@ public class HematoLab {
                 samePrimaryWriter.writeAll(samePrimaryPairs);
                 transformToWriter.writeAll(transformTo);
                 transformFromWriter.writeAll(transformFrom);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYYMMddkkmm");
                 Properties prop = new Properties();
-                prop.setProperty("last_updated", LocalDateTime.now().format(formatter));
+                prop.setProperty("last_updated", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddkkmm")));
                 prop.store(hematoDataInfoOutput, null);
             }
             else
                 System.out.println("Something wasn't right. The total number of diseases you got is different from what the API returns. Please try again.");
         }
-    }
-
-    public static String getWorkingDirectory() {
-        return System.getProperty("user.dir").replace(".idea\\modules", ""); // this will make it work in IntelliJ and outside of it...
     }
 }

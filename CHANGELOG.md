@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.34**
+
+- Updated CSV library from version 5.7.1 to version 5.9.
+
 **Changes in version 1.33**
 
 - Cleaned up a code handling missing invalid date parts. (#128)

@@ -2,7 +2,9 @@
 
 name: integration
 
-on: [ push, pull_request ]
+on:
+  schedule:
+    - cron: "0 14 * * 0"
 
 jobs:
   build:
@@ -29,11 +31,11 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build and analyze
+      - name: Run Hemato Data check unit test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SEER_API_KEY: ${{ secrets.SEER_API_KEY }}
         run: |
           chmod +x gradlew
-          ./gradlew build sonar
+          ./gradlew hematoDataTest

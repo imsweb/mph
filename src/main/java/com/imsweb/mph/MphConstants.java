@@ -1508,6 +1508,7 @@ public class MphConstants {
         esophagusRows.put("8140", "8140");
         esophagusRows.put("8200", "8200");
         esophagusRows.put("8560", "8560");
+        esophagusRows.put("8963", "8963");
         esophagusRows.put("8430", "8430");
 
         esophagusRows.put("8070", "8070");
@@ -1530,6 +1531,7 @@ public class MphConstants {
         //Table 6 stomach
         Map<String, String> stomachRows = new HashMap<>();
         stomachRows.put("8140", "8140");
+        stomachRows.put("8145/3", "8140");
         stomachRows.put("8144", "8140");
         stomachRows.put("8576", "8140");
         stomachRows.put("8512", "8140");
@@ -1543,6 +1545,7 @@ public class MphConstants {
 
         stomachRows.put("8210/2", "8210/2");
         stomachRows.put("8560", "8560");
+        stomachRows.put("8963", "8963");
         stomachRows.put("8976/3", "8976/3");
         stomachRows.put("8148/2", "8148/2");
         stomachRows.put("8244/3", "8244/3");
@@ -1582,6 +1585,7 @@ public class MphConstants {
         intestineRows.put("8211", "8140");
 
         intestineRows.put("8210/2", " 8210/2");
+        intestineRows.put("8963", " 8963");
         intestineRows.put("8154/3", "8154/3");
 
         intestineRows.put("8246/3", "8246/3");
@@ -1651,6 +1655,7 @@ public class MphConstants {
         bladderRows.put("8144", "8140");
         bladderRows.put("8310", "8140");
         bladderRows.put("8480", "8140");
+        bladderRows.put("8163", "8140");
         bladderRows.put("8490", "8140");
 
         bladderRows.put("8560", "8560");
@@ -1703,7 +1708,24 @@ public class MphConstants {
 
         pancreasRows.put("8503", "8503");
 
+        pancreasRows.put("8154", "8154");
+
         pancreasRows.put("8470", "8470");
+
+        pancreasRows.put("8246", "8246");
+        pancreasRows.put("8013", "8246");
+        pancreasRows.put("8041", "8246");
+
+        pancreasRows.put("8240", "8240");
+        pancreasRows.put("8158", "8240");
+        pancreasRows.put("8241", "8240");
+        pancreasRows.put("8153", "8240");
+        pancreasRows.put("8152", "8240");
+        pancreasRows.put("8151", "8240");
+        pancreasRows.put("8249", "8240");
+        pancreasRows.put("8150", "8240");
+        pancreasRows.put("8156", "8240");
+        pancreasRows.put("8155", "8240");
 
         pancreasRows.put("8971/3", "8971/3");
 
@@ -1745,13 +1767,16 @@ public class MphConstants {
 
         //Table 13 Ovary
         Map<String, String> ovaryRows = new HashMap<>();
+        ovaryRows.put("8140", "8140");
+        ovaryRows.put("8310", "8140");
+        ovaryRows.put("8380", "8140");
+        ovaryRows.put("8480", "8140");
+
         ovaryRows.put("9110/3", "9110/3");
         ovaryRows.put("8933/3", "8933/3");
         ovaryRows.put("8620/3", "8620/3");
         ovaryRows.put("8980/3", "8980/3");
         ovaryRows.put("9100", "9100");
-        ovaryRows.put("8310", "8310");
-        ovaryRows.put("8380", "8380");
 
         ovaryRows.put("9064", "9064");
         ovaryRows.put("9080", "9064");
@@ -1762,7 +1787,6 @@ public class MphConstants {
 
         ovaryRows.put("9000/3", "9000/3");
         ovaryRows.put("9111/3", "9111/3");
-        ovaryRows.put("8480", "8480");
 
         ovaryRows.put("8800/3", "8800/3");
         ovaryRows.put("8930/3", "8800/3");
@@ -1992,6 +2016,7 @@ public class MphConstants {
         softTissueRows.put("8890/3", "8890/3");
 
         softTissueRows.put("8850/3", "8850/3");
+        softTissueRows.put("8859/3", "8850/3");
         softTissueRows.put("8858/3", "8850/3");
         softTissueRows.put("8854/3", "8850/3");
         softTissueRows.put("8852/3", "8850/3");
@@ -2128,6 +2153,7 @@ public class MphConstants {
 
         //Table 6 stomach
         Map<String, String> stomachSubtypes = new HashMap<>();
+        stomachSubtypes.put("8145/3", "8145/3");
         stomachSubtypes.put("8144", "8144");
         stomachSubtypes.put("8576", "8576");
         stomachSubtypes.put("8512", "8512");
@@ -2197,6 +2223,8 @@ public class MphConstants {
         bladderSubtypes.put("8144", "8144");
         bladderSubtypes.put("8310", "8310");
         bladderSubtypes.put("8480", "8480");
+        bladderSubtypes.put("8163", "8163");
+        bladderSubtypes.put("8490", "8490");
         bladderSubtypes.put("8161", "8161");
         bladderSubtypes.put("8162", "8162");
         bladderSubtypes.put("8020", "8020");
@@ -2217,6 +2245,17 @@ public class MphConstants {
         pancreasSubtypes.put("8552", "8552");
         pancreasSubtypes.put("8154/3", "8154/3");
         pancreasSubtypes.put("8490", "8490");
+        pancreasSubtypes.put("8013", "8013");
+        pancreasSubtypes.put("8041", "8041");
+        pancreasSubtypes.put("8158", "8158");
+        pancreasSubtypes.put("8241", "8241");
+        pancreasSubtypes.put("8153", "8153");
+        pancreasSubtypes.put("8152", "8152");
+        pancreasSubtypes.put("8151", "8151");
+        pancreasSubtypes.put("8249", "8249");
+        pancreasSubtypes.put("8150", "8150");
+        pancreasSubtypes.put("8156", "8156");
+        pancreasSubtypes.put("8155", "8155");
         pancreasSubtypes.put("8035/3", "8035/3");
         pancreasSubtypes.put("8014/3", "8014/3");
         for (String site : PANCREAS_SITES)
@@ -2238,6 +2277,9 @@ public class MphConstants {
 
         //Table 13 Ovary
         Map<String, String> ovarySubtypes = new HashMap<>();
+        ovarySubtypes.put("8310", "8310");
+        ovarySubtypes.put("8380", "8380");
+        ovarySubtypes.put("8480", "8480");
 
         ovarySubtypes.put("9080", "9080");
         ovarySubtypes.put("9060", "9060");
@@ -2352,6 +2394,7 @@ public class MphConstants {
         softTissueSubtypes.put("8811/3", "8811/3");
         softTissueSubtypes.put("8815/3", "8815/3");
         softTissueSubtypes.put("8858/3", "8858/3");
+        softTissueSubtypes.put("8859/3", "8859/3");
         softTissueSubtypes.put("8854/3", "8854/3");
         softTissueSubtypes.put("8852/3", "8852/3");
         softTissueSubtypes.put("8851/3", "8851/3");

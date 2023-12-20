@@ -15,9 +15,10 @@ import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleCNS;
-import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRuleSameRowInTable;
+
+import static com.imsweb.mph.MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
@@ -205,7 +206,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M12 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M12", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
+        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M12", MALIGNANT_CNS_2018_TABLE3_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
@@ -215,7 +216,32 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         _rules.add(rule);
 
         // Rule M13 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M13", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS);
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M13") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (GroupUtility.sameHistologies(icd1, icd2))
+                    return result;
+                String row1 = MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
+                String row2 = MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
+                }
+                else if (row1.startsWith("8000") || row2.startsWith("8000")) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("Unable to determine if 8000/3 is a different row.");
+                }
+                else if (!row1.equals(row2))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");

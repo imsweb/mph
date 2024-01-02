@@ -1439,8 +1439,9 @@ public class MphConstants {
     public static final List<String> UTERINE_CERVIX_SITES = Collections.unmodifiableList(Arrays.asList("C530", "C531", "C538", "C539"));
     public static final List<String> VULVA_SITES = Collections.unmodifiableList(Arrays.asList("C510", "C511", "C512", "C518", "C519"));
     public static final List<String> SOFT_TISSUES_SITES = Collections.unmodifiableList(Arrays.asList("C490", "C491", "C492", "C493", "C494", "C495", "C496", "C498", "C499"));
-
     public static final List<String> BONE_SITES = Collections.unmodifiableList(Arrays.asList("C400", "C401", "C402", "C403", "C408", "C409", "C412", "C413", "C414", "C418", "C419"));
+    public static final String THYMUS = "C379";
+    public static final List<String> PENIS_AND_SCROTUM_SITES = Collections.unmodifiableList(Arrays.asList("C600", "C601", "C602", "C608", "C609", "C632"));
     public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
 
     static {
@@ -2095,6 +2096,75 @@ public class MphConstants {
         for (String site : BONE_SITES)
             content.put(site, boneRows);
 
+        //Table 22: Thymus Histologies
+        Map<String, String> thymusRows = new HashMap<>();
+        thymusRows.put("8144", "8140");
+        thymusRows.put("8260", "8140");
+        thymusRows.put("8200", "8140");
+        thymusRows.put("8140", "8140");
+
+        thymusRows.put("8560", "8560");
+
+        thymusRows.put("8980/3", "8980/3");
+
+        thymusRows.put("8310", "8310");
+
+        thymusRows.put("8430", "8430");
+
+        thymusRows.put("8045/3", "8246/3");
+        thymusRows.put("8013/3", "8246/3");
+        thymusRows.put("8041/3", "8246/3");
+        thymusRows.put("8246/3", "8246/3");
+
+        thymusRows.put("8249/3", "8240/3");
+        thymusRows.put("8240/3", "8240/3");
+
+        thymusRows.put("8023/3", "8023/3");
+
+        thymusRows.put("8033", "8033");
+
+        thymusRows.put("8123", "8070");
+        thymusRows.put("8083", "8070");
+        thymusRows.put("8082", "8070");
+        thymusRows.put("8070", "8070");
+
+        thymusRows.put("8586/3", "8586/3");
+
+        thymusRows.put("8580", "8580");
+        thymusRows.put("8581", "8580");
+        thymusRows.put("8582", "8580");
+        thymusRows.put("8583", "8580");
+        thymusRows.put("8584", "8580");
+        thymusRows.put("8585", "8580");
+
+        thymusRows.put("8020/3", "8020/3");
+
+        content.put(THYMUS, thymusRows);
+
+        //Table 23: Penis and scrotum
+        Map<String, String> penisAndScrotumRows = new HashMap<>();
+        penisAndScrotumRows.put("8140", "8140");
+        penisAndScrotumRows.put("8560", "8140");
+        penisAndScrotumRows.put("8430", "8140");
+
+        penisAndScrotumRows.put("8542/3", "8542/3");
+
+        penisAndScrotumRows.put("8070", "8070");
+        penisAndScrotumRows.put("8083", "8070");
+        penisAndScrotumRows.put("8084", "8070");
+        penisAndScrotumRows.put("8071/2", "8070");
+        penisAndScrotumRows.put("8077/2", "8070");
+        penisAndScrotumRows.put("8082", "8070");
+        penisAndScrotumRows.put("8052", "8070");
+        penisAndScrotumRows.put("8075", "8070");
+        penisAndScrotumRows.put("8074", "8070");
+        penisAndScrotumRows.put("8085", "8070");
+        penisAndScrotumRows.put("8086", "8070");
+        penisAndScrotumRows.put("8051", "8070");
+
+        for (String site: PENIS_AND_SCROTUM_SITES)
+            content.put(site, penisAndScrotumRows);
+
         OTHER_SITES_2023_TABLE_ROWS_FOR_SITE = Collections.unmodifiableMap(content);
     }
 
@@ -2446,6 +2516,49 @@ public class MphConstants {
         boneSubtypes.put("9368/3", "9368/3");
         for (String site : BONE_SITES)
             content.put(site, boneSubtypes);
+
+        //Table 22: Thymus Histologies
+        Map<String, String> thymusSubTypes = new HashMap<>();
+        thymusSubTypes.put("8144", "8144");
+        thymusSubTypes.put("8260", "8260");
+        thymusSubTypes.put("8200", "8200");
+
+        thymusSubTypes.put("8045/3", "8045/3");
+        thymusSubTypes.put("8013/3", "8013/3");
+        thymusSubTypes.put("8041/3", "8041/3");
+
+        thymusSubTypes.put("8249/3", "8249/3");
+
+        thymusSubTypes.put("8123", "8123");
+        thymusSubTypes.put("8083", "8083");
+        thymusSubTypes.put("8082", "8082");
+
+        thymusSubTypes.put("8581", "8581");
+        thymusSubTypes.put("8582", "8582");
+        thymusSubTypes.put("8583", "8583");
+        thymusSubTypes.put("8584", "8584");
+        thymusSubTypes.put("8585", "8585");
+
+        content.put(THYMUS, thymusSubTypes);
+
+        //Table 23: Penis and scrotum
+        Map<String, String> penisAndScrotumSubtypes = new HashMap<>();
+        penisAndScrotumSubtypes.put("8560", "8560");
+        penisAndScrotumSubtypes.put("8430", "8430");
+
+        penisAndScrotumSubtypes.put("8083", "8083");
+        penisAndScrotumSubtypes.put("8084", "8084");
+        penisAndScrotumSubtypes.put("8071/2", "8071/2");
+        penisAndScrotumSubtypes.put("8077/2", "8077/2");
+        penisAndScrotumSubtypes.put("8082", "8082");
+        penisAndScrotumSubtypes.put("8052", "8052");
+        penisAndScrotumSubtypes.put("8075", "8075");
+        penisAndScrotumSubtypes.put("8074", "8074");
+        penisAndScrotumSubtypes.put("8085", "8085");
+        penisAndScrotumSubtypes.put("8086", "8086");
+        penisAndScrotumSubtypes.put("8051", "8051");
+        for (String site: PENIS_AND_SCROTUM_SITES)
+            content.put(site, penisAndScrotumSubtypes);
 
         OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE = Collections.unmodifiableMap(content);
     }

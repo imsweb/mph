@@ -3222,7 +3222,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        i1.setHistologyIcdO3("9220"); i2.setHistologyIcdO3("8891"); // ***
+        i1.setHistologyIcdO3("9220"); i2.setHistologyIcdO3("8891");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
@@ -3662,6 +3662,39 @@ public class Mph2018RuleTests {
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        //Special case 9413 and 9509
+        i1.setHistologyIcdO3("9413");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9413");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9413");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("9413");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9509");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9509");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9509");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("9509");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.

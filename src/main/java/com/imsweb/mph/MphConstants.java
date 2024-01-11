@@ -236,7 +236,7 @@ public class MphConstants {
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");
     public static final List<String> UROTHELIAL = GroupUtility.expandList("8120,8130,8131,8082,8122,8031,8020");
-    public static final List<String> GLIAL_TUMOR_2018 = GroupUtility.expandList("9385,9391,9392,9393,9396,9400,9401,9411,9424,9430,9440,9441,9442,9445,9450,9451");
+    public static final List<String> GLIAL_TUMOR_2018 = GroupUtility.expandList("9380,9385,9391,9392,9393,9396,9400,9401,9411,9424,9430,9440,9441,9442,9445,9450,9451");
     public static final String MALT = "9699/3";
 
     //Histology Charts

@@ -186,7 +186,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("9380"),
-                        Arrays.asList("9430", "9400", "9401", "9411", "9385", "9391", "9392", "9396")))
+                        Arrays.asList("9430", "9400", "9401", "9411", "9385", "9391", "9392", "9396", "9393", "9450", "9451", "9424")))
                     result.setFinalResult(MpResult.SINGLE_PRIMARY);
                 return result;
             }

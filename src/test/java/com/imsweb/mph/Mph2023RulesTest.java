@@ -116,6 +116,38 @@ public class Mph2023RulesTest {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertNotEquals("M9", output.getStep());
+        i1.setHistologyIcdO3("8140");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8380");
+        i2.setLaterality("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M9", output.getStep());
+        i1.setHistologyIcdO3("8140");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8380");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M9", output.getStep());
+        i1.setHistologyIcdO3("8480");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8380");
+        i2.setLaterality("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M10", output.getStep());
+        i1.setHistologyIcdO3("8480");
+        i1.setLaterality("1");
+        i2.setHistologyIcdO3("8380");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M17", output.getStep());
 
         // M10 - Tumors on both sides (right and left) of a site listed in Table 1 are multiple primaries.
         i1.setPrimarySite("C622");

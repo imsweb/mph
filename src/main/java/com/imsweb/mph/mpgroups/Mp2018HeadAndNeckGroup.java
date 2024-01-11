@@ -37,7 +37,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     // C000-C148, C300-C339, C410, C411, C479, C754-C755
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
-        super(MphConstants.STR_2018_AND_LATER_HEAD_AND_NECK, MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "C000-C148, C300-C339, C410, C411, C479, C754-C755", null, null,
+        super(MphConstants.STR_2018_AND_LATER_HEAD_AND_NECK, MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "C000-C148, C300-C339, C410, C411, C479", null, null,
                 "9590-9993, 9140", "2-3,6", "2018-9999");
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:

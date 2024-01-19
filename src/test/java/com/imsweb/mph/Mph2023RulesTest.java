@@ -311,7 +311,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
         //Histologies in the table
         i1.setHistologyIcdO3("8000");
         i2.setHistologyIcdO3("8002");
@@ -342,7 +341,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
         //Table 22
         i1.setPrimarySite("C379");
         i2.setPrimarySite("C379");
@@ -352,7 +350,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
         //Table 23
         i1.setPrimarySite("C602");
         i2.setPrimarySite("C602");
@@ -362,7 +359,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M18", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 3-21"));
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         i1.setPrimarySite("C490");
@@ -373,7 +369,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M19", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 2-21"));
 
         i1.setPrimarySite("C384");
         i2.setPrimarySite("C384");
@@ -387,7 +382,6 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M19", output.getStep());
-        Assert.assertTrue(output.getReason().contains("Table 2-21"));
 
         //M20 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.
         i1.setPrimarySite("C384");

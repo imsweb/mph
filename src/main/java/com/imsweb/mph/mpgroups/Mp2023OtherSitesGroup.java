@@ -302,7 +302,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
         _rules.add(rule);
 
-        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21
+        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-23
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M17") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -322,11 +322,11 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-21?");
-        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-21.");
+        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-23?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-23.");
         _rules.add(rule);
 
-        //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.
+        //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-23.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M18") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -353,13 +353,13 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors on the same row in Table 3-21?");
-        rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-21.");
+        rule.setQuestion("Are tumors on the same row in Table 3-23?");
+        rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-23.");
         rule.getNotes().add("The same histology (same four-digit ICD-O code) OR One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR"
                 + "A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3) ");
         _rules.add(rule);
 
-        //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
+        //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-23.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M19") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -396,8 +396,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors on multiple rows in Table 2-21?");
-        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.");
+        rule.setQuestion("Are tumors on multiple rows in Table 2-23?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-23.");
         _rules.add(rule);
 
         //M20 - An invasive tumor following an in situ tumor more than 60 days after diagnosis is a multiple primary.

@@ -1509,7 +1509,7 @@ public class MphConstants {
         esophagusRows.put("8140", "8140");
         esophagusRows.put("8200", "8200");
         esophagusRows.put("8560", "8560");
-        esophagusRows.put("8963", "8963");
+        esophagusRows.put("8936", "8936");
         esophagusRows.put("8430", "8430");
 
         esophagusRows.put("8070", "8070");
@@ -1546,7 +1546,7 @@ public class MphConstants {
 
         stomachRows.put("8210/2", "8210/2");
         stomachRows.put("8560", "8560");
-        stomachRows.put("8963", "8963");
+        stomachRows.put("8936", "8936");
         stomachRows.put("8976/3", "8976/3");
         stomachRows.put("8148/2", "8148/2");
         stomachRows.put("8244/3", "8244/3");
@@ -1585,8 +1585,8 @@ public class MphConstants {
         intestineRows.put("8490", "8140");
         intestineRows.put("8211", "8140");
 
-        intestineRows.put("8210/2", " 8210/2");
-        intestineRows.put("8963", " 8963");
+        intestineRows.put("8210/2", "8210/2");
+        intestineRows.put("8936", "8936");
         intestineRows.put("8154/3", "8154/3");
 
         intestineRows.put("8246/3", "8246/3");
@@ -1596,7 +1596,7 @@ public class MphConstants {
         intestineRows.put("8240/3", "8240/3");
         intestineRows.put("8249/3", "8240/3");
 
-        intestineRows.put("8213/2", " 8213/2");
+        intestineRows.put("8213/2", "8213/2");
 
         for (String site : INTESTINE_SITES)
             content.put(site, intestineRows);

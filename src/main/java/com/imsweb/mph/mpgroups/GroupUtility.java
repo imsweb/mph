@@ -390,10 +390,10 @@ public class GroupUtility {
             if (_month2 != null && (_month2 < 1 || _month2 > 12))
                 _month2 = null;
             _day1 = _month1 != null && NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
-            if (_year1 != null && _day1 != null && _day1 > LocalDate.of(_year1, _month1, 1).lengthOfMonth())
+            if (_year1 != null && _day1 != null && (_day1 < 1 && _day1 > LocalDate.of(_year1, _month1, 1).lengthOfMonth()))
                 _day1 = null;
             _day2 = _month2 != null && NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : null;
-            if (_year2 != null && _day2 != null && _day2 > LocalDate.of(_year2, _month2, 1).lengthOfMonth())
+            if (_year2 != null && _day2 != null && (_day2 < 1 || _day2 > LocalDate.of(_year2, _month2, 1).lengthOfMonth()))
                 _day2 = null;
         }
 

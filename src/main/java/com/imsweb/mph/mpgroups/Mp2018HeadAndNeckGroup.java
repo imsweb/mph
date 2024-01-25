@@ -321,7 +321,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
         if (super.isApplicable(primarySite, histology, behavior, year))
             return true;
-        return year >= 2019 && year < 2022 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8692", "8693").contains(histology) && "3".equals(behavior);
+        return year >= 2019 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8691", "8692", "8693").contains(histology) && "3".equals(behavior);
     }
 }
 

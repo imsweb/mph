@@ -133,7 +133,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                     //Special case 9413 and 9509
                     if ("9413".equals(i1.getHistology())) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9413/0) can be used for both DNET and PLNTY.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9413) can be used for both DNET and PLNTY.");
                     }
                     else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
@@ -176,9 +176,13 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 }
                 else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2)) {
                     //Special case 9413 and 9509
-                    if ("9413".equals(i1.getHistology()) || "9509".equals(i1.getHistology())) {
+                    if ("9413".equals(i1.getHistology())) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("9413".equals(i1.getHistology()) ? "9413 needs a manual review." : "9509 needs a manual review.");
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9413) can be used for both DNET and PLNTY.");
+                    }
+                    else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);

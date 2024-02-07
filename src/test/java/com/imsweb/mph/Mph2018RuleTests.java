@@ -416,7 +416,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        //8512 is added to the table in the 2021 update
+        //8512 is added to the table in the 2021 update, but it is removed again in 2024 update :)
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8519");
         i1.setBehaviorIcdO3("2");
@@ -431,15 +431,8 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisMonth("");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        i2.setDateOfDiagnosisYear("2021");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
-        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+
         //9130/3 added to the table in the 2021 update
         i1.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisYear("2018");
@@ -592,7 +585,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisMonth("");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
-        //8512 is added to the row of 8510 in the 2021 update
+        //8512 is added to the row of 8510 in the 2021 update and removed again in 2024
         i1.setPrimarySite("C500");
         i1.setHistologyIcdO3("8512");
         i1.setBehaviorIcdO3("2");
@@ -607,18 +600,7 @@ public class Mph2018RuleTests {
         i2.setDateOfDiagnosisMonth("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
-        i1.setDateOfDiagnosisYear("2021");
-        i2.setDateOfDiagnosisYear("2021");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_BREAST, output.getGroupName());
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
         //9130/3 is added for 8800 row in the 2021 update
         i1.setDateOfDiagnosisYear("2018");
@@ -2180,6 +2162,29 @@ public class Mph2018RuleTests {
 
         // Rule M13 Abstract a single primary  when none of the previous rules apply.
         //No case will reach here
+
+        //9222/3 is added on the 2024 update, 8851 and 9222/3 multiple
+        i1.setPrimarySite("C321");
+        i1.setDateOfDiagnosisYear("2022");
+        i1.setDateOfDiagnosisMonth("11");
+        i1.setHistologyIcdO3("8851");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C328");
+        i2.setDateOfDiagnosisYear("2022");
+        i2.setDateOfDiagnosisMonth("11");
+        i2.setHistologyIcdO3("9222");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M7", output.getStep());
+        //9222/3 and 9220/3 same row
+        i1.setHistologyIcdO3("9220");
+        i2.setDateOfDiagnosisYear("2022");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M12", output.getStep());
     }
 
     @Test
@@ -3011,7 +3016,7 @@ public class Mph2018RuleTests {
         String ruleStepToTest;
         int ruleCountToTest;
 
-        // Rule M5 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
+        // Rule M6 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
         // - Original non-malignant tumor followed by malignant tumor
         //      Patient had a resection of the non-malignant tumor (not the same tumor) OR
         //      It is unknown/not documented if the patient had a resection
@@ -3022,7 +3027,7 @@ public class Mph2018RuleTests {
         // Mp2018NonMalignantCNSTumorsGroup and Mp2018MalignantCNSAndPeripheralNervesGroup. Two different rule sets are automatically
         // set to multiple primaries by MphUtuls.computePrimaries().
         /*
-        ruleStepToTest = "M5";
+        ruleStepToTest = "M6";
         ruleCountToTest = 1;
         i1.setPrimarySite("C700");
         i1.setHistologyIcdO3("9440");
@@ -3050,9 +3055,9 @@ public class Mph2018RuleTests {
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
         */
 
-        // Rule M6 Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        // Rule M7 Abstract multiple primaries when a patient has a glial or astrocytic tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
         // GLIAL_TUMOR_2018 = GroupUtility.expandList("9385,9391,9392,9393,9396,9400,9401,9411,9424,9430,9440,9441,9442,9445,9450,9451");
-        ruleStepToTest = "M6";
+        ruleStepToTest = "M7";
         ruleCountToTest = 2;
         i1.setPrimarySite("C700");
         i1.setHistologyIcdO3("9385");
@@ -3101,11 +3106,11 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M7 Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
+        // Rule M8 Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
         // - In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        ruleStepToTest = "M7";
+        ruleStepToTest = "M8";
         ruleCountToTest = 3;
         i1.setPrimarySite("C712");
         i1.setHistologyIcdO3("9443");
@@ -3137,7 +3142,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M8 Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
+        // Rule M9 Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
         // - Any lobe of the brain C710-C719 AND any other part of CNS
         // - Cauda equina C721 AND any other part of CNS
         // - Cerebral meninges C700 AND spinal meninges C701
@@ -3148,7 +3153,7 @@ public class Mph2018RuleTests {
         // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // - Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
-        ruleStepToTest = "M8";
+        ruleStepToTest = "M9";
         ruleCountToTest = 4;
         i1.setPrimarySite("C710");
         i1.setHistologyIcdO3("9440");
@@ -3196,7 +3201,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Testing of NOS Subtypes for rules M9 - M11.
+        // Testing of NOS Subtypes for rules M10 - M13.
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9401");
         i1.setBehaviorIcdO3("3");
@@ -3204,7 +3209,7 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("9396");
         i2.setBehaviorIcdO3("3");
 
-        ruleStepToTest = "M9";
+        ruleStepToTest = "M10";
         i1.setHistologyIcdO3("9220"); i2.setHistologyIcdO3("8890");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -3217,7 +3222,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        i1.setHistologyIcdO3("9220"); i2.setHistologyIcdO3("8891"); // ***
+        i1.setHistologyIcdO3("9220"); i2.setHistologyIcdO3("8891");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
@@ -3245,7 +3250,20 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        ruleStepToTest = "M10";
+        ruleStepToTest = "M11";
+        i1.setHistologyIcdO3("9380"); i2.setHistologyIcdO3("9430");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+
+        i1.setHistologyIcdO3("9380"); i2.setHistologyIcdO3("9385");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+
+        i1.setHistologyIcdO3("9380"); i2.setHistologyIcdO3("9396");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+
+        ruleStepToTest = "M12";
         i1.setHistologyIcdO3("8800"); i2.setHistologyIcdO3("9220");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -3258,7 +3276,7 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        ruleStepToTest = "M11";
+        ruleStepToTest = "M13";
         i1.setHistologyIcdO3("9390"); i2.setHistologyIcdO3("8800");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
@@ -3279,8 +3297,8 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        ruleStepToTest = "M9";
+        // Rule M10 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        ruleStepToTest = "M10";
         ruleCountToTest = 5;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9401");
@@ -3304,9 +3322,9 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M10 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        ruleStepToTest = "M10";
-        ruleCountToTest = 6;
+        // Rule M12 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        ruleStepToTest = "M12";
+        ruleCountToTest = 7;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9490");
         i1.setBehaviorIcdO3("3");
@@ -3329,9 +3347,9 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M11 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        ruleStepToTest = "M11";
-        ruleCountToTest = 7;
+        // Rule M13 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        ruleStepToTest = "M13";
+        ruleCountToTest = 8;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9505");
         i1.setBehaviorIcdO3("3");
@@ -3352,12 +3370,20 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("9071");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        // 8000/3
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("8000/3"));
 
-        // Rule M12 Abstract a single primary when multiple tumors do not meet any of the above criteria.
+        // Rule M14 Abstract a single primary when multiple tumors do not meet any of the above criteria.
         // Can't Reach This.
         /*
-        ruleStepToTest = "M12";
-        ruleCountToTest = 8;
+        ruleStepToTest = "M14";
+        ruleCountToTest = 9;
         i1.setHistologyIcdO3("9071");
         i2.setHistologyIcdO3("8888");
         output = _utils.computePrimaries(i1, i2);
@@ -3638,6 +3664,39 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //Special case 9413 and 9509
+        i1.setHistologyIcdO3("9413");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9413");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9413");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("9413");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9509");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9509");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("9509");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("9509");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setPrimarySite("C729");
         i2.setPrimarySite("C714");
@@ -3686,6 +3745,38 @@ public class Mph2018RuleTests {
         i2.setBehaviorIcdO3("0");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //9122/0 added to the table
+        i1.setHistologyIcdO3("9122");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("9120");
+        i2.setBehaviorIcdO3("0");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M11", output.getStep());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, output.getGroupName());
+
+        //8000/0 and 8000/1
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("0");
+        i2.setHistologyIcdO3("8000");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M11", output.getStep());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, output.getGroupName());
+        i1.setHistologyIcdO3("8825");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M12", output.getStep());
+        Assert.assertTrue(output.getReason().contains("8000/1"));
+        i1.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("9539");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals("M12", output.getStep());
+        Assert.assertTrue(output.getReason().contains("8000/0"));
+
+
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M12";

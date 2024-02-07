@@ -2,6 +2,7 @@
 
 **Changes in version 1.35**
 
+- Implemented 2024 updates of solid tumor rules. (#136)
 - Fixed an exception happening in GroupUtility with invalid dates.
 
 **Changes in version 1.34**

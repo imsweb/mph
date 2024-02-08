@@ -25,7 +25,7 @@ import com.imsweb.seerapi.client.disease.DiseaseSearchResults;
 import com.imsweb.seerapi.client.disease.YearRangeString;
 
 /**
- * To run this lab locally, you will need a ".seerapi" file under your user folder with a line "apiKey=XXX" set to your SEER*API key.
+ * To run this lab locally, you will need a ".seerapi" file under your user folder with a line "apikey=XXX" set to your SEER*API key.
  */
 public class HematoDataLab {
 

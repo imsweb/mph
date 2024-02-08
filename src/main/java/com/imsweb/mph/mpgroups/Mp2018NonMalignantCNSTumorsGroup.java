@@ -129,8 +129,19 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 if (i1.getHistology().equals(i2.getHistology()) && GroupUtility.isSiteContained(MphConstants.CNS_2018_BRAIN_SITES, i1.getPrimarySite()) && GroupUtility.isSiteContained(
-                        MphConstants.CNS_2018_BRAIN_SITES, i2.getPrimarySite()))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                        MphConstants.CNS_2018_BRAIN_SITES, i2.getPrimarySite())) {
+                    //Special case 9413 and 9509
+                    if ("9413".equals(i1.getHistology())) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9413) can be used for both DNET and PLNTY.");
+                    }
+                    else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
+                    }
+                    else
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
                 return result;
             }
         };
@@ -163,8 +174,19 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
                 }
-                else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                else if (GroupUtility.sameHistologies(icd1, icd2) || row1.equals(row2)) {
+                    //Special case 9413 and 9509
+                    if ("9413".equals(i1.getHistology())) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9413) can be used for both DNET and PLNTY.");
+                    }
+                    else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
+                        result.setFinalResult(MpResult.QUESTIONABLE);
+                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
+                    }
+                    else
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
 
                 return result;
             }
@@ -208,6 +230,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 if (row1 == null || row2 == null) {
                     result.setFinalResult(MpResult.QUESTIONABLE);
                     result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
+                }
+                else if (row1.startsWith("8000") || row2.startsWith("8000")) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("Unable to determine if " + (row1.startsWith("8000") ? icd1 : icd2) + " is a different row.");
                 }
                 else if (!row1.equals(row2))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);

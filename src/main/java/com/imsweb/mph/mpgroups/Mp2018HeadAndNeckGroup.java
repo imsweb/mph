@@ -34,7 +34,7 @@ import static com.imsweb.mph.MphConstants.USE_FOR_MULTIPLE_RULES;
 public class Mp2018HeadAndNeckGroup extends MphGroup {
 
     // Head and Neck
-    // C000-C148, C300-C339, C410, C411, C442, C479
+    // C000-C148, C300-C339, C410, C411, C479, C754-C755
     // (Excludes lymphoma and leukemia M9590 – M9992 and Kaposi sarcoma M9140)
     public Mp2018HeadAndNeckGroup() {
         super(MphConstants.STR_2018_AND_LATER_HEAD_AND_NECK, MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, "C000-C148, C300-C339, C410, C411, C479", null, null,
@@ -321,7 +321,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
     public boolean isApplicable(String primarySite, String histology, String behavior, int year) {
         if (super.isApplicable(primarySite, histology, behavior, year))
             return true;
-        return year >= 2019 && year < 2022 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8692", "8693").contains(histology) && "3".equals(behavior);
+        return year >= 2019 && ("C754".equals(primarySite) || "C755".equals(primarySite)) && Arrays.asList("8680", "8690", "8691", "8692", "8693").contains(histology) && "3".equals(behavior);
     }
 }
 

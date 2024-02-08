@@ -3,6 +3,7 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import com.imsweb.mph.MphConstants;
@@ -14,9 +15,10 @@ import com.imsweb.mph.MphUtils.MpResult;
 import com.imsweb.mph.RuleExecutionContext;
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mprules.MpRuleCNS;
-import com.imsweb.mph.mprules.MpRuleDifferentRowInTable;
 import com.imsweb.mph.mprules.MpRuleNoCriteriaSatisfied;
 import com.imsweb.mph.mprules.MpRuleSameRowInTable;
+
+import static com.imsweb.mph.MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS;
 
 public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
 
@@ -28,13 +30,13 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 "C470-C479, C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null,
                 null, "9590-9993, 9140", "3", "2018-9999");
 
-        // Rule M5 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
+        // Rule M6 Abstract multiple primaries when there are multiple CNS tumors, one of which is malignant /3 and the other is non-malignant /0 or /1.
         // - Original non-malignant tumor followed by malignant tumor
         //      Patient had a resection of the non-malignant tumor (not the same tumor) OR
         //      It is unknown/not documented if the patient had a resection
         // - Simultaneous non-malignant and malignant tumors
         //      Abstract both the malignant and the non-malignant tumors
-        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M5") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 //This will never happen, since the two conditions belong to different cancer groups.
@@ -47,8 +49,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 "A non-malignant CNS tumor and a malignant CNS tumor are always multiple primaries (timing and primary sites are irrelevant). Prepare two abstracts; one for the non-malignant and another for the malignant tumor.");
         _rules.add(rule);
 
-        // Rule M6 Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M6") {
+        // Rule M7 Abstract multiple primaries when a patient has a glial tumor and is subsequently diagnosed with a glioblastoma multiforme 9440 (GBM).
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -94,11 +96,11 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.getNotes().add("  - Which histologies are more likely to recur as a GBM");
         _rules.add(rule);
 
-        // Rule M7 Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
+        // Rule M8 Abstract a single primary when there are separate, non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be any of the following combinations:
         // - In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - In different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M7") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -128,7 +130,7 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.getNotes().add("This is a change from/clarification to previous rules.");
         _rules.add(rule);
 
-        // Rule M8 Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
+        // Rule M9 Abstract multiple primaries when multiple tumors are present in any of the following sites or subsites:
         // - Any lobe of the brain C710-C719 AND any other part of CNS
         // - Cauda equina C721 AND any other part of CNS
         // - Cerebral meninges C700 AND spinal meninges C701
@@ -139,11 +141,11 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         // - Meninges of cranial or peripheral nerves C709 AND any other part of the CNS
         // - Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
-        rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M8", true);
+        rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M9", true);
         _rules.add(rule);
 
-        // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M9") {
+        // Rule M10 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -169,8 +171,42 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 "  - Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M10 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M10", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS, false);
+        //Rule M11	Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.
+        //Note: 	The following is a list of all tumors which would be classified as subtypes/variants of glioma NOS.
+        //Astroblastoma 9430
+        //Astrocytomas 9400 and all subtypes
+        //Anaplastic astrocytoma IDH-mutant/wildtype; anaplastic astrocytoma NOS 9401
+        //Gemistocytic astrocytoma IDH-mutant 9411
+        //Diffuse midline glioma H3 K27M Mutant 9385
+        //Ependymoma 9391 and all subtypes
+        //Anaplastic ependymoma 9392
+        //Ependymoma, RELA fusion-positive 9396
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M11") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
+                TempRuleResult result = new TempRuleResult();
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("9380"),
+                        Arrays.asList("9430", "9400", "9401", "9411", "9385", "9391", "9392", "9396", "9393", "9450", "9451", "9424")))
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions?");
+        rule.setReason("Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.");
+        rule.getNotes().add(
+                "The following is a list of all tumors which would be classified as subtypes/variants of glioma NOS.\n" +
+                        "    - Astroblastoma 9430\n"
+                        + "    - Astrocytomas 9400 and all subtypes\n"
+                        + "        Anaplastic astrocytoma IDH-mutant/wildtype; anaplastic astrocytoma NOS 9401\n"
+                        + "        Gemistocytic astrocytoma IDH-mutant 9411\n"
+                        + "    - Diffuse midline glioma H3 K27M Mutant 9385\n"
+                        + "    - Ependymoma 9391 and all subtypes\n"
+                        + "        Anaplastic ependymoma 9392\n"
+                        + "        Ependymoma, RELA fusion-positive 9396\n");
+        _rules.add(rule);
+
+        // Rule M12 Abstract a single primary when separate, non-contiguous tumors are on the same row in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M12", MALIGNANT_CNS_2018_TABLE3_ROWS, false);
         rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on the same row in Table 3 in the Equivalent Terms and Definitions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
@@ -179,15 +215,40 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
         rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M11 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M11", MphConstants.MALIGNANT_CNS_2018_TABLE3_ROWS);
+        // Rule M13 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M13") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
+                TempRuleResult result = new TempRuleResult();
+                String h1 = i1.getHistology();
+                String icd1 = i1.getIcdCode();
+                String h2 = i2.getHistology();
+                String icd2 = i2.getIcdCode();
+                //If they are same code, no need to check if they are in different rows.
+                if (GroupUtility.sameHistologies(icd1, icd2))
+                    return result;
+                String row1 = MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h1) ? MALIGNANT_CNS_2018_TABLE3_ROWS.get(h1) : MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd1);
+                String row2 = MALIGNANT_CNS_2018_TABLE3_ROWS.containsKey(h2) ? MALIGNANT_CNS_2018_TABLE3_ROWS.get(h2) : MALIGNANT_CNS_2018_TABLE3_ROWS.get(icd2);
+                if (row1 == null || row2 == null) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessageNotInTable(this.getStep(), this.getGroupName(), row1, row2, icd1, icd2);
+                }
+                else if (row1.startsWith("8000") || row2.startsWith("8000")) {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    result.setMessage("Unable to determine if 8000/3 is a different row.");
+                }
+                else if (!row1.equals(row2))
+                    result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
+                return result;
+            }
+        };
         rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions?");
         rule.setReason("Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
-        // Rule M12 Abstract a single primary when multiple tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M12");
+        // Rule M14 Abstract a single primary when multiple tumors do not meet any of the above criteria.
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_MALIGNANT_CNS, "M14");
         rule.getNotes().add("Use caution when applying this default rule.  Please confirm that you have not overlooked an applicable rule.");
         _rules.add(rule);
     }

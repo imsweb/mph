@@ -1,11 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
-**Changes in version 1.35**
-
-- Fixed an exception happening in GroupUtility with invalid dates.
-
 **Changes in version 1.34**
 
+- Implemented 2024 updates of solid tumor rules. (#136)
+- Fixed an exception happening in GroupUtility with invalid dates.
 - Updated CSV library from version 5.7.1 to version 5.9.
 
 **Changes in version 1.33**

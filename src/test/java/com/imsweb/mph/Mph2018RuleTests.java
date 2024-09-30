@@ -2724,6 +2724,13 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8083");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        // Small cell carcinoma 8041/3 row: “Neuroendocrine carcinoma, NOS” removed from beneath Typical Carcinoid 8240/3 and added as its own subtype/variant with the code 8246/3
+        i1.setHistologyIcdO3("8041");
+        i2.setHistologyIcdO3("8240");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(ruleStepToTest, output.getStep());
         //Histologies not in table->
         i1.setHistologyIcdO3("8000");
         i2.setHistologyIcdO3("8002");

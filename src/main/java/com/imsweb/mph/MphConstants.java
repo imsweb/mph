@@ -736,16 +736,15 @@ public class MphConstants {
         content.put("8250/2", "8250/2");
         content.put("8260", "8260");
         content.put("8230", "8230");
+        content.put("8045", "8045");
+        content.put("8041", "8041");
+        content.put("8249", "8249");
         content.put("9043/3", "9043/3");
         content.put("9042/3", "9042/3");
         content.put("9137/3", "9137/3");
         content.put("8842/3", "8842/3");
         content.put("9041/3", "9041/3");
         content.put("9040/3", "9040/3");
-        content.put("8249/3", "8249/3");
-        content.put("8045/3", "8045/3");
-        content.put("8246/3", "8246/3");
-        content.put("8240/3", "8240/3");
         content.put("8083", "8083");
         content.put("8071", "8071");
         content.put("8072", "8072");
@@ -787,6 +786,11 @@ public class MphConstants {
         content.put("8720", "8720"); // Melanoma 8720
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         content.put("8982", "8982"); // Myoepithelial carcinoma 8982
+        content.put("8246", "8246"); //Neuroendocrine carcinoma (NEC) 8246
+        content.put("8045", "8246"); //Neuroendocrine carcinoma (NEC) 8246
+        content.put("8041", "8246"); //Neuroendocrine carcinoma (NEC) 8246
+        content.put("8240", "8240"); //Neuroendocrine tumor, NOS (NET) 8240
+        content.put("8249", "8240"); //Neuroendocrine tumor, NOS (NET) 8240
         content.put("8023/3", "8023/3"); // NUT carcinoma 8023/3
         content.put("8714/3", "8714/3"); // PEComa malignant 8714/3
         content.put("8022", "8022"); // Pleomorphic carcinoma 8022
@@ -799,11 +803,6 @@ public class MphConstants {
         content.put("8842/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9041/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9040/3", "8800/3"); // Sarcoma NOS 8800/3
-        content.put("8041/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8249/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8045/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8246/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
-        content.put("8240/3", "8041/3"); // Small cell carcinoma/neuroendocrine tumors (NET Tumors) 8041
         content.put("8032", "8032"); // Spindle cell carcinoma 8032
         content.put("8070", "8070"); // Squamous carcinoma 8070
         content.put("8083", "8070"); // Squamous carcinoma 8070

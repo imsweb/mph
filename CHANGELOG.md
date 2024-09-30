@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.36**
+
+- Fixed a bug in 2018 Lung rules Table 3 list.
+- Updated HematoDB data with latest data from SEER API.
+- 
 **Changes in version 1.35**
 
 - Fixed an exception happening in GroupUtility with invalid dates. The fix in previous version was not complete.

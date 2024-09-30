@@ -16,4 +16,8 @@
         <!-- Be wary of letting constructors throw exceptions, not easy to fix, and I don't think that can create a problem -->
         <Bug pattern="CT_CONSTRUCTOR_THROW"/>
     </Match>
+    <Match>
+        <!-- I use protected constructors to be able to derive the class; I understand this problem, but it's not negatively affecting this project -->
+        <Bug pattern="SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR"/>
+    </Match>
 </FindBugsFilter>

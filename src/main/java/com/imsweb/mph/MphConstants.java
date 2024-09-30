@@ -787,8 +787,8 @@ public class MphConstants {
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         content.put("8982", "8982"); // Myoepithelial carcinoma 8982
         content.put("8246", "8246"); //Neuroendocrine carcinoma (NEC) 8246
-        content.put("8245", "8246"); //Neuroendocrine carcinoma (NEC) 8246
-        content.put("8241", "8246"); //Neuroendocrine carcinoma (NEC) 8246
+        content.put("8045", "8246"); //Neuroendocrine carcinoma (NEC) 8246
+        content.put("8041", "8246"); //Neuroendocrine carcinoma (NEC) 8246
         content.put("8240", "8240"); //Neuroendocrine tumor, NOS (NET) 8240
         content.put("8249", "8240"); //Neuroendocrine tumor, NOS (NET) 8240
         content.put("8023/3", "8023/3"); // NUT carcinoma 8023/3
@@ -803,7 +803,6 @@ public class MphConstants {
         content.put("8842/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9041/3", "8800/3"); // Sarcoma NOS 8800/3
         content.put("9040/3", "8800/3"); // Sarcoma NOS 8800/3
-
         content.put("8032", "8032"); // Spindle cell carcinoma 8032
         content.put("8070", "8070"); // Squamous carcinoma 8070
         content.put("8083", "8070"); // Squamous carcinoma 8070

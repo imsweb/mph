@@ -3,6 +3,7 @@
 **Changes in version 1.36**
 
 - Fixed a bug in 2018 Lung rules Table 3 list.
+- Updated HematoDB data with latest data from SEER API.
 - 
 **Changes in version 1.35**
 

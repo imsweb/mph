@@ -3472,7 +3472,7 @@ public class Mph2018RuleTests {
         // - Optic gliomas/pilocytic astrocytomas 9421/1
         ruleStepToTest = "M6";
         ruleCountToTest = 2;
-        i1.setPrimarySite("C701");
+        i1.setPrimarySite("C700");
         i1.setHistologyIcdO3("9560");
         i1.setBehaviorIcdO3("0");
         i1.setLaterality("1");
@@ -3482,14 +3482,28 @@ public class Mph2018RuleTests {
         i2.setBehaviorIcdO3("0");
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
+        //C700-1/9560/0 && //C700-2/9560/0
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //C700-1/9560/0 && //C700-1/9560/0 (unilateral should go to the next rule)
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertNotEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //9421/1
+        i1.setPrimarySite("C725");
         i1.setHistologyIcdO3("9421");
         i1.setBehaviorIcdO3("1");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2017");
+        i2.setPrimarySite("C725");
         i2.setHistologyIcdO3("9421");
         i2.setBehaviorIcdO3("1");
+        i2.setLaterality("2");
+        i2.setDateOfDiagnosisYear("2018");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
@@ -3505,6 +3519,20 @@ public class Mph2018RuleTests {
         i2.setBehaviorIcdO3("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        //Example from a registry
+        //C725 a paired and C720 not paired
+        i1.setPrimarySite("C725");
+        i1.setHistologyIcdO3("9560");
+        i1.setBehaviorIcdO3("0");
+        i1.setLaterality("1");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setPrimarySite("C720");
+        i2.setHistologyIcdO3("9560");
+        i2.setBehaviorIcdO3("0");
+        i2.setLaterality("0");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
 
         // Rule M7 Abstract multiple primaries when multiple tumors are present in any of the following sites:
         // - Any lobe(s) of the brain C710-C719 AND any other part of CNS

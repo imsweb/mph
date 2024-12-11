@@ -4,6 +4,8 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import com.imsweb.mph.MphConstants;
@@ -48,10 +50,13 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode();
-                String icd2 = i2.getIcdCode();
-                if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
-                    result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                List<String> pairedSites = Arrays.asList("C724", "C700", "C710", "C725", "C711", "C714", "C722", "C723", "C713", "C712");
+                if (new HashSet<>(pairedSites).containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && i1.getPrimarySite().equals(i2.getPrimarySite()) && GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality())) {
+                    String icd1 = i1.getIcdCode();
+                    String icd2 = i2.getIcdCode();
+                    if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
+                        result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
+                }
 
                 return result;
             }

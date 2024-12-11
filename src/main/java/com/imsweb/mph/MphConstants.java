@@ -832,7 +832,7 @@ public class MphConstants {
     // See Non-Malignant CNS 2019 AS OF date at top of this file.
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "9390/1", "9351/1", "9352/1", "9493/0", "9121/0", "9122/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
+            "9390/1", "9351/1", "9352/1", "9431/1", "9493/0", "9121/0", "9122/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
             "8825/1", "9550/0", "9560/1", "8815/1"));
 
     public static final Map<String, String> NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
@@ -840,7 +840,6 @@ public class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("9431/1", "9431/1"); // Angiocentric glioma 9431/1
         content.put("8830/0", "8830/0"); // Benign fibrous histiocytoma 8830/0
         content.put("9506/1", "9506/1"); // Central neurocytoma 9506/1
         content.put("9220/0", "9220/0"); // Chondroma 9220/0
@@ -852,6 +851,7 @@ public class MphConstants {
         content.put("9352/1", "9350/1"); // Craniopharyngioma 9350/1
         content.put("9412/1", "9412/1"); // Desmoplastic infantile astrocytoma and ganglioglioma 9412/1
         content.put("9421/1", "9421/1"); // Diffuse astrocytoma, MYB- or MYBL1 altered
+        content.put("9431/1", "9421/1"); // Angiocentric glioma 9431/1
         content.put("9413/0", "9413/0"); // Dysembryoplastic neuroepithelial tumor 9413/0
         content.put("9492/0", "9492/0"); // Gangliocytoma 9492/0
         content.put("9493/0", "9492/0"); // Gangliocytoma 9492/0

@@ -3789,6 +3789,15 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals("M11", output.getStep());
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, output.getGroupName());
+        //9421/1 and 9431/1 are in a same row
+        i1.setHistologyIcdO3("9421");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("9431");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M11", output.getStep());
+
 
         //8000/0 and 8000/1
         i1.setHistologyIcdO3("8000");

@@ -3820,6 +3820,16 @@ public class Mph2018RuleTests {
         Assert.assertEquals("M12", output.getStep());
         Assert.assertTrue(output.getReason().contains("8000/0"));
 
+        //9380/1 added to the table
+        i1.setPrimarySite("C728");
+        i1.setHistologyIcdO3("9380");
+        i1.setBehaviorIcdO3("1");
+        i2.setPrimarySite("C729");
+        i2.setHistologyIcdO3("9380");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals("M11", output.getStep());
 
 
         // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.

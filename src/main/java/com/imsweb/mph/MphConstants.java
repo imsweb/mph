@@ -864,6 +864,7 @@ public class MphConstants {
         content.put("9749/1", "9749/1"); // Juvenile xanthogranuloma
         content.put("8890/0", "8890/0"); // Leiomyoma 8890/0
         content.put("8850/0", "8850/0"); // Lipoma 8860/0
+        content.put("9380/1", "9380/1"); // Low-grade glioma 9380/1
         content.put("8880/0", "8850/0"); // Lipoma 8860/0
         content.put("8728/0", "8728/0"); // Meningeal melanocytosis 8728/0
         content.put("8728/1", "8728/0"); // Meningeal melanocytosis 8728/0

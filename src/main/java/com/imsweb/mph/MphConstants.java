@@ -833,7 +833,7 @@ public class MphConstants {
 
     public static final List<String> NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
             "9390/1", "9351/1", "9352/1", "9431/1", "9493/0", "9121/0", "9122/0", "8880/0", "8728/1", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9533/0", "9537/0",
-            "8825/1", "9550/0", "9560/1", "8815/1"));
+            "8825/1", "9550/0", "9560/1"));
 
     public static final Map<String, String> NON_MALIGNANT_CNS_2018_TABLE6_ROWS;
     public static final Map<String, String> NON_MALIGNANT_CNS_2023_TABLE6_ROWS;
@@ -899,8 +899,7 @@ public class MphConstants {
         content.put("8900/0", "8900/0"); // Rhabdomyoma 8900/0
         content.put("9560/0", "9560/0"); // Schwannoma 9560/0
         content.put("9560/1", "9560/0"); // Schwannoma 9560/0
-        content.put("8815/0", "8815/0"); // Solitary fibrous tumor Grade 1 8815/0
-        content.put("8815/1", "8815/0"); // Solitary fibrous tumor Grade 1 8815/0
+        content.put("8815/1", "8815/1"); // Solitary fibrous tumor Grade 1
         content.put("8290/0", "8290/0"); // Spindle cell oncocytoma 8290/0
         content.put("9384/1", "9384/1"); // Subependymal giant cell astrocytoma 9384/1
         content.put("9383/1", "9383/1"); // Subependymoma 9383/1

@@ -3323,6 +3323,17 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //8859, 9366, 9268 added as subtypes for 8800
+        i1.setHistologyIcdO3("8859");
+        i2.setHistologyIcdO3("9366");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        i1.setHistologyIcdO3("8859");
+        i2.setHistologyIcdO3("9268");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setHistologyIcdO3("9071");
         i2.setHistologyIcdO3("8892");
@@ -3353,6 +3364,21 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("8728");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        //8859, 9366, 9268 added as subtypes for 8800
+        i1.setHistologyIcdO3("8800");
+        i2.setHistologyIcdO3("8859");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("8800");
+        i2.setHistologyIcdO3("9366");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        i1.setHistologyIcdO3("8800");
+        i2.setHistologyIcdO3("9268");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setHistologyIcdO3("9505");
         i2.setHistologyIcdO3("9430");

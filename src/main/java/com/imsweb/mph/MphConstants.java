@@ -945,8 +945,11 @@ public class MphConstants {
         content.put("8890", "8891,8896");
         content.put("8891", "8891");
         content.put("8896", "8896");
+        content.put("8859", "8859");
         content.put("9180", "9180");
         content.put("9480", "9480");
+        content.put("9366", "9366");
+        content.put("9268", "9268");
         content.put("8802", "8802");
         MALIGNANT_CNS_2018_TABLE3_SUBTYPES = Collections.unmodifiableMap(content);
     }
@@ -1017,8 +1020,11 @@ public class MphConstants {
         content.put("8890", "8800"); // Sarcoma NOS 8800
         content.put("8891", "8800"); // Sarcoma NOS 8800
         content.put("8896", "8800"); // Sarcoma NOS 8800
+        content.put("8859", "8800"); // Sarcoma NOS 8800
         content.put("9180", "8800"); // Sarcoma NOS 8800
         content.put("9480", "8800"); // Sarcoma NOS 8800
+        content.put("9366", "8800"); // Sarcoma NOS 8800
+        content.put("9268", "8800"); // Sarcoma NOS 8800
         content.put("8802", "8800"); // Sarcoma NOS 8800
         content.put("8815", "8815"); // Solitary fibrous tumor grade 3 8815
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);

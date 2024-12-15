@@ -936,7 +936,6 @@ public class MphConstants {
         content.put("9477", "9477");
         content.put("9476", "9476");
         content.put("9475", "9475");
-        content.put("8728", "8728");
         content.put("9451", "9451");
         content.put("9425", "9425");
         content.put("9395", "9395");
@@ -1001,7 +1000,6 @@ public class MphConstants {
         content.put("9475", "9470"); // Medulloblastoma NOS 9470
         content.put("9501", "9501"); // Medulloepithelioma 9501
         content.put("8720", "8720"); // Meningeal melanoma 8720
-        content.put("8728", "8720"); // Meningeal melanoma 8720
         content.put("8000/3", "8000/3"); // Neuroepithelial tumor, malignant
         content.put("9382", "9382"); // Oligoastrocytoma NOS 9382
         content.put("9450", "9450"); // Oligodendroglioma NOS 9450

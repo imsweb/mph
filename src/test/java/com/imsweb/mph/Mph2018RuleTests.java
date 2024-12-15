@@ -3384,6 +3384,21 @@ public class Mph2018RuleTests {
         i2.setHistologyIcdO3("9430");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
+        // 8815 row behavior added 8815/3
+        i1.setHistologyIcdO3("8815");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8815");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i2.setBehaviorIcdO3("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertNotEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertNotEquals(ruleStepToTest, output.getStep());
+
 
         // Rule M13 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M13";

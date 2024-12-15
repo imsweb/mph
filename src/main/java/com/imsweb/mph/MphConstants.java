@@ -1026,7 +1026,7 @@ public class MphConstants {
         content.put("9366", "8800"); // Sarcoma NOS 8800
         content.put("9268", "8800"); // Sarcoma NOS 8800
         content.put("8802", "8800"); // Sarcoma NOS 8800
-        content.put("8815", "8815"); // Solitary fibrous tumor grade 3 8815
+        content.put("8815/3", "8815/3"); // Solitary fibrous tumor grade 3 8815
         MALIGNANT_CNS_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);
     }
 

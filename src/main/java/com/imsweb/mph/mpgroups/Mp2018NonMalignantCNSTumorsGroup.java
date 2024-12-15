@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +30,33 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
                 "9590-9993, 9140", "0-1", "2018-9999");
 
-        // Rule M5 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
+        // Rule M5 Abstract a single primary when a neoplasm is originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology.
+        // - Glioma=9380/1; any other histology in table 6 is a more specific histology
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M5") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
+                TempRuleResult result = new TempRuleResult();
+                String icd1 = i1.getIcdCode();
+                String icd2 = i2.getIcdCode();
+                if (GroupUtility.differentCategory(icd1, icd2, MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES, Collections.singletonList("9380/1")))
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+        rule.setQuestion("Is neoplasm originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology?");
+        rule.setReason("Abstract a single primary when a neoplasm is originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology.");
+        rule.getNotes().add("Low-grade glioma is considered an umbrella term or non-specific diagnosis, primarily seen on radiographic reports such as CT scans and MRIs. Often the patient is actively followed with scans and surgical intervention delayed or not recommended that would provide a definitive histology type. A diagnosis of low-grade glioma is not recommended and may be used when the diagnosis is based on imaging and/or additional tests were inconclusive.");
+        rule.getNotes().add("If a specific histology is diagnosed in residual tumor or additional testing provides a definitive histology, edit the original abstract as follows:\n"
+                + "- Do not change the date of diagnosis\n"
+                + "- For cases that have been abstracted, update the ICD-O code based on the new findings\n"
+                + "- Report all data changes for cases which have been submitted to the central registry");
+        rule.getNotes().add("Timing is irrelevant.");
+        _rules.add(rule);
+
+        // Rule M6 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR
         // - It is unknown/not documented whether a resection was done
-        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M5") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 //This will never happen, since the two conditions belong to different cancer group.
@@ -43,15 +67,16 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.setReason("A malignant tumor diagnosed following an non-malignant tumor is multiple primaries.");
         _rules.add(rule);
 
-        // Rule M6 Abstract a single primary when the patient has bilateral:
+        // Rule M7 Abstract a single primary when the patient has bilateral:
         // - Acoustic neuromas/ vestibular schwannomas 9560/0, OR
         // - Optic gliomas/pilocytic astrocytomas 9421/1
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M6") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
                 List<String> pairedSites = Arrays.asList("C724", "C700", "C710", "C725", "C711", "C714", "C722", "C723", "C713", "C712");
-                if (new HashSet<>(pairedSites).containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && i1.getPrimarySite().equals(i2.getPrimarySite()) && GroupUtility.areOppositeSides(i1.getLaterality(), i2.getLaterality())) {
+                if (new HashSet<>(pairedSites).containsAll(Arrays.asList(i1.getPrimarySite(), i2.getPrimarySite())) && i1.getPrimarySite().equals(i2.getPrimarySite()) && GroupUtility.areOppositeSides(
+                        i1.getLaterality(), i2.getLaterality())) {
                     String icd1 = i1.getIcdCode();
                     String icd2 = i2.getIcdCode();
                     if (icd1.equals(icd2) && Arrays.asList("9560/0", "9421/1").contains(icd1))
@@ -69,7 +94,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "When the bilateral tumors are diagnosed at different times, the physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
-        // Rule M7 Abstract multiple primaries when multiple tumors are present in any of the following sites:
+        // Rule M8 Abstract multiple primaries when multiple tumors are present in any of the following sites:
         // - Any lobe(s) of the brain C710-C719 AND any other part of CNS
         // - Cauda equina C721 AND any other part of CNS
         // - Cerebral meninges C700 AND spinal meninges C701
@@ -80,11 +105,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Spinal meninges C701 AND any other part of CNS
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
         //  other site in the header besides C700 (C701, C709, C710-C719, C720, C721-C725, C728, C729, C751-C753))
-        rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M7", false);
+        rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M8", false);
         _rules.add(rule);
 
-        // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M8") {
+        // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -104,11 +129,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "  - Different NOS: Melanotic schwannoma 9560/1 is a subtype of schwannoma NOS 9560/0; papillary craniopharyngioma 9352/1 is a subtype of craniopharyngioma 9350/1. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M9 Abstract a single primary when two or more separate/non-contiguous meningiomas arise in the cranial meninges.  Laterality is irrelevant and may be any of the following combinations:
+        // Rule M10 Abstract a single primary when two or more separate/non-contiguous meningiomas arise in the cranial meninges.  Laterality is irrelevant and may be any of the following combinations:
         // - The same laterality (left or right) of the cranial meninges
         // - Bilateral (both left and right) cranial meninges
         // - The midline AND in either the right or left cranial meninges
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M9") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M10") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -125,11 +150,11 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("This rule applies ONLY to meningiomas.");
         _rules.add(rule);
 
-        // Rule M10 Abstract a single primary when there are separate/non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be in any of the following locations and/or lateralities:
+        // Rule M11 Abstract a single primary when there are separate/non-contiguous tumors in the brain (multicentric/multifocal) with the same histology XXXX.  Tumors may be in any of the following locations and/or lateralities:
         // - Same laterality: In the same lobe; for example, two tumors in right temporal lobe C712 (same site code)
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M10") {
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M11") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -142,7 +167,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                     }
                     else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
+                        result.setMessage(
+                                "Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -160,8 +186,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "The physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
-        // Rule M11 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M11") {
+        // Rule M12 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -187,7 +213,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                     }
                     else if ("9509".equals(i1.getHistology()) && !i1.getBehavior().equals(i2.getBehavior())) {
                         result.setFinalResult(MpResult.QUESTIONABLE);
-                        result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
+                        result.setMessage(
+                                "Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". The ICD-O code (9509) can be used for both MVNT and papillary glioneural tumor.");
                     }
                     else
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
@@ -214,8 +241,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("     Solitary fibrous tumor WHO Grade 1 8815/0 and a subtype/variant of solitary fibrous tumor WHO Grade 1");
         _rules.add(rule);
 
-        // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M12") {
+        // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M13") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -251,8 +278,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
-        // Rule M13 Abstract a single primary when the tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M13");
+        // Rule M14 Abstract a single primary when the tumors do not meet any of the above criteria.
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M14");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");
         _rules.add(rule);
     }

@@ -428,6 +428,9 @@ public class MphConstants {
         content.put("8571", "8571"); // Metaplastic carcinoma with chondroid differentiation/with osseous differentiation
         content.put("8982", "8982"); // Myoepithelial carcinoma
         content.put("8070", "8070"); // Squamous cell carcinoma
+        content.put("8574/3", "8574/3"); // Carcinoma with neuroendocrine differentiation
+        content.put("8013/3", "8013/3"); // Large cell neuroendocrine carcinoma/large cell carcinoma
+        content.put("8041/3", "8041/3"); // Small cell neuroendocrine carcinoma/small cell carcinoma
         content.put("8504", "8504"); // Encapsulated papillary carcinoma
         content.put("8507", "8507"); // Micropapillary carcinoma
         content.put("8509", "8509"); // Solid papillary carcinoma
@@ -441,8 +444,6 @@ public class MphConstants {
         content.put("8920/3", "8920/3"); // Rhabdomyosarcoma - Alveolar type
         content.put("8910/3", "8910/3"); // Rhabdomyosarcoma - Embryonal type
         content.put("8901/3", "8901/3"); // Rhabdomyosarcoma - Pleomorphic
-        content.put("8574/3", "8574/3"); // Carcinoma with neuroendocrine differentiation/Invasive mammary carcinoma with neuroendocrine features
-        content.put("8246", "8246"); // Neuroendocrine tumor, well-differentiated
 
         BREAST_2018_TABLE3_SUBTYPES = Collections.unmodifiableMap(content);
     }
@@ -480,6 +481,10 @@ public class MphConstants {
         content.put("8070", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8480", "8480"); // Mucinous carcinoma 8480
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
+        content.put("8246/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
+        content.put("8574/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
+        content.put("8013/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
+        content.put("8041/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
         //content.put("8982", "8982"); // Myoepithelial carcinoma 8982
         content.put("8290", "8290"); // Oncocytic carcinoma 8290
         content.put("8540", "8540"); // Paget disease of the nipple with no underlying tumor 8540
@@ -503,9 +508,6 @@ public class MphConstants {
         content.put("8410", "8410"); // Sebaceous carcinoma 8410
         content.put("8502", "8502"); // Secretory carcinoma 8502
         content.put("8490", "8490"); // Signet ring carcinoma 8490
-        content.put("8041", "8041"); // Small cell carcinoma 8041
-        content.put("8574/3", "8041"); // Small cell carcinoma 8041
-        content.put("8246", "8041"); // Small cell carcinoma 8041
         content.put("8211", "8211"); // Tubular carcinoma 8211
 
         BREAST_2018_TABLE3_ROWS = Collections.unmodifiableMap(content);

@@ -1521,6 +1521,7 @@ public class MphConstants {
         esophagusRows.put("8560", "8560");
         esophagusRows.put("8936", "8936");
         esophagusRows.put("8430", "8430");
+        esophagusRows.put("8720/3", "8720/3");
 
         esophagusRows.put("8070", "8070");
         esophagusRows.put("8083", "8070");

@@ -375,7 +375,7 @@ public class Mph2023RulesTest {
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-21.
         i1.setPrimarySite("C490");
-        i2.setPrimarySite("C490");;
+        i2.setPrimarySite("C490");
         i1.setHistologyIcdO3("8890");
         i2.setHistologyIcdO3("8850");
         output = _utils.computePrimaries(i1, i2);
@@ -387,6 +387,19 @@ public class Mph2023RulesTest {
         i2.setPrimarySite("C384");
         i1.setHistologyIcdO3("8045");
         i2.setHistologyIcdO3("8013");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+
+        i1.setPrimarySite("C150");
+        i2.setPrimarySite("C150");
+        i1.setHistologyIcdO3("8720");
+        i2.setHistologyIcdO3("8070");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
         i1.setLaterality("1");

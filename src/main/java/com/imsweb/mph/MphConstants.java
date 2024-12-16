@@ -2178,7 +2178,7 @@ public class MphConstants {
         OTHER_SITES_2023_TABLE_ROWS_FOR_SITE = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> OTHER_SITES_2023_TABLE_2 = Collections.unmodifiableList(Arrays.asList("8045", "8013", "8094", "8154", "8180", "8244", "8255", "8323", "8340", "8346", "8347", "8560", "8855", "8902", "9081", "9085", "9101"));
+    public static final List<String> OTHER_SITES_2023_TABLE_2 = Collections.unmodifiableList(Arrays.asList("8045", "8013", "8094", "8552", "8154", "8180", "8244", "8255", "8323", "8340", "8346", "8347", "8560", "8855", "8902", "9081", "9085", "9101"));
 
     public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE;
 

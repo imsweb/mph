@@ -431,6 +431,7 @@ public class MphConstants {
         content.put("8574/3", "8574/3"); // Carcinoma with neuroendocrine differentiation
         content.put("8013/3", "8013/3"); // Large cell neuroendocrine carcinoma/large cell carcinoma
         content.put("8041/3", "8041/3"); // Small cell neuroendocrine carcinoma/small cell carcinoma
+        content.put("8249/3", "8249/3"); // Neuroendocrine tumor, grade 2 8249/3
         content.put("8504", "8504"); // Encapsulated papillary carcinoma
         content.put("8507", "8507"); // Micropapillary carcinoma
         content.put("8509", "8509"); // Solid papillary carcinoma
@@ -485,6 +486,8 @@ public class MphConstants {
         content.put("8574/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
         content.put("8013/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
         content.put("8041/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
+        content.put("8240/3", "8240/3"); //Neuroendocrine tumor NOS 8240/3
+        content.put("8249/3", "8240/3"); //Neuroendocrine tumor NOS 8240/3
         //content.put("8982", "8982"); // Myoepithelial carcinoma 8982
         content.put("8290", "8290"); // Oncocytic carcinoma 8290
         content.put("8540", "8540"); // Paget disease of the nipple with no underlying tumor 8540

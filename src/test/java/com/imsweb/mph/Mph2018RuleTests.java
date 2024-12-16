@@ -542,6 +542,16 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        //Row added: “Neuroendocrine tumor NOS 8240/3” with subtype/variant 8249/3 (2025 update)
+        i1.setHistologyIcdO3("8240");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8249");
+        i2.setBehaviorIcdO3("3");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
 
         i1.setPrimarySite("C503");
         i1.setHistologyIcdO3("8800");

@@ -168,6 +168,19 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M10", output.getStep());
         Assert.assertTrue(output.getReason().contains("both sides"));
+
+        //C413 and C414 removed from the paired sites list
+        i1.setPrimarySite("C413");
+        i2.setPrimarySite("C413");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        i1.setPrimarySite("C414");
+        i2.setPrimarySite("C414");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+
         i1.setPrimarySite("C630");
         i2.setPrimarySite("C630");
         output = _utils.computePrimaries(i1, i2);

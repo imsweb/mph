@@ -191,7 +191,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
-                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C413", "C414", "C441", "C442", "C443", "C444", "C445", "C446", "C447", "C471", "C472", "C491", "C492",
+                List<String> pairedSites = Arrays.asList("C384", "C400", "C401", "C402", "C403", "C441", "C442", "C443", "C444", "C445", "C446", "C447", "C471", "C472", "C491", "C492",
                         "C569",
                         "C570", "C620-C629", "C630", "C631", "C690-C699", "C740-C749", "C754");
 

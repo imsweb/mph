@@ -485,6 +485,14 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertTrue(output.getReason().contains("same row in Table 3"));
+        //8562 added to row 8983 on 2025 update
+        i1.setHistologyIcdO3("8562");
+        i2.setHistologyIcdO3("8983");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("same row in Table 3"));
         i1.setPrimarySite("C501");
         i1.setHistologyIcdO3("8503");
         i1.setBehaviorIcdO3("3");

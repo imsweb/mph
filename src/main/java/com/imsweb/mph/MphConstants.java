@@ -413,6 +413,7 @@ public class MphConstants {
     static {
         Map<String, String> content = new HashMap<>();
         content.put("8035", "8035"); // Carcinoma with osteoclastic-like stromal giant cells
+        content.put("8562", "8562"); // Epithelial-myoepithelial carcinoma 8562
         content.put("8201", "8201"); // Cribriform carcinoma
         content.put("8022/3", "8022/3"); // Pleomorphic carcinoma
         content.put("8230/2", "8230/2"); // Ductal carcinoma in situ, solid type/intraductal carcinoma, solid type
@@ -453,6 +454,7 @@ public class MphConstants {
         content.put("8550", "8550"); // Acinic cell carcinoma 8550
         content.put("8200", "8200"); // Adenoid cystic carcinoma (ACC) 8200
         content.put("8983", "8983"); // Adenomyoepithelioma with carcinoma 8983
+        content.put("8562", "8983"); // Adenomyoepithelioma with carcinoma 8983
         content.put("8401", "8401"); // Apocrine carcinoma 8401
         content.put("8500", "8500"); // Carcinoma NST 8500
         content.put("8035", "8500"); // Carcinoma NST 8500

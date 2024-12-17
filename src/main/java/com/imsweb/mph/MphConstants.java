@@ -1959,6 +1959,7 @@ public class MphConstants {
         vaginaRows.put("8482", "8480");
         vaginaRows.put("8144", "8480");
 
+        vaginaRows.put("8720/3", "8720/3");
         vaginaRows.put("8246/3", "8246/3");
         vaginaRows.put("8045/3", "8246/3");
         vaginaRows.put("8013/3", "8246/3");

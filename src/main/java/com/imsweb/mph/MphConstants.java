@@ -1616,6 +1616,7 @@ public class MphConstants {
         Map<String, String> anusRows = new HashMap<>();
         anusRows.put("8140", "8140");
         anusRows.put("8154/3", "8154/3");
+        anusRows.put("8720/3", "8720/3");
 
         anusRows.put("8246/3", "8246/3");
         anusRows.put("8013/3", "8246/3");

@@ -396,6 +396,7 @@ public class Mph2023RulesTest {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals("M19", output.getStep());
 
+        //8720 added to table 5
         i1.setPrimarySite("C150");
         i2.setPrimarySite("C150");
         i1.setHistologyIcdO3("8720");
@@ -404,6 +405,13 @@ public class Mph2023RulesTest {
         i2.setBehaviorIcdO3("3");
         i1.setLaterality("1");
         i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //8720 added to table 8
+        i1.setPrimarySite("C211");
+        i2.setPrimarySite("C211");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());

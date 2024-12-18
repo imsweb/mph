@@ -2164,6 +2164,8 @@ public class MphConstants {
         penisAndScrotumRows.put("8560", "8140");
         penisAndScrotumRows.put("8430", "8140");
 
+        penisAndScrotumRows.put("8720/3", "8720/3");
+
         penisAndScrotumRows.put("8542/3", "8542/3");
 
         penisAndScrotumRows.put("8070", "8070");
@@ -2178,6 +2180,7 @@ public class MphConstants {
         penisAndScrotumRows.put("8085", "8070");
         penisAndScrotumRows.put("8086", "8070");
         penisAndScrotumRows.put("8051", "8070");
+        penisAndScrotumRows.put("8054", "8070");
 
         for (String site: PENIS_AND_SCROTUM_SITES)
             content.put(site, penisAndScrotumRows);
@@ -2578,6 +2581,7 @@ public class MphConstants {
         penisAndScrotumSubtypes.put("8085", "8085");
         penisAndScrotumSubtypes.put("8086", "8086");
         penisAndScrotumSubtypes.put("8051", "8051");
+        penisAndScrotumSubtypes.put("8054", "8054");
         for (String site: PENIS_AND_SCROTUM_SITES)
             content.put(site, penisAndScrotumSubtypes);
 

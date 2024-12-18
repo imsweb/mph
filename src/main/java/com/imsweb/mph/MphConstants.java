@@ -1451,7 +1451,7 @@ public class MphConstants {
     public static final List<String> SOFT_TISSUES_SITES = Collections.unmodifiableList(Arrays.asList("C490", "C491", "C492", "C493", "C494", "C495", "C496", "C498", "C499"));
     public static final List<String> BONE_SITES = Collections.unmodifiableList(Arrays.asList("C400", "C401", "C402", "C403", "C408", "C409", "C412", "C413", "C414", "C418", "C419"));
     public static final String THYMUS = "C379";
-    public static final List<String> PENIS_AND_SCROTUM_SITES = Collections.unmodifiableList(Arrays.asList("C600", "C601", "C602", "C608", "C609", "C632"));
+    public static final List<String> PENIS_AND_SCROTUM_SITES = Collections.unmodifiableList(Arrays.asList("C600", "C601", "C602", "C608", "C609", "C630", "C632"));
     public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_ROWS_FOR_SITE;
 
     static {

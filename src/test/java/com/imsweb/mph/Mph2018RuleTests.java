@@ -2503,6 +2503,13 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 1"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //8700 added to table 1
+        i2.setHistologyIcdO3("8700");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 1"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M10 Abstract a single primary when an in situ tumor is diagnosed after an invasive tumor AND tumors occur in the same kidney.
         ruleStepToTest = "M10";

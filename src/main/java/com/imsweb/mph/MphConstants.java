@@ -609,6 +609,7 @@ public class MphConstants {
         content.put("8041/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
         content.put("8013/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
         content.put("8240/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8700/3", "8700/3"); // Paraganglioma 8700/3
         content.put("8312", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8316", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8317", "8312"); // Renal cell carcinoma NOS 8312

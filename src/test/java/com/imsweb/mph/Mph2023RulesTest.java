@@ -289,8 +289,8 @@ public class Mph2023RulesTest {
         i2.setPrimarySite("C379");
         i1.setHistologyIcdO3("8581");
         i2.setHistologyIcdO3("8582");
-        i1.setBehaviorIcdO3("2");
-        i2.setBehaviorIcdO3("2");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
@@ -302,6 +302,23 @@ public class Mph2023RulesTest {
         i1.setHistologyIcdO3("8083");
         i2.setHistologyIcdO3("8084");
         i1.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M17", output.getStep());
+        Assert.assertTrue(output.getReason().contains("subtypes"));
+        //Table 19
+        i1.setPrimarySite("C519");
+        i2.setPrimarySite("C519");
+        i1.setHistologyIcdO3("8071");
+        i2.setHistologyIcdO3("8072");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M17", output.getStep());
+        Assert.assertTrue(output.getReason().contains("subtypes"));
+        i2.setHistologyIcdO3("8077");
         i2.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
@@ -419,6 +436,37 @@ public class Mph2023RulesTest {
         //8720 added to table 18
         i1.setPrimarySite("C529");
         i2.setPrimarySite("C529");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //8720 added to table 19
+        i1.setPrimarySite("C519");
+        i2.setPrimarySite("C519");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //8071, 8072, 8077/2 added as subtypes of 8070
+        i1.setHistologyIcdO3("8071");
+        i2.setHistologyIcdO3("8720");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        i1.setHistologyIcdO3("8072");
+        i2.setHistologyIcdO3("8720");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals("M19", output.getStep());
+        //8077/2 only
+        i1.setHistologyIcdO3("8077");
+        i2.setHistologyIcdO3("8720");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        i1.setBehaviorIcdO3("2");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, output.getGroupName());
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());

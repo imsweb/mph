@@ -1989,6 +1989,7 @@ public class MphConstants {
         vulvaRows.put("9064/3", "9064/3");
         vulvaRows.put("9071/3", "9064/3");
 
+        vulvaRows.put("8720/3", "8720/3");
         vulvaRows.put("8982/3", "8982/3");
 
         vulvaRows.put("8246/3", "8246/3");
@@ -2005,6 +2006,9 @@ public class MphConstants {
         vulvaRows.put("8070", "8070");
         vulvaRows.put("8085", "8070");
         vulvaRows.put("8086", "8070");
+        vulvaRows.put("8071", "8070");
+        vulvaRows.put("8072", "8070");
+        vulvaRows.put("8077/2", "8070");
 
         vulvaRows.put("8400", "8400");
         vulvaRows.put("8200", "8400");
@@ -2111,18 +2115,18 @@ public class MphConstants {
 
         //Table 22: Thymus Histologies
         Map<String, String> thymusRows = new HashMap<>();
-        thymusRows.put("8144", "8140");
-        thymusRows.put("8260", "8140");
-        thymusRows.put("8200", "8140");
+        thymusRows.put("8144/3", "8140");
+        thymusRows.put("8260/2", "8140");
+        thymusRows.put("8200/3", "8140");
         thymusRows.put("8140", "8140");
 
-        thymusRows.put("8560", "8560");
+        thymusRows.put("8560/3", "8560/3");
 
         thymusRows.put("8980/3", "8980/3");
 
-        thymusRows.put("8310", "8310");
+        thymusRows.put("8310/3", "8310/3");
 
-        thymusRows.put("8430", "8430");
+        thymusRows.put("8430/3", "8430/3");
 
         thymusRows.put("8045/3", "8246/3");
         thymusRows.put("8013/3", "8246/3");
@@ -2134,21 +2138,21 @@ public class MphConstants {
 
         thymusRows.put("8023/3", "8023/3");
 
-        thymusRows.put("8033", "8033");
+        thymusRows.put("8033/3", "8033/3");
 
-        thymusRows.put("8123", "8070");
-        thymusRows.put("8083", "8070");
-        thymusRows.put("8082", "8070");
+        thymusRows.put("8123/3", "8070");
+        thymusRows.put("8083/3", "8070");
+        thymusRows.put("8082/3", "8070");
         thymusRows.put("8070", "8070");
 
         thymusRows.put("8586/3", "8586/3");
 
-        thymusRows.put("8580", "8580");
-        thymusRows.put("8581", "8580");
-        thymusRows.put("8582", "8580");
-        thymusRows.put("8583", "8580");
-        thymusRows.put("8584", "8580");
-        thymusRows.put("8585", "8580");
+        thymusRows.put("8580/3", "8580/3");
+        thymusRows.put("8581/3", "8580/3");
+        thymusRows.put("8582/3", "8580/3");
+        thymusRows.put("8583/3", "8580/3");
+        thymusRows.put("8584/3", "8580/3");
+        thymusRows.put("8585/3", "8580/3");
 
         thymusRows.put("8020/3", "8020/3");
 
@@ -2461,6 +2465,10 @@ public class MphConstants {
         vulvaSubtypes.put("8249/3", "8249/3");
         vulvaSubtypes.put("8085", "8085");
         vulvaSubtypes.put("8086", "8086");
+        vulvaSubtypes.put("8071", "8071");
+        vulvaSubtypes.put("8072", "8072");
+        vulvaSubtypes.put("8077/2", "8077/2");
+
         vulvaSubtypes.put("8200", "8200");
         vulvaSubtypes.put("8401", "8401");
         vulvaSubtypes.put("8413", "8413");
@@ -2532,9 +2540,9 @@ public class MphConstants {
 
         //Table 22: Thymus Histologies
         Map<String, String> thymusSubTypes = new HashMap<>();
-        thymusSubTypes.put("8144", "8144");
-        thymusSubTypes.put("8260", "8260");
-        thymusSubTypes.put("8200", "8200");
+        thymusSubTypes.put("8144/3", "8144/3");
+        thymusSubTypes.put("8260/2", "8260/2");
+        thymusSubTypes.put("8200/3", "8200/3");
 
         thymusSubTypes.put("8045/3", "8045/3");
         thymusSubTypes.put("8013/3", "8013/3");
@@ -2542,15 +2550,15 @@ public class MphConstants {
 
         thymusSubTypes.put("8249/3", "8249/3");
 
-        thymusSubTypes.put("8123", "8123");
-        thymusSubTypes.put("8083", "8083");
-        thymusSubTypes.put("8082", "8082");
+        thymusSubTypes.put("8123/3", "8123/3");
+        thymusSubTypes.put("8083/3", "8083/3");
+        thymusSubTypes.put("8082/3", "8082/3");
 
-        thymusSubTypes.put("8581", "8581");
-        thymusSubTypes.put("8582", "8582");
-        thymusSubTypes.put("8583", "8583");
-        thymusSubTypes.put("8584", "8584");
-        thymusSubTypes.put("8585", "8585");
+        thymusSubTypes.put("8581/3", "8581/3");
+        thymusSubTypes.put("8582/3", "8582/3");
+        thymusSubTypes.put("8583/3", "8583/3");
+        thymusSubTypes.put("8584/3", "8584/3");
+        thymusSubTypes.put("8585/3", "8585/3");
 
         content.put(THYMUS, thymusSubTypes);
 

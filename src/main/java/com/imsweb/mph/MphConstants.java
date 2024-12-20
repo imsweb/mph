@@ -1240,7 +1240,7 @@ public class MphConstants {
         thisTableRows.put("9133/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8810/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8890/3", "8800/3"); // Sarcoma 8800/3
-        thisTableRows.put("9130/3", "9130/3"); // Sarcoma 8800/3
+        thisTableRows.put("9130/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8900/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8920/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8910/3", "8800/3"); // Sarcoma 8800/3

@@ -716,14 +716,6 @@ public class MphConstants {
     // Lung
     //--------------------------------------------------------------------------------------------------------------------------------------
     // See Lung 2019 AS OF date at top of this file.
-
-    public static final List<String> LUNG_2018_8046_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList(
-            "8012", "8022", "8023", "8031", "8032", "8046", "8070", "8071", "8072", "8082", "8083", "8140", "8144", "8200", "8230", "8250",
-            "8253", "8254", "8256", "8257", "8260", "8265", "8333", "8430", "8480", "8551", "8560", "8562", "8580",
-            "8714", "8720", "8800", "8842", "8982", "9040", "9041", "9042", "9043", "9133", "9173"));
-
-    public static final List<String> LUNG_2018_8041_AND_SUBTYPES = Collections.unmodifiableList(Arrays.asList("8041", "8249", "8045", "8013", "8240"));
-
     public static final List<String> LUNG_2018_TABLE2 = Collections.unmodifiableList(Arrays.asList("8560", "8033", "8562", "8013", "8254/3", "8045", "8072", "8073", "8070", "8074", "8255/3"));
 
     public static final Map<String, String> LUNG_2018_TABLE3_SUBTYPES;

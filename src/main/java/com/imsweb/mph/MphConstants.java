@@ -654,6 +654,8 @@ public class MphConstants {
         content.put("8380", "8380");
         content.put("8144", "8144");
         content.put("8480", "8480");
+        content.put("8746/3", "8746/3");
+        content.put("8721/3", "8721/3");
         content.put("8013/3", "8013/3");
         content.put("8041/3", "8041/3");
         content.put("8249/3", "8249/3");
@@ -684,6 +686,8 @@ public class MphConstants {
         content.put("8144", "8140"); // Carcinoma NOS 8010
         content.put("8480", "8140"); // Carcinoma NOS 8010
         content.put("8720/3", "8720/3"); // Malignant melanoma 8720/3
+        content.put("8746/3", "8720/3"); // Malignant melanoma 8720/3
+        content.put("8721/3", "8720/3"); // Malignant melanoma 8720/3
         content.put("8714/3", "8714/3"); // Malignant perivascular epithelioid cell tumor 8714/3
         content.put("8246/3", "8246/3"); // Neuroendocrine carcinoma, NOS 8246/3
         content.put("8013/3", "8246/3"); // Neuroendocrine carcinoma, NOS 8246/3

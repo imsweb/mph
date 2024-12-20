@@ -4253,6 +4253,13 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors that are two or more different subtypes/variants in Column 3, Table 2"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8746");
+        i2.setHistologyIcdO3("8721");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are two or more different subtypes/variants in Column 3, Table 2"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setHistologyIcdO3("8144");
         i2.setHistologyIcdO3("8010");
@@ -4329,6 +4336,15 @@ public class Mph2018RuleTests {
         i2.setLaterality("2");
         i2.setDateOfDiagnosisYear("2018");
         i2.setDateOfDiagnosisMonth("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("tumors that are on the same row in Table 2"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8720");
+        i1.setBehaviorIcdO3("3");
+        i2.setHistologyIcdO3("8746");
+        i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());

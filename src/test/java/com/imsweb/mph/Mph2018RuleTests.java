@@ -4291,6 +4291,16 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("tumors that are on different rows in Table 2"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8323");
+        i2.setHistologyIcdO3("8693");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8323");
+        i2.setHistologyIcdO3("8154");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setHistologyIcdO3("8131");
         i2.setHistologyIcdO3("8130");

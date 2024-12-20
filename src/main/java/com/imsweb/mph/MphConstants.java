@@ -1077,14 +1077,17 @@ public class MphConstants {
         Map<String, String> thisTableSubTypes = new HashMap<>();
         thisTableSubTypes.put("8144", "8144");
         thisTableSubTypes.put("9560/3", "9560/3");
+        thisTableSubTypes.put("8745/3", "8745/3");
+        thisTableSubTypes.put("8746/3", "8746/3");
+        thisTableSubTypes.put("8721/3", "8721/3");
         thisTableSubTypes.put("9521/3", "9521/3");
         thisTableSubTypes.put("9523/3", "9523/3");
-        thisTableSubTypes.put("8121", "8121");
         thisTableSubTypes.put("9120/3", "9120/3");
         thisTableSubTypes.put("9045/3", "9045/3");
         thisTableSubTypes.put("9133/3", "9133/3");
         thisTableSubTypes.put("8810/3", "8810/3");
         thisTableSubTypes.put("8890/3", "8890/3");
+        thisTableSubTypes.put("9130/3", "9130/3");
         thisTableSubTypes.put("8900/3", "8920/3,8910/3,8901/3,8912/3");
         thisTableSubTypes.put("8920/3", "8920/3");
         thisTableSubTypes.put("8910/3", "8910/3");
@@ -1093,10 +1096,13 @@ public class MphConstants {
         thisTableSubTypes.put("9040/3", "9040/3");
         thisTableSubTypes.put("8802/3", "8802/3");
         thisTableSubTypes.put("8083", "8083");
+        thisTableSubTypes.put("8085", "8085");
+        thisTableSubTypes.put("8086", "8086");
         thisTableSubTypes.put("8071", "8071");
         thisTableSubTypes.put("8052", "8052");
-        thisTableSubTypes.put("8074", "8074");
         thisTableSubTypes.put("8072", "8072");
+        thisTableSubTypes.put("8121", "8121");
+        thisTableSubTypes.put("8074", "8074");
         thisTableSubTypes.put("8051", "8051");
         for (String site : HEAD_AND_NECK_2018_TABLE1_SITES)
             content.put(site, thisTableSubTypes);
@@ -1213,11 +1219,15 @@ public class MphConstants {
         Map<String, String> thisTableRows = new HashMap<>();
         thisTableRows.put("8140", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8144", "8140"); // Adenocarcinoma 8140
+        thisTableRows.put("8483/3", "8483/3"); // HPV-related multiphenotypic sinonasal carcinoma 8483/3
         thisTableRows.put("8082", "8082"); // Lymphoepithelial carcinoma 8082
         thisTableRows.put("9540/3", "9540/3"); // Malignant peripheral nerve sheath tumor 9540/3
         thisTableRows.put("9560/3", "9540/3"); // Malignant peripheral nerve sheath tumor 9540/3
         thisTableRows.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         thisTableRows.put("8720", "8720"); // Mucosal melanoma 8720
+        thisTableRows.put("8745/3", "8720"); // Mucosal melanoma 8720
+        thisTableRows.put("8746/3", "8720"); // Mucosal melanoma 8720
+        thisTableRows.put("8721/3", "8720"); // Mucosal melanoma 8720
         thisTableRows.put("8982", "8982"); // Myoepithelial carcinoma 8982
         thisTableRows.put("8023", "8023"); // NUT carcinoma 8023*
         thisTableRows.put("9522/3", "9522/3"); // Olfactory neuroblastoma 9522/3
@@ -1230,6 +1240,7 @@ public class MphConstants {
         thisTableRows.put("9133/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8810/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8890/3", "8800/3"); // Sarcoma 8800/3
+        thisTableRows.put("9130/3", "9130/3"); // Sarcoma 8800/3
         thisTableRows.put("8900/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8920/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8910/3", "8800/3"); // Sarcoma 8800/3
@@ -1238,13 +1249,16 @@ public class MphConstants {
         thisTableRows.put("9040/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8802/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("8020", "8020"); // Sinonasal undifferentiated carcinoma 8020
+        thisTableRows.put("8044", "8044"); // SMARCB1-deficient sinonasal carcinoma 8044
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8083", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8085", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8086", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8071", "8070"); // Squamous cell carcinoma 8070
-        thisTableRows.put("8074", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8052", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8072", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8121", "8070"); // Squamous cell carcinoma 8070
-        thisTableRows.put("8083", "8070"); // Squamous cell carcinoma 8070
-        thisTableRows.put("8052", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8074", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8051", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("9081", "9081"); // Teratocarcinosarcoma 9081
         for (String site : HEAD_AND_NECK_2018_TABLE1_SITES)

@@ -1610,6 +1610,36 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphUtils.MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //table 1
+        i1.setPrimarySite("C300");
+        i1.setHistologyIcdO3("8721");
+        i1.setBehaviorIcdO3("3");
+        i1.setLaterality("1");
+        i2.setPrimarySite("C300");
+        i2.setHistologyIcdO3("8746");
+        i2.setBehaviorIcdO3("3");
+        i2.setLaterality("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i2.setHistologyIcdO3("8746");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8085");
+        i2.setHistologyIcdO3("8121");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setHistologyIcdO3("8086");
+        i2.setHistologyIcdO3("8121");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //table 2, 8071 and 8083 are different subtypes
         i1.setPrimarySite("C112");

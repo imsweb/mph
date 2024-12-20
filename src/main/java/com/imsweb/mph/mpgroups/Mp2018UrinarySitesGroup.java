@@ -118,21 +118,18 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add("Abstract only one in situ urothelial bladder tumor per the patient’s lifetime.");
         _rules.add(rule);
 
-        //Rule M8 Abstract multiple primaries when the patient has micropapillary urothelial carcinoma 8131/3 of the bladder AND a
-        //urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder.
+        //Rule M8 Abstract multiple primaries when the patient has micropapillary urothelial carcinoma 8131/3 AND a urothelial carcinoma 8120/3 (including papillary 8130/3). Tumors may be in the same urinary site OR in any combination of urinary sites (C67._. C65.9, C66.9, C68_).
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
-                if (i1.getPrimarySite().startsWith(MphConstants.BLADDER) && i2.getPrimarySite().startsWith(MphConstants.BLADDER) && GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(),
-                        Collections.singletonList("8131"), MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY))
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), Collections.singletonList("8131"), MphConstants.URINARY_2018_UROTHELIAL_CARCINOMAS_EXCLUDE_MICROPAPILLARY))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
-        rule.setQuestion("Are there micropapillary urothelial carcinoma 8131/3 of the bladder AND a urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder?");
-        rule.setReason("Micropapillary urothelial carcinoma 8131/3 of the bladder AND a urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder are multiple primaries.");
-        rule.getNotes().add("This is a new rule for 2018.");
+        rule.setQuestion("Are there micropapillary urothelial carcinoma 8131/3 of the bladder AND a urothelial carcinoma 8120/3 (including papillary 8130/3)?");
+        rule.setReason("Abstract multiple primaries when the patient has micropapillary urothelial carcinoma 8131/3 AND a urothelial carcinoma 8120/3 (including papillary 8130/3). Tumors may be in the same urinary site OR in any combination of urinary sites (C67._. C65.9, C66.9, C68_).");
         rule.getNotes().add(
                 "Micropapillary urothelial cell carcinoma is an extremely aggressive neoplasm. It is important to abstract a new primary to capture the incidence of micropapillary urothelial carcinoma. Micropapillary is excluded from the typical \"NOS and subtype/variant\" rule (same row in Table 2).");
         _rules.add(rule);

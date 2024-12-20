@@ -4116,8 +4116,7 @@ public class Mph2018RuleTests {
         Assert.assertTrue(output.getReason().contains("noninvasive in situ /2 urothelial carcinoma (flat tumor) 8120/2"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        //Rule M8 Abstract multiple primariesii when the patient has micropapillary urothelial carcinoma 8131/3 of the bladder AND a
-        //urothelial carcinoma 8120/3 (including papillary 8130/3) of the bladder.
+        //Rule M8 Abstract multiple primaries when the patient has micropapillary urothelial carcinoma 8131/3 AND a urothelial carcinoma 8120/3 (including papillary 8130/3). Tumors may be in the same urinary site OR in any combination of urinary sites (C67._. C65.9, C66.9, C68_).
         ruleStepToTest = "M8";
         ruleCountToTest = 6;
         i1.setPrimarySite("C670");
@@ -4126,7 +4125,7 @@ public class Mph2018RuleTests {
         i1.setLaterality("1");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("2");
-        i2.setPrimarySite("C671");
+        i2.setPrimarySite("C659");
         i2.setHistologyIcdO3("8120");
         i2.setBehaviorIcdO3("3");
         i2.setLaterality("2");
@@ -4135,19 +4134,16 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Micropapillary urothelial carcinoma"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i2.setHistologyIcdO3("8130");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Micropapillary urothelial carcinoma"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
         i2.setHistologyIcdO3("8082");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Micropapillary urothelial carcinoma"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         //Rule M9 Abstract a single primary when the patient has multiple invasive urothelial cell carcinomas in the bladder. All tumors are either:

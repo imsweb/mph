@@ -1120,6 +1120,8 @@ public class MphConstants {
         // Table 3 ----------------------------------------
         thisTableSubTypes = new HashMap<>();
         thisTableSubTypes.put("9222/3", "9222/3");
+        thisTableSubTypes.put("9242/3", "9242/3");
+        thisTableSubTypes.put("9243/3", "9243/3");
         thisTableSubTypes.put("8851/3", "8851/3");
         thisTableSubTypes.put("8013/3", "8013/3");
         thisTableSubTypes.put("8249/3", "8249/3");
@@ -1283,6 +1285,8 @@ public class MphConstants {
         thisTableRows.put("8200", "8200"); // Adenoid cystic carcinoma 8200
         thisTableRows.put("9220/3", "9220/3"); // Chondrosarcoma 9220/3
         thisTableRows.put("9222/3", "9220/3"); // Chondrosarcoma 9220/3, for 2022+
+        thisTableRows.put("9242/3", "9220/3"); // Chondrosarcoma 9220/3
+        thisTableRows.put("9243/3", "9220/3"); // Chondrosarcoma 9220/3
         thisTableRows.put("8850/3", "8850/3"); // Liposarcoma 8850/3
         thisTableRows.put("8851/3", "8850/3"); // Liposarcoma 8850/3
         thisTableRows.put("8240/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3

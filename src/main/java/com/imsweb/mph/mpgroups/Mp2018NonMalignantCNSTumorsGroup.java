@@ -4,7 +4,6 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,33 +29,10 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "C700, C701, C709, C710-C719, C720-C725, C728, C729, C751-C753", null, null,
                 "9590-9993, 9140", "0-1", "2018-9999");
 
-        // Rule M5 Abstract a single primary when a neoplasm is originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology.
-        // - Glioma=9380/1; any other histology in table 6 is a more specific histology
-        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M5") {
-            @Override
-            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
-                TempRuleResult result = new TempRuleResult();
-                String icd1 = i1.getIcdCode();
-                String icd2 = i2.getIcdCode();
-                if (GroupUtility.differentCategory(icd1, icd2, MphConstants.NON_MALIGNANT_CNS_2018_TABLE6_SUBTYPES, Collections.singletonList("9380/1")))
-                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
-                return result;
-            }
-        };
-        rule.setQuestion("Is neoplasm originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology?");
-        rule.setReason("Abstract a single primary when a neoplasm is originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology.");
-        rule.getNotes().add("Low-grade glioma is considered an umbrella term or non-specific diagnosis, primarily seen on radiographic reports such as CT scans and MRIs. Often the patient is actively followed with scans and surgical intervention delayed or not recommended that would provide a definitive histology type. A diagnosis of low-grade glioma is not recommended and may be used when the diagnosis is based on imaging and/or additional tests were inconclusive.");
-        rule.getNotes().add("If a specific histology is diagnosed in residual tumor or additional testing provides a definitive histology, edit the original abstract as follows:\n"
-                + "- Do not change the date of diagnosis\n"
-                + "- For cases that have been abstracted, update the ICD-O code based on the new findings\n"
-                + "- Report all data changes for cases which have been submitted to the central registry");
-        rule.getNotes().add("Timing is irrelevant.");
-        _rules.add(rule);
-
         // Rule M6 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR
         // - It is unknown/not documented whether a resection was done
-        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M6") {
+        MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 //This will never happen, since the two conditions belong to different cancer group.

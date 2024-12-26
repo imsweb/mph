@@ -3580,29 +3580,6 @@ public class Mph2018RuleTests {
 
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
-        // Rule M5 Abstract a single primary when a neoplasm is originally diagnosed as low-grade glioma and subsequently recurs in residual tumor with a more specific histology.
-        // - Glioma=9380/1; any other histology in table 6 is a more specific histology
-        String ruleStepToTest = "M5";
-        int ruleCountToTest = 1;
-        i1.setPrimarySite("C701");
-        i1.setHistologyIcdO3("9380");
-        i1.setBehaviorIcdO3("1");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setPrimarySite("C701");
-        i2.setHistologyIcdO3("9493");
-        i2.setBehaviorIcdO3("0");
-        i2.setDateOfDiagnosisYear("2018");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-        i2.setHistologyIcdO3("8825");
-        i2.setBehaviorIcdO3("1");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
-        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertEquals(ruleStepToTest, output.getStep());
-
         // Rule M6 Abstract multiple primaries when a malignant tumor /3 occurs after a non-malignant tumor /0 or /1 AND:
         // - The patient had a resection of the non-malignant tumor OR
         // - It is unknown/not documented whether a resection was done
@@ -3624,8 +3601,8 @@ public class Mph2018RuleTests {
         // Rule M7 Abstract a single primary when the patient has bilateral:
         // - Acoustic neuromas/ vestibular schwannomas 9560/0, OR
         // - Optic gliomas/pilocytic astrocytomas 9421/1
-        ruleStepToTest = "M7";
-        ruleCountToTest = 3;
+        String ruleStepToTest = "M7";
+        int ruleCountToTest = 2;
         i1.setPrimarySite("C700");
         i1.setHistologyIcdO3("9560");
         i1.setBehaviorIcdO3("0");
@@ -3698,7 +3675,7 @@ public class Mph2018RuleTests {
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
         //  other site in the header besides C700 (C701, C709, C710-C719, C721-C725, C728, C729, C751-C753))
         ruleStepToTest = "M8";
-        ruleCountToTest = 4;
+        ruleCountToTest = 3;
         i1.setPrimarySite("C710");
         i1.setHistologyIcdO3("9440");
         i1.setBehaviorIcdO3("0");
@@ -3757,7 +3734,7 @@ public class Mph2018RuleTests {
 
         // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M9";
-        ruleCountToTest = 5;
+        ruleCountToTest = 4;
         i1.setPrimarySite("C701");
         i1.setHistologyIcdO3("9534");
         i1.setBehaviorIcdO3("0");
@@ -3804,7 +3781,7 @@ public class Mph2018RuleTests {
         // - Bilateral (both left and right) cranial meninges
         // - The midline AND in either the right or left cranial meninges
         ruleStepToTest = "M10";
-        ruleCountToTest = 6;
+        ruleCountToTest = 5;
         i1.setPrimarySite("C700");
         i1.setHistologyIcdO3("9530");
         i1.setBehaviorIcdO3("0");
@@ -3834,7 +3811,7 @@ public class Mph2018RuleTests {
         // - Different lateralities of the same lobe; for example, left and right frontal lobes C711 (same site code)
         // - Different lobes; for example, parietal lobe C713 and occipital lobe C714 (different site codes)
         ruleStepToTest = "M11";
-        ruleCountToTest = 7;
+        ruleCountToTest = 6;
         i1.setPrimarySite("C712");
         i1.setHistologyIcdO3("8050");
         i1.setBehaviorIcdO3("0");
@@ -3894,7 +3871,7 @@ public class Mph2018RuleTests {
 
         // Rule M12 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
         ruleStepToTest = "M12";
-        ruleCountToTest = 8;
+        ruleCountToTest = 7;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9300");
         i1.setBehaviorIcdO3("1");
@@ -3995,7 +3972,7 @@ public class Mph2018RuleTests {
 
         // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M13";
-        ruleCountToTest = 9;
+        ruleCountToTest = 8;
         i1.setHistologyIcdO3("9444");
         i1.setBehaviorIcdO3("1");
         i2.setHistologyIcdO3("9413");
@@ -4023,7 +4000,7 @@ public class Mph2018RuleTests {
         // Can't seem to get to this rule.
         /*
         ruleStepToTest = "M14";
-        ruleCountToTest = 10;
+        ruleCountToTest = 9;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9440");
         i1.setBehaviorIcdO3("0");

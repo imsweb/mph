@@ -1172,18 +1172,16 @@ public class MphConstants {
         thisTableSubTypes.put("8147", "8147");
         thisTableSubTypes.put("8941", "8941");
         thisTableSubTypes.put("8310", "8310");
-        thisTableSubTypes.put("8201", "8201");
         thisTableSubTypes.put("8144", "8144");
-        thisTableSubTypes.put("8012", "8012");
-        thisTableSubTypes.put("8520", "8520");
-        thisTableSubTypes.put("8470", "8470");
+        thisTableSubTypes.put("8480", "8480");
         thisTableSubTypes.put("8430", "8430");
         thisTableSubTypes.put("8450", "8450");
-        thisTableSubTypes.put("8525", "8525");
-        thisTableSubTypes.put("8500", "8500");
-        thisTableSubTypes.put("8020", "8020");
         thisTableSubTypes.put("8013", "8013");
         thisTableSubTypes.put("8041", "8041");
+        thisTableSubTypes.put("8265/3", "8265/3");
+        thisTableSubTypes.put("8481/3", "8481/3");
+        thisTableSubTypes.put("8290/3", "8290/3");
+        thisTableSubTypes.put("8033/3", "8033/3");
         for (String site : HEAD_AND_NECK_2018_TABLE6_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1359,16 +1357,10 @@ public class MphConstants {
         thisTableRows.put("8147", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8941", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8310", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8201", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8144", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8012", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8520", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8470", "8140"); // Adenocarcinoma 8140
+        thisTableRows.put("8480", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8430", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8450", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8525", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8500", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8020", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8200", "8200"); // Adenoid cystic carcinoma 8200
         thisTableRows.put("8980", "8980"); // Carcinosarcoma 8980
         thisTableRows.put("8440", "8440"); // Cystadenocarcinoma 8440
@@ -1379,9 +1371,16 @@ public class MphConstants {
         thisTableRows.put("8013", "8246"); // Neuroendocrine carcinoma 8246
         thisTableRows.put("8041", "8246"); // Neuroendocrine carcinoma 8246
         thisTableRows.put("8290", "8290"); // Oncocytic carcinoma 8290
+        thisTableRows.put("8525", "8525"); // Polymorphous adenocarcinoma 8525
+        thisTableRows.put("8500", "8500"); // Salivary duct carcinoma 8500
+        thisTableRows.put("8265/3", "8500"); // Salivary duct carcinoma 8500
+        thisTableRows.put("8481/3", "8500"); // Salivary duct carcinoma 8500
+        thisTableRows.put("8290/3", "8500"); // Salivary duct carcinoma 8500
+        thisTableRows.put("8033/3", "8500"); // Salivary duct carcinoma 8500
         thisTableRows.put("8410", "8410"); // Sebaceous adenocarcinoma 8410
         thisTableRows.put("8502", "8502"); // Secretory carcinoma 8502
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8020/3", "8020/3"); // Undifferentiated carcinoma 8020/3
         for (String site : HEAD_AND_NECK_2018_TABLE6_SITES)
             content.put(site, thisTableRows);
 

@@ -1798,6 +1798,21 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //table 6
+        i1.setPrimarySite("C089");
+        i2.setPrimarySite("C089");
+        i1.setHistologyIcdO3("8470");
+        i2.setHistologyIcdO3("8450");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        i1.setHistologyIcdO3("8265");
+        i2.setHistologyIcdO3("8290");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M8";
@@ -1972,6 +1987,16 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals("M7", output.getStep());
         Assert.assertEquals(5, output.getAppliedRules().size());
+        //table 6
+        i1.setPrimarySite("C089");
+        i2.setPrimarySite("C089");
+        i1.setHistologyIcdO3("8070");
+        i2.setHistologyIcdO3("8020");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
 
         //Table 9: Histologies are given in each row for pre-2021 and post-2021.
         // Treat them as if they are the same row. For example, 8690/3 in 2020 and a 8692/3 in 2021 should be considered same row.

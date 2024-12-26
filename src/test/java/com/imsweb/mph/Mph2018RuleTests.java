@@ -3970,9 +3970,27 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
-        // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M13 Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.
         ruleStepToTest = "M13";
         ruleCountToTest = 8;
+        i1.setHistologyIcdO3("9380");
+        i1.setBehaviorIcdO3("1");
+        i2.setHistologyIcdO3("8693");
+        i2.setBehaviorIcdO3("1");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        i2.setHistologyIcdO3("9413");
+        i2.setBehaviorIcdO3("0");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+
+        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        ruleStepToTest = "M14";
+        ruleCountToTest = 9;
         i1.setHistologyIcdO3("9444");
         i1.setBehaviorIcdO3("1");
         i2.setHistologyIcdO3("9413");
@@ -3996,11 +4014,11 @@ public class Mph2018RuleTests {
         output = _utils.computePrimaries(i1, i2);
         Assert.assertNotEquals(ruleStepToTest, output.getStep());
 
-        // Rule M14 Abstract a single primary when the tumors do not meet any of the above criteria.
+        // Rule M15 Abstract a single primary when the tumors do not meet any of the above criteria.
         // Can't seem to get to this rule.
         /*
-        ruleStepToTest = "M14";
-        ruleCountToTest = 9;
+        ruleStepToTest = "M15";
+        ruleCountToTest = 10;
         i1.setPrimarySite("C728");
         i1.setHistologyIcdO3("9440");
         i1.setBehaviorIcdO3("0");

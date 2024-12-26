@@ -4,6 +4,7 @@
 package com.imsweb.mph.mpgroups;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -217,8 +218,25 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("     Solitary fibrous tumor WHO Grade 1 8815/0 and a subtype/variant of solitary fibrous tumor WHO Grade 1");
         _rules.add(rule);
 
-        // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M13 Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M13") {
+            @Override
+            public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
+                TempRuleResult result = new TempRuleResult();
+                List<String> gilomaNOS = Collections.singletonList("9380/1");
+                List<String> gilomaVariants = Arrays.asList("9383/1", "9394/1", "9444/1", "9384/1", "9412/1", "9413/0", "9505/1", "9506/1", "9492/0", "9493/0", "9509/1", "8693/1");
+                if (GroupUtility.differentCategory(i1.getIcdCode(), i2.getIcdCode(), gilomaNOS, gilomaVariants))
+                    result.setFinalResult(MpResult.SINGLE_PRIMARY);
+                return result;
+            }
+        };
+        rule.setQuestion("Are separate, non-contiguous tumors Glioma NOS and a subtype/variant of Glioma NOS?");
+        rule.setReason("Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.");
+        rule.getNotes().add("Low-grade glioma is considered an umbrella term or non-specific diagnosis, primarily seen on radiographic reports such as CT scans and MRIs. Often the patient is actively followed with scans and surgical intervention delayed or not recommended that would provide a definitive histology type. A diagnosis of low-grade glioma is not recommended and may be used when the diagnosis is based on imaging and/or additional tests were inconclusive.");
+        _rules.add(rule);
+
+        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
@@ -254,8 +272,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
-        // Rule M14 Abstract a single primary when the tumors do not meet any of the above criteria.
-        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M14");
+        // Rule M15 Abstract a single primary when the tumors do not meet any of the above criteria.
+        rule = new MpRuleNoCriteriaSatisfied(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M15");
         rule.getNotes().add("These rules are hierarchical.  Use this rule ONLY when the previous rules do not apply.");
         _rules.add(rule);
     }

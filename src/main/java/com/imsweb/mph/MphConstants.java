@@ -1139,9 +1139,16 @@ public class MphConstants {
 
         // Table 4 ----------------------------------------
         thisTableSubTypes = new HashMap<>();
+        thisTableSubTypes.put("8745/3", "8745/3");
+        thisTableSubTypes.put("8746/3", "8746/3");
+        thisTableSubTypes.put("8721/3", "8721/3");
         thisTableSubTypes.put("8075", "8075");
+        thisTableSubTypes.put("8083", "8083");
+        thisTableSubTypes.put("8082", "8082");
         thisTableSubTypes.put("8071", "8071");
         thisTableSubTypes.put("8072", "8072");
+        thisTableSubTypes.put("8052", "8052");
+        thisTableSubTypes.put("8074", "8074");
         thisTableSubTypes.put("8051", "8051");
         for (String site : HEAD_AND_NECK_2018_TABLE4_SITES)
             content.put(site, thisTableSubTypes);
@@ -1308,13 +1315,22 @@ public class MphConstants {
         // Table 4 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
 
+        thisTableRows.put("8560", "8560"); // Adenosquamous carcinoma 8560
+        thisTableRows.put("9580", "9580"); // Granular cell tumor 9580
         thisTableRows.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
-        thisTableRows.put("8825", "8825"); // Myofibroblastic sarcoma 8825
         thisTableRows.put("8720", "8720"); // Oral mucosal melanoma 8720
+        thisTableRows.put("8745/3", "8720"); // Oral mucosal melanoma 8720
+        thisTableRows.put("8746/3", "8720"); // Oral mucosal melanoma 8720
+        thisTableRows.put("8721/3", "8720"); // Oral mucosal melanoma 8720
+        thisTableRows.put("8825", "8825"); // Myofibroblastic sarcoma 8825
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8075", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8083", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8082", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8071", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8072", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8052", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8074", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8051", "8070"); // Squamous cell carcinoma 8070
         for (String site : HEAD_AND_NECK_2018_TABLE4_SITES)
             content.put(site, thisTableRows);

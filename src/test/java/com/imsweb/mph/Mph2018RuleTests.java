@@ -1409,13 +1409,13 @@ public class Mph2018RuleTests {
         ruleCountToTest = 1;
         //Aortic body C755 AND carotid body C754
         i1.setPrimarySite("C754");
-        i1.setHistologyIcdO3("8000");
+        i1.setHistologyIcdO3("8680");
         i1.setBehaviorIcdO3("3");
         i2.setPrimarySite("C755");
-        i2.setHistologyIcdO3("8000");
+        i2.setHistologyIcdO3("8680");
         i2.setBehaviorIcdO3("3");
-        i1.setDateOfDiagnosisYear("2018");
-        i2.setDateOfDiagnosisYear("2018");
+        i1.setDateOfDiagnosisYear("2019");
+        i2.setDateOfDiagnosisYear("2019");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());

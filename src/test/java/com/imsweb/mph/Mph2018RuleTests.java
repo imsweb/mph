@@ -1813,6 +1813,22 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //table 7
+        i1.setPrimarySite("C410");
+        i2.setPrimarySite("C410");
+        i1.setHistologyIcdO3("9192");
+        i2.setHistologyIcdO3("9193");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //not applicable (indented)
+        i1.setHistologyIcdO3("9180");
+        i2.setHistologyIcdO3("9193");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
 
         // Rule M8 Abstract multiple primaries when separate, non-contiguous tumors are on different rows in the appropriate site table (Tables 1-9) in the Equivalent Terms and Definitions. Timing is irrelevant.
         ruleStepToTest = "M8";
@@ -2376,6 +2392,26 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //table 7
+        i1.setPrimarySite("C410");
+        i2.setPrimarySite("C410");
+        i1.setHistologyIcdO3("9330");
+        i2.setHistologyIcdO3("8800");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        i1.setHistologyIcdO3("9330");
+        i2.setHistologyIcdO3("8980");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //Not same row
+        i1.setHistologyIcdO3("8800");
+        i2.setHistologyIcdO3("8980");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
 
         // Rule M13 Abstract a single primary  when none of the previous rules apply.
         //No case will reach here

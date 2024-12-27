@@ -1189,13 +1189,23 @@ public class MphConstants {
         thisTableSubTypes = new HashMap<>();
         thisTableSubTypes.put("9310/3", "9310/3");
         thisTableSubTypes.put("9330/3", "9330/3");
+        thisTableSubTypes.put("9222/3", "9222/3");
         thisTableSubTypes.put("9220/3", "9220/3");
         thisTableSubTypes.put("9240/3", "9220/3");
-        thisTableSubTypes.put("9180/3", "9181/3,9187/3,9192/3,9193/3");
+        thisTableSubTypes.put("9221/3", "9221/3");
+        thisTableSubTypes.put("9242/3", "9242/3");
+        thisTableSubTypes.put("9243/3", "9243/3");
+        thisTableSubTypes.put("9180/3", "9181/3,9186/3,9194/3,9187/3,9192/3,9193/3,9184/3,9185/3,9183/3");
         thisTableSubTypes.put("9181/3", "9181/3");
+        thisTableSubTypes.put("9186/3", "9186/3");
+        thisTableSubTypes.put("9194/3", "9194/3");
         thisTableSubTypes.put("9187/3", "9187/3");
         thisTableSubTypes.put("9192/3", "9192/3");
         thisTableSubTypes.put("9193/3", "9193/3");
+        thisTableSubTypes.put("9184/3", "9184/3");
+        thisTableSubTypes.put("9185/3", "9185/3");
+        thisTableSubTypes.put("9183/3", "9183/3");
+        thisTableSubTypes.put("8900/3", "8900/3");
         for (String site : HEAD_AND_NECK_2018_TABLE7_SITES)
             content.put(site, thisTableSubTypes);
 
@@ -1391,16 +1401,25 @@ public class MphConstants {
         thisTableRows.put("9341", "9341"); // Clear cell odontogenic carcinoma 9341*
         thisTableRows.put("9302", "9302"); // Ghost cell odontogenic carcinoma 9302*
         thisTableRows.put("8980/3", "8980/3"); // Odontogenic carcinosarcoma 8980/3
-        //thisTableRows.put("9310/3", "8980/3"); // Odontogenic carcinosarcoma 8980/3
-        thisTableRows.put("9330/3", "8980/3"); // Odontogenic carcinosarcoma 8980/3
+        thisTableRows.put("9330/3", "8980/3,8800/3"); // Odontogenic carcinosarcoma 8980/3 and Sarcoma NOS 8800/3
         thisTableRows.put("8800/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9222/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9220/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9240/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9221/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9242/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9243/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9180/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9181/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9186/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9194/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9187/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9192/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9193/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9184/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9185/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9183/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("8900/3", "8800/3"); // Sarcoma NOS 8800/3
         for (String site : HEAD_AND_NECK_2018_TABLE7_SITES)
             content.put(site, thisTableRows);
 

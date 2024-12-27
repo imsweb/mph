@@ -132,6 +132,8 @@ public class MphConstants {
     public static final List<String> MALE_GENITAL = Collections.unmodifiableList(Arrays.asList("C60", "C63"));
     public static final List<String> KIDNEY_OR_URINARY = Collections.unmodifiableList(Arrays.asList("C64", "C65", "C66", "C68"));
     public static final List<String> ENDOCRINE = Collections.unmodifiableList(Arrays.asList("C74", "C75"));
+    public static final List<String> AORTIC_BODY = Collections.singletonList("C755");
+    public static final List<String> CAROTIC_BODY = Collections.singletonList("C754");
     public static final List<String> UPPER_LIP = Collections.unmodifiableList(Arrays.asList("C000", "C003"));
     public static final List<String> LOWER_LIP = Collections.unmodifiableList(Arrays.asList("C001", "C004"));
     public static final List<String> UPPER_GUM = Collections.singletonList("C030");

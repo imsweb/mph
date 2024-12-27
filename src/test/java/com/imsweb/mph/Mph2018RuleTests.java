@@ -1397,6 +1397,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MphConstants.MPH_2007_2022_OTHER_SITES, output.getGroupName());
 
         // Rule M3 Abstract multiple primaries when there are separate/non-contiguous tumors in any two of the following sites:
+        //   - Aortic body C755 AND carotid body C754
         //   - Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052
         //   - Maxillary sinus C310 AND/OR ethmoid sinus C311 AND/OR frontal sinus C312 AND/OR sphenoid sinus C313
         //   - Nasal cavity C300 AND middle ear C301
@@ -1406,6 +1407,19 @@ public class Mph2018RuleTests {
 
         ruleStepToTest = "M3";
         ruleCountToTest = 1;
+        //Aortic body C755 AND carotid body C754
+        i1.setPrimarySite("C754");
+        i1.setHistologyIcdO3("8000");
+        i1.setBehaviorIcdO3("3");
+        i2.setPrimarySite("C755");
+        i2.setHistologyIcdO3("8000");
+        i2.setBehaviorIcdO3("3");
+        i1.setDateOfDiagnosisYear("2018");
+        i2.setDateOfDiagnosisYear("2018");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("Aortic"));
         //   - Upper lip C000 or C003 AND lower lip C001 or C004
         i1.setPrimarySite("C000");
         i1.setHistologyIcdO3("8000");

@@ -1426,6 +1426,8 @@ public class MphConstants {
         // Table 8 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
         thisTableRows.put("8140", "8140"); // Endolymphatic sac tumor 8140
+        thisTableRows.put("8420/3", "8420/3"); // Ceruminous adenocarcinoma 8420/3
+        thisTableRows.put("8240/3", "8240/3"); // Middle ear neuroendocrine tumor 8240/3
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma of the middle ear 8070
         for (String site : HEAD_AND_NECK_2018_TABLE8_SITES)
             content.put(site, thisTableRows);

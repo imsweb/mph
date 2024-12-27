@@ -1978,7 +1978,7 @@ public class Mph2018RuleTests {
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        //Table 8: Ceruminous adenocarcinoma 8420 row deleted
+        //Table 8: Ceruminous adenocarcinoma 8420 row deleted, never mind it was added back in the 2025 update
         i1.setPrimarySite("C301");
         i1.setDateOfDiagnosisYear("2018");
         i1.setDateOfDiagnosisMonth("11");
@@ -1993,16 +1993,9 @@ public class Mph2018RuleTests {
         i2.setLaterality("1");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
-        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals("M7", output.getStep());
-        Assert.assertEquals(5, output.getAppliedRules().size());
-        i1.setDateOfDiagnosisYear("2021");
-        i2.setDateOfDiagnosisYear("2021");
-        output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphConstants.SOLID_TUMOR_2018_HEAD_AND_NECK, output.getGroupName());
-        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
-        Assert.assertEquals("M7", output.getStep());
-        Assert.assertEquals(5, output.getAppliedRules().size());
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         //table 6
         i1.setPrimarySite("C089");
         i2.setPrimarySite("C089");
@@ -2143,6 +2136,17 @@ public class Mph2018RuleTests {
         i2.setPrimarySite("C020");
         i1.setHistologyIcdO3("8560");
         i2.setHistologyIcdO3("9580");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        //table 8
+        i1.setPrimarySite("C301");
+        i2.setPrimarySite("C301");
+        i1.setHistologyIcdO3("8420");
+        i2.setHistologyIcdO3("8240");
+        i1.setBehaviorIcdO3("3");
+        i2.setBehaviorIcdO3("3");
         output = _utils.computePrimaries(i1, i2);
         Assert.assertEquals(MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleStepToTest, output.getStep());

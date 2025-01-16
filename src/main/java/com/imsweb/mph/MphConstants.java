@@ -1382,7 +1382,6 @@ public class MphConstants {
         thisTableRows.put("8246", "8246"); // Neuroendocrine carcinoma 8246
         thisTableRows.put("8013", "8246"); // Neuroendocrine carcinoma 8246
         thisTableRows.put("8041", "8246"); // Neuroendocrine carcinoma 8246
-        thisTableRows.put("8290", "8290"); // Oncocytic carcinoma 8290
         thisTableRows.put("8525", "8525"); // Polymorphous adenocarcinoma 8525
         thisTableRows.put("8500", "8500"); // Salivary duct carcinoma 8500
         thisTableRows.put("8265/3", "8500"); // Salivary duct carcinoma 8500

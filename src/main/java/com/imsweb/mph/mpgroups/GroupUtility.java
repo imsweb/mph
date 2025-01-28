@@ -121,9 +121,9 @@ public class GroupUtility {
             }
             else {
                 if (isSite)
-                    result.add(Range.between(Integer.parseInt(parts[0].trim().substring(1)), Integer.parseInt(parts[1].trim().substring(1))));
+                    result.add(Range.of(Integer.parseInt(parts[0].trim().substring(1)), Integer.parseInt(parts[1].trim().substring(1))));
                 else
-                    result.add(Range.between(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim())));
+                    result.add(Range.of(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim())));
             }
         }
 

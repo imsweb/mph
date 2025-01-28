@@ -4,6 +4,8 @@
 
 - Implemented 2025 updates of solid tumor rules. (#147)
 - Updated HematoDB data with latest data from SEER API.
+- Replaced OpenCSV library by FastCSV.
+- Changed minimum Java language from Java 8 to Java 11.
 
 **Changes in version 1.36**
 

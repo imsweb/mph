@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.opencsv.CSVWriter;
+import de.siegmar.fastcsv.writer.CsvWriter;
 
 import com.imsweb.seerapi.client.NotFoundException;
 import com.imsweb.seerapi.client.SeerApi;
@@ -42,9 +42,9 @@ public class HematoDataLab {
         File transformFromFile = new File(dir, "Hematopoietic2010TransformFromPairs.csv");
 
         try (OutputStream hematoDataInfoOutput = Files.newOutputStream(hematoDataInfoFile.toPath());
-             CSVWriter samePrimaryWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(samePrimaryFile.toPath()), StandardCharsets.UTF_8));
-             CSVWriter transformToWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(transformToFile.toPath()), StandardCharsets.UTF_8));
-             CSVWriter transformFromWriter = new CSVWriter(new OutputStreamWriter(Files.newOutputStream(transformFromFile.toPath()), StandardCharsets.UTF_8))) {
+             CsvWriter samePrimaryWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(samePrimaryFile.toPath()), StandardCharsets.UTF_8));
+             CsvWriter transformToWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(transformToFile.toPath()), StandardCharsets.UTF_8));
+             CsvWriter transformFromWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(transformFromFile.toPath()), StandardCharsets.UTF_8))) {
 
             SeerApi api = new SeerApi.Builder().connect();
             List<Disease> allDiseases = new ArrayList<>();
@@ -137,9 +137,9 @@ public class HematoDataLab {
                                 transformFrom.add(new String[] {morphology, validStartYear, validEndYear, startYear, endYear, transformFromMorphology.getIcdO3Morphology()});
                         }
                 }
-                samePrimaryWriter.writeAll(samePrimaryPairs);
-                transformToWriter.writeAll(transformTo);
-                transformFromWriter.writeAll(transformFrom);
+                samePrimaryPairs.forEach(samePrimaryWriter::writeRecord);
+                transformTo.forEach(transformToWriter::writeRecord);
+                transformFrom.forEach(transformFromWriter::writeRecord);
                 Properties prop = new Properties();
                 prop.setProperty("last_updated", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddkkmm")));
                 prop.store(hematoDataInfoOutput, null);

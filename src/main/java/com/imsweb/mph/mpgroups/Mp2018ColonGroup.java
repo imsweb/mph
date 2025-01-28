@@ -30,7 +30,8 @@ public class Mp2018ColonGroup extends MphGroup {
 
         // Rule M3 Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp AND
         //  - There is a clinical diagnosis of familial polyposis (FAP) OR
-        //  - Greater than 100 polyps are documented (no diagnosis of FAP)
+        //  - Greater than 100 polyps are documented (no diagnosis of FAP) OR
+        //  - Referred to as polyps carpeting the bowel, small bowel, intestines, etc.
         MphRule rule = new MphRule(MphConstants.SOLID_TUMOR_2018_COLON, "M3") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -40,9 +41,9 @@ public class Mp2018ColonGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Is there adenocarcinoma in situ and/or invasive in at least one polyp and one tumor a familial polyposis (FAP) or there are greater than 100 polyps (no FAP)?");
+        rule.setQuestion("Is there adenocarcinoma in situ and/or invasive in at least one polyp and one tumor a familial polyposis (FAP) or there are greater than 100 polyps (no FAP) or referred to as polyps carpeting the bowel, small bowel, intestines, etc?");
         rule.setReason(
-                "If there is an adenocarcinoma in situ and/or invasive in at least one polyp and one tumor is a familial polyposis (FAP) or there are greater than 100 polyps (no FAP), then this is a single primary.");
+                "Abstract a single primary when there is adenocarcinoma in situ and/or invasive in at least one polyp and there is a clinical diagnosis of familial polyposis (FAP) or greater than 100 polyps are documented (no diagnosis of FAP) or Referred to as polyps carpeting the bowel, small bowel, intestines, etc.");
         rule.getNotes().add(
                 "A diagnosis of familial polyposis (FAP) is made when the patient has greater than 100 adenomatous polyps. Polyps with adenocarcinoma and benign polyps will be present. Because there are many polyps, the pathologist does not examine every polyp.");
         rule.getNotes().add(

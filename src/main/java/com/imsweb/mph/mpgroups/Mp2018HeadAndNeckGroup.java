@@ -53,25 +53,31 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 String s1 = i1.getPrimarySite();
                 String s2 = i2.getPrimarySite();
-                if (GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP) || GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM)
-                        || GroupUtility.differentCategory(s1, s2, MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR) || GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE,
-                        MphConstants.SOFT_PALATE) || GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.UVULA) || GroupUtility.differentCategory(s1, s2,
-                        MphConstants.SOFT_PALATE, MphConstants.UVULA) || (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.FRONTAL_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.SPHENOID_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS)) || GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND,
-                        MphConstants.SUBLINGUAL_GLAND) || (new HashSet<>(MphConstants.GLOTTIS_AND_LARYNGEAL_SITES).containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2))
-                        || GroupUtility.differentCategory(s1, s2,
-                        MphConstants.MAXILLA, MphConstants.MANDIBLE) || (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)) ||
-                        (GroupUtility.differentCategory(s1, s2, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX)))
+                if (GroupUtility.differentCategory(s1, s2, MphConstants.AORTIC_BODY, MphConstants.CAROTIC_BODY) ||
+                        (new HashSet<>(MphConstants.GLOTTIS_AND_LARYNGEAL_SITES).containsAll(Arrays.asList(s1, s2)) && !s1.equals(s2)) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.SOFT_PALATE) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.HARD_PALATE, MphConstants.UVULA) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.SOFT_PALATE, MphConstants.UVULA) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLA, MphConstants.MANDIBLE) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.ETHMOID_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.FRONTAL_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.MAXILLARY_SINUS, MphConstants.SPHENOID_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.FRONTAL_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.ETHMOID_SINUS, MphConstants.SPHENOID_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.FRONTAL_SINUS, MphConstants.SPHENOID_SINUS) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.NASAL_CAVITY, MphConstants.MIDDLE_EAR) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.POSTCRICOID, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.HYPOPHARYNGEAL_ASPECT_OF_ARYEPIGLOTTIC_FOLD, MphConstants.POSTERIOR_WALL_OF_HYPOPHARYNX) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.SUBMANDIBULAR_GLAND, MphConstants.SUBLINGUAL_GLAND) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_GUM, MphConstants.LOWER_GUM) ||
+                        GroupUtility.differentCategory(s1, s2, MphConstants.UPPER_LIP, MphConstants.LOWER_LIP))
                     result.setFinalResult(MphUtils.MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
         rule.setQuestion("Are there tumors on:\n" +
+                "Aortic body C755 AND carotid body C754, \n" +
                 "Glottis C320 AND/OR supraglottis C321 AND/OR subglottis C322 AND/OR laryngeal cartilage C323, \n" +
                 "Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052, \n" +
                 "Maxilla C410 AND Mandible C411, \n" +
@@ -82,6 +88,7 @@ public class Mp2018HeadAndNeckGroup extends MphGroup {
                 "Upper gum C030 AND lower gum C031, \n" +
                 "Upper lip C000 or C003 AND lower lip C001 or C004?");
         rule.setReason("Tumors on:\n" +
+                "Aortic body C755 AND carotid body C754, \n" +
                 "Glottis C320 AND/OR supraglottis C321 AND/OR subglottis C322 AND/OR laryngeal cartilage C323, \n" +
                 "Hard palate C050 AND/OR soft palate C051 AND/OR uvula C052, \n" +
                 "Maxilla C410 AND Mandible C411, \n" +

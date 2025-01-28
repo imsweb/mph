@@ -3,6 +3,11 @@
  */
 package com.imsweb.mph.mpgroups;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -45,23 +50,30 @@ public class Mp2018LungGroup extends MphGroup {
                 "The physician may state this is a recurrence, meaning the patient had a previous lung tumor and now has another lung site tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
-        // Rule M5 Abstract multiple primaries when there is at least one tumor that is small cell carcinoma 8041 or any small cell subtypes/variants and another tumor that is non-small cell carcinoma 8046 or any non-small cell carcinoma subtypes/variants.
+        // Rule M5 Abstract multiple primaries when there is at least one tumor with neuroendocrine carcinoma or subtype/variant of neuroendocrine carcinoma or neuroendocrine tumor or subtype/variant of neuroendocrine tumor and there is another tumor with non-small cell carcinoma subtypes/variant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
                 TempRuleResult result = new TempRuleResult();
-                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), MphConstants.LUNG_2018_8041_AND_SUBTYPES, MphConstants.LUNG_2018_8046_AND_SUBTYPES))
+                //If there is any of NET or NEC (NET/NEC=8246, 8045, 8041, 8240, 8249) AND there is NSCLC (NSCLC=8046, or any histology in tables 2 and 3 EXCEPT 8246, 8045, 8041, 8240, 8249, 8800, 9043, 9042, 9137, 8842, 9041, 9040)
+                List<String> neuroendocrine = Arrays.asList("8246", "8045", "8041", "8240", "8249");
+                List<String> others = new ArrayList<>();
+                others.add("8046");
+                others.addAll(MphConstants.LUNG_2018_TABLE2.stream().map(s -> s.substring(0, 4)).collect(Collectors.toList()));
+                others.addAll(MphConstants.LUNG_2018_TABLE3_ROWS.keySet().stream().map(s -> s.substring(0, 4)).collect(Collectors.toList()));
+                others.addAll(MphConstants.LUNG_2018_TABLE3_ROWS.values().stream().map(s -> s.substring(0, 4)).collect(Collectors.toList()));
+                others.removeAll(Arrays.asList("8246", "8045", "8041", "8240", "8249", "8800", "9043", "9042", "9137", "8842", "9041", "9040"));
+                if (GroupUtility.differentCategory(i1.getHistology(), i2.getHistology(), neuroendocrine, others))
                     result.setFinalResult(MpResult.MULTIPLE_PRIMARIES);
                 return result;
             }
         };
-        rule.setQuestion("Is one tumor a small cell carcinoma 8041 (or any small cell subtypes/variants), and another tumor a non-small cell carcinoma 8046 (or any non-small cell " +
-                "carcinoma subtypes/variants)?");
-        rule.setReason("One tumor that is small cell carcinoma 8041 (or any small cell subtypes/variants), and another tumor that is non-small cell carcinoma 8046 (or any non-small cell " +
-                "carcinoma subtypes/variants), is multiple primaries.");
+        rule.setQuestion(
+                "Is there one tumor with neuroendocrine carcinoma or subtype/variant of neuroendocrine carcinoma or neuroendocrine tumor or subtype/variant of neuroendocrine tumor and is there another tumor with non-small cell carcinoma subtypes/variant?");
+        rule.setReason(
+                "Abstract multiple primaries when there is at least one tumor with neuroendocrine carcinoma or subtype/variant of neuroendocrine carcinoma or neuroendocrine tumor or subtype/variant of neuroendocrine tumor and there is another tumor with non-small cell carcinoma subtypes/variant.");
         rule.getNotes().add("Small cell carcinoma and non-small cell carcinoma are the two major classifications/divisions for lung cancer.");
-        rule.getNotes().add("  - See Table 3 in Equivalent Terms and Definitions for terms and codes for small cell carcinoma and all of the subtypes/variants");
-        rule.getNotes().add("  - With the exception of small cell/neuroendocrine carcinoma, all other histologies listed in Table 3 in Equivalent Terms and Definitions are non-small cell carcinoma");
+        rule.getNotes().add("See note before Table 3 for the definition of non-small cell carcinoma.");
         rule.getNotes().add("It is irrelevant whether the tumors are in the ipsilateral (same) lung or are bilateral (both lungs).");
         _rules.add(rule);
 

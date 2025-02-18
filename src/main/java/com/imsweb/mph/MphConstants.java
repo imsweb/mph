@@ -1045,7 +1045,7 @@ public class MphConstants {
     // See Head and Neck 2018 AS OF date at top of this file.
 
     //Changes made to this list per Sewbesew's request and Suzanne's approval
-    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C300", "C301", "C310,C312", "C754"));
+    public static final List<String> HEAD_AND_NECK_2018_PAIRED_SITES = Collections.unmodifiableList(Arrays.asList("C079", "C080,C081", "C098,C099", "C301", "C310,C312", "C754"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE1_SITES = Collections.unmodifiableList(Arrays.asList(
             "C300", "C310", "C311", "C312", "C313", "C318", "C319"));

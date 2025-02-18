@@ -1570,6 +1570,19 @@ public class Mph2018RuleTests {
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
         Assert.assertTrue(output.getReason().contains("paired"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        //C300 is not paired anymore
+        i1.setPrimarySite("C300");
+        i2.setPrimarySite("C300");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertNotEquals(ruleStepToTest, output.getStep());
+
+        i1.setPrimarySite("C301");
+        i2.setPrimarySite("C301");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertTrue(output.getReason().contains("paired"));
+        Assert.assertEquals(ruleStepToTest, output.getStep());
         // Does not apply.
         i1.setPrimarySite("C400");
         output = _utils.computePrimaries(i1, i2);

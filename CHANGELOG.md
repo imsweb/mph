@@ -3,6 +3,7 @@
 **Changes in version 1.38**
 
 - Removed C300 from Head and Neck paired sites list.
+- Updated HematoDB data with latest data from SEER API.
 
 **Changes in version 1.37**
 

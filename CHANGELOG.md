@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.38**
+
+- Removed C300 from Head and Neck paired sites list.
+
 **Changes in version 1.37**
 
 - Implemented 2025 updates of solid tumor rules. (#147)

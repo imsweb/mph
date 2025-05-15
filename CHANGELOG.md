@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.39**
+
+- Updated dependencies.
+
 **Changes in version 1.38**
 
 - Removed C300 from Head and Neck paired sites list.

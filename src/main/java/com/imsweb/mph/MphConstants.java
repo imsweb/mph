@@ -12,7 +12,7 @@ import java.util.Map;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
 @SuppressWarnings("java:S2386") //Mutable fields should not be "public static", Sonar's suggestion to make these protected doesn't work
-public class MphConstants {
+public final class MphConstants {
 
     private MphConstants() {
     }
@@ -160,8 +160,6 @@ public class MphConstants {
             "C079,C080-C081,C090-C099,C300-C301,C310,C312,C340-C349,C384,C400-C403,C413-C414,C441-C443,C445-C447,C471-C472,C491-C492,C500-C509,C569,C570,C620-C629,C630-C631,C649,C659,C669,C690-C699,C700,C710-C714,C722-C725,C740-C749,C754";
 
     //Behavior
-    public static final String BENIGN = "0";
-    public static final String UNCERTAIN = "1";
     public static final String INSITU = "2";
     public static final String MALIGNANT = "3";
 
@@ -233,7 +231,6 @@ public class MphConstants {
     public static final List<String> MYELOID_LEUKEMIA = GroupUtility.expandList("9840,9861,9865-9867,9869-9874,9891,9895-9898,9910-9911,9931");
     public static final List<String> RETINO_BLASTOMA = GroupUtility.expandList("9510-9513");
     public static final String WILMS = "8960";
-    public static final String NEUROFIBROMATOSIS = "9540";
     public static final List<String> SPECIFIC_RENAL_CELL_HISTOLOGIES = GroupUtility.expandList("8260,8310,8316-8320,8510,8959");
     public static final String GLIOBLASTOMA_NOS_AND_MULTIFORME = "9440";
     public static final List<String> GLIAL_TUMOR = GroupUtility.expandList("9380-9382,9400-9401,9410-9411,9420-9421,9423-9424,9430,9440-9442");

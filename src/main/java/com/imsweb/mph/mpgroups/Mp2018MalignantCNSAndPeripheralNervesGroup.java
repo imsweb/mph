@@ -171,8 +171,8 @@ public class Mp2018MalignantCNSAndPeripheralNervesGroup extends MphGroup {
                 "  - Different NOS: Papillary ependymoma 9393 is a subtype of ependymoma NOS 9391; gliosarcoma 9442 is a subtype of glioblastoma NOS 9440. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        //Rule M11	Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.
-        //Note: 	The following is a list of all tumors which would be classified as subtypes/variants of glioma NOS.
+        //Rule M11    Abstract a single primary when separate, non-contiguous tumors are Glioma NOS and a subtype/variant of Glioma NOS.
+        //Note:     The following is a list of all tumors which would be classified as subtypes/variants of glioma NOS.
         //Astroblastoma 9430
         //Astrocytomas 9400 and all subtypes
         //Anaplastic astrocytoma IDH-mutant/wildtype; anaplastic astrocytoma NOS 9401

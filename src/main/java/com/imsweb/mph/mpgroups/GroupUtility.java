@@ -19,7 +19,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
 
-public class GroupUtility {
+public final class GroupUtility {
 
     private GroupUtility() {
     }

@@ -886,21 +886,17 @@ public final class MphConstants {
         content.put("8825/0", "8825/0"); // Myofibroblastoma 8825/0
         content.put("8825/1", "8825/0"); // Myofibroblastoma 8825/0
         content.put("9394/1", "9394/1"); // Myxopapillary ependymoma 9394/1
-        content.put("9506/1", "9506/1"); // Neurocytoma
         content.put("8000/0", "8000/0"); // Neuroepithelial tumor, benign
         content.put("8000/1", "8000/0"); // Neuroepithelial tumor, benign
         content.put("9540/0", "9540/0"); // Neurofibroma 9540/0
         content.put("9550/0", "9540/0"); // Neurofibroma 9540/0
-        content.put("9421/1", "9421/1"); // Optic glioma/pilocytic astrocytoma 9421/1
         content.put("9509/1", "9509/1"); // Papillary glioneuronal tumor 9509/1
         content.put("9180/0", "9180/0"); // Osteoma 9180/0
-        content.put("9509/1", "9509/1"); // Papillary glioneuronal tumor 9509/1
         content.put("8693/1", "8693/1"); // Paraganglioma 8693/1
         content.put("9571/0", "9571/0"); // Perineurioma 9571/0
         content.put("9361/1", "9361/1"); // Pineocytoma 9361/1
         content.put("9432/1", "9432/1"); // Pituicytoma 9432/1
         content.put("8272/0", "8272/0"); // Pituitary adenoma 8272/0
-        content.put("9413/0", "9413/0"); // Polymorphous low-grade neuroepithelial tumor of the young 9413/0
         content.put("8271/0", "8271/0"); // Pituitary adenoma 8271/0
         content.put("8900/0", "8900/0"); // Rhabdomyoma 8900/0
         content.put("9560/0", "9560/0"); // Schwannoma 9560/0
@@ -2032,7 +2028,6 @@ public final class MphConstants {
         vulvaRows.put("8140", "8140");
         vulvaRows.put("8144", "8140");
 
-        vulvaRows.put("8200", "8200");
         vulvaRows.put("8560", "8560");
         vulvaRows.put("8090", "8090");
         vulvaRows.put("8020/3", "8020/3");
@@ -2115,7 +2110,6 @@ public final class MphConstants {
         softTissueRows.put("9366/3", "8800/3");
         softTissueRows.put("9368/3", "8800/3");
         softTissueRows.put("9040/3", "8800/3");
-        softTissueRows.put("9043/3", "8800/3");
 
         softTissueRows.put("8805/3", "8805/3");
         softTissueRows.put("8802/3", "8805/3");

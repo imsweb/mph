@@ -3,10 +3,10 @@ import com.vanniktech.maven.publish.*
 plugins {
     id 'java-library'
     id 'jacoco'
-    id 'com.vanniktech.maven.publish' version '0.32.0' // publish to Maven Central
+    id 'com.vanniktech.maven.publish' version '0.34.0' // publish to Maven Central
     id 'com.github.ben-manes.versions' version '0.52.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
-    id 'com.github.spotbugs' version '6.2.4' // spotbugs code analysis
-    id 'org.sonarqube' version '6.1.0.5360' // sonarQube analysis
+    id 'com.github.spotbugs' version '6.4.2' // spotbugs code analysis
+    id 'org.sonarqube' version '6.3.1.5724' // sonarQube analysis
 }
 
 group = 'com.imsweb'
@@ -110,7 +110,7 @@ tasks.register('hematoDataTest', Test) {
 mavenPublishing {
     configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
 
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
+    publishToMavenCentral(true)
     signAllPublications()
 
     pom {

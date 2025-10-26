@@ -6,8 +6,6 @@ package com.imsweb.mph.mpgroups;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
 import com.imsweb.mph.MphInput;
@@ -50,7 +48,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                 TempRuleResult result = new TempRuleResult();
                 List<String> lateralityNotRequiredSites = Arrays.asList("C440", "C448", "C449");
                 if (lateralityNotRequiredSites.contains(i1.getPrimarySite()) || MphConstants.PAIRED_NO_INFORMATION.equals(i1.getLaterality()) || MphConstants.PAIRED_NO_INFORMATION.equals(
-                        i2.getLaterality()) || StringUtils.isEmpty(i1.getLaterality()) || StringUtils.isEmpty(i2.getLaterality()))
+                        i2.getLaterality()) || i1.getLaterality() == null || i1.getLaterality().trim().isEmpty() || i2.getLaterality() == null || i2.getLaterality().trim().isEmpty())
                     return result;
                 // mid-line (5) is considered (look the example)
                 if (!Arrays.asList(MphConstants.RIGHT, MphConstants.LEFT, MphConstants.MID_LINE).containsAll(Arrays.asList(i1.getLaterality(), i2.getLaterality()))) {

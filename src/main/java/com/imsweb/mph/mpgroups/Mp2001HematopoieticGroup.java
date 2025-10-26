@@ -3,16 +3,8 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.siegmar.fastcsv.reader.CsvReader;
-import de.siegmar.fastcsv.reader.NamedCsvRecord;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -20,6 +12,7 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.RuleExecutionContext;
+import com.imsweb.mph.internal.CsvUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp2001HematopoieticGroup extends MphGroup {
@@ -79,27 +72,9 @@ public class Mp2001HematopoieticGroup extends MphGroup {
     }
 
     private static synchronized void initializeLookups() {
-        if (_2001_HEMATOPOIETIC_GROUPS.isEmpty() || _2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty()) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroups.csv")) {
-                if (is == null)
-                    throw new IllegalStateException("Unable to read Hematopoietic2001HistologyGroups.csv");
-                try (Reader reader = new InputStreamReader(is, StandardCharsets.US_ASCII); CsvReader<NamedCsvRecord> csvReader = CsvReader.builder().ofNamedCsvRecord(reader)) {
-                    csvReader.stream().forEach(line -> _2001_HEMATOPOIETIC_GROUPS.add(line.getFields().toArray(new String[0])));
-                }
-            }
-            catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic2001HistologyGroupPairs.csv")) {
-                if (is == null)
-                    throw new IllegalStateException("Unable to read Hematopoietic2001HistologyGroupPairs.csv");
-                try (Reader reader = new InputStreamReader(is, StandardCharsets.US_ASCII); CsvReader<NamedCsvRecord> csvReader = CsvReader.builder().ofNamedCsvRecord(reader)) {
-                    csvReader.stream().forEach(line -> _2001_HEMATOPOIETIC_GROUP_PAIRS.add(line.getFields().toArray(new String[0])));
-                }
-            }
-            catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-        }
+        if (_2001_HEMATOPOIETIC_GROUPS.isEmpty())
+            _2001_HEMATOPOIETIC_GROUPS.addAll(CsvUtils.parseGroupCsvFile("Hematopoietic2001HistologyGroups.csv"));
+        if (_2001_HEMATOPOIETIC_GROUP_PAIRS.isEmpty())
+            _2001_HEMATOPOIETIC_GROUP_PAIRS.addAll(CsvUtils.parseGroupCsvFile("Hematopoietic2001HistologyGroupPairs.csv"));
     }
 }

@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.imsweb.mph.internal.TempRuleResult;
 import com.imsweb.mph.mpgroups.GroupUtility;
 import com.imsweb.mph.mpgroups.Mp1998HematopoieticGroup;
@@ -60,7 +57,9 @@ import com.imsweb.mph.mpgroups.Mp2023OtherSitesGroup;
  */
 public final class MphUtils {
 
-    private final Pattern _morphology = Pattern.compile("^(\\d{4}/\\d)");
+    private final static Pattern _MORPHOLOGY_PATTERN = Pattern.compile("^(\\d{4}/\\d)");
+
+    private final static Pattern _DIGITS_PATTERN = Pattern.compile("\\d+");
 
     /**
      * The possible result of determining if two tumors are single or multiple primaries.
@@ -115,6 +114,10 @@ public final class MphUtils {
         if (!isInitialized())
             initialize(new DefaultHematoDataProvider());
         return _INSTANCE;
+    }
+
+    public static boolean isDigits(String value) {
+        return value != null && _DIGITS_PATTERN.matcher(value).matches();
     }
 
     /**
@@ -201,8 +204,8 @@ public final class MphUtils {
     public MphOutput computePrimaries(MphInput input1, MphInput input2) {
         MphOutput output = new MphOutput();
 
-        int year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
-        int year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
+        int year1 = isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : -1;
+        int year2 = isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : -1;
         String site1 = input1.getPrimarySite();
         String site2 = input2.getPrimarySite();
         String hist1 = input1.getHistology();
@@ -273,7 +276,7 @@ public final class MphUtils {
                     if (potentialResult == null || potentialResult.getPotentialResult().equals(result.getFinalResult())) {
                         output.setResult(result.getFinalResult());
                         output.setStep(rule.getStep());
-                        output.setReason(StringUtils.isNotBlank(result.getMessage()) ? result.getMessage() : rule.getReason());
+                        output.setReason(result.getMessage() != null && !result.getMessage().trim().isEmpty() ? result.getMessage() : rule.getReason());
                         if (potentialResult != null && potentialResult.getPotentialResult().equals(result.getFinalResult()))
                             output.getAppliedRules().addAll(rulesAppliedAfterQuestionable);
                     }
@@ -332,7 +335,7 @@ public final class MphUtils {
      * @return true if two diseases are same primary and false otherwise.
      */
     public boolean isHematoSamePrimary(String morph1, String morph2, int year1, int year2) {
-        if (morph1 == null || morph2 == null || !_morphology.matcher(morph1).matches() || !_morphology.matcher(morph2).matches())
+        if (morph1 == null || morph2 == null || !_MORPHOLOGY_PATTERN.matcher(morph1).matches() || !_MORPHOLOGY_PATTERN.matcher(morph2).matches())
             return false;
         if (morph1.equals(morph2))
             return true;

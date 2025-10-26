@@ -3,6 +3,7 @@
  */
 package lab;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -16,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import de.siegmar.fastcsv.writer.CsvWriter;
-
+import com.imsweb.mph.internal.CsvUtils;
 import com.imsweb.seerapi.client.NotFoundException;
 import com.imsweb.seerapi.client.SeerApi;
 import com.imsweb.seerapi.client.disease.Disease;
@@ -42,9 +42,9 @@ public class HematoDataLab {
         File transformFromFile = new File(dir, "Hematopoietic2010TransformFromPairs.csv");
 
         try (OutputStream hematoDataInfoOutput = Files.newOutputStream(hematoDataInfoFile.toPath());
-             CsvWriter samePrimaryWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(samePrimaryFile.toPath()), StandardCharsets.UTF_8));
-             CsvWriter transformToWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(transformToFile.toPath()), StandardCharsets.UTF_8));
-             CsvWriter transformFromWriter = CsvWriter.builder().build(new OutputStreamWriter(Files.newOutputStream(transformFromFile.toPath()), StandardCharsets.UTF_8))) {
+             BufferedWriter samePrimaryWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(samePrimaryFile.toPath()), StandardCharsets.UTF_8));
+             BufferedWriter transformToWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(transformToFile.toPath()), StandardCharsets.UTF_8));
+             BufferedWriter transformFromWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(transformFromFile.toPath()), StandardCharsets.UTF_8))) {
 
             SeerApi api = new SeerApi.Builder().connect();
             List<Disease> allDiseases = new ArrayList<>();
@@ -137,9 +137,20 @@ public class HematoDataLab {
                                 transformFrom.add(new String[] {morphology, validStartYear, validEndYear, startYear, endYear, transformFromMorphology.getIcdO3Morphology()});
                         }
                 }
-                samePrimaryPairs.forEach(samePrimaryWriter::writeRecord);
-                transformTo.forEach(transformToWriter::writeRecord);
-                transformFrom.forEach(transformFromWriter::writeRecord);
+
+                for (String[] line : samePrimaryPairs) {
+                    samePrimaryWriter.write(CsvUtils.writeCsvValues(line));
+                    samePrimaryWriter.write("\r\n");
+                }
+                for (String[] line : transformTo) {
+                    transformToWriter.write(CsvUtils.writeCsvValues(line));
+                    transformToWriter.write("\r\n");
+                }
+                for (String[] line : transformFrom) {
+                    transformFromWriter.write(CsvUtils.writeCsvValues(line));
+                    transformFromWriter.write("\r\n");
+                }
+
                 Properties prop = new Properties();
                 prop.setProperty("last_updated", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddkkmm")));
                 prop.store(hematoDataInfoOutput, null);

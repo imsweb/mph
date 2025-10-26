@@ -1,9 +1,11 @@
-import com.vanniktech.maven.publish.*
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id 'java-library'
     id 'jacoco'
-    id 'com.vanniktech.maven.publish' version '0.34.0' // publish to Maven Central
+    id 'com.vanniktech.maven.publish' version '0.31.0' // publish to Maven Central
     id 'com.github.ben-manes.versions' version '0.52.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
     id 'com.github.spotbugs' version '6.4.2' // spotbugs code analysis
     id 'org.sonarqube' version '6.3.1.5724' // sonarQube analysis
@@ -20,12 +22,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-lang3:3.18.0'
-    implementation 'de.siegmar:fastcsv:3.7.0'
-
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.imsweb:seerapi-client-java:5.9'
-    testImplementation 'com.imsweb:data-generator:2.2'
 }
 
 // enforce UTF-8, display the compilation warnings
@@ -35,8 +33,8 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -110,7 +108,7 @@ tasks.register('hematoDataTest', Test) {
 mavenPublishing {
     configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
 
-    publishToMavenCentral(true)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true) // to upgrade teh plugin, just remove the first parameter...
     signAllPublications()
 
     pom {

@@ -3,16 +3,8 @@
  */
 package com.imsweb.mph.mpgroups;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.siegmar.fastcsv.reader.CsvReader;
-import de.siegmar.fastcsv.reader.NamedCsvRecord;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphGroup;
@@ -20,6 +12,7 @@ import com.imsweb.mph.MphInput;
 import com.imsweb.mph.MphRule;
 import com.imsweb.mph.MphUtils;
 import com.imsweb.mph.RuleExecutionContext;
+import com.imsweb.mph.internal.CsvUtils;
 import com.imsweb.mph.internal.TempRuleResult;
 
 public class Mp1998HematopoieticGroup extends MphGroup {
@@ -50,8 +43,8 @@ public class Mp1998HematopoieticGroup extends MphGroup {
                 String secondDx = MphConstants.COMPARE_DX_FIRST_LATEST == laterDx ? i1.getHistology() : i2.getHistology();
                 for (String[] row : _HEMATOPOIETIC_1998)
                     if ((firstDx.compareTo(row[0]) >= 0 && firstDx.compareTo(row[1]) <= 0 && secondDx.compareTo(row[2]) >= 0 && secondDx.compareTo(row[3]) <= 0) ||
-                        (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(
-                                row[3]) <= 0))) {
+                            (MphConstants.COMPARE_DX_EQUAL == laterDx && (secondDx.compareTo(row[0]) >= 0 && secondDx.compareTo(row[1]) <= 0 && firstDx.compareTo(row[2]) >= 0 && firstDx.compareTo(
+                                    row[3]) <= 0))) {
                         result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                         result.setMessage("Single primary based on SEER 1998 multiple primary rules for hematopoietic cancer.");
                         return result;
@@ -67,18 +60,7 @@ public class Mp1998HematopoieticGroup extends MphGroup {
     }
 
     private static synchronized void initializeLookup() {
-        if (_HEMATOPOIETIC_1998.isEmpty()) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("Hematopoietic1998HistologyPairs.csv")) {
-                if (is == null)
-                    throw new IllegalStateException("Unable to read Hematopoietic1998HistologyPairs.csv");
-                try (Reader reader = new InputStreamReader(is, StandardCharsets.US_ASCII); CsvReader<NamedCsvRecord> csvReader = CsvReader.builder().ofNamedCsvRecord(reader)) {
-                    csvReader.stream().forEach(line -> _HEMATOPOIETIC_1998.add(line.getFields().toArray(new String[0])));
-                }
-            }
-            catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-        }
+        if (_HEMATOPOIETIC_1998.isEmpty())
+            _HEMATOPOIETIC_1998.addAll(CsvUtils.parseGroupCsvFile("Hematopoietic1998HistologyPairs.csv"));
     }
-
 }

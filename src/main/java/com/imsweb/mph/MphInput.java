@@ -3,8 +3,6 @@
  */
 package com.imsweb.mph;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.imsweb.mph.mpgroups.GroupUtility;
 
 /**
@@ -43,7 +41,6 @@ public class MphInput {
         _primarySite = primarySite;
     }
 
-
     public void setHistologyIcdO3(String histologyIcdO3) {
         _histologyIcdO3 = histologyIcdO3;
     }
@@ -61,12 +58,12 @@ public class MphInput {
     }
 
     public String getHistology() {
-        int year = NumberUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
+        int year = MphUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
         return year < 2001 && GroupUtility.validateHistology(_histologyIcdO2) ? _histologyIcdO2 : _histologyIcdO3;
     }
 
     public String getBehavior() {
-        int year = NumberUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
+        int year = MphUtils.isDigits(_dateOfDiagnosisYear) ? Integer.parseInt(_dateOfDiagnosisYear) : 9999;
         return year < 2001 && GroupUtility.validateBehavior(_behaviorIcdO2) ? _behaviorIcdO2 : _behaviorIcdO3;
     }
 
@@ -101,7 +98,6 @@ public class MphInput {
     public void setDateOfDiagnosisDay(String dateOfDiagnosisDay) {
         _dateOfDiagnosisDay = dateOfDiagnosisDay;
     }
-
 
     public String getIcdCode() {
         return getHistology() + "/" + getBehavior();

@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.41**
+
+- Changed back minimum Java language from Java 11 to Java 8.
+- Removed FastCSV library dependency.
+
 **Changes in version 1.40**
 
 - Updated HematoDB data with latest data from SEER API.

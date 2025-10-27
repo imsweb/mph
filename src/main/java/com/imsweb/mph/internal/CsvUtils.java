@@ -38,11 +38,17 @@ public final class CsvUtils {
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
             if (is == null)
                 throw new IllegalStateException("Unable to read " + filename + "; unable to find data file");
+            int expectedColumns = -1;
             try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 String line = reader.readLine();
                 while (line != null) {
-                    if (reader.getLineNumber() != 1) {
+                    if (reader.getLineNumber() == 1)
+                        expectedColumns = CsvUtils.parseCsvLine(reader.getLineNumber(), line).size();
+                    else {
                         List<String> fields = CsvUtils.parseCsvLine(reader.getLineNumber(), line);
+
+                        if (expectedColumns != -1 && fields.size() != expectedColumns)
+                            throw new IOException("Line " + reader.getLineNumber() + ": expected " + expectedColumns + " columns, but found " + fields.size() + " columns");
 
                         Short validStartYear = fields.get(1) != null && !fields.get(1).trim().isEmpty() ? Short.valueOf(fields.get(1)) : null;
                         Short validEndYear = fields.get(1) != null && !fields.get(2).trim().isEmpty() ? Short.valueOf(fields.get(2)) : null;
@@ -74,11 +80,18 @@ public final class CsvUtils {
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
             if (is == null)
                 throw new IllegalStateException("Unable to read " + filename + "; unable to find data file");
+            int expectedColumns = -1;
             try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 String line = reader.readLine();
                 while (line != null) {
-                    if (reader.getLineNumber() != 1)
-                        result.add(CsvUtils.parseCsvLine(reader.getLineNumber(), line).toArray(new String[0]));
+                    if (reader.getLineNumber() == 1)
+                        expectedColumns = CsvUtils.parseCsvLine(reader.getLineNumber(), line).size();
+                    else {
+                        List<String> fields = CsvUtils.parseCsvLine(reader.getLineNumber(), line);
+                        if (expectedColumns != -1 && fields.size() != expectedColumns)
+                            throw new IOException("Line " + reader.getLineNumber() + ": expected " + expectedColumns + " columns, but found " + fields.size() + " columns");
+                        result.add(fields.toArray(new String[0]));
+                    }
                     line = reader.readLine();
                 }
             }

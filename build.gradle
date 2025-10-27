@@ -61,6 +61,9 @@ jar {
                 'Automatic-Module-Name': 'com.imsweb.mph'
         )
     }
+    from('VERSION') {
+        rename { fileName -> "mph-library-version.txt" }
+    }
 }
 
 // jacoco plugin settings

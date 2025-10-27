@@ -40,6 +40,11 @@ public class MphUtilsTest {
     private final MphUtils _utils = MphUtils.getInstance();
 
     @Test
+    public void testGetLibraryVersion() {
+        Assert.assertEquals("1.0-UNIT-TESTS", MphUtils.getLibraryVersion()); // real version file is copied (and renamed) during the build process...
+    }
+
+    @Test
     public void testIsHematoSamePrimary() {
 
         Assert.assertFalse(_utils.isHematoSamePrimary(null, null, 2010, 2010));
@@ -1933,7 +1938,8 @@ public class MphUtilsTest {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        //M1 TODO
+        //M1
+        // FD - this case was never written; not sure why...
 
         //M2
         i1.setPrimarySite("C779");
@@ -2069,9 +2075,11 @@ public class MphUtilsTest {
         //confirms that the NOS and the more specific histology are the same primary.
         //This is Skipped on the automated process
 
-        //M8 TODO
+        //M8
+        // FD - this case was never written; not sure why...
 
-        //M9 TODO
+        //M9
+        // FD - this case was never written; not sure why...
 
         //M10 Abstract as multiple primaries** when a neoplasm is originally diagnosed as a chronic neoplasm AND there is a second diagnosis of an acute
         //neoplasm more than 21 days after the chronic diagnosis.
@@ -2108,7 +2116,8 @@ public class MphUtilsTest {
         Assert.assertEquals(10, output.getAppliedRules().size());
         Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
 
-        //M11 TODO
+        //M11
+        // FD - this case was never written; not sure why...
 
         //M12 Abstract a single primary* when a neoplasm is originally diagnosed as acute AND reverts to a chronic neoplasm AND there is no confirmation
         //available that the patient has been treated for the acute neoplasm.
@@ -2340,9 +2349,11 @@ public class MphUtilsTest {
         MphInput i1 = new MphInput(), i2 = new MphInput();
         MphOutput output;
 
-        //Rule 1 TODO
+        //Rule 1
+        // FD - this case was never written; not sure why...
 
-        //Rule 2 TODO
+        //Rule 2
+        // FD - this case was never written; not sure why...
 
         //Rule 3: Simultaneous multiple lesions of the same histologic type within the same site (i.e., multifocal tumors in a single organ or site) are a single primary.
         //If a new cancer of the same histology as an earlier one is diagnosed in the same site within two months, this is a single primary cancer

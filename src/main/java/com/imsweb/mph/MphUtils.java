@@ -3,6 +3,11 @@
  */
 package com.imsweb.mph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -116,12 +121,34 @@ public final class MphUtils {
         return _INSTANCE;
     }
 
+    /**
+     * Returns true if the provided values only contains digits (and at least one of them)
+     */
     public static boolean isDigits(String value) {
         return value != null && _DIGITS_PATTERN.matcher(value).matches();
     }
 
+    public static String getLibraryVersion() {
+        String result = "?";
+
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("mph-library-version.txt")) {
+            if (is != null) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.US_ASCII))) {
+                    result = reader.readLine();
+                }
+            }
+
+        }
+        catch (IOException | RuntimeException e) {
+            // ignored
+        }
+
+        return result;
+    }
+
     /**
      * Constructor
+     * <br/>
      * This will use the default hemato db provider
      */
     public MphUtils() {

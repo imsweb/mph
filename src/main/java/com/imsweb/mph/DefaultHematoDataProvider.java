@@ -49,7 +49,6 @@ public class DefaultHematoDataProvider implements HematoDataProvider {
 
     @Override
     public Date getDataLastUpdated() {
-
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("hemato_data_info.properties")) {
             if (is == null)
                 throw new IllegalStateException("Unable to get info properties");

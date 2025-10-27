@@ -11,17 +11,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.commons.lang3.Range;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import java.util.regex.Pattern;
 
 import com.imsweb.mph.MphConstants;
 import com.imsweb.mph.MphInput;
+import com.imsweb.mph.MphUtils;
+import com.imsweb.mph.internal.Range;
 
 public final class GroupUtility {
 
+    private static final Pattern _SPLIT_COMMA = Pattern.compile(",");
+    private static final Pattern _SPLIT_DASH = Pattern.compile("-");
+
     private GroupUtility() {
+        // static utility class
     }
 
     /**
@@ -35,14 +38,14 @@ public final class GroupUtility {
      * Validates primary site
      */
     public static boolean validateSite(String site) {
-        return site != null && site.length() == 4 && site.startsWith("C") && NumberUtils.isDigits(site.substring(1)) && !"C809".equalsIgnoreCase(site);
+        return site != null && site.length() == 4 && site.startsWith("C") && MphUtils.isDigits(site.substring(1)) && !"C809".equalsIgnoreCase(site);
     }
 
     /**
      * Validates histology
      */
     public static boolean validateHistology(String hist) {
-        return NumberUtils.isDigits(hist) && Integer.parseInt(hist) >= 8000 && Integer.parseInt(hist) <= 9999;
+        return MphUtils.isDigits(hist) && Integer.parseInt(hist) >= 8000 && Integer.parseInt(hist) <= 9999;
     }
 
     /**
@@ -88,15 +91,15 @@ public final class GroupUtility {
         DateFieldParts date = new DateFieldParts(i1, i2);
         return date.getYear1() != null && date.getYear1().equals(date.getYear2()) &&
                 (date.getMonth1() == null || date.getMonth2() == null || (date.getMonth1().equals(date.getMonth2()) &&
-                (date.getDay1() == null || date.getDay2() == null || date.getDay1().equals(date.getDay2()))));
+                        (date.getDay1() == null || date.getDay2() == null || date.getDay1().equals(date.getDay2()))));
     }
 
     /**
      * Checks if integer value is in a list of ranges
      */
-    public static boolean isContained(List<Range<Integer>> list, Integer value) {
+    public static boolean isContained(List<Range> list, Integer value) {
         if (list != null && !list.isEmpty())
-            for (Range<Integer> range : list)
+            for (Range range : list)
                 if (range.contains(value))
                     return true;
         return false;
@@ -105,14 +108,16 @@ public final class GroupUtility {
     /**
      * computes list of range values from string
      */
-    public static List<Range<Integer>> computeRange(String rawValue, boolean isSite) {
+    public static List<Range> computeRange(String rawValue, boolean isSite) {
         if (rawValue == null)
             return Collections.emptyList();
 
-        List<Range<Integer>> result = new ArrayList<>();
+        List<Range> result = new ArrayList<>();
 
-        for (String item : StringUtils.split(rawValue, ',')) {
-            String[] parts = StringUtils.split(item.trim(), '-');
+        for (String item : _SPLIT_COMMA.split(rawValue)) {
+            if (item.trim().isEmpty())
+                continue;
+            String[] parts = _SPLIT_DASH.split(item.trim());
             if (parts.length == 1) {
                 if (isSite)
                     result.add(Range.is(Integer.parseInt(parts[0].trim().substring(1))));
@@ -138,9 +143,11 @@ public final class GroupUtility {
         if (list == null || list.isEmpty())
             return list;
         for (String item : list) {
-            String[] ranges = StringUtils.split(item.trim(), ',');
+            String[] ranges = _SPLIT_COMMA.split(item.trim());
             for (String range : ranges) {
-                String[] parts = StringUtils.split(range.trim(), '-');
+                if (range.trim().isEmpty())
+                    continue;
+                String[] parts = _SPLIT_DASH.split(range.trim());
                 if (parts.length <= 1)
                     result.add(range);
                 else {
@@ -365,9 +372,9 @@ public final class GroupUtility {
      * Returns the site, hist/beh information of the input
      */
     public static String getSiteHistInfo(String site, String hist, String beh, int year) {
-        return (StringUtils.isBlank(site) ? "Unknown Site" : site) + ", "
-                + (StringUtils.isBlank(hist) ? "Unknown Histology" : hist) + "/"
-                + (StringUtils.isBlank(beh) ? "Unknown Behavior" : beh) + " "
+        return (site == null || site.trim().isEmpty() ? "Unknown Site" : site) + ", "
+                + (hist == null || hist.trim().isEmpty() ? "Unknown Histology" : hist) + "/"
+                + (beh == null || beh.trim().isEmpty() ? "Unknown Behavior" : beh) + " "
                 + (validateYear(year) ? ("with year of diagnosis " + year) : "with unknown year of diagnosis");
     }
 
@@ -381,18 +388,18 @@ public final class GroupUtility {
         private Integer _day2;
 
         public DateFieldParts(MphInput input1, MphInput input2) {
-            _year1 = NumberUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : null;
-            _year2 = NumberUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : null;
-            _month1 = NumberUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : null;
+            _year1 = MphUtils.isDigits(input1.getDateOfDiagnosisYear()) ? Integer.parseInt(input1.getDateOfDiagnosisYear()) : null;
+            _year2 = MphUtils.isDigits(input2.getDateOfDiagnosisYear()) ? Integer.parseInt(input2.getDateOfDiagnosisYear()) : null;
+            _month1 = MphUtils.isDigits(input1.getDateOfDiagnosisMonth()) ? Integer.parseInt(input1.getDateOfDiagnosisMonth()) : null;
             if (_month1 != null && (_month1 < 1 || _month1 > 12))
                 _month1 = null;
-            _month2 = NumberUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : null;
+            _month2 = MphUtils.isDigits(input2.getDateOfDiagnosisMonth()) ? Integer.parseInt(input2.getDateOfDiagnosisMonth()) : null;
             if (_month2 != null && (_month2 < 1 || _month2 > 12))
                 _month2 = null;
-            _day1 = _month1 != null && NumberUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
+            _day1 = _month1 != null && MphUtils.isDigits(input1.getDateOfDiagnosisDay()) ? Integer.parseInt(input1.getDateOfDiagnosisDay()) : null;
             if (_year1 != null && _day1 != null && (_day1 < 1 || _day1 > LocalDate.of(_year1, _month1, 1).lengthOfMonth()))
                 _day1 = null;
-            _day2 = _month2 != null && NumberUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : null;
+            _day2 = _month2 != null && MphUtils.isDigits(input2.getDateOfDiagnosisDay()) ? Integer.parseInt(input2.getDateOfDiagnosisDay()) : null;
             if (_year2 != null && _day2 != null && (_day2 < 1 || _day2 > LocalDate.of(_year2, _month2, 1).lengthOfMonth()))
                 _day2 = null;
         }

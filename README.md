@@ -8,6 +8,8 @@ This library contains the SEER Java implementations of the Multiple Primary and 
 
 The implementation was partially based on the KCR Multiple Primary Rules Library developed by the Kentucky Cancer Registry.
 
+This library requires Java 8.
+
 ## Download
 
 The library is available on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.imsweb%22%20AND%20a%3A%mph%22).
@@ -86,40 +88,6 @@ If histology is not in the range 9590-9993, one of the following solid tumors se
 
 If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Solid Malignant" rules will be used.<br/><br/>
 If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Benign Brain" rules will be used.
-
-## Testing Data
-
-The project contains [a lab class](https://github.com/imsweb/mph/blob/master/src/test/java/lab/TestingDataCreation.java) that can be used to generate CSV files 
-that contains fake data along with the library result.
-
-A sample testing file is available in the project: [mph-testing-2000-2022.csv.gz](https://github.com/imsweb/mph/blob/master/src/test/resources/mph-testing-2000-2022.csv.gz)
-
-To create larger file, clone the project and execute the main method of that class locally.
-
-The class allows the following parameters (defined in the top of the main method):
- - numTests: the number of rows for the generated CSV file
- - minDxYear: the minimum DX year to use
- - maxDxYear: the maximum DX year to use
-
-The CSV files will contain the following columns:
- - year1
- - month1
- - day1
- - site1
- - hist1
- - beh1
- - lat1
- - year2
- - month2
- - day2
- - site2
- - hist2
- - beh2
- - lat2
- - result
- - reason
-
-The lab class uses the [Data Generator](https://github.com/imsweb/data-generator) library to create the fake data.
 
 ## About SEER
 

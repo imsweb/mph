@@ -6,10 +6,10 @@ package com.imsweb.mph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.Range;
-
+import com.imsweb.mph.internal.Range;
 import com.imsweb.mph.mpgroups.GroupUtility;
 
+@SuppressWarnings("unused")
 public abstract class MphGroup {
 
     protected String _id;
@@ -30,17 +30,17 @@ public abstract class MphGroup {
 
     protected List<MphRule> _rules;
 
-    private List<Range<Integer>> _siteIncRanges;
+    private final List<Range> _siteIncRanges;
 
-    private List<Range<Integer>> _siteExcRanges;
+    private final List<Range> _siteExcRanges;
 
-    private List<Range<Integer>> _histIncRanges;
+    private final List<Range> _histIncRanges;
 
-    private List<Range<Integer>> _histExcRanges;
+    private final List<Range> _histExcRanges;
 
-    private List<Range<Integer>> _behavIncRanges;
+    private final List<Range> _behavIncRanges;
 
-    private List<Range<Integer>> _yearIncRanges;
+    private final List<Range> _yearIncRanges;
 
     protected MphGroup(String id, String name, String siteInclusions, String siteExclusions, String histInclusions, String histExclusions, String behavInclusions, String yearInclusions) {
         _id = id;

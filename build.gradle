@@ -1,14 +1,12 @@
-import com.vanniktech.maven.publish.JavaLibrary
-import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.*
 
 plugins {
     id 'java-library'
     id 'jacoco'
-    id 'com.vanniktech.maven.publish' version '0.31.0' // publish to Maven Central
-    id 'com.github.ben-manes.versions' version '0.52.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
-    id 'com.github.spotbugs' version '6.4.2' // spotbugs code analysis
-    id 'org.sonarqube' version '6.3.1.5724' // sonarQube analysis
+    id 'com.vanniktech.maven.publish' version '0.36.0' // publish to Maven Central
+    id 'com.github.ben-manes.versions' version '0.53.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
+    id 'com.github.spotbugs' version '6.4.8' // spotbugs code analysis
+    id 'org.sonarqube' version '7.2.2.6593' // sonarQube analysis
 }
 
 group = 'com.imsweb'
@@ -109,9 +107,9 @@ tasks.register('hematoDataTest', Test) {
 
 // needed to deploy to Maven Central Portal
 mavenPublishing {
-    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), new SourcesJar.Sources()))
 
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true) // to upgrade teh plugin, just remove the first parameter...
+    publishToMavenCentral(true)
     signAllPublications()
 
     pom {
@@ -146,6 +144,6 @@ mavenPublishing {
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '8.14'
+    gradleVersion = '9.2.1'
     distributionType = Wrapper.DistributionType.ALL
 }

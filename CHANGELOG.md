@@ -1,5 +1,10 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.42**
+
+- Changed the minimum Java language for this library from Java 8 to Java 21.
+- Updated HematoDB data with latest data from SEER API.
+
 **Changes in version 1.41**
 
 - Changed back minimum Java language from Java 11 to Java 8.

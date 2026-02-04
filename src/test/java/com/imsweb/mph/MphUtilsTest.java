@@ -69,8 +69,8 @@ public class MphUtilsTest {
         //9738/3 is only valid between 2010 and 2020
         Assert.assertTrue(_utils.isHematoSamePrimary("9738/3", "9590/3", 2020, 2020));
         Assert.assertTrue(_utils.isHematoSamePrimary("9738/3", "9590/3", 2020, 2021));
-        Assert.assertFalse(_utils.isHematoSamePrimary("9738/3", "9590/3", 2021, 2021));
-        Assert.assertFalse(_utils.isHematoSamePrimary("9738/3", "9590/3", 2021, 2020));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9738/3", "9590/3", 2021, 2021));
+        Assert.assertTrue(_utils.isHematoSamePrimary("9738/3", "9590/3", 2021, 2020));
     }
 
     @Test

@@ -71,7 +71,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         _rules.add(rule);
 
         //M5- Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in
-        //Column 3, Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        //Column 2, Table 2 in the Site-group Instructions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -88,11 +88,11 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
 
         };
         rule.setQuestion("Are separate/non-contiguous tumors different subtypes/variants in Column 3, Table 2?");
-        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions.");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 2 in the Site-group Instructions.");
         rule.getExamples().add("Epithelioid cell melanoma 8771/3 and nodular melanoma 8721/3 are both subtypes/variants of melanoma, NOS 8720/3");
         _rules.add(rule);
 
-        //M6- Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. Tumors must have same site and same laterality.
+        //M6- Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Site-group Instructions. Tumors must have same site and same laterality.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -123,7 +123,7 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
         };
         rule.setQuestion("Are tumors synchronous, on the same row in Table 2 and have same site and laterality?");
         rule.setReason(
-                "Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions. And they have same site and laterality.");
+                "Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Site-group Instructions. And they have same site and laterality.");
         _rules.add(rule);
 
         //M7- Melanomas diagnosed more than 60 days apart are multiple primaries. 

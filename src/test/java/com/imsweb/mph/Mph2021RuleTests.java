@@ -117,7 +117,7 @@ public class Mph2021RuleTests {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Column 3"));
+        Assert.assertTrue(output.getReason().contains("different subtypes"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M6 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2

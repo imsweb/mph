@@ -77,7 +77,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         // - Cerebral meninges C700 AND spinal meninges C701
         // - Cerebral meninges C700 AND any other part of CNS
         // - Any cranial nerve(s) C722-C725 AND any other part of the CNS
-        // - Meninges of cranial nerves C709 AND any other part of the CNS
+        // - Meninges of cranial nerves C700 AND any other part of the CNS
         // -Spinal cord C720 AND any other part of CNS
         // - Spinal meninges C701 AND any other part of CNS
         // (Any other part of the CNS is any other site in the header...for example "cerebral meninges C700 and any other part of the CNS" equates to C700 and any
@@ -85,7 +85,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule = new MpRuleCNS(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M8", false);
         _rules.add(rule);
 
-        // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M9 Abstract multiple primaries when separate, non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 6 in the Site-group Instructions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M9") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -97,8 +97,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 6 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 2, Table 6 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 2, Table 6 in the Site-group Instructions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "  - Same NOS: Atypical meningioma 9539/1 and fibrous meningioma 9532/0 are both subtypes of meningioma NOS 9530 but are distinctly different histologies. Abstract multiple primaries.");
@@ -163,7 +163,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 "The physician may stage each tumor because staging and determining multiple primaries are done for different reasons. Staging determines which course of treatment would be most effective. Determining multiple primaries is done to stabilize the data for the study of epidemiology (long-term studies done on incidence, mortality, and causation of a disease with the goal of reducing or eliminating that disease).");
         _rules.add(rule);
 
-        // Rule M12 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        // Rule M12 Abstract a single primary when separate/non-contiguous tumors are on the same row in Table 6 in the Site-group Instructions.  Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -200,8 +200,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 6 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on the same row in Table 6 in the Equivalent Terms and Definitions are a single primary.");
+        rule.setQuestion("Are separate/non-contiguous tumors on the same rows in Table 6 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors on the same row in Table 6 in the Site-group Instructions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
@@ -235,7 +235,7 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
         rule.getNotes().add("Low-grade glioma is considered an umbrella term or non-specific diagnosis, primarily seen on radiographic reports such as CT scans and MRIs. Often the patient is actively followed with scans and surgical intervention delayed or not recommended that would provide a definitive histology type. A diagnosis of low-grade glioma is not recommended and may be used when the diagnosis is based on imaging and/or additional tests were inconclusive.");
         _rules.add(rule);
 
-        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M14 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 6 in the Site-group Instructions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_NON_MALIGNANT_CNS, "M14") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -267,8 +267,8 @@ public class Mp2018NonMalignantCNSTumorsGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 6 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors on different rows in Table 6 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 6 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors on different rows in Table 6 in the Site-group Instructions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 

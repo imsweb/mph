@@ -109,7 +109,7 @@ public final class MphConstants {
     public static final String THYROID = "C739";
     public static final String LYMPH_NODE = "C77";
 
-    public static final String PERITONEUM = "C482";
+    public static final List<String> PERITONEUM = Collections.unmodifiableList(Arrays.asList("C481", "C482", "C488"));
 
     public static final String FALLOPIAN = "C570";
 
@@ -480,6 +480,7 @@ public final class MphConstants {
         content.put("8982", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8070", "8575"); // Metaplastic carcinoma NOS or of no special type (NST) 8575
         content.put("8480", "8480"); // Mucinous carcinoma 8480
+        content.put("8470", "8470"); //Mucinous cystadenocarcinoma 8470
         content.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         content.put("8246/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
         content.put("8574/3", "8246/3"); //Neuroendocrine carcinoma NOS 8246/3
@@ -573,9 +574,9 @@ public final class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("8693/3", "8693/3"); //Extra-adrenal paraganglioma 8693/3
         content.put("8013/3", "8013/3"); //Large cell neuroendocrine carcinoma/tumor
         content.put("8041/3", "8041/3"); //Small cell neuroendocrine carcinoma
+        content.put("8249/3", "8249/3"); //Neuroendocrine tumor, grade 2 8249 (/3)
         content.put("8316", "8316"); //Acquired cystic disease-associated renal cell carcinoma/tubulocystic renal cell carcinoma
         content.put("8317", "8317"); //Chromophobe renal cell carcinoma (ChRCC)
         content.put("8323/3", "8323/3"); //Clear cell papillary renal cell carcinoma
@@ -589,8 +590,7 @@ public final class MphConstants {
         content.put("8890/3", "8890/3"); // Leiomyosarcoma/renal vein leiomyosarcoma
         content.put("9180/3", "9180/3"); //Osteosarcoma
         content.put("9364/3", "9364/3"); //Primitive/peripheral neuroectodermal tumor (pNET)/Ewing sarcoma
-        content.put("8900/3", "8920/3,8910/3,8901/3,8912/3"); //Rhabdomyosarcoma
-        content.put("8920/3", "8920/3"); //Rhabdomyosarcoma
+        content.put("8900/3", "8910/3,8901/3,8912/3"); //Rhabdomyosarcoma
         content.put("8910/3", "8910/3"); //Rhabdomyosarcoma
         content.put("8901/3", "8901/3"); //Rhabdomyosarcoma
         content.put("8912/3", "8912/3"); //Rhabdomyosarcoma
@@ -604,11 +604,12 @@ public final class MphConstants {
         Map<String, String> content = new HashMap<>();
         content.put("8510", "8510"); // Medullary carcinoma 8510
         content.put("8960", "8960"); // Nephroblastoma 8960
-        content.put("8693/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
-        content.put("8041/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
-        content.put("8013/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8246/3", "8246/3"); // Neuroendocrine carcinoma 8246 (/3)
+        content.put("8013/3", "8246/3"); // Neuroendocrine carcinoma 8246 (/3)
+        content.put("8041/3", "8246/3"); // Neuroendocrine carcinoma 8246 (/3)
         content.put("8240/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
-        content.put("8700/3", "8700/3"); // Paraganglioma 8700/3
+        content.put("8249/3", "8240/3"); // Neuroendocrine tumor (NET) 8240
+        content.put("8693/3", "8693/3"); // Paraganglioma 8700/3
         content.put("8312", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8316", "8312"); // Renal cell carcinoma NOS 8312
         content.put("8317", "8312"); // Renal cell carcinoma NOS 8312
@@ -625,7 +626,6 @@ public final class MphConstants {
         content.put("9180/3", "8800/3"); // Sarcoma 8800/3
         content.put("9364/3", "8800/3"); // Sarcoma 8800/3
         content.put("8900/3", "8800/3"); // Sarcoma 8800/3
-        content.put("8920/3", "8800/3"); // Sarcoma 8800/3
         content.put("8910/3", "8800/3"); // Sarcoma 8800/3
         content.put("8901/3", "8800/3"); // Sarcoma 8800/3
         content.put("8912/3", "8800/3"); // Sarcoma 8800/3
@@ -733,13 +733,12 @@ public final class MphConstants {
         content.put("8480", "8480");
         content.put("8144", "8144");
         content.put("8333", "8333");
-        content.put("8250/3", "8250/3");
+        content.put("8250", "8250");
         content.put("8253", "8253");
         content.put("8257/3", "8257/3");
         content.put("8265", "8265");
         content.put("8254", "8254");
         content.put("8256/3", "8256/3");
-        content.put("8250/2", "8250/2");
         content.put("8260", "8260");
         content.put("8230", "8230");
         content.put("8045", "8045");
@@ -767,13 +766,12 @@ public final class MphConstants {
         content.put("8480", "8140"); //Adenocarcinoma 8140
         content.put("8144", "8140"); //Adenocarcinoma 8140
         content.put("8333", "8140"); //Adenocarcinoma 8140
-        content.put("8250/3", "8140"); //Adenocarcinoma 8140
+        content.put("8250", "8140"); //Adenocarcinoma 8140
         content.put("8253/2", "8140"); //Adenocarcinoma 8140
         content.put("8253/3", "8140"); //Adenocarcinoma 8140
         content.put("8257/3", "8140"); //Adenocarcinoma 8140
         content.put("8265", "8140"); //Adenocarcinoma 8140
         content.put("8254", "8140"); //Adenocarcinoma 8140
-        content.put("8250/2", "8140"); //Adenocarcinoma 8140
         content.put("8256/3", "8140"); //Adenocarcinoma 8140
         content.put("8260", "8140"); //Adenocarcinoma 8140
         content.put("8230", "8140"); //Adenocarcinoma 8140
@@ -827,7 +825,8 @@ public final class MphConstants {
     public static final String CNS_2018_SPINAL_MENINGES_SITES = "C701";
     public static final String CNS_2018_SPINAL_CORD_SITES = "C720";
     public static final String CNS_2018_CRANIAL_NERVES_SITES_NON_CAUDA_EQUINA = "C722-C725";
-    public static final String CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
+    public static final String MALIGNANT_CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C709";
+    public static final String NON_MALIGNANT_CNS_2018_MENINGES_OF_CRANIAL_OR_PERIPH_NERVES_SITES = "C700";
 
     public static final List<String> CNS_2018_MENINGIOMAS = Collections.unmodifiableList(Arrays.asList(
             "9530/0", "9534/0", "9539/1", "9538/1", "9532/0", "9531/0", "9537/0"));
@@ -1048,11 +1047,12 @@ public final class MphConstants {
             "C129", "C130", "C131", "C132", "C138", "C139", "C320", "C321", "C322", "C323", "C328", "C329", "C339"));
 
     private static final List<String> HEAD_AND_NECK_2018_TABLE4_SITES = Collections.unmodifiableList(Arrays.asList(
+            "C000", "C001", "C002", "C003", "C004", "C005", "C006", "C008", "C009",
             "C020", "C021", "C022", "C023", "C028", "C029",
             "C030", "C031", "C039", "C040", "C041", "C048", "C049",
-            "C050", "C051", "C052", "C058", "C059", "C060", "C061", "C062", "C068", "C069"));
+            "C050", "C058", "C059", "C060", "C061", "C062", "C068", "C069"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE5_SITES = Collections.unmodifiableList(Arrays.asList(
-            "C024", "C100", "C101", "C102", "C103", "C104", "C108", "C109", "C019", "C090", "C091", "C098", "C099"));
+            "C051", "C052", "C100", "C101", "C102", "C103", "C104", "C108", "C109", "C019", "C024", "C090", "C091", "C098", "C099"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE6_SITES = Collections.unmodifiableList(Arrays.asList(
             "C079", "C080", "C081", "C088", "C089"));
     private static final List<String> HEAD_AND_NECK_2018_TABLE7_SITES = Collections.unmodifiableList(Arrays.asList(
@@ -1071,12 +1071,10 @@ public final class MphConstants {
         // Table 1 ----------------------------------------
         Map<String, String> thisTableSubTypes = new HashMap<>();
         thisTableSubTypes.put("8144", "8144");
-        thisTableSubTypes.put("9560/3", "9560/3");
+        thisTableSubTypes.put("8483/3", "8483/3");
         thisTableSubTypes.put("8745/3", "8745/3");
         thisTableSubTypes.put("8746/3", "8746/3");
         thisTableSubTypes.put("8721/3", "8721/3");
-        thisTableSubTypes.put("9521/3", "9521/3");
-        thisTableSubTypes.put("9523/3", "9523/3");
         thisTableSubTypes.put("9120/3", "9120/3");
         thisTableSubTypes.put("9045/3", "9045/3");
         thisTableSubTypes.put("9133/3", "9133/3");
@@ -1119,8 +1117,8 @@ public final class MphConstants {
         thisTableSubTypes.put("9243/3", "9243/3");
         thisTableSubTypes.put("8851/3", "8851/3");
         thisTableSubTypes.put("8013/3", "8013/3");
-        thisTableSubTypes.put("8249/3", "8249/3");
         thisTableSubTypes.put("8041/3", "8041/3");
+        thisTableSubTypes.put("8249/3", "8249/3");
         thisTableSubTypes.put("8560", "8560");
         thisTableSubTypes.put("8083", "8083");
         thisTableSubTypes.put("8082", "8082");
@@ -1138,7 +1136,9 @@ public final class MphConstants {
         thisTableSubTypes.put("8746/3", "8746/3");
         thisTableSubTypes.put("8721/3", "8721/3");
         thisTableSubTypes.put("8075", "8075");
+        thisTableSubTypes.put("8560", "8560");
         thisTableSubTypes.put("8083", "8083");
+        thisTableSubTypes.put("8085/2", "8085/2");
         thisTableSubTypes.put("8082", "8082");
         thisTableSubTypes.put("8071", "8071");
         thisTableSubTypes.put("8072", "8072");
@@ -1170,7 +1170,7 @@ public final class MphConstants {
         thisTableSubTypes.put("8144", "8144");
         thisTableSubTypes.put("8480", "8480");
         thisTableSubTypes.put("8430", "8430");
-        thisTableSubTypes.put("8450", "8450");
+        thisTableSubTypes.put("8407", "8407");
         thisTableSubTypes.put("8013", "8013");
         thisTableSubTypes.put("8041", "8041");
         thisTableSubTypes.put("8265/3", "8265/3");
@@ -1204,7 +1204,12 @@ public final class MphConstants {
         for (String site : HEAD_AND_NECK_2018_TABLE7_SITES)
             content.put(site, thisTableSubTypes);
 
-        // Table 8: No SubTypes
+        // Table 8:
+        thisTableSubTypes = new HashMap<>();
+        thisTableSubTypes.put("8071/3", "8071/3");
+        for (String site : HEAD_AND_NECK_2018_TABLE8_SITES)
+            content.put(site, thisTableSubTypes);
+
         // Table 9: No SubTypes
 
         // Special C111 Site - Combine Table 2 and 5.
@@ -1231,10 +1236,9 @@ public final class MphConstants {
         Map<String, String> thisTableRows = new HashMap<>();
         thisTableRows.put("8140", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8144", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8483/3", "8483/3"); // HPV-related multiphenotypic sinonasal carcinoma 8483/3
+        thisTableRows.put("8483/3", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8082", "8082"); // Lymphoepithelial carcinoma 8082
         thisTableRows.put("9540/3", "9540/3"); // Malignant peripheral nerve sheath tumor 9540/3
-        thisTableRows.put("9560/3", "9540/3"); // Malignant peripheral nerve sheath tumor 9540/3
         thisTableRows.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         thisTableRows.put("8720", "8720"); // Mucosal melanoma 8720
         thisTableRows.put("8745/3", "8720"); // Mucosal melanoma 8720
@@ -1243,8 +1247,6 @@ public final class MphConstants {
         thisTableRows.put("8982", "8982"); // Myoepithelial carcinoma 8982
         thisTableRows.put("8023", "8023"); // NUT carcinoma 8023*
         thisTableRows.put("9522/3", "9522/3"); // Olfactory neuroblastoma 9522/3
-        thisTableRows.put("9521/3", "9522/3"); // Olfactory neuroblastoma 9522/3
-        thisTableRows.put("9523/3", "9522/3"); // Olfactory neuroblastoma 9522/3
         thisTableRows.put("9364", "9364"); // Primitive neuroectodermal tumor 9364
         thisTableRows.put("8800/3", "8800/3"); // Sarcoma 8800/3
         thisTableRows.put("9120/3", "8800/3"); // Sarcoma 8800/3
@@ -1299,10 +1301,11 @@ public final class MphConstants {
         thisTableRows.put("9243/3", "9220/3"); // Chondrosarcoma 9220/3
         thisTableRows.put("8850/3", "8850/3"); // Liposarcoma 8850/3
         thisTableRows.put("8851/3", "8850/3"); // Liposarcoma 8850/3
+        thisTableRows.put("8246/3", "8246/3"); //Neuroendocrine carcinoma 8246 (/3)
+        thisTableRows.put("8013/3", "8246/3"); //Neuroendocrine carcinoma 8246 (/3)
+        thisTableRows.put("8041/3", "8246/3"); //Neuroendocrine carcinoma 8246 (/3)
         thisTableRows.put("8240/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
-        thisTableRows.put("8013/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
         thisTableRows.put("8249/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
-        thisTableRows.put("8041/3", "8240/3"); //Neuroendocrine tumor, NOS 8240/3
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8560", "8070"); // Squamous cell carcinoma (SCC) 8070
         thisTableRows.put("8083", "8070"); // Squamous cell carcinoma (SCC) 8070
@@ -1318,7 +1321,6 @@ public final class MphConstants {
         // Table 4 ----------------------------------------------------------------------------------------------------------------------
         thisTableRows = new HashMap<>();
 
-        thisTableRows.put("8560", "8560"); // Adenosquamous carcinoma 8560
         thisTableRows.put("9580", "9580"); // Granular cell tumor 9580
         thisTableRows.put("8430", "8430"); // Mucoepidermoid carcinoma 8430
         thisTableRows.put("8720", "8720"); // Oral mucosal melanoma 8720
@@ -1328,7 +1330,9 @@ public final class MphConstants {
         thisTableRows.put("8825", "8825"); // Myofibroblastic sarcoma 8825
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8075", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8560", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8083", "8070"); // Squamous cell carcinoma 8070
+        thisTableRows.put("8085/2", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8082", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8071", "8070"); // Squamous cell carcinoma 8070
         thisTableRows.put("8072", "8070"); // Squamous cell carcinoma 8070
@@ -1365,7 +1369,7 @@ public final class MphConstants {
         thisTableRows.put("8144", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8480", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8430", "8140"); // Adenocarcinoma 8140
-        thisTableRows.put("8450", "8140"); // Adenocarcinoma 8140
+        thisTableRows.put("8407", "8140"); // Adenocarcinoma 8140
         thisTableRows.put("8200", "8200"); // Adenoid cystic carcinoma 8200
         thisTableRows.put("8980", "8980"); // Carcinosarcoma 8980
         thisTableRows.put("8440", "8440"); // Cystadenocarcinoma 8440
@@ -1394,9 +1398,9 @@ public final class MphConstants {
         thisTableRows.put("9310/3", "9270/3"); // Ameloblastic carcinoma-primary type 9270/3
         thisTableRows.put("9341", "9341"); // Clear cell odontogenic carcinoma 9341*
         thisTableRows.put("9302", "9302"); // Ghost cell odontogenic carcinoma 9302*
-        thisTableRows.put("8980/3", "8980/3"); // Odontogenic carcinosarcoma 8980/3
-        thisTableRows.put("9330/3", "8980/3,8800/3"); // Odontogenic carcinosarcoma 8980/3 and Sarcoma NOS 8800/3
+        thisTableRows.put("9342/3", "9342/3"); //Odontogenic carcinosarcoma 9342 (/3)
         thisTableRows.put("8800/3", "8800/3"); // Sarcoma NOS 8800/3
+        thisTableRows.put("9330/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9222/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9220/3", "8800/3"); // Sarcoma NOS 8800/3
         thisTableRows.put("9240/3", "8800/3"); // Sarcoma NOS 8800/3
@@ -1423,6 +1427,7 @@ public final class MphConstants {
         thisTableRows.put("8420/3", "8420/3"); // Ceruminous adenocarcinoma 8420/3
         thisTableRows.put("8240/3", "8240/3"); // Middle ear neuroendocrine tumor 8240/3
         thisTableRows.put("8070", "8070"); // Squamous cell carcinoma of the middle ear 8070
+        thisTableRows.put("8071/3", "8070"); // Squamous cell carcinoma of the middle ear 8070
         for (String site : HEAD_AND_NECK_2018_TABLE8_SITES)
             content.put(site, thisTableRows);
 
@@ -1462,27 +1467,27 @@ public final class MphConstants {
 
     static {
         Map<String, String> content = new HashMap<>();
-        content.put("8744/3", "8744/3");
-        content.put("8730/3", "8730/3");
-        content.put("8722/3", "8722/3");
-        content.put("8745/3", "8745/3");
-        content.put("8771/3", "8771/3");
+        content.put("8744", "8744");
+        content.put("8730", "8730");
+        content.put("8722", "8722");
+        content.put("8745", "8745");
+        content.put("8771", "8771");
         content.put("8742", "8742");
-        content.put("8743/3", "8743/3");
-        content.put("8780/3", "8780/3");
-        content.put("8761/3", "8761/3");
-        content.put("8741/3", "8741/3");
-        content.put("8723/3", "8723/3");
-        content.put("8770/3", "8770/3");
-        content.put("8721/3", "8721/3");
+        content.put("8743", "8743");
+        content.put("8780", "8780");
+        content.put("8761", "8761");
+        content.put("8741", "8741");
+        content.put("8723", "8723");
+        content.put("8770", "8770");
+        content.put("8721", "8721");
         content.put("8772/3", "8772/3");
-        content.put("8773/3", "8773/3");
-        content.put("8774/3", "8774/3");
+        content.put("8773", "8773");
+        content.put("8774", "8774");
         CUTANEOUS_MELANOMA_2021_TABLE2_SUBTYPES = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Collections.unmodifiableList(Arrays.asList("8720", "8744/3", "8730/3", "8722/3", "8745/3", "8771/3", "8742", "8743/3", "8780/3", "8761/3", "8741/3",
-            "8723/3", "8770/3", "8721/3", "8772/3", "8773/3", "8774/3"));
+    public static final List<String> CUTANEOUS_MELANOMA_2021_TABLE2_ROWS = Collections.unmodifiableList(Arrays.asList("8720", "8744", "8730", "8722", "8745", "8771", "8742", "8743", "8780", "8761", "8741",
+            "8723", "8770", "8721", "8772/3", "8773", "8774"));
 
 
     public static final List<String> TESTIS_SITES = Collections.unmodifiableList(Arrays.asList("C620", "C621", "C629"));
@@ -1508,11 +1513,11 @@ public final class MphConstants {
         Map<String, String> prostateRows = new HashMap<>();
 
         prostateRows.put("8140", "8140");
+        prostateRows.put("8572", "8140");
+        prostateRows.put("8500", "8140");
         prostateRows.put("8201", "8140");
         prostateRows.put("8260", "8140");
         prostateRows.put("8230", "8140");
-        prostateRows.put("8500", "8140");
-        prostateRows.put("8572", "8140");
         prostateRows.put("8480", "8140");
         prostateRows.put("8490", "8140");
 
@@ -1524,19 +1529,25 @@ public final class MphConstants {
 
         prostateRows.put("8552", "8552");
 
+        prostateRows.put("8154/3", "8154/3");
+
+        prostateRows.put("8246/3", "8246/3");
+        prostateRows.put("8045/3", "8246/3");
+        prostateRows.put("8013/3", "8246/3");
+        prostateRows.put("8041/3", "8246/3");
+
         prostateRows.put("8240/3", "8240/3");
-        prostateRows.put("8013/3", "8240/3");
-        prostateRows.put("8041/3", "8240/3");
+        prostateRows.put("8249/3", "8240/3");
 
         prostateRows.put("8800/3", "8800/3");
-        prostateRows.put("8935/3", "8800/3");
-        prostateRows.put("8890/3", "8800/3");
-        prostateRows.put("8900/3", "8800/3");
         prostateRows.put("9120/3", "8800/3");
-        prostateRows.put("9040/3", "8800/3");
+        prostateRows.put("8890/3", "8800/3");
         prostateRows.put("9180/3", "8800/3");
-        prostateRows.put("8802/3", "8800/3");
+        prostateRows.put("8900/3", "8800/3");
         prostateRows.put("8815/3", "8800/3");
+        prostateRows.put("8935/3", "8800/3");
+        prostateRows.put("9040/3", "8800/3");
+        prostateRows.put("8802/3", "8800/3");
 
         prostateRows.put("8070", "8070");
 
@@ -1568,8 +1579,16 @@ public final class MphConstants {
         esophagusRows.put("8200", "8200");
         esophagusRows.put("8560", "8560");
         esophagusRows.put("8936", "8936");
+        esophagusRows.put("8154/3", "8154/3");
         esophagusRows.put("8430", "8430");
         esophagusRows.put("8720/3", "8720/3");
+
+        esophagusRows.put("8246/3", "8246/3");
+        esophagusRows.put("8013/3", "8246/3");
+        esophagusRows.put("8041/3", "8246/3");
+
+        esophagusRows.put("8240/3", "8240/3");
+        esophagusRows.put("8249/3", "8240/3");
 
         esophagusRows.put("8070", "8070");
         esophagusRows.put("8083", "8070");
@@ -1578,12 +1597,9 @@ public final class MphConstants {
 
         esophagusRows.put("8020/3", "8020/3");
 
-        esophagusRows.put("8240/3", "8240/3");
-        esophagusRows.put("8246/3", "8240/3");
-        esophagusRows.put("8013/3", "8240/3");
-        esophagusRows.put("8041/3", "8240/3");
 
-        esophagusRows.put("8154/3", "8154/3");
+
+
 
         for (String site : ESOPHAGUS_SITES)
             content.put(site, esophagusRows);
@@ -1885,7 +1901,9 @@ public final class MphConstants {
 
         peritoneumRows.put("8815/3", "8815/3");
 
-        content.put(PERITONEUM, peritoneumRows);
+        for (String site : PERITONEUM)
+            content.put(site, peritoneumRows);
+
 
         //Table 15 Fallopian Tube Histologies
         Map<String, String> fallopianRows = new HashMap<>();
@@ -1916,15 +1934,20 @@ public final class MphConstants {
 
         uterineCorpusRows.put("8323", "8323");
 
+        uterineCorpusRows.put("8154/3", "8154/3");
+
         uterineCorpusRows.put("8480", "8480");
         uterineCorpusRows.put("8144", "8480");
 
         uterineCorpusRows.put("8246/3", "8246/3");
         uterineCorpusRows.put("8013/3", "8246/3");
-        uterineCorpusRows.put("8154/3", "8246/3");
         uterineCorpusRows.put("8041/3", "8246/3");
 
+        uterineCorpusRows.put("8240/3", "8240/3");
+        uterineCorpusRows.put("8249/3", "8240/3");
+
         uterineCorpusRows.put("8714/3", "8714/3");
+
         uterineCorpusRows.put("9473/3", "9473/3");
 
         uterineCorpusRows.put("8800/3", "8800/3");
@@ -1946,8 +1969,8 @@ public final class MphConstants {
         uterineCervixRows.put("8140/3", "8140/3");
         uterineCervixRows.put("8483/3", "8140/3");
         uterineCervixRows.put("8484/3", "8140/3");
-        uterineCervixRows.put("8482/3", "8140/3");
         uterineCervixRows.put("8310/3", "8140/3");
+        uterineCervixRows.put("8482/3", "8140/3");
         uterineCervixRows.put("9110/3", "8140/3");
 
         uterineCervixRows.put("8098/3", "8098/3");
@@ -1955,15 +1978,17 @@ public final class MphConstants {
         uterineCervixRows.put("8560/3", "8560/3");
         uterineCervixRows.put("8980/3", "8980/3");
         uterineCervixRows.put("8380/3", "8380/3");
+
         uterineCervixRows.put("9064/3", "9064/3");
         uterineCervixRows.put("9100/3", "9064/3");
         uterineCervixRows.put("9071/3", "9064/3");
+
+        uterineCervixRows.put("8154/3", "8154/3");
 
         uterineCervixRows.put("8430/3", "8430/3");
 
         uterineCervixRows.put("8246/3", "8246/3");
         uterineCervixRows.put("8013/3", "8246/3");
-        uterineCervixRows.put("8154/3", "8246/3");
         uterineCervixRows.put("8041/3", "8246/3");
 
         uterineCervixRows.put("8240/3", "8240/3");
@@ -2234,7 +2259,7 @@ public final class MphConstants {
         OTHER_SITES_2023_TABLE_ROWS_FOR_SITE = Collections.unmodifiableMap(content);
     }
 
-    public static final List<String> OTHER_SITES_2023_TABLE_2 = Collections.unmodifiableList(Arrays.asList("8045", "8013", "8094", "8552", "8154", "8180", "8244", "8255", "8323", "8340", "8346", "8347", "8560", "8855", "8902", "9081", "9085", "9101"));
+    public static final List<String> OTHER_SITES_2023_TABLE_2 = Collections.unmodifiableList(Arrays.asList("8045", "8013", "8094", "8552", "8154", "8180", "8244", "8255", "8323", "8340", "8346", "8347", "8560", "8850", "8902", "9085", "9101"));
 
     public static final Map<String, Map<String, String>> OTHER_SITES_2023_TABLE_SUBTYPES_FOR_SITE;
 
@@ -2251,17 +2276,20 @@ public final class MphConstants {
         prostateSubtypes.put("8480", "8480");
         prostateSubtypes.put("8490", "8490");
 
+        prostateSubtypes.put("8045/3", "8045/3");
         prostateSubtypes.put("8013/3", "8013/3");
         prostateSubtypes.put("8041/3", "8041/3");
+        prostateSubtypes.put("8249/3", "8249/3");
 
-        prostateSubtypes.put("8935/3", "8935/3");
-        prostateSubtypes.put("8890/3", "8890/3");
-        prostateSubtypes.put("8900/3", "8900/3");
         prostateSubtypes.put("9120/3", "9120/3");
-        prostateSubtypes.put("9040/3", "9040/3");
+        prostateSubtypes.put("8890/3", "8890/3");
         prostateSubtypes.put("9180/3", "9180/3");
-        prostateSubtypes.put("8802/3", "8802/3");
+        prostateSubtypes.put("8900/3", "8900/3");
         prostateSubtypes.put("8815/3", "8815/3");
+        prostateSubtypes.put("8935/3", "8935/3");
+        prostateSubtypes.put("9040/3", "9040/3");
+        prostateSubtypes.put("8802/3", "8802/3");
+
         content.put(PROSTATE, prostateSubtypes);
 
         //Table 4 Testis
@@ -2277,12 +2305,13 @@ public final class MphConstants {
         //Table 5 esophagus
         Map<String, String> esophagusSubtypes = new HashMap<>();
 
+        esophagusSubtypes.put("8013/3", "8013/3");
+        esophagusSubtypes.put("8041/3", "8041/3");
+        esophagusSubtypes.put("8249/3", "8249/3");
+
         esophagusSubtypes.put("8083", "8083");
         esophagusSubtypes.put("8074", "8074");
         esophagusSubtypes.put("8051", "8051");
-        esophagusSubtypes.put("8246/3", "8246/3");
-        esophagusSubtypes.put("8013/3", "8013/3");
-        esophagusSubtypes.put("8041/3", "8041/3");
 
         for (String site : ESOPHAGUS_SITES)
             content.put(site, esophagusSubtypes);
@@ -2440,7 +2469,8 @@ public final class MphConstants {
         peritoneumSubtypes.put("8806/3", "8806/3");
         peritoneumSubtypes.put("8930/3", "8930/3");
         peritoneumSubtypes.put("8931/3", "8931/3");
-        content.put(PERITONEUM, peritoneumSubtypes);
+        for (String site : PERITONEUM)
+            content.put(site, peritoneumSubtypes);
 
         //Table 15 Fallopian Tube Histologies
         Map<String, String> fallopianSubtypes = new HashMap<>();
@@ -2453,9 +2483,12 @@ public final class MphConstants {
         uterineCorpusSubtypes.put("8570/3", "8570/3");
         uterineCorpusSubtypes.put("9111/3", "9111/3");
         uterineCorpusSubtypes.put("8144", "8144");
+
         uterineCorpusSubtypes.put("8013/3", "8013/3");
-        uterineCorpusSubtypes.put("8154/3", "8154/3");
         uterineCorpusSubtypes.put("8041/3", "8041/3");
+
+        uterineCorpusSubtypes.put("8249/3", "8249/3");
+
         uterineCorpusSubtypes.put("8930/3", "8930/3");
         uterineCorpusSubtypes.put("8931/3", "8931/3");
         uterineCorpusSubtypes.put("8891/3", "8891/3");
@@ -2469,21 +2502,25 @@ public final class MphConstants {
         Map<String, String> uterineCervixSubtypes = new HashMap<>();
         uterineCervixSubtypes.put("8483/3", "8483/3");
         uterineCervixSubtypes.put("8484/3", "8484/3");
-        uterineCervixSubtypes.put("8482/3", "8482/3");
         uterineCervixSubtypes.put("8310/3", "8310/3");
+        uterineCervixSubtypes.put("8482/3", "8482/3");
         uterineCervixSubtypes.put("9110/3", "9110/3");
+
         uterineCervixSubtypes.put("9100/3", "9100/3");
         uterineCervixSubtypes.put("9071/3", "9071/3");
+
         uterineCervixSubtypes.put("8013/3", "8013/3");
-        uterineCervixSubtypes.put("8154/3", "8154/3");
         uterineCervixSubtypes.put("8041/3", "8041/3");
+
         uterineCervixSubtypes.put("8249/3", "8249/3");
+
         uterineCervixSubtypes.put("8930/3", "8930/3");
         uterineCervixSubtypes.put("8931/3", "8931/3");
         uterineCervixSubtypes.put("8891/3", "8891/3");
         uterineCervixSubtypes.put("8890/3", "8890/3");
         uterineCervixSubtypes.put("8896/3", "8896/3");
         uterineCervixSubtypes.put("8805/3", "8805/3");
+
         uterineCervixSubtypes.put("8085/3", "8085/3");
         uterineCervixSubtypes.put("8086/3", "8086/3");
 

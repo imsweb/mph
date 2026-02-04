@@ -217,7 +217,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.getNotes().add(" - Urethra");
         _rules.add(rule);
 
-        // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3 of Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M12 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2 of Table 2 in the Site-group Instructions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_URINARY, "M12") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -233,8 +233,8 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 2, Table 2 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 2, Table 2 in the Site-group Instructions, are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "  - Same NOS: Leiomyosarcoma 8890/3 and liposarcoma 8850/3 are both subtypes of sarcoma NOS 8800/3 but are distinctly different histologies. Abstract multiple primaries.");
@@ -242,10 +242,10 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
                 "  -  Different NOS: Verrucous carcinoma 8051 is a subtype of squamous cell carcinoma NOS 8070; giant cell urothelial carcinoma 8031 is a subtype of urothelial carcinoma 8120. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M13 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 2 in the Site-group Instructions. Timing is irrelevant.
         rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M13", MphConstants.URINARY_2018_TABLE2_ROWS);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Equivalent Terms and Definitions, are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 2 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 2 in the Site-group Instructions, are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         rule.getExamples().add(
                 "Small cell neuroendocrine carcinoma 8041 and urothelial carcinoma 8120 are on different rows of Table 2. Abstract two primaries, one for the small cell neuroendocrine carcinoma and a second for the urothelial carcinoma.");
@@ -255,10 +255,10 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule = new MpRulePrimarySite(MphConstants.SOLID_TUMOR_2018_URINARY, "M14");
         _rules.add(rule);
 
-        // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Equivalent Terms and Definitions.
+        // Rule M15 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2 in the Site-group Instructions.
         rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_URINARY, "M15", MphConstants.URINARY_2018_TABLE2_ROWS, true);
-        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 2 in the Equivalent Terms and Definitions?");
-        rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 2 in the Equivalent Terms and Definitions are a single primary.");
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 2 in the Site-group Instructions?");
+        rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 2 in the Site-group Instructions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
@@ -273,7 +273,7 @@ public class Mp2018UrinarySitesGroup extends MphGroup {
         rule.setQuestion("Is there an in situ tumor following an invasive tumor?");
         rule.setReason("An in situ tumor following an invasive tumor is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when previous rules do not apply.");
-        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 2 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
+        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 2 in the Site-group Instructions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the subsequent in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 

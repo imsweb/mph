@@ -1,5 +1,9 @@
 ## Multiple Primary and Histology Coding Rules Version History
 
+**Changes in version 1.42**
+
+- Implemented 2026 updates of solid tumor rules. (#152)
+
 **Changes in version 1.41**
 
 - Changed back minimum Java language from Java 11 to Java 8.

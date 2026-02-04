@@ -72,7 +72,7 @@ public class Mp2018ColonGroup extends MphGroup {
         rule.getNotes().add("This rule does not apply to a single overlapping malignancy of colon and rectum.");
         _rules.add(rule);
 
-        // Rule M5 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M5 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions. Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_COLON, "M5") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -88,8 +88,8 @@ public class Mp2018ColonGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "  - Same NOS: Medullary carcinoma NOS 8510/3 and tubulopapillary adenocarcinoma 8263/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
@@ -97,10 +97,10 @@ public class Mp2018ColonGroup extends MphGroup {
                 "  - Different NOS: Goblet cell carcinoid 8243/3 is a subtype of mixed adenoneuroendocrine carcinoma 8244/3; somatostatin-producing NET 8156/3 is a subtype of neuroendocrine tumor Grade 1 (G1) 8240/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Timing is irrelevant.
+        // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Site-group Instructions. Timing is irrelevant.
         rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_COLON, "M6", MphConstants.COLON_2018_TABLE1_ROWS);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Site-group Instructions are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
@@ -215,10 +215,10 @@ public class Mp2018ColonGroup extends MphGroup {
                 "The physician may state this is a recurrence, meaning the patient had a previous colon tumor and now has another colon tumor. Follow the rules; do not attempt to interpret the physician’s statement.");
         _rules.add(rule);
 
-        // Rule M11 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions.
+        // Rule M11 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Site-group Instructions.
         rule = new MpRuleSameRowInTable(MphConstants.SOLID_TUMOR_2018_COLON, "M11", MphConstants.COLON_2018_TABLE1_ROWS, true);
-        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Equivalent Terms and Definitions?");
-        rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions are a single primary.");
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same in Table 1 in the Site-group Instructions?");
+        rule.setReason("Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Site-group Instructions are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
@@ -230,7 +230,7 @@ public class Mp2018ColonGroup extends MphGroup {
         // Rule M12 Abstract a single primary (the invasive) when an in situ tumor is diagnosed after an invasive tumor.
         rule = new MpRuleInsituAfterInvasive(MphConstants.SOLID_TUMOR_2018_COLON, "M12");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
-        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
+        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Site-group Instructions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 

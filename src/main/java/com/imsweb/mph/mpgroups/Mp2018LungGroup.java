@@ -77,7 +77,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("It is irrelevant whether the tumors are in the ipsilateral (same) lung or are bilateral (both lungs).");
         _rules.add(rule);
 
-        // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions.  Timing is irrelevant.
+        // Rule M6 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 3 in the Site-group Instructions.  Timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M6") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -93,8 +93,8 @@ public class Mp2018LungGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 3 in the Equivalent Terms and Definitions are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors two or more different subtypes/variants in Column 2, Table 3 in the Site-group Instructions?");
+        rule.setReason("Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 2, Table 3 in the Site-group Instructions are multiple primaries.");
         rule.getNotes().add("The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "  -  Same NOS: Colloid adenocarcinoma 8480/3 and lepidic adenocarcinoma 8250/3 are both subtypes of adenocarcinoma NOS 8140/3 but are distinctly different histologies. Abstract multiple primaries.");
@@ -102,7 +102,7 @@ public class Mp2018LungGroup extends MphGroup {
                 "  - Different NOS: Keratinizing squamous cell carcinoma 8071/3 is a subtype of squamous cell carcinoma NOS 8070; Lepidic adenocarcinoma 8520/3 is a subtype of adenocarcinoma 8140/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Equivalent Terms and Definitions.
+        // Rule M7 Abstract a single primary when synchronous, separate/non-contiguous tumors in the same lung are on the same row in Table 3 in the Site-group Instructions.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -144,8 +144,8 @@ public class Mp2018LungGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are synchronous, separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions?");
-        rule.setReason("Synchronous separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Equivalent Terms and Definitions are a single primary.");
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Site-group Instructions?");
+        rule.setReason("Synchronous separate/non-contiguous tumors in the same lung on the same row in Table 3 in the Site-group Instructions are a single primary.");
         rule.getNotes().add("Tumors must be in the same lung.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
@@ -153,7 +153,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3
+        // Rule M8 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 3 in the Site-group Instructions or a combination code in Table 2 and a code from Table 3
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_LUNG, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -180,9 +180,9 @@ public class Mp2018LungGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3?");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 3 in the Site-group Instructions or a combination code in Table 2 and a code from Table 3?");
         rule.setReason(
-                "Separate/non-contiguous tumors on different rows in Table 3 in the Equivalent Terms and Definitions or a combination code in Table 2 and a code from Table 3 are multiple primaries.");
+                "Separate/non-contiguous tumors on different rows in Table 3 in the Site-group Instructions or a combination code in Table 2 and a code from Table 3 are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
@@ -234,7 +234,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setReason("Simultaneous multiple tumors in both lungs, the same lung, or opposite lungs is a single primary.");
         rule.getNotes().add("Tumors may be combinations of:");
         rule.getNotes().add("  - In situ and invasive OR");
-        rule.getNotes().add("  - NOS and subtype/variant (See Table 3 in the Equivalent Terms and Definitions)");
+        rule.getNotes().add("  - NOS and subtype/variant (See Table 3 in the Site-group Instructions)");
         rule.getNotes().add("Examples of NOS and subtypes/variants include:");
         rule.getNotes().add("  - Adenocarcinoma 8140 and a subtype/variant of adenocarcinoma");
         rule.getNotes().add("  - Squamous cell carcinoma 8070 and a subtype/variant of squamous cell carcinoma");
@@ -253,7 +253,7 @@ public class Mp2018LungGroup extends MphGroup {
         rule.setQuestion("Is there an in situ tumor following an invasive tumor in the same lung?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor in the same lung is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
-        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 3 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
+        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 3 in the Site-group Instructions for listings of NOS and subtype/variants.");
         rule.getNotes().add("The in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 

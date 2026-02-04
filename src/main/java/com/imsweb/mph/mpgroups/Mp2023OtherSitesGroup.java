@@ -111,7 +111,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 + "Papillary thyroid carcinoma, NOS and follicular carcinoma, NOS OR\n"
                 + "Papillary carcinoma, follicular variant and papillary thyroid carcinoma OR\n"
                 + "Papillary carcinoma, follicular variant and follicular carcinoma OR\n"
-                + "Any papillary thyroid carcinoma subtype/variant and any follicular subtype/variant listed in Column 3, Table 12.");
+                + "Any papillary thyroid carcinoma subtype/variant and any follicular subtype/variant listed in Column 2, Table 12.");
         _rules.add(rule);
 
         //M8- Abstract multiple primaries when separate/non-contiguous tumors are anaplastic carcinoma and any other histologies in the thyroid.
@@ -302,7 +302,7 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         rule.getNotes().add("Includes all combinations of adenomatous, tubular, villous, and tubulovillous adenomas or polyps.");
         _rules.add(rule);
 
-        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-23
+        //M17 - Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 3-23
         rule = new MphRule(MphConstants.SOLID_TUMOR_2023_OTHER_SITES, "M17") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -322,8 +322,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are tumors different subtypes/variants in Column 3, Table 3-23?");
-        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 3-23.");
+        rule.setQuestion("Are tumors different subtypes/variants in Column 2, Table 3-23?");
+        rule.setReason("Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 3-23.");
         _rules.add(rule);
 
         //M18 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-23.
@@ -355,8 +355,8 @@ public class Mp2023OtherSitesGroup extends MphGroup {
         };
         rule.setQuestion("Are tumors on the same row in Table 3-23?");
         rule.setReason("Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 3-23.");
-        rule.getNotes().add("The same histology (same four-digit ICD-O code) OR One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR"
-                + "A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3) ");
+        rule.getNotes().add("The same histology (same four-digit ICD-O code) OR One is the preferred term (column 1) and the other is a synonym for the preferred term ((indented under the preferred term in column 1) OR"
+                + "A NOS (column 1) and the other is a subtype/variant of that NOS (column 2) ");
         _rules.add(rule);
 
         //M19 - Abstract multiple primaries when separate/non-contiguous tumors are on multiple rows in Table 2-23.

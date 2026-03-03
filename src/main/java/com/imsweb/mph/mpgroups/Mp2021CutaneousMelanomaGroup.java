@@ -117,6 +117,20 @@ public class Mp2021CutaneousMelanomaGroup extends MphGroup {
                             result.setFinalResult(MphUtils.MpResult.SINGLE_PRIMARY);
                     }
                 }
+                else {
+                    result.setFinalResult(MpResult.QUESTIONABLE);
+                    String icd1 = i1.getIcdCode();
+                    String icd2 = i2.getIcdCode();
+                    String histologyNotInTable;
+                    boolean bothNotInTable = false;
+                    if (!icd1InTable && !icd2InTable) {
+                        bothNotInTable = true;
+                        histologyNotInTable = "Both " + icd1 + " and " + icd2;
+                    }
+                    else
+                        histologyNotInTable = !icd1InTable ? icd1 : icd2;
+                    result.setMessage("Unable to apply Rule " + this.getStep() + " of " + this.getGroupName() + ". " + histologyNotInTable + (bothNotInTable ? " are " : " is ") + "not in the table.");
+                }
                 return result;
             }
 

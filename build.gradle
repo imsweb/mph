@@ -30,6 +30,7 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
 }
 
+// this project needs to stay Java-8-compatible for the time being...
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8

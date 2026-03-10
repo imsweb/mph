@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'com.imsweb:seerapi-client-java:5.9'
+    testImplementation 'com.imsweb:seerapi-client-java:5.10'
 }
 
 // enforce UTF-8, display the compilation warnings

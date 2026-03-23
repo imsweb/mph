@@ -590,10 +590,11 @@ public final class MphConstants {
         content.put("8890/3", "8890/3"); // Leiomyosarcoma/renal vein leiomyosarcoma
         content.put("9180/3", "9180/3"); //Osteosarcoma
         content.put("9364/3", "9364/3"); //Primitive/peripheral neuroectodermal tumor (pNET)/Ewing sarcoma
-        content.put("8900/3", "8910/3,8901/3,8912/3"); //Rhabdomyosarcoma
+        content.put("8900/3", "8910/3,8901/3,8912/3,8920/3"); //Rhabdomyosarcoma
         content.put("8910/3", "8910/3"); //Rhabdomyosarcoma
         content.put("8901/3", "8901/3"); //Rhabdomyosarcoma
         content.put("8912/3", "8912/3"); //Rhabdomyosarcoma
+        content.put("8920/3", "8920/3"); //Rhabdomyosarcoma
         content.put("9040/3", "9040/3"); //Synovial sarcoma
         KIDNEY_2018_TABLE1_SUBTYPES = Collections.unmodifiableMap(content);
     }
@@ -629,6 +630,7 @@ public final class MphConstants {
         content.put("8910/3", "8800/3"); // Sarcoma 8800/3
         content.put("8901/3", "8800/3"); // Sarcoma 8800/3
         content.put("8912/3", "8800/3"); // Sarcoma 8800/3
+        content.put("8920/3", "8800/3"); // Sarcoma 8800/3
         content.put("9040/3", "8800/3"); // Sarcoma 8800/3
         KIDNEY_2018_TABLE1_ROWS = Collections.unmodifiableMap(content);
     }

@@ -6,7 +6,7 @@ plugins {
     id 'com.vanniktech.maven.publish' version '0.36.0' // publish to Maven Central
     id 'com.github.ben-manes.versions' version '0.53.0' // check for out-of-date dependencies (run 'dependencyUpdates' manually)
     id 'com.github.spotbugs' version '6.4.8' // spotbugs code analysis
-    id 'org.sonarqube' version '7.2.2.6593' // sonarQube analysis
+    id 'org.sonarqube' version '7.2.3.7755' // sonarQube analysis
 }
 
 group = 'com.imsweb'
@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'com.imsweb:seerapi-client-java:5.9'
+    testImplementation 'com.imsweb:seerapi-client-java:5.10'
 }
 
 // enforce UTF-8, display the compilation warnings
@@ -30,6 +30,7 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
 }
 
+// this project needs to stay Java-8-compatible for the time being...
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -144,6 +145,6 @@ mavenPublishing {
 
 // Gradle wrapper, this allows to build the project without having to install Gradle!
 wrapper {
-    gradleVersion = '9.2.1'
+    gradleVersion = '9.4.0'
     distributionType = Wrapper.DistributionType.ALL
 }

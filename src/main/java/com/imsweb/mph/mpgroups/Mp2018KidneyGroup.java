@@ -81,7 +81,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.getNotes().add("The location and histology of the subsequent tumor is irrelevant. Kidney tumors that occur more than 3 years apart are always multiple primaries.");
         _rules.add(rule);
 
-        // Rule M7 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions. Tumors must be in same kidney and timing is irrelevant.
+        // Rule M7 Abstract multiple primaries when separate/non-contiguous tumors are two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions. Tumors must be in same kidney and timing is irrelevant.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M7") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -98,9 +98,9 @@ public class Mp2018KidneyGroup extends MphGroup {
             }
         };
         rule.setQuestion(
-                "Are separate/non-contiguous tumors two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+                "Are separate/non-contiguous tumors two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions (Tumors must be in the same kidney)?");
         rule.setReason(
-                "Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 3, Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+                "Separate/non-contiguous tumors that are two or more different subtypes/variants in Column 2, Table 1 in the Site-group Instructions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Note: The tumors may be subtypes/variants of the same or different NOS histologies.");
         rule.getNotes().add(
                 "- Same NOS: Clear cell renal cell carcinoma (ccRCC) 8310/3 and papillary renal cell carcinoma 8260/3 are both subtypes of renal cell carcinoma NOS 8312/3 but are distinctly different histologies. Abstract multiple primaries.");
@@ -108,7 +108,7 @@ public class Mp2018KidneyGroup extends MphGroup {
                 "- Different NOS: Pleomorphic rhabdomyosarcoma 8901/3 is a subtype/variant of rhabdomyosarcoma 8900/3; large cell neuroendocrine carcinoma 8013/3 is a subtype of small cell neuroendocrine tumor 8041/3. They are distinctly different histologies. Abstract multiple primaries.");
         _rules.add(rule);
 
-        // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney.
+        // Rule M8 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 1 in the Site-group Instructions. Tumors must be in the same kidney.
         rule = new MphRule(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M8") {
             @Override
             public TempRuleResult apply(MphInput i1, MphInput i2, RuleExecutionContext context) {
@@ -158,19 +158,19 @@ public class Mp2018KidneyGroup extends MphGroup {
                 return result;
             }
         };
-        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
+        rule.setQuestion("Are synchronous, separate/non-contiguous tumors on the same row in Table 1 in the Site-group Instructions (Tumors must be in the same kidney)?");
         rule.setReason(
-                "Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are a single primary.");
+                "Synchronous, separate/non-contiguous tumors that are on the same row in Table 1 in the Site-group Instructions (Tumors must be in the same kidney), are a single primary.");
         rule.getNotes().add("The same row means the tumors are:");
         rule.getNotes().add("  - The same histology (same four-digit ICD-O code) OR");
         rule.getNotes().add("  - One is the preferred term (column 1) and the other is a synonym for the preferred term (column 2) OR");
         rule.getNotes().add("  - A NOS (column 1/column 2) and the other is a subtype/variant of that NOS (column 3)");
         _rules.add(rule);
 
-        // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Equivalent Terms and Definitions. Tumors must be in the same kidney and timing is irrelevant.
+        // Rule M9 Abstract multiple primaries when separate/non-contiguous tumors are on different rows in Table 1 in the Site-group Instructions. Tumors must be in the same kidney and timing is irrelevant.
         rule = new MpRuleDifferentRowInTable(MphConstants.SOLID_TUMOR_2018_KIDNEY, "M9", MphConstants.KIDNEY_2018_TABLE1_ROWS);
-        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney)?");
-        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Equivalent Terms and Definitions (Tumors must be in the same kidney), are multiple primaries.");
+        rule.setQuestion("Are separate/non-contiguous tumors on different rows in Table 1 in the Site-group Instructions (Tumors must be in the same kidney)?");
+        rule.setReason("Separate/non-contiguous tumors that are on different rows in Table 1 in the Site-group Instructions (Tumors must be in the same kidney), are multiple primaries.");
         rule.getNotes().add("Each row in the table is a distinctly different histology.");
         _rules.add(rule);
 
@@ -179,7 +179,7 @@ public class Mp2018KidneyGroup extends MphGroup {
         rule.setQuestion("Is there an in situ tumor following an invasive tumor and tumors are in the same kidney?");
         rule.setReason("An in situ tumor diagnosed following an invasive tumor and tumors are in the same kidney is a single primary.");
         rule.getNotes().add("The rules are hierarchical. Only use this rule when none of the previous rules apply.");
-        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Equivalent Terms and Definitions for listings of NOS and subtype/variants.");
+        rule.getNotes().add("The tumors may be a NOS and a subtype/variant of that NOS. See Table 1 in the Site-group Instructions for listings of NOS and subtype/variants.");
         rule.getNotes().add("Once the patient has an invasive tumor, the in situ is recorded as a recurrence for those registrars who collect recurrence data.");
         _rules.add(rule);
 

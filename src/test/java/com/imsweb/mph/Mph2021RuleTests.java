@@ -117,7 +117,7 @@ public class Mph2021RuleTests {
         Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
         Assert.assertEquals(MphUtils.MpResult.MULTIPLE_PRIMARIES, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("Column 3"));
+        Assert.assertTrue(output.getReason().contains("different subtypes"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M6 Abstract a single primary when synchronous, separate/non-contiguous tumors are on the same row in Table 2
@@ -183,11 +183,15 @@ public class Mph2021RuleTests {
         Assert.assertEquals(ruleStepToTest, output.getStep());
 
         // Rule M8 Melanomas that do not meet any of the above criteria are abstracted as a single primary. *
-        ruleStepToTest = "M8";
-        ruleCountToTest = 6;
+        // This rule won't be reached.
+
+
+        // Rule M6 8772/2 is not in the table
+        ruleStepToTest = "M6";
+        ruleCountToTest = 4;
         i1.setPrimarySite("C442");
         i2.setPrimarySite("C442");
-        i1.setHistologyIcdO3("8725");
+        i1.setHistologyIcdO3("8772");
         i2.setHistologyIcdO3("8720");
         i1.setBehaviorIcdO3("3");
         i2.setBehaviorIcdO3("3");
@@ -195,12 +199,20 @@ public class Mph2021RuleTests {
         i2.setLaterality("5");
         i1.setDateOfDiagnosisYear("2021");
         i2.setDateOfDiagnosisYear("2021");
-        i1.setDateOfDiagnosisMonth("01");
-        i2.setDateOfDiagnosisMonth("01");
+        i1.setDateOfDiagnosisMonth("1");
+        i2.setDateOfDiagnosisMonth("1");
         output = _utils.computePrimaries(i1, i2);
-        Assert.assertEquals(MphUtils.MpResult.SINGLE_PRIMARY, output.getResult());
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
+        Assert.assertEquals(MpResult.SINGLE_PRIMARY, output.getResult());
         Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
-        Assert.assertTrue(output.getReason().contains("criteria"));
         Assert.assertEquals(ruleStepToTest, output.getStep());
+        i1.setBehaviorIcdO3("2");
+        i2.setBehaviorIcdO3("2");
+        output = _utils.computePrimaries(i1, i2);
+        Assert.assertEquals(MphConstants.SOLID_TUMOR_2021_CUTANEOUS_MELANOMA, output.getGroupName());
+        Assert.assertEquals(MpResult.QUESTIONABLE, output.getResult());
+        Assert.assertEquals(ruleCountToTest, output.getAppliedRules().size());
+        Assert.assertEquals(ruleStepToTest, output.getStep());
+        Assert.assertTrue(output.getReason().contains("8772/2 is not in the table."));
     }
 }
